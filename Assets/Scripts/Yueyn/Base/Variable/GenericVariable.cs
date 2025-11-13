@@ -19,9 +19,9 @@ namespace Yueyn.Base.Variable
         public void PostValue(T value)
         {
             Value = value;
-            foreach (var listener in _listeners)
+            for (int i = 0; i < _listeners.Count; i++)
             {
-                listener.Invoke(value);
+                _listeners[i]?.Invoke(value);
             }
         }
 
