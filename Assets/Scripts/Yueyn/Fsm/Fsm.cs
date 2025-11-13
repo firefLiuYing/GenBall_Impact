@@ -118,7 +118,7 @@ namespace Yueyn.Fsm
                 throw new Exception("stateType is null");
             }
 
-            if (typeof(FsmState<T>).IsAssignableFrom(stateType))
+            if (!typeof(FsmState<T>).IsAssignableFrom(stateType))
             {
                 throw new Exception("stateType is not assignable to FsmState<T>");
             }
