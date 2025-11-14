@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 85564409}
   - component: {fileID: 85564408}
   - component: {fileID: 85564407}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ Camera:
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 1198788521}
   - component: {fileID: 1198788522}
   - component: {fileID: 1198788523}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -907,7 +907,7 @@ GameObject:
   - component: {fileID: 1768244160}
   - component: {fileID: 1768244159}
   - component: {fileID: 1768244158}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1107,7 +1107,7 @@ GameObject:
   - component: {fileID: 2072391863}
   - component: {fileID: 2072391864}
   - component: {fileID: 2072391865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1242,6 +1242,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c1c89dcf-b20b-48b3-a35c-8dc93c1c797f
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2072391865}
+        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
+        m_MethodName: JumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c5dcc85a-e0ab-40e7-aefa-27cacf0c865a
+    m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2072391865}
+        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
+        m_MethodName: DashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 95b81b57-6614-49a7-9159-56ca7eff0f49
+    m_ActionName: Player/Dash[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
