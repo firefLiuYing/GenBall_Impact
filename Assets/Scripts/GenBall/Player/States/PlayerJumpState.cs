@@ -12,7 +12,7 @@ namespace GenBall.Player
         private float _longPressJumpMaxHeight = 3f;
         private float _longPressMaxTime = 0.8f;
         private float _shortPressMaxTime = 0.02f;
-        private float _gravityAcceleration = 10f;
+        private float _gravityAcceleration = 20f;
         private float _maxDropVelocity = 8f;
         
         private float _coyoteTime = 0.01f;  // 土狼时间，先假设是0.01f
@@ -90,6 +90,7 @@ namespace GenBall.Player
             // 在短按时间内
             if (_fsm.CurrentStateTime<_shortPressMaxTime)
             {
+                // Debug.Log("短按跳跃");
                 return _initialVelocity-_pressedAcceleration*_fsm.CurrentStateTime;
             }
             // 按键松开，或者超出长按时间
@@ -100,9 +101,12 @@ namespace GenBall.Player
                 // 还没降为0
                 if (dropToZeroTime > _fsm.CurrentStateTime)
                 {
-                    return _initialVelocity - _releaseJumpButtonTime * _pressedAcceleration - _releasedAcceleration * _fsm.CurrentStateTime;
+                    // Debug.Log("松开按键降到0前");
+                    // return _initialVelocity - _releaseJumpButtonTime * _pressedAcceleration - _releasedAcceleration * _fsm.CurrentStateTime;
+                    return _releasedAcceleration*(dropToZeroTime - _fsm.CurrentStateTime);
                 }
                 // 已经低于0
+                // Debug.Log("松开按键降到0后");
                 return Mathf.Max(-_maxDropVelocity, -_gravityAcceleration * (_fsm.CurrentStateTime - dropToZeroTime));
             }
             // 长按时间超过最长时间,视作松开
@@ -111,6 +115,7 @@ namespace GenBall.Player
                 _releaseJumpButtonTime = _longPressMaxTime;
             }
             // 长按过程中
+            // Debug.Log("长按跳跃中");
             return _initialVelocity-_pressedAcceleration*_fsm.CurrentStateTime;
         }
         private void RegisterEvents()
