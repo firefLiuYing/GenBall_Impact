@@ -122,12 +122,19 @@ namespace GenBall.Player
         {
             _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
             GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpInputHandler);
+            _fsm.GetData<Variable<ButtonState>>("DashInput").Observe(OnDashInputChange);
         }
         
         private void UnRegisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Unobserve(OnGroundChange);
             GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"), JumpInputHandler);
+            _fsm.GetData<Variable<ButtonState>>("DashInput").Unobserve(OnDashInputChange);
+        }
+        private void OnDashInputChange(ButtonState dashInput)
+        {
+            if(dashInput != ButtonState.Down) return;
+            _fsm.ChangeState<PlayerDashState>();
         }
 
         private void JumpInputHandler(object sender, GameEventArgs e)

@@ -48,12 +48,14 @@ namespace GenBall.Player
         {
             _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
             GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
+            _fsm.GetData<Variable<ButtonState>>("DashInput").Observe(OnDashInputChange);
         }
 
         private void UnregisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Unobserve(OnGroundChange);
             GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
+            _fsm.GetData<Variable<ButtonState>>("DashInput").Unobserve(OnDashInputChange);
         }
 
         private void JumpHandler(object sender, GameEventArgs e)
@@ -69,6 +71,12 @@ namespace GenBall.Player
             if(onGround) return;
             _jumpInput.SetValue(false);
             _fsm.ChangeState<PlayerJumpState>();
+        }
+
+        private void OnDashInputChange(ButtonState dashInput)
+        {
+            if(dashInput != ButtonState.Down) return;
+            _fsm.ChangeState<PlayerDashState>();
         }
         
         private void ChangeView()

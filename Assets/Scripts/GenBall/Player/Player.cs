@@ -61,6 +61,12 @@ namespace GenBall.Player
             viewInput.PostValue(args.Args);
         }
 
+        private void OnDashInputChange(object sender, GameEventArgs eventArgs)
+        {
+            if(eventArgs is not InputEventArgs<ButtonState> args) return;
+            var dashInput=_fsm.GetData<Variable<ButtonState>>("DashInput");
+            dashInput.PostValue(args.Args);
+        }
         private void RegisterFsmDatas()
         {
             var moveInput = ReferencePool.Acquire<Variable<Vector2>>();
@@ -75,18 +81,22 @@ namespace GenBall.Player
             _fsm.SetData("OnGround",_onGround);
             var jumpInput = ReferencePool.Acquire<Variable<ButtonState>>();
             _fsm.SetData("JumpInput",jumpInput);
+            var dashInput=ReferencePool.Acquire<Variable<ButtonState>>();
+            _fsm.SetData("DashInput",dashInput);
         }
 
         private void RegisterStates()
         {
             _states.Add(new PlayerMoveState());
             _states.Add(new PlayerJumpState());
+            _states.Add(new PlayerDashState());
         }
 
         private void RegisterEvents()
         {
             GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<Vector2>.GetHashCode("MoveInput"),OnMoveInputChange);
             GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<Vector2>.GetHashCode("ViewInput"),OnViewInputChange);
+            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("DashInput"),OnDashInputChange);
             
             _fsm.GetData<Variable<Vector3>>("Velocity").Observe(OnVelocityChange);
             _fsm.GetData<Variable<Quaternion>>("ViewRotation").Observe(OnViewRotationChange);
