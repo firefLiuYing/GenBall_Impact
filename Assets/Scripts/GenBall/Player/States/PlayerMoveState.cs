@@ -1,23 +1,31 @@
 using GenBall.BattleSystem;
 using UnityEngine;
 using Yueyn.Base.Variable;
+using Yueyn.Event;
 using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
     public class PlayerMoveState : PlayerStateBase
     {
+        private float _speed = 5f;
+        
+        private Fsm<Player> _fsm;
         private Variable<Vector2> _moveInput;
         private Variable<Vector2> _viewInput;
         private Variable<Vector3> _velocity;
         private Variable<Quaternion> _viewRotation;
+        private Variable<ButtonState> _jumpInput;
         protected internal override void OnEnter(Fsm<Player> fsm)
         {
+            _fsm = fsm;
             _moveInput = fsm.GetData<Variable<Vector2>>("MoveInput");
             _viewInput = fsm.GetData<Variable<Vector2>>("ViewInput");
             _velocity = fsm.GetData<Variable<Vector3>>("Velocity");
             _viewRotation=fsm.GetData<Variable<Quaternion>>("ViewRotation");
+            _jumpInput = fsm.GetData<Variable<ButtonState>>("JumpInput");
             _viewRotation.SetValue(Camera.main.transform.rotation);
+            RegisterEvents();
         }
 
         protected internal override void OnUpdate(Fsm<Player> fsm, float elapsedTime, float realElapseTime)
@@ -25,12 +33,44 @@ namespace GenBall.Player
             ChangeView();
             ChangeVelocity();
         }
+
+        protected internal override void OnExit(Fsm<Player> fsm, bool isShutdown = false)
+        {
+            UnregisterEvents();   
+        }
         
         public override void OnAttacked(AttackInfo attackInfo)
         {
             Debug.Log("Player: 我挨打了，我还没写挨打");
         }
 
+        private void RegisterEvents()
+        {
+            _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
+            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
+        }
+
+        private void UnregisterEvents()
+        {
+            _fsm.GetData<Variable<bool>>("OnGround").Unobserve(OnGroundChange);
+            GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
+        }
+
+        private void JumpHandler(object sender, GameEventArgs e)
+        {
+            if(e is not InputEventArgs<ButtonState> args) return;
+            if(args.Args!=ButtonState.Down) return;
+            _jumpInput.SetValue(ButtonState.Down);
+            _fsm.ChangeState<PlayerJumpState>();
+        }
+        
+        private void OnGroundChange(bool onGround)
+        {
+            if(onGround) return;
+            _jumpInput.SetValue(false);
+            _fsm.ChangeState<PlayerJumpState>();
+        }
+        
         private void ChangeView()
         {
             var rotationEulerAngles = _viewRotation.Value.eulerAngles;
@@ -51,7 +91,7 @@ namespace GenBall.Player
             var forward=new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
             // 因为forward已经归一化了，所以fx=sin,fz=cos
             var direction=new Vector3(_moveInput.Value.x*forward.z+_moveInput.Value.y*forward.x,0,-_moveInput.Value.x*forward.x+_moveInput.Value.y*forward.z).normalized;
-            _velocity.PostValue(5*direction);
+            _velocity.PostValue(_speed*direction);
         }
     }
 }

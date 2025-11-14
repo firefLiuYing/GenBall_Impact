@@ -44,6 +44,33 @@ namespace GenBall.Player
             };
             _eventManager.Fire(this, eventArgs);
         }
-        
+
+        public void JumpInput(InputAction.CallbackContext context)
+        {
+            var eventArgs=ReferencePool.Acquire<InputEventArgs<ButtonState>>();
+            eventArgs.Name = "JumpInput";
+            eventArgs.Args = context.phase switch
+            {
+                InputActionPhase.Started=>ButtonState.Down,
+                InputActionPhase.Canceled=>ButtonState.Up,
+                InputActionPhase.Performed=>ButtonState.Hold,
+                _=>ButtonState.None
+            };
+            _eventManager.Fire(this, eventArgs);
+        }
+
+        public void DashInput(InputAction.CallbackContext context)
+        {
+            var eventArgs=ReferencePool.Acquire<InputEventArgs<ButtonState>>();
+            eventArgs.Name = "DashInput";
+            eventArgs.Args = context.phase switch
+            {
+                InputActionPhase.Started=>ButtonState.Down,
+                InputActionPhase.Canceled=>ButtonState.Up,
+                InputActionPhase.Performed=>ButtonState.Hold,
+                _=>ButtonState.None
+            };
+            _eventManager.Fire(this, eventArgs);
+        }
     }
 }

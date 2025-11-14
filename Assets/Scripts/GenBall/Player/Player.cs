@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
@@ -12,9 +13,12 @@ namespace GenBall.Player
         private Fsm<Player> _fsm;
         private readonly List<FsmState<Player>> _states = new();
         private Rigidbody _rigidbody;
+        private CapsuleCollider _collider;
+        private Variable<bool> _onGround;
         private void Init()
         {
             _rigidbody=GetComponent<Rigidbody>();
+            _collider = GetComponentInChildren<CapsuleCollider>();
             RegisterStates();
             _fsm = GameEntry.GetModule<FsmManager>().CreateFsm("PlayerFsm", this, _states);
             RegisterFsmDatas();
@@ -26,13 +30,23 @@ namespace GenBall.Player
             Init();
             _fsm.Start<PlayerMoveState>();
         }
-        
+
+        private void FixedUpdate()
+        {
+            GroundDetection();
+        }
+
+        private void GroundDetection()
+        {
+            int layerToExclude = LayerMask.NameToLayer("Player");
+            LayerMask layerMask=~(1<<layerToExclude);
+            var origin = transform.position + _collider.center;
+            var hit=Physics.Raycast(origin,Vector3.down,_collider.height/2+0.01f,layerMask);
+            if(hit!=_onGround.Value) _onGround.PostValue(hit);
+        }
         private void OnVelocityChange(Vector3 velocity)=>_rigidbody.velocity=velocity;
 
-        private void OnViewRotationChange(Quaternion viewRotation)
-        {
-            Camera.main.transform.rotation=viewRotation;
-        }
+        private void OnViewRotationChange(Quaternion viewRotation)=>Camera.main.transform.rotation=viewRotation;
         private void OnMoveInputChange(object sender, GameEventArgs eventArgs)
         {
             if(eventArgs is not InputEventArgs<Vector2> args) return;
@@ -57,11 +71,16 @@ namespace GenBall.Player
             _fsm.SetData("ViewInput",viewInput);
             var viewRotation = ReferencePool.Acquire<Variable<Quaternion>>();
             _fsm.SetData("ViewRotation",viewRotation);
+            _onGround = ReferencePool.Acquire<Variable<bool>>();
+            _fsm.SetData("OnGround",_onGround);
+            var jumpInput = ReferencePool.Acquire<Variable<ButtonState>>();
+            _fsm.SetData("JumpInput",jumpInput);
         }
 
         private void RegisterStates()
         {
             _states.Add(new PlayerMoveState());
+            _states.Add(new PlayerJumpState());
         }
 
         private void RegisterEvents()
