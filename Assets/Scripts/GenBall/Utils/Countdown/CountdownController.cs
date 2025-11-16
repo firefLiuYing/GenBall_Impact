@@ -27,6 +27,18 @@ namespace GenBall.Utils.Countdown
             countdownEvent.Start();
         }
 
+        /// <summary>
+        /// 重新设置倒计时时长，效果等于新建，继承原有callback
+        /// </summary>
+        /// <param name="countdownName"></param>
+        /// <param name="newCountdownTime"></param>
+        /// <exception cref="Exception"></exception>
+        public void ResetCountdown(string countdownName, float newCountdownTime)
+        {
+            if (!_countdownEvents.TryGetValue(countdownName, out var countdownEvent)) throw new Exception("Countdown event not found");
+            countdownEvent.ResetCountdown(newCountdownTime);
+        }
+
         public void Pause(string countdownName)
         {
             if (!_countdownEvents.TryGetValue(countdownName, out var countdownEvent)) throw new Exception("Countdown event not found");

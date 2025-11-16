@@ -21,6 +21,18 @@ namespace GenBall.Utils.Countdown
             private bool _paused;
             
             public bool Compeleted => _timer>=_countdownTime;
+
+            /// <summary>
+            /// 重新设置倒计时时长，效果等于新建，继承原有callback
+            /// </summary>
+            /// <param name="newCountdownTime"></param>
+            public void ResetCountdown(float newCountdownTime)
+            {
+                _countdownTime=newCountdownTime;
+                _timer = _countdownTime + 0.01f;
+                _hasTrigger = true;
+                _paused = false;
+            }
             
             public void Pause()
             {
