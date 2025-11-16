@@ -14,8 +14,20 @@ namespace GenBall.Player
         {
             InitPhysics();
             InitFsm();
+            InitCountdown();
             RegisterEvents();
             StartFsm();
+        }
+
+        private void Update()
+        {
+            float deltaTime = Time.deltaTime;
+            CountdownUpdate(deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            PhysicsUpdate();
         }
 
         private void RegisterEvents()

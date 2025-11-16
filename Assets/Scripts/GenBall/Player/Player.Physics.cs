@@ -14,7 +14,7 @@ namespace GenBall.Player
             _rigidbody=GetComponent<Rigidbody>();
             _collider = GetComponentInChildren<CapsuleCollider>();
         }
-        private void FixedUpdate()
+        private void PhysicsUpdate()
         {
             GroundDetection();
         }
