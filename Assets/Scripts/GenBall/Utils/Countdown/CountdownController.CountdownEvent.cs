@@ -36,6 +36,7 @@ namespace GenBall.Utils.Countdown
             {
                 _timer = 0;
                 _hasTrigger=false;
+                _paused = false;
             }
             public void Update(float deltaTime)
             {
@@ -44,7 +45,6 @@ namespace GenBall.Utils.Countdown
                 if (_timer >= _countdownTime)
                 {
                     _hasTrigger = true;
-                    _timer = 0;
                     _completeCallback?.Invoke();
                 }
                 _timer += deltaTime;

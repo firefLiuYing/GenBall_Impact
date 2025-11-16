@@ -20,7 +20,24 @@ namespace GenBall.Utils.Countdown
             }
             throw new Exception("Countdown event not found");
         }
-        
+
+        public void Start(string countdownName)
+        {
+            if (!_countdownEvents.TryGetValue(countdownName, out var countdownEvent)) throw new Exception("Countdown event not found");
+            countdownEvent.Start();
+        }
+
+        public void Pause(string countdownName)
+        {
+            if (!_countdownEvents.TryGetValue(countdownName, out var countdownEvent)) throw new Exception("Countdown event not found");
+            countdownEvent.Pause();
+        }
+
+        public void Resume(string countdownName)
+        {
+            if (!_countdownEvents.TryGetValue(countdownName, out var countdownEvent))  throw new Exception("Countdown event not found");
+            countdownEvent.Resume();
+        }
         public void Update(float deltaTime)
         {
             foreach (var countdownEvent in _countdownEvents.Values)
@@ -36,6 +53,7 @@ namespace GenBall.Utils.Countdown
                 throw new Exception("Countdown Event has already been registered");
             }
             var countdown=CountdownEvent.Create(countdownTime, updateCallback, completeCallback);
+            _countdownEvents.Add(name,countdown);
         }
 
         public bool RemoveCountdownEvent(string name)
