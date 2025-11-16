@@ -25,7 +25,7 @@ namespace GenBall.Player
         private Variable<bool> _onGround;
         protected internal override void OnEnter(Fsm<Player> fsm)
         {
-            Debug.Log("½øÈë³å´ÌÌ¬");
+            // Debug.Log("½øÈë³å´ÌÌ¬");
             _fsm = fsm;
             // _dashDirection = fsm.GetData<Variable<Vector2>>("MoveInput").Value;
             _viewInput = fsm.GetData<Variable<Vector2>>("ViewInput");
@@ -38,7 +38,7 @@ namespace GenBall.Player
 
         protected internal override void OnExit(Fsm<Player> fsm, bool isShutdown = false)
         {
-            Debug.Log("Àë¿ª³å´ÌÌ¬");
+            // Debug.Log("Àë¿ª³å´ÌÌ¬");
         }
 
         protected internal override void OnUpdate(Fsm<Player> fsm, float elapsedTime, float realElapseTime)
