@@ -12,7 +12,7 @@ namespace Yueyn.Base.Variable
         private readonly List<Listener> _listeners = new();
         public void Observe(Listener listener)=>_listeners.Add(listener);
         public void Unobserve(Listener listener)=>_listeners.Remove(listener);
-        public T Value { get; private set; } = default(T);
+        public T Value { get; protected set; } = default(T);
         public override object GetValue()=>Value;
         public override void SetValue(object value)=>Value = (T)value;
 
