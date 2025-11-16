@@ -33,7 +33,7 @@ namespace GenBall.Player
             _velocity = fsm.GetData<Variable<Vector3>>("Velocity");
             _onGround = fsm.GetData<Variable<bool>>("OnGround");
             InitArgs();
-            // todo 冲刺冷却时间开始计时
+            _fsm.Owner.Countdown.Start("Dash");
         }
 
         protected internal override void OnExit(Fsm<Player> fsm, bool isShutdown = false)

@@ -76,6 +76,7 @@ namespace GenBall.Player
         private void OnDashInputChange(ButtonState dashInput)
         {
             if(dashInput != ButtonState.Down) return;
+            if(!_fsm.Owner.Countdown.HasCountdownCompleted("Dash")) return;
             _fsm.ChangeState<PlayerDashState>();
         }
         
