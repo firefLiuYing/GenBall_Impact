@@ -13,10 +13,17 @@ namespace GenBall.Player
         // private float _prepareTime; // 前摇
         private float _invincibleTime=0.2f;  // 无敌帧
         private float _endingTime=0.1f;  // 后摇
-        private float _speed=20f;   // 冲刺速度
+        private float _dashSpeed=20f;   // 冲刺速度
 
-        private float _dashCooldownTime = 4f;   // 冲刺冷却时间
+        // private float _dashCooldownTime = 4f;   // 冲刺冷却时间
         
+        private void InitConfigs()
+        {
+        {
+            _invincibleTime=_fsm.Owner.playerConfigSo.invincibleTime;
+            _endingTime=_fsm.Owner.playerConfigSo.endingTime;
+            _dashSpeed = _fsm.Owner.playerConfigSo.dashSpeed;
+        }}
         private Vector3 _direction;   // 冲刺方向
 
         private Variable<Vector2> _viewInput;
@@ -27,6 +34,7 @@ namespace GenBall.Player
         {
             // Debug.Log("进入冲刺态");
             _fsm = fsm;
+            InitConfigs();
             // _dashDirection = fsm.GetData<Variable<Vector2>>("MoveInput").Value;
             _viewInput = fsm.GetData<Variable<Vector2>>("ViewInput");
             _viewRotation = fsm.GetData<Variable<Quaternion>>("ViewRotation");
@@ -81,7 +89,7 @@ namespace GenBall.Player
         }
         private void ChangeVelocity()
         {
-            _velocity.PostValue(_speed*_direction);
+            _velocity.PostValue(_dashSpeed*_direction);
         }
         private void ChangeView()
         {

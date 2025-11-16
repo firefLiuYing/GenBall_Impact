@@ -6,7 +6,7 @@ namespace GenBall.Player
 {
     public partial class Player
     {
-        
+        [SerializeField]internal PlayerConfigSo playerConfigSo;
         private void OnVelocityChange(Vector3 velocity)=>_rigidbody.velocity=velocity;
 
         private void OnViewRotationChange(Quaternion viewRotation)=>Camera.main.transform.rotation=viewRotation;

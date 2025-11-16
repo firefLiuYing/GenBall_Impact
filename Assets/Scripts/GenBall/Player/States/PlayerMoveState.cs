@@ -8,7 +8,15 @@ namespace GenBall.Player
 {
     public class PlayerMoveState : PlayerStateBase
     {
-        private float _speed = 5f;
+        private float _speed;
+        private float _verticalSensitivity;
+        private float _horizontalSensitivity;
+        private void InitConfigs()
+        {
+            _speed = _fsm.Owner.playerConfigSo.speed;
+            _verticalSensitivity = _fsm.Owner.playerConfigSo.verticalSensitivity;
+            _horizontalSensitivity=_fsm.Owner.playerConfigSo.horizontalSensitivity;
+        }
         
         private Fsm<Player> _fsm;
         private Variable<Vector2> _moveInput;
@@ -19,12 +27,14 @@ namespace GenBall.Player
         protected internal override void OnEnter(Fsm<Player> fsm)
         {
             _fsm = fsm;
+            InitConfigs();
             _moveInput = fsm.GetData<Variable<Vector2>>("MoveInput");
             _viewInput = fsm.GetData<Variable<Vector2>>("ViewInput");
             _velocity = fsm.GetData<Variable<Vector3>>("Velocity");
             _viewRotation=fsm.GetData<Variable<Quaternion>>("ViewRotation");
             _jumpInput = fsm.GetData<Variable<ButtonState>>("JumpInput");
             _viewRotation.SetValue(Camera.main.transform.rotation);
+            
             RegisterEvents();
         }
 
@@ -44,6 +54,7 @@ namespace GenBall.Player
             Debug.Log("Player: 我挨打了，我还没写挨打");
         }
 
+        
         private void RegisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
@@ -88,8 +99,8 @@ namespace GenBall.Player
             {
                 rotationEulerAngles.x -= 360;
             }
-            rotationEulerAngles.y += _viewInput.Value.x * 0.1f;
-            rotationEulerAngles.x += -_viewInput.Value.y * 0.1f;
+            rotationEulerAngles.y += _viewInput.Value.x * _horizontalSensitivity;
+            rotationEulerAngles.x += -_viewInput.Value.y * _verticalSensitivity;
             rotationEulerAngles.x=Mathf.Clamp(rotationEulerAngles.x, -80, 80f);
             _viewRotation.PostValue(Quaternion.Euler(rotationEulerAngles));
         }

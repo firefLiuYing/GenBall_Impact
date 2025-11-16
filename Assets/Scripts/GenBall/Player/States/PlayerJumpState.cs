@@ -11,14 +11,28 @@ namespace GenBall.Player
         private float _shortPressJumpHeight = 1f;
         private float _longPressJumpMaxHeight = 3f;
         private float _longPressMaxTime = 0.8f;
-        private float _shortPressMaxTime = 0.02f;
+        private float _shortPressJustifyTime = 0.02f;
         private float _gravityAcceleration = 20f;
         private float _maxDropVelocity = 8f;
         
         private float _coyoteTime = 0.01f;  // 土狼时间，先假设是0.01f
         private float _jumpInputBufferTime = 0.01f; // 连续跳跃支持0.01f的预输入，在地面检测判定成功后再跳一次
 
-        private float _speed = 5f;
+        private float _speed;
+
+        private void InitConfigs()
+        {
+            _speed = _fsm.Owner.playerConfigSo.speed;
+            
+            _shortPressJumpHeight = _fsm.Owner.playerConfigSo.shortPressJumpHeight;
+            _longPressJumpMaxHeight = _fsm.Owner.playerConfigSo.longPressJumpMaxHeight;
+            _longPressMaxTime = _fsm.Owner.playerConfigSo.longPressMaxTime;
+            _shortPressJustifyTime = _fsm.Owner.playerConfigSo.shortPressJustifyTime;
+            _gravityAcceleration = _fsm.Owner.playerConfigSo.gravityAcceleration;
+            _maxDropVelocity = _fsm.Owner.playerConfigSo.maxDropVelocity;
+            _coyoteTime = _fsm.Owner.playerConfigSo.coyoteTime;
+            _jumpInputBufferTime = _fsm.Owner.playerConfigSo.jumpInputBufferTime;
+        }
 
         private float _pressedAcceleration;     // 按住时的衰减速度
         private float _releasedAcceleration;
@@ -34,8 +48,9 @@ namespace GenBall.Player
         private float _releaseJumpButtonTime;
         protected internal override void OnEnter(Fsm<Player> fsm)
         {
-            InitArgs();
             _fsm = fsm;
+            InitConfigs();
+            InitArgs();
             _velocity=fsm.GetData<Variable<Vector3>>("Velocity");
             _jumpInput = fsm.GetData<Variable<ButtonState>>("JumpInput");
             _moveInput = fsm.GetData<Variable<Vector2>>("MoveInput");
@@ -70,12 +85,12 @@ namespace GenBall.Player
             // 按住时衰减速度
             _pressedAcceleration = _initialVelocity / _longPressMaxTime;
             // 短按过程中上升高度，中间变量
-            float shortPressPeriodHeight = _initialVelocity * _shortPressMaxTime -_pressedAcceleration * _shortPressMaxTime * _shortPressMaxTime / 2;
+            float shortPressPeriodHeight = _initialVelocity * _shortPressJustifyTime -_pressedAcceleration * _shortPressJustifyTime * _shortPressJustifyTime / 2;
             // 短按松开期间剩余要上升的高度，中间变量
             float remainHeight=_shortPressJumpHeight-shortPressPeriodHeight;
             // 松开后减速时间
-            float remainTime=2 * remainHeight / (_initialVelocity - _shortPressMaxTime * _pressedAcceleration);
-            _releasedAcceleration = (_initialVelocity - _shortPressMaxTime * _pressedAcceleration)/remainTime;
+            float remainTime=2 * remainHeight / (_initialVelocity - _shortPressJustifyTime * _pressedAcceleration);
+            _releasedAcceleration = (_initialVelocity - _shortPressJustifyTime * _pressedAcceleration)/remainTime;
         }
         private float GetVerticalVelocityStrategyDefault() => _fsm.CurrentStateTime < 0.2f ? 2 : -2;
 
@@ -88,7 +103,7 @@ namespace GenBall.Player
             }
             // 跳跃进入跳跃态
             // 在短按时间内
-            if (_fsm.CurrentStateTime<_shortPressMaxTime)
+            if (_fsm.CurrentStateTime<_shortPressJustifyTime)
             {
                 // Debug.Log("短按跳跃");
                 return _initialVelocity-_pressedAcceleration*_fsm.CurrentStateTime;
@@ -145,7 +160,7 @@ namespace GenBall.Player
             if (args.Args == ButtonState.Up&&_releaseJumpButtonTime<=0)
             {
                 // 松开按键时，如果在短按时间内就视作短按按满，否则就记录释放时间
-                _releaseJumpButtonTime=Mathf.Max(_fsm.CurrentStateTime,_shortPressMaxTime);
+                _releaseJumpButtonTime=Mathf.Max(_fsm.CurrentStateTime,_shortPressJustifyTime);
             }
         }
         private void OnGroundChange(bool onGround)

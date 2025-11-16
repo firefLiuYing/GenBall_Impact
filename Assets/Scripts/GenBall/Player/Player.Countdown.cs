@@ -13,7 +13,7 @@ namespace GenBall.Player
         }
         private void RegisterCountdowns()
         {
-            Countdown.AddCountdownEvent("Dash",4f);
+            Countdown.AddCountdownEvent("Dash",playerConfigSo.dashCountdownTime);
         }
 
         private void CountdownUpdate(float deltaTime)
