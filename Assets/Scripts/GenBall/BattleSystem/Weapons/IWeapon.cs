@@ -1,7 +1,6 @@
-using System.Numerics;
-using GenBall.BattleSystem;
+using GenBall.Player;
 
-namespace GenBall.Player
+namespace GenBall.BattleSystem.Weapons
 {
     public interface IWeapon
     {

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using GenBall.BattleSystem.Bullets;
+using GenBall.BattleSystem.Weapons;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
@@ -17,6 +19,7 @@ namespace GenBall.Player
             InitCountdown();
             RegisterEvents();
             StartFsm();
+            EquipPhysicsWeapon<DefaultWeapon>();
         }
 
         private void Update()

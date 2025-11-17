@@ -1,10 +1,13 @@
 using System;
+using GenBall.BattleSystem.Bullets;
+using GenBall.BattleSystem.Weapons;
 using UnityEngine;
 using Yueyn.Event;
 using Yueyn.Fsm;
 using Yueyn.Main;
 using Yueyn.Main.Entry;
 using Yueyn.ObjectPool;
+using Yueyn.Resource;
 
 namespace GenBall
 {
@@ -29,6 +32,9 @@ namespace GenBall
             Entry.Register(new EventManager());
             Entry.Register(new FsmManager());
             Entry.Register(new ObjectPoolManager());
+            Entry.Register(new ResourceManager());
+            Entry.Register(new WeaponCreator());
+            Entry.Register(new BulletCreator());
         }
     }
 }
