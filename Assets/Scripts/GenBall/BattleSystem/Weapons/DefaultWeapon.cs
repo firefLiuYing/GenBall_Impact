@@ -18,6 +18,11 @@ namespace GenBall.BattleSystem.Weapons
             gameObject.SetActive(true);
         }
 
+        public void WeaponUpdate(float deltaTime)
+        {
+            
+        }
+
         public void OnUnequip()
         {
             

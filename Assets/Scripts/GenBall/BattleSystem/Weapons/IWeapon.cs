@@ -8,5 +8,6 @@ namespace GenBall.BattleSystem.Weapons
         public void Trigger(ButtonState triggerState);
         public void OnEquip(IAttacker owner);
         public void OnUnequip();
+        public void WeaponUpdate(float deltaTime);
     }
 }
