@@ -13,7 +13,7 @@ namespace GenBall.BattleSystem.Bullets
         private Vector3 _direction;
         private Vector3 _logicSource;
         private Vector3 _logicTarget;
-        public void Fire(IWeapon source, IAttacker shooter, Vector3 spawnPoint)
+        public void Fire(IWeapon source, Vector3 spawnPoint)
         {
             Source = source;
         }
