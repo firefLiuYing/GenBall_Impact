@@ -41,6 +41,8 @@ namespace GenBall.Player
             _fsm.SetData("JumpInput",jumpInput);
             var dashInput=ReferencePool.Acquire<Variable<ButtonState>>();
             _fsm.SetData("DashInput",dashInput);
+            var fireInput = ReferencePool.Acquire<Variable<ButtonState>>();
+            _fsm.SetData("FireInput",fireInput);
         }
         
         private void RegisterStates()

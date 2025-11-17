@@ -58,25 +58,32 @@ namespace GenBall.Player
         private void RegisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
-            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
+            // GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Observe(OnDashInputChange);
+            _fsm.GetData<Variable<ButtonState>>("JumpInput").Observe(OnJumpInputChange);
         }
 
         private void UnregisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Unobserve(OnGroundChange);
-            GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
+            // GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Unobserve(OnDashInputChange);
+            _fsm.GetData<Variable<ButtonState>>("JumpInput").Unobserve(OnJumpInputChange);
         }
 
-        private void JumpHandler(object sender, GameEventArgs e)
+        // private void JumpHandler(object sender, GameEventArgs e)
+        // {
+        //     if(e is not InputEventArgs<ButtonState> args) return;
+        //     if(args.Args!=ButtonState.Down) return;
+        //     _jumpInput.SetValue(ButtonState.Down);
+        //     _fsm.ChangeState<PlayerJumpState>();
+        // }
+
+        private void OnJumpInputChange(ButtonState jumpInput)
         {
-            if(e is not InputEventArgs<ButtonState> args) return;
-            if(args.Args!=ButtonState.Down) return;
-            _jumpInput.SetValue(ButtonState.Down);
+            if(jumpInput != ButtonState.Down) return;
             _fsm.ChangeState<PlayerJumpState>();
         }
-        
         private void OnGroundChange(bool onGround)
         {
             if(onGround) return;

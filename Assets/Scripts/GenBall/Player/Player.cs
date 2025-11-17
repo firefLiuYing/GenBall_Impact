@@ -32,9 +32,7 @@ namespace GenBall.Player
 
         private void RegisterEvents()
         {
-            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<Vector2>.GetHashCode("MoveInput"),OnMoveInputChange);
-            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<Vector2>.GetHashCode("ViewInput"),OnViewInputChange);
-            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("DashInput"),OnDashInputChange);
+            RegisterInputHandlers();
             
             _fsm.GetData<Variable<Vector3>>("Velocity").Observe(OnVelocityChange);
             _fsm.GetData<Variable<Quaternion>>("ViewRotation").Observe(OnViewRotationChange);
