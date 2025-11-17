@@ -13,6 +13,8 @@ namespace GenBall.BattleSystem.Bullets
     public partial class BulletCreator : IComponent
     {
         private readonly Dictionary<TypeNamePair, string> _bulletMap = new();
+        private readonly List<IBullet> _bullets = new();
+        private readonly List<IBullet> _tempBullets = new();
         private IObjectPool<BulletObject> _bulletPool;
         private ResourceManager ResourceManager => GameEntry.GetModule<ResourceManager>();
 
@@ -22,7 +24,11 @@ namespace GenBall.BattleSystem.Bullets
         /// 回收子弹GameObject
         /// </summary>
         /// <param name="bullet">子弹实例的GameObject</param>
-        public void RecycleBullet(GameObject bullet) => _bulletPool.Despawn(bullet);
+        public void RecycleBullet(GameObject bullet)
+        {
+            _bulletPool.Despawn(bullet);
+            _bullets.Remove(bullet.GetComponent<IBullet>());
+        } 
 
         #endregion
         
@@ -35,9 +41,12 @@ namespace GenBall.BattleSystem.Bullets
         private IBullet CreateBullet(TypeNamePair typeNamePair)
         {
             var bulletObject = _bulletPool.Spawn($"{typeNamePair}");
+            IBullet bullet;
             if (bulletObject != null)
             {
-                return (IBullet)bulletObject.Target;
+                bullet = (IBullet)bulletObject.Target;
+                _bullets.Add(bullet);
+                return bullet;
             }
 
             if (!_bulletMap.TryGetValue(typeNamePair, out var prefabPath))
@@ -46,8 +55,9 @@ namespace GenBall.BattleSystem.Bullets
             }
             var prefab=(GameObject)ResourceManager.LoadPrefab(prefabPath);
             var go = Object.Instantiate(prefab);
-            var bullet = go.GetComponent<IBullet>();
+            bullet = go.GetComponent<IBullet>();
             if (bullet == null) throw new Exception("Bullet Prefab not found Component IBullet");
+            _bullets.Add(bullet);
             bulletObject = BulletObject.Create($"{typeNamePair}", go);
             _bulletPool.Register(bulletObject,true);
             return bullet;
@@ -86,7 +96,12 @@ namespace GenBall.BattleSystem.Bullets
 
         public void Update(float elapsedSeconds, float realElapseSeconds)
         {
-            
+            _tempBullets.Clear();
+            _tempBullets.AddRange(_bullets);
+            foreach (var bullet in _tempBullets)
+            {
+                bullet.BulletUpdate(elapsedSeconds);
+            }
         }
 
         public void Shutdown()
