@@ -14,6 +14,14 @@ namespace Yueyn.Main.Entry
                 component.Update(elapsedSeconds, realElapseSeconds);
             }
         }
+
+        public static void FixedUpdate(float fixedDeltaTime)
+        {
+            foreach (var component in _components.Values)
+            {
+                component.FixedUpdate(fixedDeltaTime);
+            }
+        }
         public static T GetComponent<T>() where T : IComponent
         {
             _components.TryGetValue(typeof(T), out IComponent component);

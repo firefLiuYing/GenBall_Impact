@@ -96,11 +96,16 @@ namespace GenBall.BattleSystem.Bullets
 
         public void Update(float elapsedSeconds, float realElapseSeconds)
         {
+            
+        }
+
+        public void FixedUpdate(float fixedDeltaTime)
+        {
             _tempBullets.Clear();
             _tempBullets.AddRange(_bullets);
             foreach (var bullet in _tempBullets)
             {
-                bullet.BulletUpdate(elapsedSeconds);
+                bullet.BulletUpdate(fixedDeltaTime);
             }
         }
 

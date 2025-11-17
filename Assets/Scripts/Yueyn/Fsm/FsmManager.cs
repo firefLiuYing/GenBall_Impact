@@ -33,6 +33,11 @@ namespace Yueyn.Fsm
             }
         }
 
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
         public void Shutdown()
         {
             foreach (var fsm in _fsms.Values)

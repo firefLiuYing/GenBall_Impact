@@ -29,6 +29,11 @@ namespace Yueyn.Event
             _eventPool.Update(elapsedSeconds, realElapseSeconds);
         }
 
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
         public void Shutdown()
         {
             _eventPool.Shutdown();

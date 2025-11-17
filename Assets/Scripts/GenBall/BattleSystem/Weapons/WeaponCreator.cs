@@ -73,6 +73,11 @@ namespace GenBall.BattleSystem.Weapons
             
         }
 
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
         public void Shutdown()
         {
             

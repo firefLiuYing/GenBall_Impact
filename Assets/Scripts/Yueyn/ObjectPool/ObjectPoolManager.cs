@@ -32,6 +32,11 @@ namespace Yueyn.ObjectPool
             }
         }
 
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
         public void Shutdown()
         {
             foreach (var objectPool in _objectPools.Values)

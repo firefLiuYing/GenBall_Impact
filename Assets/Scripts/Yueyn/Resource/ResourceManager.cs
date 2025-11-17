@@ -30,6 +30,11 @@ namespace Yueyn.Resource
             
         }
 
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
         public void Shutdown()
         {
             

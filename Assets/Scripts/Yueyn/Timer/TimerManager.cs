@@ -19,6 +19,11 @@ namespace Yueyn.Timer
             Timer.Update(realElapseSeconds);
         }
 
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
         public void Shutdown()
         {
             

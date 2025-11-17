@@ -26,6 +26,10 @@ namespace GenBall
             Entry.Update(Time.deltaTime,Time.deltaTime);
         }
 
+        private void FixedUpdate()
+        {
+            Entry.FixedUpdate(Time.deltaTime);
+        }
         public static T GetModule<T>() where T:IComponent => Entry.GetComponent<T>();
         private void RegisterModules()
         {
