@@ -15,6 +15,7 @@ namespace GenBall.BattleSystem.Weapons
         public void OnEquip(IAttacker owner)
         {
             _owner = owner;
+            gameObject.SetActive(true);
         }
 
         public void OnUnequip()
