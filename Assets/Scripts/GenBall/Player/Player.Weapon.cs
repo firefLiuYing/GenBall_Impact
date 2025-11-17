@@ -12,6 +12,11 @@ namespace GenBall.Player
         private IWeapon _physicsWeapon;
         [SerializeField] private Transform weaponSpawnPoint;
 
+        private void WeaponsUpdate(float deltaTime)
+        {
+            _physicsWeapon?.WeaponUpdate(deltaTime);
+        }
+
         internal void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
         internal void EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {

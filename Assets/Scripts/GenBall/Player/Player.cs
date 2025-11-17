@@ -26,6 +26,7 @@ namespace GenBall.Player
         {
             float deltaTime = Time.deltaTime;
             CountdownUpdate(deltaTime);
+            WeaponsUpdate(deltaTime);
         }
 
         private void FixedUpdate()
