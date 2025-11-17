@@ -5,7 +5,7 @@ namespace GenBall.BattleSystem.Weapons
 {
     public class DefaultWeapon : MonoBehaviour,IWeapon
     {
-        private IAttacker _owner;
+        public IAttacker Owner { get;protected set; }
         [SerializeField] private Transform bulletSpawnPoint;
         public void Trigger(ButtonState triggerState)
         {
@@ -14,7 +14,7 @@ namespace GenBall.BattleSystem.Weapons
 
         public void OnEquip(IAttacker owner)
         {
-            _owner = owner;
+            Owner = owner;
             gameObject.SetActive(true);
         }
 
