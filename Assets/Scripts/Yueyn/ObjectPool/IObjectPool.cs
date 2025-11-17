@@ -19,6 +19,7 @@ namespace Yueyn.ObjectPool
         public bool CanSpawn();
         public bool CanSpawn(string name);
         public T Spawn();
+        public T Spawn(string name);
         public void Despawn(T obj);
         public void Despawn(object target);
         public void SetLocked(T obj, bool locked);
