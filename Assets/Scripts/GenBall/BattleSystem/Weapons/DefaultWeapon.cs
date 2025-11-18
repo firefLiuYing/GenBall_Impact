@@ -42,7 +42,7 @@ namespace GenBall.BattleSystem.Weapons
         public void WeaponUpdate(float deltaTime)
         {
             _timer+=deltaTime;
-            if (_autoFire && _timer > countdownTime)
+            if (_autoFire && _timer > _countdownTime)
             {
                 Fire();
             }
