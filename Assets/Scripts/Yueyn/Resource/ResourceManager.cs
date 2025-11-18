@@ -25,12 +25,12 @@ namespace Yueyn.Resource
             
         }
 
-        public void Update(float elapsedSeconds, float realElapseSeconds)
+        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
             
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void ComponentFixedUpdate(float fixedDeltaTime)
         {
             
         }

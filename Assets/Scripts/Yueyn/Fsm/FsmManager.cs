@@ -21,7 +21,7 @@ namespace Yueyn.Fsm
             
         }
 
-        public void Update(float elapsedSeconds, float realElapseSeconds)
+        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
             _tempFsms.Clear();
             if(_fsms.Count<=0) return;
@@ -33,7 +33,7 @@ namespace Yueyn.Fsm
             }
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void ComponentFixedUpdate(float fixedDeltaTime)
         {
             
         }

@@ -14,12 +14,12 @@ namespace Yueyn.Timer
             
         }
 
-        public void Update(float elapsedSeconds, float realElapseSeconds)
+        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
             Timer.Update(realElapseSeconds);
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void ComponentFixedUpdate(float fixedDeltaTime)
         {
             
         }

@@ -11,7 +11,7 @@ namespace Yueyn.Main.Entry
         {
             foreach (var component in _components.Values)
             {
-                component.Update(elapsedSeconds, realElapseSeconds);
+                component.ComponentUpdate(elapsedSeconds, realElapseSeconds);
             }
         }
 
@@ -19,7 +19,7 @@ namespace Yueyn.Main.Entry
         {
             foreach (var component in _components.Values)
             {
-                component.FixedUpdate(fixedDeltaTime);
+                component.ComponentFixedUpdate(fixedDeltaTime);
             }
         }
         public static T GetComponent<T>() where T : IComponent

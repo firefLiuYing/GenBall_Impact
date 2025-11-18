@@ -24,12 +24,12 @@ namespace Yueyn.Event
             
         }
 
-        public void Update(float elapsedSeconds, float realElapseSeconds)
+        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
             _eventPool.Update(elapsedSeconds, realElapseSeconds);
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void ComponentFixedUpdate(float fixedDeltaTime)
         {
             
         }

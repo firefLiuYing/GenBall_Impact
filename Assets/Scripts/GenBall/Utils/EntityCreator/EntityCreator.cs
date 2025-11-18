@@ -179,7 +179,7 @@ namespace GenBall.Utils.EntityCreator
             
         }
 
-        public void Update(float elapsedSeconds, float realElapseSeconds)
+        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
             _tempPrefabs.Clear();
             _tempPrefabs.AddRange(_prefabs);
@@ -189,7 +189,7 @@ namespace GenBall.Utils.EntityCreator
             }
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void ComponentFixedUpdate(float fixedDeltaTime)
         {
             _fixedTempPrefabs.Clear();
             _fixedTempPrefabs.AddRange(_prefabs);

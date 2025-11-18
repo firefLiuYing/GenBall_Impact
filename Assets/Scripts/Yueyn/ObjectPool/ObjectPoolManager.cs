@@ -24,7 +24,7 @@ namespace Yueyn.ObjectPool
             
         }
 
-        public void Update(float elapsedSeconds, float realElapseSeconds)
+        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
             foreach (var objectPool in _objectPools.Values)
             {
@@ -32,7 +32,7 @@ namespace Yueyn.ObjectPool
             }
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void ComponentFixedUpdate(float fixedDeltaTime)
         {
             
         }
