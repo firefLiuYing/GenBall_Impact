@@ -44,10 +44,13 @@ namespace GenBall.Player
         private Variable<Vector2> _moveInput;
         private Variable<Vector2> _viewInput;
         private Variable<Quaternion> _viewRotation;
+        private Variable<bool> _jumpPreInput;
+        private float _lastJumpInputTime=-1f;
         private bool _jumpToThisState;
         private float _releaseJumpButtonTime;
         protected internal override void OnEnter(Fsm<Player> fsm)
         {
+            Debug.Log("进入跳跃态");
             _fsm = fsm;
             InitConfigs();
             InitArgs();
@@ -56,8 +59,16 @@ namespace GenBall.Player
             _moveInput = fsm.GetData<Variable<Vector2>>("MoveInput");
             _viewInput = fsm.GetData<Variable<Vector2>>("ViewInput");
             _viewRotation = fsm.GetData<Variable<Quaternion>>("ViewRotation");
-            _jumpToThisState = _jumpInput.Value == ButtonState.Down;
+            _jumpPreInput = fsm.GetData<Variable<bool>>("JumpPreInput");
+            _jumpToThisState = _jumpInput.Value == ButtonState.Down||_jumpPreInput.Value;
             _releaseJumpButtonTime = 0f;
+            if (_jumpPreInput.Value&&_jumpInput.Value is ButtonState.Up or ButtonState.None)
+            {
+                _releaseJumpButtonTime = _shortPressJustifyTime;
+            }
+            Debug.Log(_jumpToThisState);
+            _jumpPreInput.SetValue(false);
+            _lastJumpInputTime = -1f;
             RegisterEvents();
         }
 
@@ -69,7 +80,10 @@ namespace GenBall.Player
 
         protected internal override void OnExit(Fsm<Player> fsm,bool isShutdown=false)
         {
+            Debug.Log("离开跳跃态");
             UnRegisterEvents();
+            _lastJumpInputTime = -1f;
+            _releaseJumpButtonTime = 0f;
         }
 
         public override void OnAttacked(AttackInfo attackInfo)
@@ -182,11 +196,25 @@ namespace GenBall.Player
                 // 松开按键时，如果在短按时间内就视作短按按满，否则就记录释放时间
                 _releaseJumpButtonTime=Mathf.Max(_fsm.CurrentStateTime,_shortPressJustifyTime);
             }
+            else if (jumpInput == ButtonState.Down)
+            {
+                _lastJumpInputTime=_fsm.CurrentStateTime;
+            }
         }
         private void OnGroundChange(bool onGround)
         {
             if(!onGround) return;
-            _fsm.ChangeState<PlayerMoveState>();
+            if (_lastJumpInputTime > 0 && _lastJumpInputTime + _jumpInputBufferTime >= _fsm.CurrentStateTime)
+            {
+                Debug.Log("预输入判定成功");
+                _jumpPreInput.SetValue(true);
+                _fsm.ChangeState<PlayerJumpState>();
+            }
+            else
+            {
+                _fsm.ChangeState<PlayerMoveState>();
+            }
+            
         }
         private void ChangeView()
         {
