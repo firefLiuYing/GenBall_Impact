@@ -16,6 +16,7 @@ namespace GenBall
         {
             RegisterBullets();
             RegisterWeapons();
+            RegisterEnemys();
         }
         private void RegisterModules()
         {
@@ -23,11 +24,9 @@ namespace GenBall
             Entry.Register(new FsmManager());
             Entry.Register(new ObjectPoolManager());
             Entry.Register(new ResourceManager());
-            // Entry.Register(new WeaponCreator());
-            // Entry.Register(new BulletCreator());
-            // Entry.Register(new EnemyCreator());
             Entry.Register(new EntityCreator<IBullet>());
             Entry.Register(new EntityCreator<IWeapon>());
+            Entry.Register(new EntityCreator<IEnemy>());
         }
     }
 }

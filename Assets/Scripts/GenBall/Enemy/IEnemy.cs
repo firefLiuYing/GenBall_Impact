@@ -1,10 +1,10 @@
 using GenBall.BattleSystem;
+using GenBall.Utils.EntityCreator;
 
 namespace GenBall.Enemy
 {
-    public interface IEnemy : IAttackable
+    public interface IEnemy : IAttackable,IEntity
     {
-        public void EnemyUpdate(float deltaTime);
-        public void EnemyFixedUpdate(float fixedDeltaTime);
+        public void Initialize();
     }
 }
