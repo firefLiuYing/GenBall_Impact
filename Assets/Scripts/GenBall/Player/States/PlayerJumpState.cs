@@ -136,7 +136,8 @@ namespace GenBall.Player
         private void RegisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
-            GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpInputHandler);
+            // GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpInputHandler);
+            _fsm.GetData<Variable<ButtonState>>("JumpInput").Observe(OnJumpInputChange);
             _fsm.GetData<Variable<ButtonState>>("FireInput").Observe(OnFireInputChange);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Observe(OnDashInputChange);
         }
@@ -144,7 +145,8 @@ namespace GenBall.Player
         private void UnRegisterEvents()
         {
             _fsm.GetData<Variable<bool>>("OnGround").Unobserve(OnGroundChange);
-            GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"), JumpInputHandler);
+            // GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"), JumpInputHandler);
+            _fsm.GetData<Variable<ButtonState>>("JumpInput").Unobserve(OnJumpInputChange);
             _fsm.GetData<Variable<ButtonState>>("FireInput").Unobserve(OnFireInputChange);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Unobserve(OnDashInputChange);
         }
@@ -163,11 +165,19 @@ namespace GenBall.Player
                 _fsm.Owner.PhysicsWeaponTrigger(fireInput);
             }
         }
-        private void JumpInputHandler(object sender, GameEventArgs e)
+        // private void JumpInputHandler(object sender, GameEventArgs e)
+        // {
+        //     if(e is not InputEventArgs<ButtonState> args) return;
+        //     _jumpInput.SetValue(args.Args);
+        //     if (args.Args == ButtonState.Up&&_releaseJumpButtonTime<=0)
+        //     {
+        //         // 松开按键时，如果在短按时间内就视作短按按满，否则就记录释放时间
+        //         _releaseJumpButtonTime=Mathf.Max(_fsm.CurrentStateTime,_shortPressJustifyTime);
+        //     }
+        // }
+        private void OnJumpInputChange(ButtonState jumpInput)
         {
-            if(e is not InputEventArgs<ButtonState> args) return;
-            _jumpInput.SetValue(args.Args);
-            if (args.Args == ButtonState.Up&&_releaseJumpButtonTime<=0)
+            if (jumpInput == ButtonState.Up&&_releaseJumpButtonTime<=0)
             {
                 // 松开按键时，如果在短按时间内就视作短按按满，否则就记录释放时间
                 _releaseJumpButtonTime=Mathf.Max(_fsm.CurrentStateTime,_shortPressJustifyTime);
