@@ -61,6 +61,7 @@ namespace GenBall.Player
             // GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Observe(OnDashInputChange);
             _fsm.GetData<Variable<ButtonState>>("JumpInput").Observe(OnJumpInputChange);
+            _fsm.GetData<Variable<ButtonState>>("FireInput").Observe(OnFireInputChange);
         }
 
         private void UnregisterEvents()
@@ -69,6 +70,7 @@ namespace GenBall.Player
             // GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpHandler);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Unobserve(OnDashInputChange);
             _fsm.GetData<Variable<ButtonState>>("JumpInput").Unobserve(OnJumpInputChange);
+            _fsm.GetData<Variable<ButtonState>>("FireInput").Unobserve(OnFireInputChange);
         }
 
         // private void JumpHandler(object sender, GameEventArgs e)
@@ -96,6 +98,14 @@ namespace GenBall.Player
             if(dashInput != ButtonState.Down) return;
             if(!_fsm.Owner.Countdown.HasCountdownCompleted("Dash")) return;
             _fsm.ChangeState<PlayerDashState>();
+        }
+
+        private void OnFireInputChange(ButtonState fireInput)
+        {
+            if (fireInput is ButtonState.Down or ButtonState.Up)
+            {
+                _fsm.Owner.PhysicsWeaponTrigger(fireInput);
+            }
         }
         
         private void ChangeView()
