@@ -50,7 +50,7 @@ namespace GenBall.Player
         private float _releaseJumpButtonTime;
         protected internal override void OnEnter(Fsm<Player> fsm)
         {
-            Debug.Log("进入跳跃态");
+            // Debug.Log("进入跳跃态");
             _fsm = fsm;
             InitConfigs();
             InitArgs();
@@ -66,7 +66,7 @@ namespace GenBall.Player
             {
                 _releaseJumpButtonTime = _shortPressJustifyTime;
             }
-            Debug.Log(_jumpToThisState);
+            // Debug.Log(_jumpToThisState);
             _jumpPreInput.SetValue(false);
             _lastJumpInputTime = -1f;
             RegisterEvents();
@@ -80,7 +80,7 @@ namespace GenBall.Player
 
         protected internal override void OnExit(Fsm<Player> fsm,bool isShutdown=false)
         {
-            Debug.Log("离开跳跃态");
+            // Debug.Log("离开跳跃态");
             UnRegisterEvents();
             _lastJumpInputTime = -1f;
             _releaseJumpButtonTime = 0f;
@@ -198,7 +198,15 @@ namespace GenBall.Player
             }
             else if (jumpInput == ButtonState.Down)
             {
-                _lastJumpInputTime=_fsm.CurrentStateTime;
+                if (_jumpToThisState)
+                {
+                    _lastJumpInputTime=_fsm.CurrentStateTime;
+                }
+                else if (_fsm.CurrentStateTime <= _coyoteTime)
+                {
+                    // Debug.Log("土狼时间判定成功");
+                    _jumpToThisState = true;
+                }
             }
         }
         private void OnGroundChange(bool onGround)
