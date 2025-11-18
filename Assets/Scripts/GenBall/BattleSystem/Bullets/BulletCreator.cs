@@ -100,7 +100,7 @@ namespace GenBall.BattleSystem.Bullets
             _tempBullets.AddRange(_bullets);
             foreach (var bullet in _tempBullets)
             {
-                bullet.BulletUpdate(elapsedSeconds);
+                // bullet.BulletUpdate(elapsedSeconds);
             }
         }
 
@@ -110,7 +110,7 @@ namespace GenBall.BattleSystem.Bullets
             _tempBullets.AddRange(_bullets);
             foreach (var bullet in _tempBullets)
             {
-                bullet.BulletFixedUpdate(fixedDeltaTime);
+                // bullet.BulletFixedUpdate(fixedDeltaTime);
             }
         }
 

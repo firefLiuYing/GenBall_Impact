@@ -1,4 +1,5 @@
 using GenBall.BattleSystem.Weapons;
+using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Bullets
@@ -10,8 +11,9 @@ namespace GenBall.BattleSystem.Bullets
         [SerializeField]private float bulletSpeed;
         [SerializeField]private LayerMask targetLayer;
         [SerializeField] private float lifeTime;
-        private BulletCreator BulletCreator => GameEntry.GetModule<BulletCreator>();
+        // private BulletCreator BulletCreator => GameEntry.GetModule<BulletCreator>();
 
+        private EntityCreator<IBullet> BulletCreator => GameEntry.GetModule<EntityCreator<IBullet>>();
         private Vector3 _spawnPoint;
         private Vector3 _direction;
         private Vector3 _logicSource;
@@ -57,7 +59,7 @@ namespace GenBall.BattleSystem.Bullets
             _curLifeTime = 0f;
         }
 
-        public void BulletUpdate(float deltaTime)
+        public void EntityUpdate(float deltaTime)
         {
             if(!_fired) return;
             if(_hit)  return;
@@ -75,13 +77,14 @@ namespace GenBall.BattleSystem.Bullets
             }
         }
 
-        public void BulletFixedUpdate(float fixedDeltaTime)
+        public void EntityFixedUpdate(float fixedDeltaTime)
         {
             // Âß¼­ÃüÖÐÅÐ¶Ï
             _curLifeTime+=fixedDeltaTime;
             if (_curLifeTime >= lifeTime)
             {
-                BulletCreator.RecycleBullet(gameObject);
+                // BulletCreator.RecycleBullet(gameObject);
+                BulletCreator.RecycleEntity(gameObject);
                 return;
             }
             var ray=new Ray(_logicSource+_process*_direction,_direction);
@@ -97,7 +100,8 @@ namespace GenBall.BattleSystem.Bullets
             {
                 attackable.OnAttacked(attackInfo);
             }
-            BulletCreator.RecycleBullet(gameObject);
+            // BulletCreator.RecycleBullet(gameObject);
+            BulletCreator.RecycleEntity(gameObject);
         }
 
         private static Vector3 Bezier(float t, Vector3 p0, Vector3 p1, Vector3 p2)

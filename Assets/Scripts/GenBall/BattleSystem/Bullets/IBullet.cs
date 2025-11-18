@@ -1,14 +1,14 @@
 using GenBall.BattleSystem.Weapons;
+using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Bullets
 {
-    public interface IBullet
+    public interface IBullet:IEntity
     {
         public IWeapon Source { get; }
         public void Fire(IWeapon source, Vector3 spawnPoint,Vector3 direction);
-        public void OnRecycle();
-        public void BulletUpdate(float deltaTime);
-        public void BulletFixedUpdate(float fixedDeltaTime);
+        // public void BulletUpdate(float deltaTime);
+        // public void BulletFixedUpdate(float fixedDeltaTime);
     }
 }

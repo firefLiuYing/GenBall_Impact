@@ -1,6 +1,7 @@
 using System;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Weapons;
+using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Resource;
 
@@ -8,14 +9,15 @@ namespace GenBall.Player
 {
     public partial class Player:IAttacker
     {
-        private WeaponCreator WeaponCreator => GameEntry.GetModule<WeaponCreator>();
+        // private WeaponCreator WeaponCreator => GameEntry.GetModule<WeaponCreator>();
+        private EntityCreator<IWeapon> WeaponCreator => GameEntry.GetModule<EntityCreator<IWeapon>>();
         private IWeapon _physicsWeapon;
         [SerializeField] private Transform weaponSpawnPoint;
 
-        private void WeaponsUpdate(float deltaTime)
-        {
-            _physicsWeapon?.WeaponUpdate(deltaTime);
-        }
+        // private void WeaponsUpdate(float deltaTime)
+        // {
+        //     _physicsWeapon?.WeaponUpdate(deltaTime);
+        // }
 
         internal void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
         internal void EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
@@ -36,12 +38,12 @@ namespace GenBall.Player
         }
         private void InternalEquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateWeapon<TWeapon>(weaponSpawnPoint);
+            var weapon = WeaponCreator.CreateEntity<TWeapon>();
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateWeapon<DefaultWeapon>(name,weaponSpawnPoint);
+            var weapon = WeaponCreator.CreateEntity<TWeapon>();
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon(IWeapon newWeapon)
@@ -52,7 +54,7 @@ namespace GenBall.Player
             }
 
             _physicsWeapon = newWeapon;
-            newWeapon.OnEquip(this);
+            newWeapon.OnEquip(this,weaponSpawnPoint);
         }
 
         private void UnequipPhysicsWeapon()
@@ -63,7 +65,7 @@ namespace GenBall.Player
             }
             _physicsWeapon.OnUnequip();
             if(_physicsWeapon is not MonoBehaviour monoBehaviour)return;
-            WeaponCreator.RecycleWeapon(monoBehaviour.gameObject);
+            WeaponCreator.RecycleEntity(monoBehaviour.gameObject);
         }
     }
 }
