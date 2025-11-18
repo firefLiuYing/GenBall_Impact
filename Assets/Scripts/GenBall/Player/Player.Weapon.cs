@@ -38,12 +38,12 @@ namespace GenBall.Player
         }
         private void InternalEquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateEntity<TWeapon>();
+            var weapon = WeaponCreator.CreateEntity<TWeapon>(weaponSpawnPoint);
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateEntity<TWeapon>();
+            var weapon = WeaponCreator.CreateEntity<TWeapon>(weaponSpawnPoint);
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon(IWeapon newWeapon)
@@ -54,7 +54,7 @@ namespace GenBall.Player
             }
 
             _physicsWeapon = newWeapon;
-            newWeapon.OnEquip(this,weaponSpawnPoint);
+            newWeapon.OnEquip(this);
         }
 
         private void UnequipPhysicsWeapon()

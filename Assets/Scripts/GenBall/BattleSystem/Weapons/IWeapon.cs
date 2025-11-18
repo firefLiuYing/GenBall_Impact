@@ -8,7 +8,7 @@ namespace GenBall.BattleSystem.Weapons
     {
         public IAttacker Owner { get; }
         public void Trigger(ButtonState triggerState);
-        public void OnEquip(IAttacker owner,Transform parent);
+        public void OnEquip(IAttacker owner);
         public void OnUnequip();
     }
 }

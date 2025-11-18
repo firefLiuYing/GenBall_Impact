@@ -33,12 +33,12 @@ namespace GenBall.BattleSystem.Weapons
             }
         }
 
-        public void OnEquip(IAttacker owner, Transform parent)
+        public void OnEquip(IAttacker owner)
         {
             Owner = owner;
             _countdownTime = countdownTime;
             _timer = 0f;
-            transform.SetParent(parent);
+            // transform.SetParent(parent);
             transform.localPosition = Vector3.zero;
             gameObject.SetActive(true);
         }
