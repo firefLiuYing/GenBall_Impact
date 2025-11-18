@@ -8,6 +8,9 @@ namespace GenBall.BattleSystem.Bullets
         public IWeapon Source { get;private set; }
         
         [SerializeField]private float bulletSpeed;
+        [SerializeField]private LayerMask targetLayer;
+        [SerializeField] private float lifeTime;
+        private BulletCreator BulletCreator => GameEntry.GetModule<BulletCreator>();
 
         private Vector3 _spawnPoint;
         private Vector3 _direction;
@@ -16,8 +19,10 @@ namespace GenBall.BattleSystem.Bullets
         private Vector3 _controlPoint;
         private float _process;
         private float _predictDistance;
+        private float _curLifeTime;
         
         private bool _fired = false;
+        private bool _hit=false;
         public void Fire(IWeapon source, Vector3 spawnPoint,Vector3 direction)
         {
             if(_fired) return;
@@ -36,6 +41,7 @@ namespace GenBall.BattleSystem.Bullets
                 _logicSource=_logicSource+_direction*10000;
             }
             _fired=true;
+            _hit = false;
             _process = 0f;
             _predictDistance=Vector3.Distance(_logicSource, _logicTarget);
             _controlPoint=GetControlPosition(_logicSource, _spawnPoint, _logicTarget);
@@ -48,11 +54,13 @@ namespace GenBall.BattleSystem.Bullets
             _fired=false;
             _process = 0f;
             _predictDistance = 0f;
+            _curLifeTime = 0f;
         }
 
         public void BulletUpdate(float deltaTime)
         {
             if(!_fired) return;
+            if(_hit)  return;
             
             // 视觉表现
             _process+=deltaTime*bulletSpeed;
@@ -69,7 +77,27 @@ namespace GenBall.BattleSystem.Bullets
 
         public void BulletFixedUpdate(float fixedDeltaTime)
         {
-            
+            // 逻辑命中判断
+            _curLifeTime+=fixedDeltaTime;
+            if (_curLifeTime >= lifeTime)
+            {
+                BulletCreator.RecycleBullet(gameObject);
+                return;
+            }
+            var ray=new Ray(_logicSource+_process*_direction,_direction);
+            Physics.Raycast(ray,out var hitInfo,bulletSpeed*fixedDeltaTime,targetLayer);
+            if (hitInfo.collider == null) return;
+            _hit=true;
+            var attackables = hitInfo.collider.GetComponentsInParent<IAttackable>();
+            var attackInfo = new AttackInfo
+            {
+                Attacker = Source.Owner,
+            };
+            foreach (var attackable in attackables)
+            {
+                attackable.OnAttacked(attackInfo);
+            }
+            BulletCreator.RecycleBullet(gameObject);
         }
 
         private static Vector3 Bezier(float t, Vector3 p0, Vector3 p1, Vector3 p2)
