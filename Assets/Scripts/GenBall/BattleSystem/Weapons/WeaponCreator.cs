@@ -27,7 +27,7 @@ namespace GenBall.BattleSystem.Weapons
             var weaponObject=_weaponPool.Spawn($"{typeNamePair}");
             if (weaponObject != null)
             {
-                return (IWeapon)weaponObject.Target;
+                return ((GameObject)weaponObject.Target).GetComponent<IWeapon>();
             }
             if (!_weaponMap.TryGetValue(typeNamePair, out var prefabPath))
             {

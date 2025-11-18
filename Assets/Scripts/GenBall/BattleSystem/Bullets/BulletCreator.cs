@@ -44,7 +44,7 @@ namespace GenBall.BattleSystem.Bullets
             IBullet bullet;
             if (bulletObject != null)
             {
-                bullet = (IBullet)bulletObject.Target;
+                bullet = ((GameObject)bulletObject.Target).GetComponent<IBullet>();
                 _bullets.Add(bullet);
                 return bullet;
             }
