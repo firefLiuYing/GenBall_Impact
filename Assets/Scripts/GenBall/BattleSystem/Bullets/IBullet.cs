@@ -8,6 +8,6 @@ namespace GenBall.BattleSystem.Bullets
         public IWeapon Source { get; }
         public void Fire(IWeapon source, Vector3 spawnPoint);
         public void OnRecycle();
-        public void BulletUpdate(float deltaTime);
+        public void BulletUpdate(float fixedDeltaTime);
     }
 }
