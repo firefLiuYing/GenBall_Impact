@@ -57,7 +57,7 @@ namespace GenBall.BattleSystem.Weapons
         {
             _timer = 0f;
             var bullet=BulletCreator.CreateBullet<DefaultBullet>();
-            bullet.Fire(this,bulletSpawnPoint.position);
+            bullet.Fire(this,bulletSpawnPoint.position,Camera.main.transform.forward.normalized);
         }
     }
 }
