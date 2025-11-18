@@ -89,7 +89,6 @@ namespace GenBall.Player
         private void OnGroundChange(bool onGround)
         {
             if(onGround) return;
-            _jumpInput.SetValue(false);
             _fsm.ChangeState<PlayerJumpState>();
         }
 
