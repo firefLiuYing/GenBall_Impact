@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47909cfa292ff7448b6418bc1466601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpawnPoint: {fileID: 0}
+  bulletSpawnPoint: {fileID: 9068510551126640774}
+  countdownTime: 0.1
 --- !u!1 &6876086586397505187
 GameObject:
   m_ObjectHideFlags: 0
