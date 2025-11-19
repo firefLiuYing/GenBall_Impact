@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using Yueyn.Base.ReferencePool;
 
 namespace GenBall.UI
 {
@@ -8,8 +10,35 @@ namespace GenBall.UI
     public abstract class FormBase : MonoBehaviour, IUserInterface
     {
         private Canvas _canvas;
+        public bool IsTop { get;private set; }
         public Canvas Canvas=> _canvas ??= GetComponent<Canvas>();
         private readonly List<ItemBase> _items = new();
+        private readonly Dictionary<Type,VmBase> _vmMap = new();
+
+        public void CloseSelf()
+        {
+            if (!IsTop)
+            {
+                throw new Exception("只能关闭最顶层界面");
+            }
+            GameEntry.GetModule<UIManager>().CloseTopForm();
+        }
+        public TVm GetVm<TVm>() where TVm : VmBase =>(TVm)GetVm(typeof(TVm));
+        private VmBase GetVm([NotNull] Type type)
+        {
+            if (!typeof(VmBase).IsAssignableFrom(type))
+            {
+                throw new Exception("VmBase must derived from VmBase");
+            }
+
+            if (_vmMap.TryGetValue(type, out VmBase vm))
+            {
+                return vm;
+            }
+            vm=ReferencePool.Acquire(type) as VmBase;
+            _vmMap.Add(type, vm);
+            return vm;
+        }
 
         private void GetAndAddItems(Transform trans)
         {
@@ -63,6 +92,11 @@ namespace GenBall.UI
                 item.Close(args);
             }
             OnClose(args);
+            foreach (var vm in _vmMap.Values)
+            {
+                ReferencePool.Release(vm);
+            }
+            _vmMap.Clear();
         }
 
         protected virtual void OnClose(object args = null)
@@ -72,6 +106,7 @@ namespace GenBall.UI
 
         public void Unfocus()
         {
+            IsTop = false;
             foreach (var item in _items)
             {
                 item.Unfocus();
@@ -86,6 +121,7 @@ namespace GenBall.UI
 
         public void Focus()
         {
+            IsTop = true;
             foreach (var item in _items)
             {
                 item.Focus();

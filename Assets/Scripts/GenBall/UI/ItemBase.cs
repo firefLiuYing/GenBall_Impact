@@ -9,6 +9,7 @@ namespace GenBall.UI
         private readonly List<ItemBase> _childrenItems = new();
         public FormBase Form;
 
+        public TVm GetVm<TVm>() where TVm :VmBase  => Form.GetVm<TVm>();
         private void GetAndAddChild(Transform trans)
         {
             if (trans.TryGetComponent<ItemBase>(out var item))
