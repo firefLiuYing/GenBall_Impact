@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GenBall.UI
@@ -7,10 +9,112 @@ namespace GenBall.UI
     {
         private Canvas _canvas;
         public Canvas Canvas=> _canvas ??= GetComponent<Canvas>();
-        public virtual void OnInit(object args = null)
+        private readonly List<ItemBase> _items = new();
+
+        public void SetItems([NotNull] List<ItemBase> items)
+        {
+            items.Clear();
+            _items.AddRange(items);
+        }
+        public void Init(object args = null)
+        {
+            foreach (var item in _items)
+            {
+                item.Init(this,args);
+            }
+            OnInit();
+        }
+
+        protected virtual void OnInit(object args = null)
         {
             
         }
+
+        
+
+
+        public void Open(object args = null)
+        {
+            foreach (var item in _items)
+            {
+                item.Open(args);
+            }
+            OnOpen(args);
+        }
+
+        protected virtual void OnOpen(object args = null)
+        {
+            
+        }
+
+        public void Close(object args = null)
+        {
+            foreach (var item in _items)
+            {
+                item.Close(args);
+            }
+            OnClose(args);
+        }
+
+        protected virtual void OnClose(object args = null)
+        {
+            
+        }
+
+        public void Unfocus()
+        {
+            foreach (var item in _items)
+            {
+                item.Unfocus();
+            }
+            OnUnfocus();
+        }
+
+        protected virtual void OnUnfocus()
+        {
+            
+        }
+
+        public void Focus()
+        {
+            foreach (var item in _items)
+            {
+                item.Focus();
+            }
+        }
+
+        protected virtual void OnFocus()
+        {
+            
+        }
+
+        public void Pause(object args = null)
+        {
+            foreach (var item in _items)
+            {
+                item.Pause(args);
+            }
+            OnPause(args);
+        }
+
+        protected virtual void OnPause(object args = null)
+        {
+            
+        }
+        public void Resume(object args = null)
+        {
+            foreach (var item in _items)
+            {
+                item.Resume(args);
+            }
+            OnResume(args);
+        }
+
+        protected virtual void OnResume(object args = null)
+        {
+            
+        }
+
         public virtual void EntityUpdate(float deltaTime)
         {
             
@@ -20,42 +124,9 @@ namespace GenBall.UI
         {
             
         }
-
         public virtual void OnRecycle()
         {
             
         }
-
-
-        public virtual void OnOpen(object args = null)
-        {
-            
-        }
-
-        public virtual void OnClose(object args = null)
-        {
-            
-        }
-
-        public virtual void OnUnfocus()
-        {
-            
-        }
-
-        public virtual void OnFocus()
-        {
-            
-        }
-
-        public virtual void OnPause(object args = null)
-        {
-            
-        }
-
-        public virtual void OnResume(object args = null)
-        {
-            
-        }
-
     }
 }

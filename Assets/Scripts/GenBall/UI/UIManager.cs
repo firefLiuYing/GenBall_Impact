@@ -23,8 +23,8 @@ namespace GenBall.UI
             }
 
             var topForm = _activeUI.Pop();
-            topForm.OnUnfocus();
-            topForm.OnClose(args);
+            topForm.Unfocus();
+            topForm.Close(args);
             if (topForm is MonoBehaviour monoBehaviour)
             {
                 UiCreator.RecycleEntity(monoBehaviour.gameObject);
@@ -41,29 +41,29 @@ namespace GenBall.UI
         {
             if (_activeUI.Count > 0)
             {
-                _activeUI.Peek().OnUnfocus();
+                _activeUI.Peek().Unfocus();
             }
             var uiForm = UiCreator.CreateEntity<TUiForm>(uiRoot);
-            uiForm.OnInit(args);
+            uiForm.Init(args);
             _activeUI.Push(uiForm);
             uiForm.Canvas.sortingOrder=orderInterval*_activeUI.Count;
-            uiForm.OnOpen(args);
+            uiForm.Open(args);
             uiForm.gameObject.SetActive(true);
-            uiForm.OnFocus();
+            uiForm.Focus();
         }
         private void InternalOpenForm<TUiForm>(string name,object args=null) where TUiForm :MonoBehaviour, IUserInterface
         {
             if (_activeUI.Count > 0)
             {
-                _activeUI.Peek().OnUnfocus();
+                _activeUI.Peek().Unfocus();
             }
             var uiForm = UiCreator.CreateEntity<TUiForm>(name,uiRoot);
-            uiForm.OnInit(args);
+            uiForm.Init(args);
             _activeUI.Push(uiForm);
             uiForm.Canvas.sortingOrder=orderInterval*_activeUI.Count;
-            uiForm.OnOpen(args);
+            uiForm.Open(args);
             uiForm.gameObject.SetActive(true);
-            uiForm.OnFocus();
+            uiForm.Focus();
         }
         #endregion
 

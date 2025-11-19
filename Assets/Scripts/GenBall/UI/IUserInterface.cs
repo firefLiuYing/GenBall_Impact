@@ -5,13 +5,13 @@ namespace GenBall.UI
 {
     public interface IUserInterface : IEntity
     {
-        public void OnInit(object args=null);
-        public void OnOpen(object args=null);
-        public void OnClose(object args=null);
-        public void OnUnfocus();
-        public void OnFocus();
-        public void OnPause(object args=null);
-        public void OnResume(object args=null);
+        public void Init(object args=null);
+        public void Open(object args=null);
+        public void Close(object args=null);
+        public void Unfocus();
+        public void Focus();
+        public void Pause(object args=null);
+        public void Resume(object args=null);
         public Canvas Canvas { get;}
     }
 }
