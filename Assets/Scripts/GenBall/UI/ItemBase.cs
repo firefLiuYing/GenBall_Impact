@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace GenBall.UI
 {
-    public abstract class ItemBase
+    public abstract class ItemBase:MonoBehaviour
     {
         private readonly List<ItemBase> _childrenItems = new();
         public FormBase Form;
