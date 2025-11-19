@@ -11,13 +11,22 @@ namespace GenBall.UI
         public Canvas Canvas=> _canvas ??= GetComponent<Canvas>();
         private readonly List<ItemBase> _items = new();
 
-        public void SetItems([NotNull] List<ItemBase> items)
+        private void GetAndAddItems(Transform trans)
         {
-            items.Clear();
-            _items.AddRange(items);
+            if (trans.TryGetComponent<ItemBase>(out var item))
+            {
+                _items.Add(item);
+                return;
+            }
+
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                GetAndAddItems(trans.GetChild(i));
+            }
         }
         public void Init(object args = null)
         {
+            GetAndAddItems(transform);
             foreach (var item in _items)
             {
                 item.Init(this,args);

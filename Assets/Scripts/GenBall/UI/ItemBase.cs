@@ -9,15 +9,27 @@ namespace GenBall.UI
         private readonly List<ItemBase> _childrenItems = new();
         public FormBase Form;
 
-        public void SetChildrenItems([NotNull] List<ItemBase> items)
+        private void GetAndAddChild(Transform trans)
         {
-            _childrenItems.Clear();
-            _childrenItems.AddRange(items);
-        }
+            if (trans.TryGetComponent<ItemBase>(out var item))
+            {
+                _childrenItems.Add(item);
+                return;
+            }
 
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                GetAndAddChild(trans.GetChild(i));
+            }
+        }
         public void Init([NotNull] FormBase form ,object args = null)
         {
             Form = form;
+            // 跳过自己以免递归终止
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                GetAndAddChild(transform.GetChild(i));
+            }
             foreach (var child in _childrenItems)
             {
                 child.Init(form, args);
