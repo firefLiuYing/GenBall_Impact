@@ -19,7 +19,7 @@ namespace GenBall
         {
             RegisterModules();
             RegisterEntityPrefabs();
-            // todo 暂时这么写，后续改成流程控制里面可以控制1，按Alt键显示鼠标
+            // todo gzp 暂时这么写，后续改成流程控制里面可以控制1，按Alt键显示鼠标
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }

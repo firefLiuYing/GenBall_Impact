@@ -11,7 +11,7 @@ namespace GenBall
             var enemyCreator = GetModule<EntityCreator<IEnemy>>();
             enemyCreator.AddPrefab<DefaultEnemy>("Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/Prefab/DefaultEnemy.prefab");
 
-            // todo 测试代码，记得删除
+            // todo gzp 测试代码，记得删除
             enemyCreator.CreateEntity<DefaultEnemy>(new Vector3(5,5,3),Quaternion.identity).Initialize();
         }
     }

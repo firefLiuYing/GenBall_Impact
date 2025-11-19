@@ -1,6 +1,7 @@
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
+using GenBall.UI;
 using GenBall.Utils.EntityCreator;
 using Yueyn.Event;
 using Yueyn.Fsm;
@@ -17,6 +18,11 @@ namespace GenBall
             RegisterBullets();
             RegisterWeapons();
             RegisterEnemys();
+            RegisterUIs();
+            
+            
+            // todo gzp ≤‚ ‘¥˙¬Îº«µ√…æ
+            GetModule<UIManager>().OpenForm<MainHud>();
         }
         private void RegisterModules()
         {
@@ -27,6 +33,10 @@ namespace GenBall
             Entry.Register(new EntityCreator<IBullet>());
             Entry.Register(new EntityCreator<IWeapon>());
             Entry.Register(new EntityCreator<IEnemy>());
+            Entry.Register(new EntityCreator<IUserInterface>());
+            
+            Entry.Register(GetComponentInChildren<UIManager>());
+            
         }
     }
 }
