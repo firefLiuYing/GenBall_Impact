@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons;
+using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
@@ -10,10 +11,26 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
-    public partial class Player:MonoBehaviour
+    public partial class Player:MonoBehaviour,IEntity
     {
-        private void Awake()
+        [SerializeField]private Transform mainCameraTransform;
+
+        private void SetCamera()
         {
+            if (mainCameraTransform == null)
+            {
+                throw new Exception("Main Camera Transform √ª≈‰÷√");
+            }
+            var camTrans=Camera.main.transform;
+            camTrans.SetParent(mainCameraTransform,false);
+            camTrans.localPosition = Vector3.zero;
+            camTrans.localRotation = Quaternion.identity;
+        }
+      
+        public void Initialize()
+        {
+            gameObject.SetActive(true);
+            SetCamera();
             InitPhysics();
             InitFsm();
             InitCountdown();
@@ -21,15 +38,12 @@ namespace GenBall.Player
             StartFsm();
             EquipPhysicsWeapon<DefaultWeapon>();
         }
-
-        private void Update()
+        public void EntityUpdate(float deltaTime)
         {
-            float deltaTime = Time.deltaTime;
             CountdownUpdate(deltaTime);
-            // WeaponsUpdate(deltaTime);
         }
 
-        private void FixedUpdate()
+        public void EntityFixedUpdate(float fixedDeltaTime)
         {
             PhysicsUpdate();
         }
@@ -40,6 +54,11 @@ namespace GenBall.Player
             
             _fsm.GetData<Variable<Vector3>>("Velocity").Observe(OnVelocityChange);
             _fsm.GetData<Variable<Quaternion>>("ViewRotation").Observe(OnViewRotationChange);
+        }
+
+        public void OnRecycle()
+        {
+            
         }
     }
 }

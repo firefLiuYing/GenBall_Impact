@@ -12,7 +12,7 @@ namespace GenBall
             enemyCreator.AddPrefab<DefaultEnemy>("Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/Prefab/DefaultEnemy.prefab");
 
             // todo gzp ²âÊÔ´úÂë£¬¼ÇµÃÉ¾³ı
-            enemyCreator.CreateEntity<DefaultEnemy>(new Vector3(5,5,3),Quaternion.identity).Initialize();
+            // enemyCreator.CreateEntity<DefaultEnemy>(new Vector3(5,5,3),Quaternion.identity).Initialize();
         }
     }
 }

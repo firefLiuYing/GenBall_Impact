@@ -53,6 +53,6 @@ namespace GenBall.Player
         }
         private void OnVelocityChange(Vector3 velocity)=>_rigidbody.velocity=velocity;
 
-        private void OnViewRotationChange(Quaternion viewRotation)=>Camera.main.transform.rotation=viewRotation;
+        private void OnViewRotationChange(Quaternion viewRotation)=>mainCameraTransform.rotation=viewRotation;
     }
 }

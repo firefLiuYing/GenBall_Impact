@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
 using GenBall.UI;
 using GenBall.Utils.EntityCreator;
+using GenBall.Player;
 using Yueyn.Event;
 using Yueyn.Fsm;
 using Yueyn.Main.Entry;
@@ -22,7 +23,7 @@ namespace GenBall
             
             
             // todo gzp ≤‚ ‘¥˙¬Îº«µ√…æ
-            GetModule<UIManager>().OpenForm<MainHud>();
+            // GetModule<UIManager>().OpenForm<MainHud>();
         }
         private void RegisterModules()
         {
@@ -34,8 +35,10 @@ namespace GenBall
             Entry.Register(new EntityCreator<IWeapon>());
             Entry.Register(new EntityCreator<IEnemy>());
             Entry.Register(new EntityCreator<IUserInterface>());
+            Entry.Register(new EntityCreator<Player.Player>());
             
             Entry.Register(GetComponentInChildren<UIManager>());
+            Entry.Register(GetComponentInChildren<PlayerManager>());
             
         }
     }
