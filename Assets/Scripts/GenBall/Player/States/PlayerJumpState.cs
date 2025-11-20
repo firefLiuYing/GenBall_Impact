@@ -86,7 +86,7 @@ namespace GenBall.Player
             _releaseJumpButtonTime = 0f;
         }
 
-        public override void OnAttacked(AttackInfo attackInfo)
+        public override void OnAttacked(AttackArgs attackArgs)
         {
             
         }

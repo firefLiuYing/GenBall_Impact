@@ -9,10 +9,10 @@ namespace GenBall.Enemy
         {
             gameObject.SetActive(true);
         }
-        public void OnAttacked(AttackInfo attackInfo)
-        {
-            Debug.Log($"我被打了，是{attackInfo.Attacker}干的");
-        }
+        // public void OnAttacked(AttackInfo attackInfo)
+        // {
+        //     Debug.Log($"我被打了，是{attackInfo.Attacker}干的");
+        // }
 
         public void EntityUpdate(float deltaTime)
         {
@@ -29,5 +29,10 @@ namespace GenBall.Enemy
             
         }
 
+        public void Handle(IInteractToken stimulus, out IInteractToken response)
+        {
+            // todo gzp 补充完整
+            response = null;
+        }
     }
 }

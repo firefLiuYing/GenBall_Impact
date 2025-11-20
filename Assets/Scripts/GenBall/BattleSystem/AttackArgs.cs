@@ -2,8 +2,8 @@ using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem
 {
-    public struct AttackInfo
+    public struct AttackArgs
     {
-        public IAttacker Attacker;
+        // public IAttacker Attacker;
     }
 }

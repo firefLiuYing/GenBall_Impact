@@ -5,6 +5,6 @@ namespace GenBall.Player
 {
     public abstract class PlayerStateBase : FsmState<Player>
     {
-        public abstract void OnAttacked(AttackInfo attackInfo);
+        public abstract void OnAttacked(AttackArgs attackArgs);
     }
 }

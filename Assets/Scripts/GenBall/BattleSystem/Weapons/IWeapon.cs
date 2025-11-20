@@ -6,9 +6,9 @@ namespace GenBall.BattleSystem.Weapons
 {
     public interface IWeapon:IEntity
     {
-        public IAttacker Owner { get; }
+        public IInteractable Owner { get; }
         public void Trigger(ButtonState triggerState);
-        public void OnEquip(IAttacker owner);
+        public void OnEquip(IInteractable owner);
         public void OnUnequip();
     }
 }

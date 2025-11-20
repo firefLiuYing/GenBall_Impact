@@ -49,7 +49,7 @@ namespace GenBall.Player
             UnregisterEvents();   
         }
         
-        public override void OnAttacked(AttackInfo attackInfo)
+        public override void OnAttacked(AttackArgs attackArgs)
         {
             Debug.Log("Player: 我挨打了，我还没写挨打");
         }

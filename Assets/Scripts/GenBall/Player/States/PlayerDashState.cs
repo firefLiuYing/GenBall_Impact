@@ -76,7 +76,7 @@ namespace GenBall.Player
             }
         }
 
-        public override void OnAttacked(AttackInfo attackInfo)
+        public override void OnAttacked(AttackArgs attackArgs)
         {
             
         }
