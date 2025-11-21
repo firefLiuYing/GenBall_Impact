@@ -211,8 +211,21 @@ namespace Yueyn.Fsm
         public void Update(float elapsedTime, float realElapseTime)
         {
             if(_currentState==null) return;
+            if(IsPause) return;
             _currentStateTime += elapsedTime;
             _currentState.OnUpdate(this, elapsedTime, realElapseTime);
+        }
+
+        public void FixedUpdate(float fixedDeltaTime)
+        {
+            if(_currentState==null) return;
+            if(IsPause) return;
+            _currentState.OnFixedUpdate(this,fixedDeltaTime);
+        }
+        public bool IsPause { get;private set; }
+        public void SetPause(bool paused)
+        {
+            IsPause = paused;
         }
         public void Shutdown()=>ReferencePool.Release(this);
 

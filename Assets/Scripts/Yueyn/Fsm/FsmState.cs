@@ -24,6 +24,11 @@ namespace Yueyn.Fsm
         {
             
         }
+
+        protected internal virtual void OnFixedUpdate(Fsm<T> fsm, float fixeDeltaTime)
+        {
+            
+        }
         protected internal virtual void OnDestroy(Fsm<T> fsm)
         {
             

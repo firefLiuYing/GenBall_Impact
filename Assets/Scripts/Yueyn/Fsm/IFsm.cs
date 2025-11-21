@@ -11,6 +11,8 @@ namespace Yueyn.Fsm
         public bool IsDestroyed { get; }
         public float CurrentStateTime { get; }
         public void Update(float elapsedTime, float realElapsedTime);
+        public void FixedUpdate(float fixedDeltaTime);
+        public void SetPause(bool paused);
         public void Shutdown();
     }
 }

@@ -35,7 +35,14 @@ namespace Yueyn.Fsm
 
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            
+            _tempFsms.Clear();
+            if(_fsms.Count<=0) return;
+            _tempFsms.AddRange(_fsms.Values);
+            foreach (var fsm in _tempFsms)
+            {
+                if(fsm.IsDestroyed) continue;
+                fsm.FixedUpdate(fixedDeltaTime);
+            }
         }
 
         public void Shutdown()
