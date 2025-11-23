@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
 using Yueyn.Utils;
@@ -242,6 +243,7 @@ namespace Yueyn.Fsm
             {
                 throw new Exception($"state:{stateType} is not exist");
             }
+            Debug.Log($"{FullName}: {_currentState.GetType().Name} => {state.GetType().Name}");
             _currentState.OnExit(this);
             _currentStateTime = 0f;
             _currentState = state;
