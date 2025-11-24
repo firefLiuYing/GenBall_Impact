@@ -22,6 +22,7 @@ namespace GenBall.BattleSystem.Bullets
         private float _process;
         private float _predictDistance;
         private float _curLifeTime;
+        private bool _needBezier;
         
         private bool _fired = false;
         private bool _hit=false;
@@ -47,6 +48,7 @@ namespace GenBall.BattleSystem.Bullets
             _process = 0f;
             _predictDistance=Vector3.Distance(_logicSource, _logicTarget);
             _controlPoint=GetControlPosition(_logicSource, _spawnPoint, _logicTarget);
+            _needBezier=NeedBezier(_logicSource,_spawnPoint,_logicTarget);
             
             gameObject.SetActive(true);
         }
@@ -67,9 +69,13 @@ namespace GenBall.BattleSystem.Bullets
             // йс╬У╠Мож
             _process+=deltaTime*bulletSpeed;
             float process=_process/_predictDistance;
-            if (process <= 1f)
+            if (process <= 1f&&_needBezier)
             {
                 transform.position = Bezier(process, _spawnPoint, _controlPoint, _logicTarget);
+            }
+            else if(process<=1f)
+            {
+                transform.position = Vector3.Lerp(_spawnPoint, _logicTarget, process);
             }
             else
             {
@@ -124,6 +130,19 @@ namespace GenBall.BattleSystem.Bullets
             float delta = offset * Mathf.Cos(alpha*Mathf.Deg2Rad);
             distance-=2*delta;
             return spawnPos + distance * distanceLine.normalized;
+        }
+
+        private bool NeedBezier(Vector3 logicSource, Vector3 spawnPos, Vector3 logicTarget)
+        {
+            Vector3 distanceLine=logicTarget - logicSource;
+            Vector3 offsetLine=spawnPos - logicSource;
+            float alpha=Vector3.Angle(distanceLine,offsetLine);
+            float distance=distanceLine.magnitude;
+            float offset = offsetLine.magnitude;
+        
+            float delta = offset * Mathf.Cos(alpha*Mathf.Deg2Rad);
+            distance-=2*delta;
+            return distance > 0;
         }
     }
 }
