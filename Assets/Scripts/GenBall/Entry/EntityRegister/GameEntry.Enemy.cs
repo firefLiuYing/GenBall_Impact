@@ -1,4 +1,5 @@
 using GenBall.Enemy;
+using GenBall.Enemy.NormalOrbis;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
@@ -10,9 +11,7 @@ namespace GenBall
         {
             var enemyCreator = GetModule<EntityCreator<IEnemy>>();
             enemyCreator.AddPrefab<DefaultEnemy>("Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/Prefab/DefaultEnemy.prefab");
-
-            // todo gzp ²âÊÔ´úÂë£¬¼ÇµÃÉ¾³ý
-            // enemyCreator.CreateEntity<DefaultEnemy>(new Vector3(5,5,3),Quaternion.identity).Initialize();
+            enemyCreator.AddPrefab<NormalOrbis>("Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab");
         }
     }
 }

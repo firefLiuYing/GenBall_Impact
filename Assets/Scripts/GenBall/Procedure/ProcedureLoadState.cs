@@ -1,5 +1,9 @@
+using GenBall.Enemy;
+using GenBall.Enemy.NormalOrbis;
 using GenBall.Player;
 using GenBall.UI;
+using GenBall.Utils.EntityCreator;
+using UnityEngine;
 using Yueyn.Fsm;
 
 namespace GenBall.Procedure
@@ -10,6 +14,7 @@ namespace GenBall.Procedure
         {
             LoadMainHud();
             LoadPlayer();
+            LoadEnemy();
         }
 
         private void LoadPlayer()
@@ -20,6 +25,14 @@ namespace GenBall.Procedure
         private void LoadMainHud()
         {
             GameEntry.GetModule<UIManager>().OpenForm<MainHud>();
+        }
+
+        private void LoadEnemy()
+        {
+            var enemyCreator= GameEntry.GetModule<EntityCreator<IEnemy>>();
+            var orbis= enemyCreator.CreateEntity<NormalOrbis>(Vector3.up, Quaternion.identity);
+            orbis.Initialize();
+            
         }
     }
 }
