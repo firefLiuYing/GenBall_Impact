@@ -1,4 +1,3 @@
-using System;
 using GenBall.BattleSystem;
 using UnityEngine;
 using Yueyn.Base.Variable;
@@ -77,10 +76,9 @@ namespace GenBall.Player
             }
         }
 
-        public override void OnInteract(IInteractToken interactToken,out IInteractToken[] responses)
+        public override void OnAttacked(AttackArgs attackArgs)
         {
-            responses = Array.Empty<IInteractToken>();
-            Debug.Log("Player: 我挨打了，我还没写挨打");
+            
         }
         
 
