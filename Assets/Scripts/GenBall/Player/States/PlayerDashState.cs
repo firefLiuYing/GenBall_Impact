@@ -77,11 +77,11 @@ namespace GenBall.Player
             }
         }
 
-        public override void OnInteract(IInteractToken interactToken,out IInteractToken[] responses)
-        {
-            responses = Array.Empty<IInteractToken>();
-            Debug.Log("Player: 我挨打了，我还没写挨打");
-        }
+        // public override void OnInteract(IInteractToken interactToken,out IInteractToken[] responses)
+        // {
+        //     responses = Array.Empty<IInteractToken>();
+        //     Debug.Log("Player: 我挨打了，我还没写挨打");
+        // }
         
 
         // 提前计算一下冲刺方向免得重复计算

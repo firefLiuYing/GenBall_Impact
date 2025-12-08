@@ -1,5 +1,4 @@
 using GenBall.Enemy;
-using GenBall.Enemy.NormalOrbis;
 using GenBall.Player;
 using GenBall.UI;
 using GenBall.Utils.EntityCreator;
@@ -30,8 +29,8 @@ namespace GenBall.Procedure
         private void LoadEnemy()
         {
             var enemyCreator= GameEntry.GetModule<EntityCreator<IEnemy>>();
-            var orbis= enemyCreator.CreateEntity<NormalOrbis>(Vector3.up, Quaternion.identity);
-            orbis.Initialize();
+            // var orbis= enemyCreator.CreateEntity<NormalOrbis>(Vector3.up, Quaternion.identity);
+            // orbis.Initialize();
             
         }
     }

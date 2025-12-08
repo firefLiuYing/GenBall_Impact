@@ -97,22 +97,22 @@ namespace GenBall.BattleSystem.Bullets
             Physics.Raycast(ray,out var hitInfo,bulletSpeed*fixedDeltaTime,targetLayer);
             if (hitInfo.collider == null) return;
             _hit=true;
-            var interactables = hitInfo.collider.GetComponentsInParent<IInteractable>();
+            // var interactables = hitInfo.collider.GetComponentsInParent<IInteractable>();
             // todo gzp 等攻击参数补充完整后记得来完善
-            var attackInfo = new AttackArgs
-            {
-                
-            };
-            var attackToken = DefaultAttackToken.Create(Source.Owner, attackInfo);
-            foreach (var interactable in interactables)
-            {
-                // attackable.OnAttacked(attackInfo);
-                interactable.Handle(attackToken,out var attackResponses);
-                for (int i = 0; i < attackResponses.Length; i++)
-                {
-                    Source.Owner.Handle(attackResponses[i],out _);
-                }
-            }
+            // var attackInfo = new AttackArgs
+            // {
+            //     
+            // };
+            // var attackToken = DefaultAttackToken.Create(Source.Owner, attackInfo);
+            // foreach (var interactable in interactables)
+            // {
+            //     // attackable.OnAttacked(attackInfo);
+            //     // interactable.Handle(attackToken,out var attackResponses);
+            //     for (int i = 0; i < attackResponses.Length; i++)
+            //     {
+            //         Source.Owner.Handle(attackResponses[i],out _);
+            //     }
+            // }
             // BulletCreator.RecycleBullet(gameObject);
             BulletCreator.RecycleEntity(gameObject);
         }

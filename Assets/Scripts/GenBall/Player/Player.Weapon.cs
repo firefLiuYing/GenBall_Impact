@@ -7,7 +7,7 @@ using Yueyn.Resource;
 
 namespace GenBall.Player
 {
-    public partial class Player:IInteractable
+    public partial class Player:IAttacker
     {
         // private WeaponCreator WeaponCreator => GameEntry.GetModule<WeaponCreator>();
         private EntityCreator<IWeapon> WeaponCreator => GameEntry.GetModule<EntityCreator<IWeapon>>();
@@ -68,11 +68,11 @@ namespace GenBall.Player
             WeaponCreator.RecycleEntity(monoBehaviour.gameObject);
         }
 
-        public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
-        {
-            // todo gzp 完善反射机制
-            // responses=NoResponseToken.Create(this);
-            responses = Array.Empty<IInteractToken>();
-        }
+        // public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
+        // {
+        //     // todo gzp 完善反射机制
+        //     // responses=NoResponseToken.Create(this);
+        //     responses = Array.Empty<IInteractToken>();
+        // }
     }
 }

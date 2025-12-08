@@ -7,7 +7,7 @@ namespace GenBall.BattleSystem.Weapons
 {
     public class DefaultWeapon : MonoBehaviour,IWeapon
     {
-        public IInteractable Owner { get;private set; }
+        public IAttacker Owner { get;private set; }
         [SerializeField] private Transform bulletSpawnPoint;
         // private BulletCreator BulletCreator => GameEntry.GetModule<BulletCreator>();
         private EntityCreator<IBullet> BulletCreator => GameEntry.GetModule<EntityCreator<IBullet>>();
@@ -33,7 +33,7 @@ namespace GenBall.BattleSystem.Weapons
             }
         }
 
-        public void OnEquip(IInteractable owner)
+        public void OnEquip(IAttacker owner)
         {
             Owner = owner;
             _countdownTime = countdownTime;

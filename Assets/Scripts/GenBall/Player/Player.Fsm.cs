@@ -19,7 +19,7 @@ namespace GenBall.Player
 
         private void StartFsm()
         {
-            _fsm.Start<PlayerMoveState>();
+            _fsm.Start<PlayerInitState>();
         }
         private void CreateFsm()
         {
@@ -49,6 +49,7 @@ namespace GenBall.Player
         
         private void RegisterStates()
         {
+            _states.Add(new PlayerInitState());
             _states.Add(new PlayerMoveState());
             _states.Add(new PlayerJumpState());
             _states.Add(new PlayerDashState());

@@ -50,11 +50,11 @@ namespace GenBall.Player
             UnregisterEvents();   
         }
         
-        public override void OnInteract(IInteractToken interactToken,out IInteractToken[] responses)
-        {
-            responses = Array.Empty<IInteractToken>();
-            Debug.Log("Player: 我挨打了，我还没写挨打");
-        }
+        // public override void OnInteract(IInteractToken interactToken,out IInteractToken[] responses)
+        // {
+        //     responses = Array.Empty<IInteractToken>();
+        //     Debug.Log("Player: 我挨打了，我还没写挨打");
+        // }
 
         
         private void RegisterEvents()

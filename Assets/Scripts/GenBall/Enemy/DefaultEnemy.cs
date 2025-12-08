@@ -6,14 +6,16 @@ namespace GenBall.Enemy
 {
     public class DefaultEnemy : MonoBehaviour, IEnemy
     {
+        private IEnemy _enemyImplementation;
+
         public void Initialize()
         {
             gameObject.SetActive(true);
         }
-        // public void OnAttacked(AttackInfo attackInfo)
-        // {
-        //     Debug.Log($"我被打了，是{attackInfo.Attacker}干的");
-        // }
+        public void OnAttacked(AttackInfo attackInfo)
+        {
+            Debug.Log($"我被打了，是{attackInfo.Attacker}干的");
+        }
 
         public void EntityUpdate(float deltaTime)
         {
@@ -30,10 +32,10 @@ namespace GenBall.Enemy
             
         }
 
-        public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
-        {
-            // todo gzp 补充完整
-            responses = Array.Empty<IInteractToken>();
-        }
+        // public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
+        // {
+        //     // todo gzp 补充完整
+        //     responses = Array.Empty<IInteractToken>();
+        // }
     }
 }
