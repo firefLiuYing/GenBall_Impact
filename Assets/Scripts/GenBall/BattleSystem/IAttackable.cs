@@ -1,6 +1,6 @@
 namespace GenBall.BattleSystem
 {
-    public interface IAttackable
+    public interface IAttackable:IHealth
     {
         public void OnAttacked(AttackInfo attackInfo);
     }

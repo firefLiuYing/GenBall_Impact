@@ -6,15 +6,19 @@ namespace GenBall.Enemy
 {
     public class DefaultEnemy : MonoBehaviour, IEnemy
     {
-        private IEnemy _enemyImplementation;
-
+        private int _health;
         public void Initialize()
         {
             gameObject.SetActive(true);
+            _health = 100;
         }
+
+        public int Health { get=>_health;private set=>_health=value; }
+
         public void OnAttacked(AttackInfo attackInfo)
         {
-            Debug.Log($"我被打了，是{attackInfo.Attacker}干的");
+            _health -= attackInfo.Damage;
+            Debug.Log($"我被打了，是{attackInfo.Attacker}干的，扣了{attackInfo.Damage}血,还剩{_health}血");
         }
 
         public void EntityUpdate(float deltaTime)
@@ -31,11 +35,5 @@ namespace GenBall.Enemy
         {
             
         }
-
-        // public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
-        // {
-        //     // todo gzp 补充完整
-        //     responses = Array.Empty<IInteractToken>();
-        // }
     }
 }

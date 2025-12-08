@@ -1,6 +1,7 @@
 using GenBall.BattleSystem.Weapons;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
+using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem.Bullets
 {
@@ -97,23 +98,14 @@ namespace GenBall.BattleSystem.Bullets
             Physics.Raycast(ray,out var hitInfo,bulletSpeed*fixedDeltaTime,targetLayer);
             if (hitInfo.collider == null) return;
             _hit=true;
-            // var interactables = hitInfo.collider.GetComponentsInParent<IInteractable>();
-            // todo gzp 等攻击参数补充完整后记得来完善
-            // var attackInfo = new AttackArgs
-            // {
-            //     
-            // };
-            // var attackToken = DefaultAttackToken.Create(Source.Owner, attackInfo);
-            // foreach (var interactable in interactables)
-            // {
-            //     // attackable.OnAttacked(attackInfo);
-            //     // interactable.Handle(attackToken,out var attackResponses);
-            //     for (int i = 0; i < attackResponses.Length; i++)
-            //     {
-            //         Source.Owner.Handle(attackResponses[i],out _);
-            //     }
-            // }
-            // BulletCreator.RecycleBullet(gameObject);
+            var attackables = hitInfo.collider.GetComponentsInParent<IAttackable>();
+            // todo gzp 伤害和冲击力先瞎填的，后续修改正确
+            var attackInfo = AttackInfo.Create(Source.Owner, 10, _direction.normalized, 1);
+            foreach (var attackable in attackables)
+            {
+                attackable.OnAttacked(attackInfo);
+            }
+            ReferencePool.Release(attackInfo);
             BulletCreator.RecycleEntity(gameObject);
         }
 
