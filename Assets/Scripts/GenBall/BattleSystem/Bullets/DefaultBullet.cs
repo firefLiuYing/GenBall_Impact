@@ -107,11 +107,8 @@ namespace GenBall.BattleSystem.Bullets
             foreach (var interactable in interactables)
             {
                 // attackable.OnAttacked(attackInfo);
-                interactable.Handle(attackToken,out var attackResponses);
-                for (int i = 0; i < attackResponses.Length; i++)
-                {
-                    Source.Owner.Handle(attackResponses[i],out _);
-                }
+                interactable.Handle(attackToken,out var attackResponse);
+                Source.Owner.Handle(attackResponse, out _);
             }
             // BulletCreator.RecycleBullet(gameObject);
             BulletCreator.RecycleEntity(gameObject);

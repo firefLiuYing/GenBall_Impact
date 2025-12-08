@@ -1,4 +1,3 @@
-using System;
 using GenBall.BattleSystem;
 using UnityEngine;
 
@@ -30,10 +29,10 @@ namespace GenBall.Enemy
             
         }
 
-        public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
+        public void Handle(IInteractToken stimulus, out IInteractToken response)
         {
             // todo gzp ≤π≥‰ÕÍ’˚
-            responses = Array.Empty<IInteractToken>();
+            response = null;
         }
     }
 }
