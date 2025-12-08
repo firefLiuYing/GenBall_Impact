@@ -68,10 +68,11 @@ namespace GenBall.Player
             WeaponCreator.RecycleEntity(monoBehaviour.gameObject);
         }
 
-        public void Handle(IInteractToken stimulus, out IInteractToken response)
+        public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
         {
             // todo gzp 完善反射机制
-            response=NoResponseToken.Create(this);
+            // responses=NoResponseToken.Create(this);
+            responses = Array.Empty<IInteractToken>();
         }
     }
 }
