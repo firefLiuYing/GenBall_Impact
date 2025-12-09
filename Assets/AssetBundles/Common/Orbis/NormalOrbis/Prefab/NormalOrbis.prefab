@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 3399637812125424426}
   - component: {fileID: 7564439402863418895}
   - component: {fileID: 5534253656399310168}
+  - component: {fileID: -6660681401967433121}
   m_Layer: 0
   m_Name: NormalOrbis
   m_TagString: Untagged
@@ -165,7 +166,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &7564439402863418895
 MonoBehaviour:
@@ -189,6 +190,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb09d02725faf9642bc612f090475770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6660681401967433121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983499097883007140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7043077b2e27554797319f1ff641264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5483964004250460062
