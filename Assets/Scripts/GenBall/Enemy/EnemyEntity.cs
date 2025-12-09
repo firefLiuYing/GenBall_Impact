@@ -23,6 +23,7 @@ namespace GenBall.Enemy
             throw new Exception($"Module:{type} not found");
         }
         public Player.Player Target { get;private set; }
+        public void SetTarget(Player.Player target)=>Target = target;
         public TModule GetModule<TModule>() where TModule : Module =>(TModule)GetModule(typeof(TModule));
         public void OnAttacked(AttackInfo attackInfo)
         {
