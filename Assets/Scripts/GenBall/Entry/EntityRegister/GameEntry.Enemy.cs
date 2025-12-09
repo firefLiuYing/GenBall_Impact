@@ -10,7 +10,7 @@ namespace GenBall
         {
             var enemyCreator = GetModule<EntityCreator<IEnemy>>();
             enemyCreator.AddPrefab<DefaultEnemy>("Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/Prefab/DefaultEnemy.prefab");
-            // enemyCreator.AddPrefab<NormalOrbis>("Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab");
+            enemyCreator.AddPrefab<EnemyEntity>("NormalOrbis","Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab");
         }
     }
 }
