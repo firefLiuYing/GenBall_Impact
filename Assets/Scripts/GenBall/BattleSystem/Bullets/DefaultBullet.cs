@@ -42,7 +42,7 @@ namespace GenBall.BattleSystem.Bullets
             else
             {
                 // 没检测到目标点就视作10000米后命中
-                _logicSource=_logicSource+_direction*10000;
+                _logicTarget=_logicSource+_direction*10000;
             }
             _fired=true;
             _hit = false;
