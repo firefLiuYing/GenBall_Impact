@@ -13,8 +13,6 @@ namespace GenBall.Enemy
             _health = 100;
         }
 
-        public int Health { get=>_health;private set=>_health=value; }
-
         public void OnAttacked(AttackInfo attackInfo)
         {
             _health -= attackInfo.Damage;
