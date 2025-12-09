@@ -22,6 +22,9 @@ namespace GenBall.Enemy.Fsm.Normal
             _states.Clear();
             _states.Add(new InitState());
             _states.Add(new WanderState());
+            _states.Add(new ChaseState());
+            _states.Add(new BackState());
+            _states.Add(new AttackState());
             
             _fsm = GameEntry.GetModule<FsmManager>().CreateFsm($"Normal_{GetHashCode()}",Owner, _states);
             RegisterFsmDatas();

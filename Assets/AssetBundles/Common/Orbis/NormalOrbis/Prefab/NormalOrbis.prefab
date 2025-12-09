@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wanderDetectRange: 10
   reversoRange: 15
+  attackRange: 3
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
