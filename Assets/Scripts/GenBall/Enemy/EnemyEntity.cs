@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GenBall.Enemy
 {
-    public partial class EnemyEntity : MonoBehaviour,IEnemy
+    public class EnemyEntity : MonoBehaviour,IEnemy
     {
         private readonly List<Module> _moduleMap = new();
         private FsmModule _fsmModule;
@@ -30,16 +30,26 @@ namespace GenBall.Enemy
 
         public void EntityUpdate(float deltaTime)
         {
-            
+            foreach (var module in _moduleMap)
+            {
+                module.ModuleUpdate(deltaTime);
+            }
         }
 
         public void EntityFixedUpdate(float fixedDeltaTime)
         {
-            
+            foreach (var module in _moduleMap)
+            {
+                module.ModuleFixedUpdate(fixedDeltaTime);
+            }
         }
 
         public void OnRecycle()
         {
+            foreach (var module in _moduleMap)
+            {
+                module.OnRecycle();
+            }
             _moduleMap.Clear();
             gameObject.SetActive(false);
         }
