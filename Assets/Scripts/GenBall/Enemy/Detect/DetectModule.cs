@@ -7,5 +7,7 @@ namespace GenBall.Enemy.Detect
     {
         public abstract void Search([NotNull] Action<Player.Player> findCallback);
         public abstract bool InReversoRange();
+        public abstract bool InAttackRange();
+        public abstract float GetTargetDistance();
     }
 }

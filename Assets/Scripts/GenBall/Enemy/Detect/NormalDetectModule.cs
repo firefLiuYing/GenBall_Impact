@@ -7,6 +7,7 @@ namespace GenBall.Enemy.Detect
     {
         [Header("ÓÎµ´Ì½²é·¶Î§")][SerializeField] private float wanderDetectRange;
         [Header("³ðºÞ·¶Î§")][SerializeField] private float reversoRange;
+        [Header("¹¥»÷¾àÀë")] [SerializeField] private float attackRange;
         [Header("Ä¿±ê²ã¼¶")][SerializeField] private LayerMask targetLayer;
         public override void Initialize()
         {
@@ -49,6 +50,19 @@ namespace GenBall.Enemy.Detect
             if (Owner.Target == null) return false;
             var distance = Vector3.Distance(Owner.Target.transform.position, transform.position);
             return distance <= reversoRange;
+        }
+
+        public override bool InAttackRange()
+        {
+            if (Owner.Target == null) return false;
+            var distance = Vector3.Distance(Owner.Target.transform.position, transform.position);
+            return distance <= attackRange;
+        }
+
+        public override float GetTargetDistance()
+        {
+            if (Owner.Target == null) return Mathf.Infinity;
+            return Vector3.Distance(Owner.Target.transform.position, transform.position);
         }
     }
 }
