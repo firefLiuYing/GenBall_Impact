@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 5534253656399310168}
   - component: {fileID: -6660681401967433121}
   - component: {fileID: -3296587925488090829}
+  - component: {fileID: -8197349400533851398}
   m_Layer: 0
   m_Name: NormalOrbis
   m_TagString: Untagged
@@ -221,11 +222,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wanderDetectRange: 10
-  reversoRange: 15
+  hateRange: 15
   attackRange: 3
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &-8197349400533851398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983499097883007140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44be457b8278c6047a88dcf21e8c02ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 5
+  preparationTime: 0.5
+  uppingSpeed: 5
+  dashHeightOffset: 1.5
+  dashSpeed: 15
+  chargingTime: 0.5
 --- !u!1 &5483964004250460062
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,8 @@
 using Yueyn.Fsm;
 
-namespace GenBall.Enemy.Fsm.Normal
+namespace GenBall.Enemy.Fsm.Melee
 {
-    public class InitState : BaseState
+    public class BackState : BaseState
     {
         protected internal override void OnUpdate(Fsm<EnemyEntity> fsm, float elapsedTime, float realElapseTime)
         {

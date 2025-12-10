@@ -1,24 +1,33 @@
+using GenBall.Enemy.Attack;
 using GenBall.Enemy.Detect;
 using Yueyn.Fsm;
 
-namespace GenBall.Enemy.Fsm.Normal
+namespace GenBall.Enemy.Fsm.Melee
 {
     public class AttackState : BaseState
     {
         private DetectModule _detectModule;
+        private AttackModule _attackModule;
         protected internal override void OnEnter(Fsm<EnemyEntity> fsm)
         {
             base.OnEnter(fsm);
             _detectModule = GetModule<DetectModule>();
+            _attackModule = GetModule<AttackModule>();
+            
+            _attackModule.StartAttack();
         }
 
         protected internal override void OnFixedUpdate(Fsm<EnemyEntity> fsm, float fixeDeltaTime)
         {
-            // todo gzp ¹¥»÷Âß¼­£¬ÏÈ²»×ö¹¥»÷£¬ÏÈÐ´³ÉÍË³ö¹¥»÷·¶Î§¾ÍÍÑÀë¹¥»÷Ì¬
-            if (!_detectModule.InAttackRange())
+            if (!_attackModule.CanAttack())
             {
                 ChangeState<ChaseState>();
             }
+        }
+
+        protected internal override void OnExit(Fsm<EnemyEntity> fsm, bool isShutdown = false)
+        {
+            _attackModule.StopAttack();
         }
     }
 }

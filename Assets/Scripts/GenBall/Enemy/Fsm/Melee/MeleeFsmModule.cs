@@ -5,9 +5,9 @@ using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
 using Yueyn.Fsm;
 
-namespace GenBall.Enemy.Fsm.Normal
+namespace GenBall.Enemy.Fsm.Melee
 {
-    public class NormalFsmModule : FsmModule
+    public class MeleeFsmModule : FsmModule
     {
         private Fsm<EnemyEntity> _fsm;
         private readonly List<FsmState<EnemyEntity>> _states=new();

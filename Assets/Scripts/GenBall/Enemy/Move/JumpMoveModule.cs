@@ -50,6 +50,7 @@ namespace GenBall.Enemy.Move
             direction.x*=Mathf.Cos(Mathf.Deg2Rad * jumpElevation);
             direction.z*=Mathf.Sin(Mathf.Deg2Rad * jumpElevation);
             
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             _rigidbody.AddForce(direction*jumpForce, ForceMode.Impulse);
         }
         public override void OnRecycle()
@@ -74,6 +75,11 @@ namespace GenBall.Enemy.Move
             LayerMask layerMask=~(1<<layerToExclude);
             var origin = transform.position + _collider.center;
             var hit=Physics.Raycast(origin,Vector3.down,_collider.radius+0.01f,layerMask);
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            if (hit&&!_onGround)
+            {
+                _rigidbody.constraints |= RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            }
             _onGround = hit;
         }
     }

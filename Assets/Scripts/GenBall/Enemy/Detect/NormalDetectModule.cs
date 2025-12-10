@@ -6,7 +6,7 @@ namespace GenBall.Enemy.Detect
     public class NormalDetectModule : DetectModule
     {
         [Header("ÓÎµ´Ì½²é·¶Î§")][SerializeField] private float wanderDetectRange;
-        [Header("³ðºÞ·¶Î§")][SerializeField] private float reversoRange;
+        [Header("³ðºÞ·¶Î§")][SerializeField] private float hateRange;
         [Header("¹¥»÷¾àÀë")] [SerializeField] private float attackRange;
         [Header("Ä¿±ê²ã¼¶")][SerializeField] private LayerMask targetLayer;
         public override void Initialize()
@@ -45,18 +45,11 @@ namespace GenBall.Enemy.Detect
             }
         }
 
-        public override bool InReversoRange()
+        public override bool InHateRange()
         {
             if (Owner.Target == null) return false;
             var distance = Vector3.Distance(Owner.Target.transform.position, transform.position);
-            return distance <= reversoRange;
-        }
-
-        public override bool InAttackRange()
-        {
-            if (Owner.Target == null) return false;
-            var distance = Vector3.Distance(Owner.Target.transform.position, transform.position);
-            return distance <= attackRange;
+            return distance <= hateRange;
         }
 
         public override float GetTargetDistance()
