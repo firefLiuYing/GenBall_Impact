@@ -205,6 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7043077b2e27554797319f1ff641264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpInterval: 1
+  jumpElevation: 60
+  jumpForce: 5
 --- !u!114 &-3296587925488090829
 MonoBehaviour:
   m_ObjectHideFlags: 0

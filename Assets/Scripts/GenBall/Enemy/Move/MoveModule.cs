@@ -9,5 +9,6 @@ namespace GenBall.Enemy.Move
         /// </summary>
         /// <param name="target"></param>
         public abstract void MoveTo(Vector3 target);
+        public abstract void StopMove();
     }
 }
