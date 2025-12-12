@@ -58,7 +58,7 @@ namespace GenBall.Player
 
         public AttackResult OnAttacked(AttackInfo attackInfo)
         {
-            return AttackResult.Undefined;
+            return AttackResult.Hit;
         }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GenBall.Enemy
 {
-    public class EnemyEntity : MonoBehaviour,IEnemy
+    public class EnemyEntity : MonoBehaviour,IEnemy,IAttacker
     {
         private readonly List<Module> _moduleMap = new();
         private FsmModule _fsmModule;

@@ -30,6 +30,8 @@ namespace GenBall.Enemy.Fsm.Melee
             _fsm = GameEntry.GetModule<FsmManager>().CreateFsm($"Normal_{GetHashCode()}",Owner, _states);
             RegisterFsmDatas();
             RegisterFsmEvents();
+
+            // _fsm.PrintLog = true;
             _fsm.Start<InitState>();
         }
 
