@@ -29,7 +29,7 @@ namespace GenBall.Procedure
         private void LoadEnemy()
         {
             var enemyCreator= GameEntry.GetModule<EntityCreator<IEnemy>>();
-            var orbis= enemyCreator.CreateEntity<DefaultEnemy>(Vector3.up, Quaternion.identity);
+            var orbis= enemyCreator.CreateEntity<EnemyEntity>("NormalOrbis",new Vector3(0,0.5f,15), Quaternion.identity);
             orbis.Initialize();
             
         }
