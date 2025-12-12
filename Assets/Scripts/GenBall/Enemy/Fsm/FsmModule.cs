@@ -5,6 +5,6 @@ namespace GenBall.Enemy.Fsm
 {
     public abstract class FsmModule : Module
     {
-        public abstract void OnAttacked(AttackInfo attackInfo);
+        public abstract AttackResult OnAttacked(AttackInfo attackInfo);
     }
 }

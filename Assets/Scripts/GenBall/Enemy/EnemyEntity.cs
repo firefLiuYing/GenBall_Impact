@@ -25,10 +25,7 @@ namespace GenBall.Enemy
         public Player.Player Target { get;private set; }
         public void SetTarget(Player.Player target)=>Target = target;
         public TModule GetModule<TModule>() where TModule : Module =>(TModule)GetModule(typeof(TModule));
-        public void OnAttacked(AttackInfo attackInfo)
-        {
-            _fsmModule?.OnAttacked(attackInfo);
-        }
+        public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Undefined;
 
         public void EntityUpdate(float deltaTime)
         {

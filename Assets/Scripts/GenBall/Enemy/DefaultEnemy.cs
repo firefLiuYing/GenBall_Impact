@@ -13,10 +13,11 @@ namespace GenBall.Enemy
             _health = 100;
         }
 
-        public void OnAttacked(AttackInfo attackInfo)
+        public AttackResult OnAttacked(AttackInfo attackInfo)
         {
             _health -= attackInfo.Damage;
             Debug.Log($"我被打了，是{attackInfo.Attacker}干的，扣了{attackInfo.Damage}血,还剩{_health}血");
+            return AttackResult.Undefined;
         }
 
         public void EntityUpdate(float deltaTime)

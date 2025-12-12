@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GenBall.BattleSystem;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
@@ -6,7 +7,7 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
-    public partial class Player
+    public partial class Player:IAttackable
     {
         private Fsm<Player> _fsm;
         private readonly List<FsmState<Player>> _states = new();
@@ -53,6 +54,11 @@ namespace GenBall.Player
             _states.Add(new PlayerMoveState());
             _states.Add(new PlayerJumpState());
             _states.Add(new PlayerDashState());
+        }
+
+        public AttackResult OnAttacked(AttackInfo attackInfo)
+        {
+            return AttackResult.Undefined;
         }
     }
 }

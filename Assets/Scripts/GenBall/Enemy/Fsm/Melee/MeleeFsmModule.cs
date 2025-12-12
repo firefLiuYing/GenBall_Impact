@@ -12,9 +12,10 @@ namespace GenBall.Enemy.Fsm.Melee
         private Fsm<EnemyEntity> _fsm;
         private readonly List<FsmState<EnemyEntity>> _states=new();
         private Variable<Player.Player> _target;
-        public override void OnAttacked(AttackInfo attackInfo)
+        public override AttackResult OnAttacked(AttackInfo attackInfo)
         {
             Debug.Log($"我被打了，是{attackInfo.Attacker}干的，扣了{attackInfo.Damage}血");
+            return AttackResult.Undefined;
         }
     
         public override void Initialize()
