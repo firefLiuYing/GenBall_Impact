@@ -30,6 +30,7 @@ namespace Yueyn.Fsm
         public bool IsDestroyed => _isDestroyed;
         public float CurrentStateTime => _currentStateTime;
         public string FullName=>new TypeNamePair(OwnerType,Name).ToString();
+        public bool PrintLog { get; set; } = false;
 
         public void Clear()
         {
@@ -127,6 +128,10 @@ namespace Yueyn.Fsm
 
             _currentStateTime = 0f;
             _currentState = state ?? throw new Exception($"fsm: {this.Name} cannot find state: {stateType}");
+            if (PrintLog)
+            {
+                Debug.Log($"{FullName}: ½øÈë £º {state.GetType().Name}");
+            }
             _currentState.OnEnter(this);
         }
         public bool HasState<TState>() where TState : FsmState<T> =>_states.ContainsKey(typeof(TState));
@@ -243,7 +248,11 @@ namespace Yueyn.Fsm
             {
                 throw new Exception($"state:{stateType} is not exist");
             }
-            Debug.Log($"{FullName}: {_currentState.GetType().Name} => {state.GetType().Name}");
+
+            if (PrintLog)
+            {
+                Debug.Log($"{FullName}: {_currentState.GetType().Name} => {state.GetType().Name}");
+            }
             _currentState.OnExit(this);
             _currentStateTime = 0f;
             _currentState = state;
