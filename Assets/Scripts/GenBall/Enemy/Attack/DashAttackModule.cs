@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GenBall.Enemy.Attack
@@ -19,6 +20,7 @@ namespace GenBall.Enemy.Attack
         private float _targetHeight;
         private Vector3 _dashDirection;
         private float _curChargingTime;
+        private bool _attackJustified;
         
         public override void Initialize()
         {
@@ -69,6 +71,7 @@ namespace GenBall.Enemy.Attack
                     return;
                 case DashState.Shoot:
                     _rigidbody.useGravity=true;
+                    _attackJustified=false;
                     _rigidbody.AddForce(dashSpeed*_dashDirection,ForceMode.VelocityChange);
                     _dashState = DashState.Dashing;
                     return;
@@ -115,6 +118,18 @@ namespace GenBall.Enemy.Attack
             return targetHeight>=transform.position.y;
         }
 
+        private void OnCollisionEnter(Collision other)
+        {
+            if(_dashState is not DashState.Dashing) return;
+            if(_attackJustified) return;
+            var target = other.gameObject.GetComponentInParent<Player.Player>();
+            if (target != null)
+            {
+                _attackJustified=true;
+                Debug.Log("¥ÚµΩ»À‡∂");
+            }
+        }
+
         private Vector3 GetTargetDirection()
         {
             if(Owner?.Target==null)  return Vector3.zero;
@@ -131,8 +146,8 @@ namespace GenBall.Enemy.Attack
         }
         private bool GroundDetection()
         {
-            int layerToExclude = LayerMask.NameToLayer("Orbis");
-            LayerMask layerMask=~(1<<layerToExclude);
+            int layerToExclude = (1<<LayerMask.NameToLayer("Orbis"))|(1<<LayerMask.NameToLayer("OrbisAttack"))|(1<<LayerMask.NameToLayer("Barrier"));
+            LayerMask layerMask=~layerToExclude;
             var origin = transform.position + _collider.center;
             return Physics.Raycast(origin,Vector3.down,_collider.radius+0.01f,layerMask);
         }

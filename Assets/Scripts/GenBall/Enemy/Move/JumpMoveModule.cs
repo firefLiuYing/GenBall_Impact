@@ -71,8 +71,8 @@ namespace GenBall.Enemy.Move
 
         private void GroundDetection()
         {
-            int layerToExclude = LayerMask.NameToLayer("Orbis");
-            LayerMask layerMask=~(1<<layerToExclude);
+            int layerToExclude = (1<<LayerMask.NameToLayer("Orbis"))|(1<<LayerMask.NameToLayer("OrbisAttack"))|(1<<LayerMask.NameToLayer("Barrier"));
+            LayerMask layerMask=~layerToExclude;
             var origin = transform.position + _collider.center;
             var hit=Physics.Raycast(origin,Vector3.down,_collider.radius+0.01f,layerMask);
             _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;

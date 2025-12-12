@@ -56,7 +56,7 @@ namespace GenBall.Enemy
         public void Initialize()
         {
             _moduleMap.Clear();
-            var modules = GetComponents<Module>();
+            var modules = GetComponentsInChildren<Module>();
             foreach (var module in modules)
             {
                 module.SetOwner(this);
