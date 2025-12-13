@@ -11,6 +11,7 @@ namespace GenBall.Player
     {
         private Fsm<Player> _fsm;
         private readonly List<FsmState<Player>> _states = new();
+        private LiveDelegate<OnAttackDelegate> _onAttackDelegate;
         private void InitFsm()
         {
             RegisterStates();
@@ -46,6 +47,8 @@ namespace GenBall.Player
             _fsm.SetData("FireInput",fireInput);
             var jumpPreInput=ReferencePool.Acquire<Variable<bool>>();
             _fsm.SetData("JumpPreInput",jumpPreInput);
+            _onAttackDelegate = LiveDelegate<OnAttackDelegate>.Create();
+            _fsm.SetData("OnAttackDelegate",_onAttackDelegate);
         }
         
         private void RegisterStates()
@@ -58,6 +61,13 @@ namespace GenBall.Player
 
         public AttackResult OnAttacked(AttackInfo attackInfo)
         {
+            if (_onAttackDelegate.Value != null)
+            {
+                return _onAttackDelegate.Value.Invoke(attackInfo);
+            }
+
+            var health = PlayerController.Instance.Health;
+            health.PostValue(health.Value-attackInfo.Damage);
             return AttackResult.Hit;
         }
     }
