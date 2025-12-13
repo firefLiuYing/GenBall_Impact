@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem;
 using GenBall.Enemy.Fsm;
+using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -69,6 +70,12 @@ namespace GenBall.Enemy
             _fsmModule=GetModule<FsmModule>();
             
             gameObject.SetActive(true);
+        }
+
+        public void Death()
+        {
+            _fsmModule.OnDeath();
+            GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
         }
     }
 }
