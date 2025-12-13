@@ -32,4 +32,30 @@ namespace Yueyn.Base.Variable
             _listeners.Clear();
         }
     }
+
+    public class LiveDelegate<TDelegate> : Variable where TDelegate : Delegate
+    {
+        public override Type Type => typeof(TDelegate);
+        private TDelegate _delegate;
+        public TDelegate Value => _delegate;
+        public override object GetValue()=>_delegate;
+        public void SetDelegate(TDelegate @delegate)=>_delegate = @delegate;
+
+        public override void SetValue(object value)
+        {
+            if (value is TDelegate @delegate)
+            {
+                _delegate = @delegate;
+            }
+            else
+            {
+                throw new Exception("TDelegate cannot be cast to TDelegate");
+            }
+        }
+
+        public override void Clear()
+        {
+            _delegate = null;
+        }
+    }
 }
