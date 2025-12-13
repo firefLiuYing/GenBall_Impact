@@ -26,6 +26,7 @@ namespace Yueyn.Base.Variable
         }
 
         public void PostValue() => PostValue(Value);
+        public static Variable<T> Create() => ReferencePool.ReferencePool.Acquire<Variable<T>>();
         public override void Clear()
         {
             Value=default(T);
@@ -53,6 +54,7 @@ namespace Yueyn.Base.Variable
             }
         }
 
+        public static LiveDelegate<TDelegate> Create()=>ReferencePool.ReferencePool.Acquire<LiveDelegate<TDelegate>>();
         public override void Clear()
         {
             _delegate = null;
