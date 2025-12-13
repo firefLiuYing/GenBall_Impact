@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using GenBall.Utils.CodeGenerator.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GenBall.UI
 {
-    public abstract class ItemBase:MonoBehaviour
+    public abstract class ItemBase:MonoBehaviour,IBindable
     {
         private readonly List<ItemBase> _childrenItems = new();
         public FormBase Form;
@@ -124,5 +125,7 @@ namespace GenBall.UI
         {
             
         }
+
+        public TypeEnum Type => TypeEnum.Item;
     }
 }

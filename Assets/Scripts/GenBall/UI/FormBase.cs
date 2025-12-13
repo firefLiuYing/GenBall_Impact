@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GenBall.Utils.CodeGenerator.UI;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
@@ -7,7 +8,7 @@ using Yueyn.Base.ReferencePool;
 namespace GenBall.UI
 {
     [RequireComponent(typeof(Canvas))]
-    public abstract class FormBase : MonoBehaviour, IUserInterface
+    public abstract class FormBase : MonoBehaviour, IUserInterface,IBindable
     {
         private Canvas _canvas;
         public bool IsTop { get;private set; }
@@ -19,7 +20,7 @@ namespace GenBall.UI
         {
             if (!IsTop)
             {
-                throw new Exception("只能关闭最顶层界面");
+                throw new Exception("????????????");
             }
             GameEntry.GetModule<UIManager>().CloseTopForm();
         }
@@ -173,5 +174,7 @@ namespace GenBall.UI
         {
             
         }
+
+        public TypeEnum Type => TypeEnum.Form;
     }
 }
