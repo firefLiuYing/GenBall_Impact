@@ -9,6 +9,7 @@ namespace GenBall.Enemy.Attack
 {
     public class DashAttackModule : AttackModule
     {
+        [Header("伤害")] [SerializeField] private int damage;
         [Header("攻击距离")] [SerializeField] private float attackRange;
         [Header("准备时间（落地一定时间后才能开始撞击）")][SerializeField]private float preparationTime;
         [Header("上升速度")][SerializeField]private float uppingSpeed;
@@ -269,7 +270,8 @@ namespace GenBall.Enemy.Attack
 
             private void OnHitPlayer(Player.Player player)
             {
-                var attackInfo = AttackInfo.Create(Owner.Owner, 10, _direction, 0);
+                // todo gzp 修改为可配置
+                var attackInfo = AttackInfo.Create(Owner.Owner, Owner.damage, _direction, 0);
                 var result = player.OnAttacked(attackInfo);
                 ReferencePool.Release(attackInfo);
                 // Debug.Log(result);
