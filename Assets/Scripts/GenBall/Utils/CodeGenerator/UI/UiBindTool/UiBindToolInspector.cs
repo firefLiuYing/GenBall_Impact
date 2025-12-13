@@ -68,7 +68,8 @@ namespace GenBall.Utils.CodeGenerator.UI
             // 跳过自己，这样就可以复用给Item自动绑定了
             for (int i = 0; i < bindTool.transform.childCount; i++)
             {
-                Scan(bindTool.transform);
+                // Debug.Log($"Bind:{i}");
+                Scan(bindTool.transform.GetChild(i));
             }
             SetComponent();
             Generate();
@@ -118,7 +119,14 @@ namespace GenBall.Utils.CodeGenerator.UI
             sb.AppendLine();
             sb.AppendLine("namespace GenBall.UI");
             sb.AppendLine("{");
-            sb.AppendLine($"    public partial class {bindTool.ClassName}");
+            var bindable=bindTool.GetComponent<IBindable>();
+            var parentClass=bindable.Type switch
+            {
+                TypeEnum.Form=>": FormBase",
+                TypeEnum.Item=>": ItemBase",
+                _ => ""
+            };
+            sb.AppendLine($"    public partial class {bindTool.ClassName} {parentClass}");
             sb.AppendLine("    {");
             sb.AppendLine($"        private UiBindTool _bindTool;");
             foreach (var button in _buttonMap)
@@ -188,6 +196,7 @@ namespace GenBall.Utils.CodeGenerator.UI
         }
         private void Scan(Transform transform)
         {
+            Debug.Log(transform.gameObject.name);
             if (transform.TryGetComponent<ItemBase>(out var item))
             {
                 // _items.Add(item);
@@ -196,6 +205,7 @@ namespace GenBall.Utils.CodeGenerator.UI
             GetComponent(transform);
             for (int i = 0; i < transform.childCount; i++)
             {
+                // Debug.Log(i);
                 var child = transform.GetChild(i);
                 Scan(child);
             }
