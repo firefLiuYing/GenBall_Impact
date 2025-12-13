@@ -9,6 +9,8 @@ namespace GenBall.BattleSystem
     {
         Undefined,Hit,Missed
     }
+    
+    public delegate AttackResult OnAttackDelegate(AttackInfo attackInfo);
     // 单词表，参考用
     // public enum AttackResult
     // {
