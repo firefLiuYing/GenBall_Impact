@@ -31,16 +31,18 @@ namespace GenBall.Enemy.Detect
 
         public override void Search(Action<Player.Player> findCallback)
         {
-            var raycastHits = Physics.SphereCastAll(transform.position, wanderDetectRange, transform.forward, targetLayer);
+            var colliders = Physics.OverlapSphere(transform.position, wanderDetectRange, targetLayer);
             Player.Player target = null;
-            foreach (var raycastHit in raycastHits)
+            foreach (var col in colliders)
             {
-                target = raycastHit.collider.GetComponentInParent<Player.Player>();
+                target = col.GetComponentInParent<Player.Player>();
                 if(target != null) break;
             }
 
             if (target != null)
             {
+                // Debug.Log("ур╣╫ак");
+                // Debug.Log($"{Vector3.Distance(transform.position, target.transform.position)}");
                 findCallback?.Invoke(target);
             }
         }
