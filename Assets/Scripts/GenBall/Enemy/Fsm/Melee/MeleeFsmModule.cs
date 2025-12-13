@@ -12,12 +12,24 @@ namespace GenBall.Enemy.Fsm.Melee
         private Fsm<EnemyEntity> _fsm;
         private readonly List<FsmState<EnemyEntity>> _states=new();
         private Variable<Player.Player> _target;
+        private Variable<int> _health;
+
+        private LiveDelegate<OnAttackDelegate> _onAttackDelegate;
         public override AttackResult OnAttacked(AttackInfo attackInfo)
         {
-            Debug.Log($"我被打了，是{attackInfo.Attacker}干的，扣了{attackInfo.Damage}血");
-            return AttackResult.Undefined;
+            if (_onAttackDelegate.Value != null)
+            {
+                return _onAttackDelegate.Value.Invoke(attackInfo);
+            }
+            _health.PostValue(_health.Value-attackInfo.Damage);
+            return AttackResult.Hit;
         }
-    
+
+        public override void OnDeath()
+        {
+            // todo gzp 触发死亡事件
+        }
+
         public override void Initialize()
         {
             _states.Clear();
@@ -26,6 +38,7 @@ namespace GenBall.Enemy.Fsm.Melee
             _states.Add(new ChaseState());
             _states.Add(new BackState());
             _states.Add(new AttackState());
+            _states.Add(new DeathState());
             
             _fsm = GameEntry.GetModule<FsmManager>().CreateFsm($"Normal_{GetHashCode()}",Owner, _states);
             RegisterFsmDatas();
@@ -55,6 +68,12 @@ namespace GenBall.Enemy.Fsm.Melee
         {
             _target = ReferencePool.Acquire<Variable<Player.Player>>();
             _fsm.SetData("Target", _target);
+            _onAttackDelegate=ReferencePool.Acquire<LiveDelegate<OnAttackDelegate>>();
+            _fsm.SetData("OnAttackDelegate", _onAttackDelegate);
+            _health = Variable<int>.Create();
+            _fsm.SetData("Health", _health);
+            // todo gzp 后续改成可以读配置
+            _health.PostValue(100);
         }
 
         private void RegisterFsmEvents()

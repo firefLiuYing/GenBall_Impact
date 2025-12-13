@@ -1,5 +1,6 @@
 using GenBall.Enemy.Attack;
 using GenBall.Enemy.Detect;
+using Yueyn.Base.Variable;
 using Yueyn.Fsm;
 
 namespace GenBall.Enemy.Fsm.Melee
@@ -15,6 +16,7 @@ namespace GenBall.Enemy.Fsm.Melee
             _attackModule = GetModule<AttackModule>();
             
             _attackModule.StartAttack();
+            GetData<Variable<int>>("Health").Observe(DefaultOnHeathChanged);
         }
 
         protected internal override void OnFixedUpdate(Fsm<EnemyEntity> fsm, float fixeDeltaTime)
@@ -28,6 +30,7 @@ namespace GenBall.Enemy.Fsm.Melee
         protected internal override void OnExit(Fsm<EnemyEntity> fsm, bool isShutdown = false)
         {
             _attackModule.StopAttack();
+            GetData<Variable<int>>("Health").Unobserve(DefaultOnHeathChanged);
         }
     }
 }

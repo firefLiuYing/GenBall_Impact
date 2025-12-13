@@ -20,6 +20,7 @@ namespace GenBall.Enemy.Fsm.Melee
             _moveModule = GetModule<MoveModule>();
             _attackModule = GetModule<AttackModule>();
             _target=GetData<Variable<Player.Player>>("Target");
+            GetData<Variable<int>>("Health").Observe(DefaultOnHeathChanged);
         }
 
         protected internal override void OnFixedUpdate(Fsm<EnemyEntity> fsm, float fixeDeltaTime)
@@ -43,6 +44,7 @@ namespace GenBall.Enemy.Fsm.Melee
         protected internal override void OnExit(Fsm<EnemyEntity> fsm, bool isShutdown = false)
         {
             _moveModule.StopMove();
+            GetData<Variable<int>>("Health").Unobserve(DefaultOnHeathChanged);
         }
     }
 }
