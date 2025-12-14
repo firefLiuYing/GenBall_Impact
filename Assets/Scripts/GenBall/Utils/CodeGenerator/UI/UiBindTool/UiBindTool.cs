@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace GenBall.Utils.CodeGenerator.UI
 {
-    [RequireComponent(typeof(IBindable))]
+    // [RequireComponent(typeof(IBindable))]
     public class UiBindTool : MonoBehaviour
     {
         [SerializeField] private string className;

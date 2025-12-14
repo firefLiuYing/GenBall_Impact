@@ -197,12 +197,12 @@ namespace GenBall.Utils.CodeGenerator.UI
         private void Scan(Transform transform)
         {
             Debug.Log(transform.gameObject.name);
+            GetComponent(transform);
             if (transform.TryGetComponent<ItemBase>(out var item))
             {
                 // _items.Add(item);
                 return;
             }
-            GetComponent(transform);
             for (int i = 0; i < transform.childCount; i++)
             {
                 // Debug.Log(i);
