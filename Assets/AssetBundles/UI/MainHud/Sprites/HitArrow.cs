@@ -90,10 +90,10 @@ public class HitArrow : MonoBehaviour
 
     public void hitArrowAnimation(ShootResult shootResult)
     {
-        switch (shootResult)
-        {
-            
-        }
+        // switch (shootResult)
+        // {
+        //     
+        // }
     }
 
     // Start is called before the first frame update

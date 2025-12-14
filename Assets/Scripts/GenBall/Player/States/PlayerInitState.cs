@@ -15,6 +15,8 @@ namespace GenBall.Player
         {
             _fsm = fsm;
             _onGround=fsm.GetData<Variable<bool>>("OnGround");
+            
+            PlayerController.Instance.Init();
         }
 
         protected internal override void OnUpdate(Fsm<Player> fsm, float elapsedTime, float realElapseTime)

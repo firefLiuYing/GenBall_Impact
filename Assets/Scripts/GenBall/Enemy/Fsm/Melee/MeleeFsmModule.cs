@@ -3,6 +3,7 @@ using GenBall.BattleSystem;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
+using Yueyn.Event;
 using Yueyn.Fsm;
 
 namespace GenBall.Enemy.Fsm.Melee
@@ -27,7 +28,8 @@ namespace GenBall.Enemy.Fsm.Melee
 
         public override void OnDeath()
         {
-            // todo gzp ´¥·¢ËÀÍöÊÂ¼þ
+            var deadArgs = EnemyDeadEventArgs.Create(Owner);
+            GameEntry.GetModule<EventManager>().Fire(this,deadArgs);
         }
 
         public override void Initialize()

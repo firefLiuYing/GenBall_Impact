@@ -2,15 +2,13 @@ using UnityEngine;
 
 namespace GenBall.UI
 {
-    public partial class MainHud : FormBase
+    public partial class HpBar : ItemBase
     {
-        private HpBar _hpBar;
         private MainHudVm _mainHudVm;
         protected override void OnInit(object args = null)
         {
             base.OnInit(args);
             Bind();
-            _hpBar = _autoRectHpBar.GetComponent<HpBar>();
         }
 
         protected override void OnOpen(object args = null)
@@ -19,31 +17,27 @@ namespace GenBall.UI
             _mainHudVm=GetVm<MainHudVm>();
             
             RegisterEvents();
-            
-            _mainHudVm.Init();
-            // _autoImgImage.gameObject.SetActive(false);
         }
 
         protected override void OnClose(object args = null)
         {
             base.OnClose(args);
-            
             UnRegisterEvents();
         }
 
         private void RegisterEvents()
         {
-            _mainHudVm.Kills.Observe(OnKillsChanged);
+            _mainHudVm.Health.Observe(OnHealthChanged);
         }
 
         private void UnRegisterEvents()
         {
-            _mainHudVm.Kills.Unobserve(OnKillsChanged);
+            _mainHudVm.Health.Unobserve(OnHealthChanged);
         }
 
-        private void OnKillsChanged(int kills)
+        private void OnHealthChanged(int health)
         {
-            _autoTxtKills.text=$"Kills: {kills}";
+            _autoTxtHpText.text=health.ToString();
         }
     }
 }
