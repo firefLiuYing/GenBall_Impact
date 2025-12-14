@@ -72,6 +72,9 @@ namespace GenBall.Utils.CodeGenerator.UI
                 Scan(bindTool.transform.GetChild(i));
             }
             SetComponent();
+            
+            // 标记预制体已修改，使unity保存修改后的序列化信息
+            EditorUtility.SetDirty(bindTool);
             Generate();
         }
 
