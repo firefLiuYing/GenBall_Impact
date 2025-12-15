@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Yueyn.Fsm;
 
-namespace GenBall.Procedure
+namespace GenBall.Procedure.Execute
 {
     public sealed class ExecuteProcedure
     {

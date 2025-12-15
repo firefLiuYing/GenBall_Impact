@@ -5,7 +5,7 @@ using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Fsm;
 
-namespace GenBall.Procedure
+namespace GenBall.Procedure.Execute
 {
     public class ProcedureLoadState : FsmState<ExecuteProcedure>
     {

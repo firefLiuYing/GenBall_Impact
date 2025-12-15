@@ -2,7 +2,7 @@ using System;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
-using GenBall.Procedure;
+using GenBall.Procedure.Execute;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Event;
