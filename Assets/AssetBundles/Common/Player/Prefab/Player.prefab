@@ -262,6 +262,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 95b81b57-6614-49a7-9159-56ca7eff0f49
     m_ActionName: Player/Dash[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6064106902281739801}
+        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
+        m_MethodName: AccessoryInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: be57530e-2ad2-44ae-9c28-891e3ff7a431
+    m_ActionName: Player/Accessory[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

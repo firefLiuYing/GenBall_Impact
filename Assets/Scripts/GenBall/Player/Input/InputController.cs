@@ -1,4 +1,5 @@
 using System;
+using GenBall.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Yueyn.Base.ReferencePool;
@@ -71,6 +72,23 @@ namespace GenBall.Player
                 _=>ButtonState.None
             };
             _eventManager.Fire(this, eventArgs);
+        }
+
+        private bool _accessoryFormOpened = false;
+        public void AccessoryInput(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Started)
+            {
+                if (_accessoryFormOpened)
+                {
+                    GameEntry.GetModule<UIManager>().CloseTopForm();
+                }
+                else
+                {
+                    GameEntry.GetModule<UIManager>().OpenForm<AccessoryForm>();
+                }
+                _accessoryFormOpened=!_accessoryFormOpened;
+            }
         }
     }
 }
