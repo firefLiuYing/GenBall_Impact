@@ -29,6 +29,7 @@ namespace GenBall.Enemy.Fsm.Melee
         public override void OnDeath()
         {
             var deadArgs = EnemyDeadEventArgs.Create(Owner);
+            deadArgs.KillPoints = 10;
             GameEntry.GetModule<EventManager>().Fire(this,deadArgs);
         }
 

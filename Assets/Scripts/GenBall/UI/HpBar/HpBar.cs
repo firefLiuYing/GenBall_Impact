@@ -37,7 +37,7 @@ namespace GenBall.UI
 
         private void OnHealthChanged(int health)
         {
-            _autoTxtHpText.text=health.ToString();
+            _autoTxtHpText.text=$"Health: {health}";
         }
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Threading;
 using System.Threading.Tasks;
 using GenBall.Enemy;
 using GenBall.Player;
@@ -16,8 +18,18 @@ namespace GenBall.Procedure.Execute
             LoadMainHud();
             LoadPlayer();
             // LoadEnemy();
-            LoadEnemys();
+            _ = LoadEnemys(_cancellationTokenSource.Token);
         }
+
+        protected internal override void OnExit(Fsm<ExecuteProcedure> fsm, bool isShutdown = false)
+        {
+            base.OnExit(fsm, isShutdown);
+            
+            
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+        }
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
 
         private void LoadPlayer()
         {
@@ -37,12 +49,19 @@ namespace GenBall.Procedure.Execute
             
         }
 
-        private async void LoadEnemys()
+        private async Task LoadEnemys(CancellationToken token)
         {
-            while (true)
+            try
             {
-                LoadEnemy();
-                await Task.Delay(10000);
+                while(!token.IsCancellationRequested)
+                {
+                    LoadEnemy();
+                    await Task.Delay(10000, token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("刷新敌人已取消");
             }
         }
     }

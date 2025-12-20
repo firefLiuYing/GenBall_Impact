@@ -31,7 +31,12 @@ namespace GenBall
             _procedure.Init();
             _procedure.Start();
         }
-        
+
+        private void OnDestroy()
+        {
+            _procedure.Stop();
+        }
+
         private void Update()
         {
             Entry.Update(Time.deltaTime,Time.deltaTime);

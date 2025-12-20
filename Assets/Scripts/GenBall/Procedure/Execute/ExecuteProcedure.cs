@@ -23,5 +23,9 @@ namespace GenBall.Procedure.Execute
             _states.Add(new ProcedureLoadState());
         }
 
+        public void Stop()
+        {
+            GameEntry.GetModule<FsmManager>().DestroyFsm(_fsm);
+        }
     }
 }
