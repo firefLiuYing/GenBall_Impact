@@ -66,8 +66,7 @@ namespace GenBall.Player
                 return _onAttackDelegate.Value.Invoke(attackInfo);
             }
 
-            var health = PlayerController.Instance.Health;
-            health.PostValue(health.Value-attackInfo.Damage);
+            PlayerController.Instance.ApplyDamage(attackInfo.Damage);
             return AttackResult.Hit;
         }
     }

@@ -8,6 +8,7 @@ namespace GenBall.Enemy
         public override int Id => Index;
         public static int Index=> typeof(EnemyDeadEventArgs).GetHashCode();
         public IEnemy Enemy;
+        public int KillPoints;
 
         public static EnemyDeadEventArgs Create(IEnemy enemy)
         {
@@ -18,6 +19,7 @@ namespace GenBall.Enemy
         public override void Clear()
         {
             Enemy=null;
+            KillPoints=0;
         }
     }
 }

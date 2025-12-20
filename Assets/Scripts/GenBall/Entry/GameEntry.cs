@@ -17,6 +17,9 @@ namespace GenBall
     public partial class GameEntry : MonoBehaviour
     {
         private ExecuteProcedure _procedure;
+        private Player.Player _player;
+        public Player.Player Player => _player;
+        public void SetPlayer(Player.Player player)=>_player = player;
         private void Awake()
         {
             RegisterModules();
@@ -28,7 +31,7 @@ namespace GenBall
             _procedure.Init();
             _procedure.Start();
         }
-
+        
         private void Update()
         {
             Entry.Update(Time.deltaTime,Time.deltaTime);

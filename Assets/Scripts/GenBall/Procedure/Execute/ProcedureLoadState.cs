@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Threading.Tasks;
 using GenBall.Enemy;
 using GenBall.Player;
 using GenBall.UI;
@@ -13,7 +15,8 @@ namespace GenBall.Procedure.Execute
         {
             LoadMainHud();
             LoadPlayer();
-            LoadEnemy();
+            // LoadEnemy();
+            LoadEnemys();
         }
 
         private void LoadPlayer()
@@ -32,6 +35,15 @@ namespace GenBall.Procedure.Execute
             var orbis= enemyCreator.CreateEntity<EnemyEntity>("NormalOrbis",new Vector3(0,0.5f,15), Quaternion.identity);
             orbis.Initialize();
             
+        }
+
+        private async void LoadEnemys()
+        {
+            while (true)
+            {
+                LoadEnemy();
+                await Task.Delay(10000);
+            }
         }
     }
 }

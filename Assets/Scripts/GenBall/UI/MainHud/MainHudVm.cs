@@ -6,21 +6,24 @@ namespace GenBall.UI
     public class MainHudVm : VmBase
     {
         public readonly Variable<int> Health;
-        public readonly Variable<int> Kills;
+        public readonly Variable<int> KillPoints;
         public MainHudVm()
         {
             Health = Variable<int>.Create();
-            Kills = Variable<int>.Create();
+            KillPoints = Variable<int>.Create();
             AddDispose(Health);
-            AddDispose(Kills);
+            AddDispose(KillPoints);
         }
 
         public void Init()
         {
-            PlayerController.Instance.Health.Observe(Health.PostValue);
-            Health.PostValue(PlayerController.Instance.Health.Value);
-            PlayerController.Instance.Kills.Observe(Kills.PostValue);
-            Kills.PostValue(PlayerController.Instance.Kills.Value);
+            
+        }
+
+        public override void Clear()
+        {
+            base.Clear();
+            
         }
     }
 }

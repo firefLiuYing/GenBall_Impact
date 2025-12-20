@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GenBall.Accessory;
 using GenBall.Player;
 using UnityEngine;
 using Yueyn.Base.Variable;
@@ -17,6 +18,7 @@ namespace GenBall.Player
             _onGround=fsm.GetData<Variable<bool>>("OnGround");
             
             PlayerController.Instance.Init();
+            AccessoryController.Instance.Init();
         }
 
         protected internal override void OnUpdate(Fsm<Player> fsm, float elapsedTime, float realElapseTime)

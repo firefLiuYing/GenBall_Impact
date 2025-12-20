@@ -1,6 +1,7 @@
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
+using GenBall.Map;
 using GenBall.UI;
 using GenBall.Utils.EntityCreator;
 using GenBall.Player;
@@ -20,10 +21,6 @@ namespace GenBall
             RegisterWeapons();
             RegisterEnemys();
             RegisterUIs();
-            
-            
-            // todo gzp ≤‚ ‘¥˙¬Îº«µ√…æ
-            // GetModule<UIManager>().OpenForm<MainHud>();
         }
         private void RegisterModules()
         {
@@ -36,9 +33,11 @@ namespace GenBall
             Entry.Register(new EntityCreator<IEnemy>());
             Entry.Register(new EntityCreator<IUserInterface>());
             Entry.Register(new EntityCreator<Player.Player>());
+            Entry.Register(new EntityCreator<IMapBlock>());
             
             Entry.Register(GetComponentInChildren<UIManager>());
             Entry.Register(GetComponentInChildren<PlayerManager>());
+            Entry.Register(GetComponentInChildren<MapModule>());
             
         }
     }

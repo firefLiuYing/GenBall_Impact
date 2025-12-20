@@ -33,12 +33,12 @@ namespace GenBall.UI
 
         private void RegisterEvents()
         {
-            _mainHudVm.Kills.Observe(OnKillsChanged);
+            _mainHudVm.KillPoints.Observe(OnKillsChanged);
         }
 
         private void UnRegisterEvents()
         {
-            _mainHudVm.Kills.Unobserve(OnKillsChanged);
+            _mainHudVm.KillPoints.Unobserve(OnKillsChanged);
         }
 
         private void OnKillsChanged(int kills)
