@@ -20,7 +20,7 @@ namespace GenBall.Player
         // }
 
         internal void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
-        internal void EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
+        public void EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
             if (_physicsWeapon != null)
             {

@@ -15,6 +15,16 @@ namespace GenBall.BattleSystem.Weapons
         private float _countdownTime;
         private float _timer;
         private bool _autoFire = false;
+
+        public int GetDamage()
+        {
+            return 100;
+        }
+
+        public float GetImpactForce()
+        {
+            return 1f;
+        }
         public void Trigger(ButtonState triggerState)
         {
             // Debug.Log(triggerState);

@@ -99,8 +99,7 @@ namespace GenBall.BattleSystem.Bullets
             if (hitInfo.collider == null) return;
             _hit=true;
             var attackables = hitInfo.collider.GetComponentsInParent<IAttackable>();
-            // todo gzp 伤害和冲击力先瞎填的，后续修改正确
-            var attackInfo = AttackInfo.Create(Source.Owner, 10, _direction.normalized, 1);
+            var attackInfo = AttackInfo.Create(Source.Owner, Source.GetDamage(), _direction.normalized, Source.GetImpactForce());
             foreach (var attackable in attackables)
             {
                 attackable.OnAttacked(attackInfo);

@@ -10,5 +10,7 @@ namespace GenBall.BattleSystem.Weapons
         public void Trigger(ButtonState triggerState);
         public void OnEquip(IAttacker owner);
         public void OnUnequip();
+        public int GetDamage();
+        public float GetImpactForce();
     }
 }
