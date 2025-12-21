@@ -9,10 +9,13 @@ namespace GenBall.Player
     public class PlayerController:ISingleton
     {
         public static PlayerController Instance => SingletonManager.GetSingleton<PlayerController>();
-
+        
         public readonly ActorInfo Actor = new();
-        public void Init()
+
+        public Player Player { get;private set; }
+        public void Init(Player player)
         {
+            Player = player;
             // todo gzp 后续修改为可配置
             Actor.MaxHealth = 6;
             Actor.Health = Actor.MaxHealth;

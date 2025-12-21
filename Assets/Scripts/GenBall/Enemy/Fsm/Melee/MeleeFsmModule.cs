@@ -23,6 +23,7 @@ namespace GenBall.Enemy.Fsm.Melee
                 return _onAttackDelegate.Value.Invoke(attackInfo);
             }
             _health.PostValue(_health.Value-attackInfo.Damage);
+            Debug.Log($"受到了{attackInfo.Damage}点伤害，剩余{_health.Value}点生命值");
             return AttackResult.Hit;
         }
 

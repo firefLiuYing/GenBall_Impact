@@ -1,3 +1,4 @@
+using GenBall.Accessory;
 using UnityEngine;
 using Yueyn.Base.Variable;
 using Yueyn.Event;
@@ -16,6 +17,7 @@ namespace GenBall.Player
             EventManager.Subscribe(InputEventArgs<ButtonState>.GetHashCode("DashInput"),OnDashInputChange);
             EventManager.Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),OnJumpInputChange);
             EventManager.Subscribe(InputEventArgs<ButtonState>.GetHashCode("FireInput"),OnFireInputChange);
+            EventManager.Subscribe(InputEventArgs<ButtonState>.GetHashCode("UpgradeInput"),OnUpgradeInputChange);
         }
         private void OnMoveInputChange(object sender, GameEventArgs eventArgs)
         {
@@ -50,6 +52,15 @@ namespace GenBall.Player
             if(eventArgs is not InputEventArgs<ButtonState> args) return;
             var fireInput=_fsm.GetData<Variable<ButtonState>>("FireInput");
             fireInput.PostValue(args.Args);
+        }
+
+        private void OnUpgradeInputChange(object sender, GameEventArgs eventArgs)
+        {
+            if(eventArgs is not InputEventArgs<ButtonState> args) return;
+            if (args.Args == ButtonState.Down)
+            {
+                AccessoryController.Instance.Upgrade();
+            }
         }
         private void OnVelocityChange(Vector3 velocity)=>_rigidbody.velocity=velocity;
 

@@ -34,16 +34,23 @@ namespace GenBall.UI
         private void RegisterEvents()
         {
             _mainHudVm.KillPoints.Observe(OnKillPointsChanged);
+            _mainHudVm.Level.Observe(OnLevelChanged);
         }
 
         private void UnRegisterEvents()
         {
             _mainHudVm.KillPoints.Unobserve(OnKillPointsChanged);
+            _mainHudVm.Level.Unobserve(OnLevelChanged);
         }
 
         private void OnKillPointsChanged(int kills)
         {
             _autoTxtKills.text=$"KillPoints: {kills}";
+        }
+
+        private void OnLevelChanged(int level)
+        {
+            _autoTxtLevel.text=$"Level: {level}";
         }
     }
 }

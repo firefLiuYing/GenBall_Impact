@@ -15,16 +15,35 @@ namespace GenBall.BattleSystem.Weapons
         private float _countdownTime;
         private float _timer;
         private bool _autoFire = false;
+        // private readonly DefaultWeaponStats _baseStats = new DefaultWeaponStats()
+        // {
+        //     Damage = 5,
+        //     ImpactForce = 1,
+        // };
+        // public IWeaponStats BaseStats =>_baseStats;
+        //
+        // public IWeaponStats AdditionStats { get; set; } = new DefaultWeaponStats()
+        // {
+        //     Damage = 0,
+        //     ImpactForce = 0,
+        // };
+        //
+        // public IWeaponStats FinalStats => new DefaultWeaponStats()
+        // {
+        //     Damage = _baseStats.Damage+AdditionStats.Damage,
+        //     ImpactForce = _baseStats.ImpactForce+AdditionStats.ImpactForce,
+        // };
 
-        public int GetDamage()
+        public bool AddAccessory(Accessory.Accessory accessory)
         {
-            return 100;
+            return true;
         }
 
-        public float GetImpactForce()
+        public bool RemoveAccessory(Accessory.Accessory accessory)
         {
-            return 1f;
+            return true;
         }
+
         public void Trigger(ButtonState triggerState)
         {
             // Debug.Log(triggerState);

@@ -17,7 +17,7 @@ namespace GenBall.Player
             _fsm = fsm;
             _onGround=fsm.GetData<Variable<bool>>("OnGround");
             
-            PlayerController.Instance.Init();
+            PlayerController.Instance.Init(_fsm.Owner);
             AccessoryController.Instance.Init();
         }
 

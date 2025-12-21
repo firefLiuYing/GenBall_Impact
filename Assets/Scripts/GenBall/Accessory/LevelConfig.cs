@@ -1,15 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using GenBall.Player;
 using JetBrains.Annotations;
+using Yueyn.Utils;
 
 namespace GenBall.Accessory
 {
     public class LevelConfig
     {
-        private BaseModule _baseModule;
         private readonly List<Accessory> _accessories = new();
         public int Level;
-
+        public BaseModule BaseModule;
         /// <summary>
         /// todo gzp  先写死了，就这样吧
         /// </summary>
@@ -33,11 +35,6 @@ namespace GenBall.Accessory
             4 => 4,
             _ => 0
         };
-        public void SetBaseModule(BaseModule baseModule)
-        {
-            _baseModule = baseModule;
-        }
-
         public bool SetAccessory([NotNull] List<Accessory> accessories)
         {
             if(accessories.Count > MaxAccessoryCount) return false;
@@ -49,7 +46,19 @@ namespace GenBall.Accessory
         }
         public void Apply()
         {
-            _baseModule?.Apply();
+            if (BaseModule?.WeaponType == null)
+            {
+                throw new Exception("gzp BaseModule is null");
+            }
+
+            if (BaseModule.WeaponName.IsNullOrEmpty())
+            {
+                PlayerController.Instance.Player.EquipPhysicsWeapon(BaseModule.WeaponType);
+            }
+            else
+            {
+                PlayerController.Instance.Player.EquipPhysicsWeapon(BaseModule.WeaponName,BaseModule.WeaponType);
+            }
             foreach (var accessory in _accessories)
             {
                 accessory.Apply();
@@ -57,7 +66,6 @@ namespace GenBall.Accessory
         }
         public void UnApply()
         {
-            _baseModule?.UnApply();
             foreach (var accessory in _accessories)
             {
                 accessory.UnApply();
@@ -65,14 +73,17 @@ namespace GenBall.Accessory
         }
     }
 
-    public abstract class BaseModule
+    public class BaseModule
     {
-        public abstract void Apply();
-        public abstract void UnApply();
+        public string ModuleName { get; set; }
+        public string WeaponName{get;set;}
+        public Type WeaponType { get; set; }
     }
 
     public abstract class Accessory
     {
+        public abstract string Name { get; }
+        public abstract string Description { get; }
         public abstract int Level { get; }
 
         /// <summary>
@@ -88,6 +99,7 @@ namespace GenBall.Accessory
         };
         public abstract void Apply();
         public abstract void UnApply();
+        public abstract List<IEnhanceEffect> Effects { get; }
     }
     
 }

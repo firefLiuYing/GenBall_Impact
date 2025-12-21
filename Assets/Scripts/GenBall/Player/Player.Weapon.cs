@@ -97,6 +97,7 @@ namespace GenBall.Player
             _physicsWeapon.OnUnequip();
             if(_physicsWeapon is not MonoBehaviour monoBehaviour)return;
             WeaponCreator.RecycleEntity(monoBehaviour.gameObject);
+            _physicsWeapon=null;
         }
 
         // public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
