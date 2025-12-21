@@ -14,7 +14,14 @@ namespace GenBall.UI
 
         #region CloseForm
 
-        public void CloseTopForm(object args=null)
+        public bool CloseForm<TUiForm>(object args = null) where TUiForm : MonoBehaviour, IUserInterface
+        {
+            var topForm = _activeUI.Peek();
+            if(topForm is not TUiForm uiForm) return false;
+            CloseTopForm();
+            return true;
+        }
+        private void CloseTopForm(object args=null)
         {
             if (_activeUI.Count <= 0)
             {

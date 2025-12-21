@@ -16,14 +16,14 @@ namespace GenBall.UI
         private readonly List<ItemBase> _items = new();
         private readonly Dictionary<Type,VmBase> _vmMap = new();
 
-        public void CloseSelf()
-        {
-            if (!IsTop)
-            {
-                throw new Exception("????????????");
-            }
-            GameEntry.GetModule<UIManager>().CloseTopForm();
-        }
+        // public void CloseSelf()
+        // {
+        //     if (!IsTop)
+        //     {
+        //         throw new Exception("????????????");
+        //     }
+        //     // GameEntry.GetModule<UIManager>().CloseForm<>()
+        // }
         public TVm GetVm<TVm>() where TVm : VmBase =>(TVm)GetVm(typeof(TVm));
         private VmBase GetVm([NotNull] Type type)
         {
