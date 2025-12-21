@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Bullets;
+using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Main;
 using Yueyn.ObjectPool;
@@ -28,21 +29,33 @@ namespace GenBall.Utils.EntityCreator
         #region CreateEntity
 
         public TEntity CreateEntity<TEntity>() where TEntity : TEntityInterface => (TEntity)CreateEntity(new TypeNamePair(typeof(TEntity)));
+        public TEntityInterface CreateEntity([NotNull] Type type) => CreateEntity(new TypeNamePair(type));
         public TEntity CreateEntity<TEntity>(string name)where TEntity:TEntityInterface =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity), name));
-        
+        public TEntityInterface CreateEntity(string name, [NotNull] Type type) => CreateEntity(new TypeNamePair(type, name));
         public TEntity CreateEntity<TEntity>(Transform parent) where TEntity : TEntityInterface 
             =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity)), parent);
+        public TEntityInterface CreateEntity([NotNull] Type type,Transform parent)
+            => CreateEntity(new TypeNamePair(type), parent);
         public TEntity CreateEntity<TEntity>(string name,Transform parent) where TEntity : TEntityInterface 
             =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity), name), parent);
-        
+        public TEntityInterface CreateEntity(string name, [NotNull] Type type,Transform parent)
+            => CreateEntity(new TypeNamePair(type, name), parent);
         public TEntity CreateEntity<TEntity>(Vector3 position,Quaternion rotation) where TEntity : TEntityInterface 
             =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity)), position, rotation);
+        public TEntityInterface CreateEntity([NotNull] Type type, Vector3 position, Quaternion rotation)
+            => CreateEntity(new TypeNamePair(type), position, rotation);
         public TEntity CreateEntity<TEntity>(string name,Vector3 position,Quaternion rotation) where TEntity : TEntityInterface 
             =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity), name), position, rotation);
+        public TEntityInterface CreateEntity(string name, [NotNull] Type type, Vector3 position, Quaternion rotation)
+            => CreateEntity(new TypeNamePair(type, name), position, rotation);
         public TEntity CreateEntity<TEntity>(Vector3 position,Quaternion rotation,Transform parent) where TEntity : TEntityInterface 
             =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity)), position, rotation, parent);
+        public TEntityInterface CreateEntity([NotNull] Type type, Vector3 position, Quaternion rotation, Transform parent)
+            => CreateEntity(new TypeNamePair(type), position, rotation, parent);
         public TEntity CreateEntity<TEntity>(string name,Vector3 position,Quaternion rotation,Transform parent) where TEntity : TEntityInterface 
             =>(TEntity)CreateEntity(new TypeNamePair(typeof(TEntity), name), position, rotation, parent);
+        public TEntityInterface CreateEntity(string name, [NotNull] Type type, Vector3 position, Quaternion rotation, Transform parent)
+            => CreateEntity(new TypeNamePair(type, name), position, rotation, parent);
         private TEntityInterface CreateEntity(TypeNamePair typeNamePair)
         {
             var entityObject = _entityPool.Spawn($"{typeNamePair}");
