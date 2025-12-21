@@ -2,6 +2,7 @@ using System;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Utils.EntityCreator;
+using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Resource;
 
@@ -28,7 +29,16 @@ namespace GenBall.Player
             }
             InternalEquipPhysicsWeapon<TWeapon>();
         }
-        internal void EquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
+
+        public void EquipPhysicsWeapon(Type type)
+        {
+            if (_physicsWeapon != null)
+            {
+                UnequipPhysicsWeapon();
+            }
+            InternalEquipPhysicsWeapon(type);
+        }
+        public void EquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
         {
             if (_physicsWeapon != null)
             {
@@ -36,14 +46,35 @@ namespace GenBall.Player
             }
             InternalEquipPhysicsWeapon<TWeapon>(name);
         }
+
+        public void EquipPhysicsWeapon(string name, [NotNull] Type type)
+        {
+            if (_physicsWeapon != null)
+            {
+                UnequipPhysicsWeapon();
+            }
+            InternalEquipPhysicsWeapon(name, type);
+        }
         private void InternalEquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
             var weapon = WeaponCreator.CreateEntity<TWeapon>(weaponSpawnPoint);
             InternalEquipPhysicsWeapon(weapon);
         }
+
+        private void InternalEquipPhysicsWeapon([NotNull] Type type)
+        {
+            var weapon = WeaponCreator.CreateEntity(type, weaponSpawnPoint);
+            InternalEquipPhysicsWeapon(weapon);
+        }
         private void InternalEquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateEntity<TWeapon>(weaponSpawnPoint);
+            var weapon = WeaponCreator.CreateEntity<TWeapon>(name,weaponSpawnPoint);
+            InternalEquipPhysicsWeapon(weapon);
+        }
+
+        private void InternalEquipPhysicsWeapon(string name, [NotNull] Type type)
+        {
+            var weapon = WeaponCreator.CreateEntity(name, type, weaponSpawnPoint);
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon(IWeapon newWeapon)
