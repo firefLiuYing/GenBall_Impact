@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using GenBall.Accessory;
+using GenBall.BattleSystem.Accessory;
 using GenBall.Player;
 using UnityEngine;
 using Yueyn.Base.Variable;

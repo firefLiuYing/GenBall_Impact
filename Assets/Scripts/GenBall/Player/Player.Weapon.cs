@@ -21,39 +21,43 @@ namespace GenBall.Player
         // }
 
         internal void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
-        public void EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
+        public IWeapon EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
             if (_physicsWeapon != null)
             {
                 UnequipPhysicsWeapon();
             }
             InternalEquipPhysicsWeapon<TWeapon>();
+            return _physicsWeapon;
         }
 
-        public void EquipPhysicsWeapon(Type type)
+        public IWeapon EquipPhysicsWeapon(Type type)
         {
             if (_physicsWeapon != null)
             {
                 UnequipPhysicsWeapon();
             }
             InternalEquipPhysicsWeapon(type);
+            return _physicsWeapon;
         }
-        public void EquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
+        public IWeapon EquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
         {
             if (_physicsWeapon != null)
             {
                 UnequipPhysicsWeapon();
             }
             InternalEquipPhysicsWeapon<TWeapon>(name);
+            return _physicsWeapon;
         }
 
-        public void EquipPhysicsWeapon(string name, [NotNull] Type type)
+        public IWeapon EquipPhysicsWeapon(string name, [NotNull] Type type)
         {
             if (_physicsWeapon != null)
             {
                 UnequipPhysicsWeapon();
             }
             InternalEquipPhysicsWeapon(name, type);
+            return _physicsWeapon;
         }
         private void InternalEquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
@@ -85,7 +89,7 @@ namespace GenBall.Player
             }
 
             _physicsWeapon = newWeapon;
-            newWeapon.OnEquip(this);
+            newWeapon.Equip(this);
         }
 
         private void UnequipPhysicsWeapon()
@@ -94,7 +98,7 @@ namespace GenBall.Player
             {
                 throw new Exception("has not been equipped");
             }
-            _physicsWeapon.OnUnequip();
+            _physicsWeapon.Unequip();
             if(_physicsWeapon is not MonoBehaviour monoBehaviour)return;
             WeaponCreator.RecycleEntity(monoBehaviour.gameObject);
             _physicsWeapon=null;
@@ -106,5 +110,14 @@ namespace GenBall.Player
         //     // responses=NoResponseToken.Create(this);
         //     responses = Array.Empty<IInteractToken>();
         // }
+        public void AddBuff(IBuff buff)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBuff(IBuff buff)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

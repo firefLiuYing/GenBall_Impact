@@ -24,7 +24,7 @@ namespace GenBall.Enemy.Fsm.Melee
             }
             _health.PostValue(_health.Value-attackInfo.Damage);
             Debug.Log($"受到了{attackInfo.Damage}点伤害，剩余{_health.Value}点生命值");
-            return AttackResult.Hit;
+            return AttackResult.Create(attackInfo.Damage);
         }
 
         public override void OnDeath()

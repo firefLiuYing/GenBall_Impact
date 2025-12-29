@@ -9,15 +9,15 @@ namespace GenBall.BattleSystem
         public int Damage;
         public Vector3 Direction;
         public float ImpactForce;//冲击力
-        public AttackArgs ExtraArgs;//附加参数，可有可无
-        public static AttackInfo Create(IAttacker attacker,int damage, Vector3 direction, float impactForce,AttackArgs  extraArgs=null)
+        // public AttackArgs ExtraArgs;//附加参数，可有可无
+        public static AttackInfo Create(IAttacker attacker,int damage, Vector3 direction, float impactForce)
         {
             var info = ReferencePool.Acquire<AttackInfo>();
             info.Attacker = attacker;
             info.Damage = damage;
             info.Direction = direction;
             info.ImpactForce = impactForce;
-            info.ExtraArgs = extraArgs;
+            // info.ExtraArgs = extraArgs;
             return info;
         }
         public void Clear()
@@ -26,15 +26,15 @@ namespace GenBall.BattleSystem
             Damage = 0;
             Direction = Vector3.zero;
             ImpactForce = 0;
-            if (ExtraArgs != null)
-            {
-                ReferencePool.Release(ExtraArgs);
-            }
+            // if (ExtraArgs != null)
+            // {
+            //     ReferencePool.Release(ExtraArgs);
+            // }
         }
     }
 
-    public abstract class AttackArgs:IReference
-    {
-        public abstract void Clear();
-    }
+    // public abstract class AttackArgs:IReference
+    // {
+    //     public abstract void Clear();
+    // }
 }
