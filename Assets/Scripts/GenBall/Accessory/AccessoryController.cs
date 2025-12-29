@@ -5,7 +5,7 @@ using GenBall.Utils.Singleton;
 using UnityEngine;
 using Yueyn.Event;
 
-namespace GenBall.BattleSystem.Accessory
+namespace GenBall.Accessory
 {
     public class AccessoryController : ISingleton
     {

@@ -101,12 +101,12 @@ namespace GenBall.BattleSystem.Bullets
             var attackables = hitInfo.collider.GetComponentsInParent<IAttackable>();
             // todo gzp 完成枪械系统更新后记得回来完善
             // var attackInfo = AttackInfo.Create(Source.Owner, Source.FinalStats.Damage, _direction.normalized, Source.FinalStats.ImpactForce);
+            var attackInfo = AttackInfo.Create(Source.Owner, 50, _direction.normalized, 1f);
             foreach (var attackable in attackables)
             {
-                var attackInfo = AttackInfo.Create(Source.Owner, 50, _direction.normalized, 1f);
                 attackable.OnAttacked(attackInfo);
             }
-            // ReferencePool.Release(attackInfo);
+            ReferencePool.Release(attackInfo);
             BulletCreator.RecycleEntity(gameObject);
         }
 

@@ -1,4 +1,3 @@
-using System;
 using GenBall.BattleSystem.Bullets;
 using GenBall.Player;
 using GenBall.Utils.EntityCreator;
@@ -6,9 +5,9 @@ using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
 {
-    public class DefaultWeapon : WeaponBase
+    public class DefaultWeapon : MonoBehaviour,IWeapon
     {
-        // public IAttacker Owner { get;private set; }
+        public IAttacker Owner { get;private set; }
         [SerializeField] private Transform bulletSpawnPoint;
         // private BulletCreator BulletCreator => GameEntry.GetModule<BulletCreator>();
         private EntityCreator<IBullet> BulletCreator => GameEntry.GetModule<EntityCreator<IBullet>>();
@@ -16,10 +15,36 @@ namespace GenBall.BattleSystem.Weapons
         private float _countdownTime;
         private float _timer;
         private bool _autoFire = false;
-        
-        public override IWeaponStats Stats { get; }
+        // private readonly DefaultWeaponStats _baseStats = new DefaultWeaponStats()
+        // {
+        //     Damage = 5,
+        //     ImpactForce = 1,
+        // };
+        // public IWeaponStats BaseStats =>_baseStats;
+        //
+        // public IWeaponStats AdditionStats { get; set; } = new DefaultWeaponStats()
+        // {
+        //     Damage = 0,
+        //     ImpactForce = 0,
+        // };
+        //
+        // public IWeaponStats FinalStats => new DefaultWeaponStats()
+        // {
+        //     Damage = _baseStats.Damage+AdditionStats.Damage,
+        //     ImpactForce = _baseStats.ImpactForce+AdditionStats.ImpactForce,
+        // };
 
-        protected override void OnTrigger(ButtonState triggerState)
+        public bool AddAccessory(Accessory.Accessory accessory)
+        {
+            return true;
+        }
+
+        public bool RemoveAccessory(Accessory.Accessory accessory)
+        {
+            return true;
+        }
+
+        public void Trigger(ButtonState triggerState)
         {
             // Debug.Log(triggerState);
             if (triggerState == ButtonState.Down)
@@ -37,16 +62,17 @@ namespace GenBall.BattleSystem.Weapons
             }
         }
 
-        protected override void OnEquip(IAttacker owner)
+        public void OnEquip(IAttacker owner)
         {
+            Owner = owner;
             _countdownTime = countdownTime;
             _timer = 0f;
             // transform.SetParent(parent);
             transform.localPosition = Vector3.zero;
-            // gameObject.SetActive(true);
+            gameObject.SetActive(true);
         }
 
-        protected override void OnUpdate(float deltaTime)
+        public void EntityUpdate(float deltaTime)
         {
             _timer+=deltaTime;
             if (_autoFire && _timer > _countdownTime)
@@ -55,6 +81,20 @@ namespace GenBall.BattleSystem.Weapons
             }
         }
 
+        public void EntityFixedUpdate(float fixedDeltaTime)
+        {
+            
+        }
+
+        public void OnRecycle()
+        {
+            
+        }
+
+        public void OnUnequip()
+        {
+            
+        }
 
         private void Fire()
         {

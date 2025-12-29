@@ -26,7 +26,7 @@ namespace GenBall.Enemy
         public Player.Player Target { get;private set; }
         public void SetTarget(Player.Player target)=>Target = target;
         public TModule GetModule<TModule>() where TModule : Module =>(TModule)GetModule(typeof(TModule));
-        public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Create(0,false);
+        public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Undefined;
 
         public void EntityUpdate(float deltaTime)
         {
@@ -76,36 +76,6 @@ namespace GenBall.Enemy
         {
             _fsmModule.OnDeath();
             GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
-        }
-
-        public void AddBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddEffect(IEffect effect)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveEffect(IEffect effect)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Subscribe(int id, EventHandler<EffectEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)
-        {
-            throw new NotImplementedException();
         }
     }
 }

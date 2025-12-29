@@ -1,3 +1,4 @@
+using GenBall.Accessory;
 using GenBall.Enemy;
 using GenBall.Utils.Singleton;
 using UnityEngine;
