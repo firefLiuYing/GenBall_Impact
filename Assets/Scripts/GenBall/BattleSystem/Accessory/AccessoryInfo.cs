@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Player;
-using JetBrains.Annotations;
-using Yueyn.Base.ReferencePool;
 using Yueyn.Event;
 
-namespace GenBall.Accessory
+namespace GenBall.BattleSystem.Accessory
 {
     public class AccessoryInfo
     {

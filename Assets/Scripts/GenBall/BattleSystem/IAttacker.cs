@@ -1,6 +1,6 @@
 namespace GenBall.BattleSystem
 {
-    public interface IAttacker
+    public interface IAttacker:IEffectable
     {
         
     }

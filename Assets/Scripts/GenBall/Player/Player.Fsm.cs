@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem;
 using UnityEngine;
@@ -67,7 +68,27 @@ namespace GenBall.Player
             }
 
             PlayerController.Instance.ApplyDamage(attackInfo.Damage);
-            return AttackResult.Hit;
+            return AttackResult.Create(attackInfo.Damage);
+        }
+
+        public void AddEffect(IEffect effect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveEffect(IEffect effect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Subscribe(int id, EventHandler<EffectEventArgs> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)
+        {
+            throw new NotImplementedException();
         }
     }
 }

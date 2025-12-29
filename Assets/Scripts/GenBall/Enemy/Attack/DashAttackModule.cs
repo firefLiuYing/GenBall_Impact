@@ -275,7 +275,7 @@ namespace GenBall.Enemy.Attack
                 var result = player.OnAttacked(attackInfo);
                 ReferencePool.Release(attackInfo);
                 // Debug.Log(result);
-                if (result == AttackResult.Hit)
+                if (result.Hit)
                 {
                     ChangeState<ReboundState>();
                 }
