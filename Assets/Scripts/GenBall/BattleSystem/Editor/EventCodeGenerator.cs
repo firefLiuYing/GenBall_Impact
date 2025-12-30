@@ -9,7 +9,7 @@ namespace GenBall.BattleSystem.Editor
 {
     public static class EventCodeGenerator
     {
-        [MenuItem("Tools/生成 Effect 事件代码")]
+        [MenuItem("Tools/事件/Effect/生成 Effect 事件代码")]
         public static void GenerateEventCode()
         {
             var events = Templates.EventTemplateConfig.Events;
@@ -292,7 +292,7 @@ namespace GenBall.BattleSystem.Editor
             EditorGUIUtility.PingObject(generatedAsset);
         }
         
-        [MenuItem("Tools/清理生成的代码")]
+        [MenuItem("Tools/事件/Effect/清理生成的代码")]
         public static void CleanGeneratedCode()
         {
             string path = "Assets/Scripts/GenBall/BattleSystem/Generated/EffectEvents.Generated.cs";
