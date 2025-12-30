@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GenBall.BattleSystem.Weapons;
+using GenBall.Event;
 using GenBall.Player;
 using Yueyn.Event;
 
@@ -14,7 +15,7 @@ namespace GenBall.BattleSystem.Accessory
             get=>_level;
             set
             {
-                var e=ValueChangeEventArgs<int>.Create(value,"AccessoryInfo.Level");
+                var e=ValueChangeEventArgs<int>.Create("AccessoryInfo.Level",value);
                 GameEntry.GetModule<EventManager>().Fire(this,e);
                 _level = value;
             }

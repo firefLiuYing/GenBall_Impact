@@ -1,4 +1,5 @@
 using GenBall.BattleSystem.Accessory;
+using GenBall.Event;
 using GenBall.Player;
 using Yueyn.Base.Variable;
 using Yueyn.Event;

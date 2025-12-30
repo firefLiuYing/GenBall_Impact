@@ -40,5 +40,7 @@ namespace GenBall
             Entry.Register(GetComponentInChildren<MapModule>());
             
         }
+
+        public static EventManager Event => GetModule<EventManager>();
     }
 }
