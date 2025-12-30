@@ -54,7 +54,7 @@ namespace GenBall.Event.Editor
             }
             sb.AppendLine();
             
-            sb.AppendLine("namespace GenBall.Player.Generated");
+            sb.AppendLine("namespace GenBall.Event.Generated");
             sb.AppendLine("{");
             
             // 1. 事件常量定义

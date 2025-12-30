@@ -20,6 +20,7 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("MaxHealth", typeof(int), "最大生命值变化", "Player"),
             new ValueEventDefinition("Armor", typeof(int), "护甲值变化", "Player"),
             new ValueEventDefinition("KillPoints", typeof(int), "击杀点数变化", "Player"),
+            new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
         };
     }
     

@@ -1,5 +1,5 @@
 using GenBall.Event;
-using GenBall.Player.Generated;
+using GenBall.Event.Generated;
 using GenBall.Utils.Attributes.InspectorButton;
 using GenBall.Utils.Attributes.LiveData;
 using UnityEngine;

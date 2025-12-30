@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GenBall.Event;
+using GenBall.Event.Generated;
 using GenBall.Player;
 using GenBall.UI;
 using GenBall.Utils.Singleton;
@@ -26,13 +27,12 @@ namespace GenBall.BattleSystem.Accessory
 
         private void RegisterEvents()
         {
-            GameEntry.GetModule<EventManager>().Subscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.KillPoints"),HandleKillPointsChange);
-            
+            GameEntry.Event.SubscribePlayerKillPoints(OnKillPointsChange);
+
         }
-        private void HandleKillPointsChange(object sender, GameEventArgs e)       
+        private void OnKillPointsChange(int killPoints)       
         {
-            if(e is not ValueChangeEventArgs<int> args) return;
-            _unlockedLevel=KillPointsToLevel(args.Value);
+            _unlockedLevel=KillPointsToLevel(killPoints);
             if (_unlockedLevel > Accessory.Level)
             {
                 UpgradeTip.Open();

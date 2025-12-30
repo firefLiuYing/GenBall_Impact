@@ -1,7 +1,7 @@
 using GenBall.BattleSystem.Accessory;
 using GenBall.Event;
+using GenBall.Event.Generated;
 using GenBall.Player;
-using GenBall.Player.Generated;
 using Yueyn.Base.Variable;
 using Yueyn.Event;
 
@@ -13,16 +13,19 @@ namespace GenBall.UI
         public readonly Variable<int> Armor;
         public readonly Variable<int> KillPoints;
         public readonly Variable<int> Level;
+        public readonly Variable<int> MaxHealth;
         public MainHudVm()
         {
             Health = Variable<int>.Create();
             KillPoints = Variable<int>.Create();
             Armor = Variable<int>.Create();
             Level = Variable<int>.Create();
+            MaxHealth = Variable<int>.Create();
             AddDispose(Health);
             AddDispose(Armor);
             AddDispose(KillPoints);
             AddDispose(Level);
+            AddDispose(MaxHealth);
         }
 
         public void Init()
@@ -33,6 +36,7 @@ namespace GenBall.UI
             Armor.PostValue(PlayerController.Instance.Actor.Armor);
             KillPoints.PostValue(PlayerController.Instance.Actor.KillPoints);
             Level.PostValue(AccessoryController.Instance.Accessory.Level);
+            MaxHealth.PostValue(PlayerController.Instance.Actor.MaxHealth);
         }
 
         private void RegisterEvents()
@@ -40,12 +44,16 @@ namespace GenBall.UI
             GameEntry.Event.SubscribePlayerHealth(Health.PostValue);
             GameEntry.Event.SubscribePlayerArmor(Armor.PostValue);
             GameEntry.Event.SubscribePlayerKillPoints(KillPoints.PostValue);
+            GameEntry.Event.SubscribePlayerMaxHealth(MaxHealth.PostValue);
+            GameEntry.Event.SubscribeWeaponLevel(Level.PostValue);
         }
         private void UnregisterEvents()
         {
             GameEntry.Event.UnsubscribePlayerHealth(Health.PostValue);
             GameEntry.Event.UnsubscribePlayerArmor(Armor.PostValue);
             GameEntry.Event.UnsubscribePlayerKillPoints(KillPoints.PostValue);
+            GameEntry.Event.UnsubscribePlayerMaxHealth(MaxHealth.PostValue);
+            GameEntry.Event.UnsubscribeWeaponLevel(Level.PostValue);
         }
 
         public override void Clear()
