@@ -1,4 +1,5 @@
 using GenBall.Event;
+using GenBall.Player.Generated;
 using GenBall.Utils.Attributes.InspectorButton;
 using GenBall.Utils.Attributes.LiveData;
 using UnityEngine;
@@ -15,8 +16,7 @@ namespace GenBall.Player
             get => _maxHealth;
             set
             {
-                var e=ValueChangeEventArgs<int>.Create("ActorInfo.MaxHealth",value);
-                GameEntry.GetModule<EventManager>().Fire(this,e);
+                GameEntry.Event.FirePlayerMaxHealth(value);
                 _maxHealth = value;
             }
         }
@@ -27,8 +27,7 @@ namespace GenBall.Player
             get => _health;
             set
             {
-                var e=ValueChangeEventArgs<int>.Create("ActorInfo.Health",value);
-                GameEntry.GetModule<EventManager>().Fire(this,e);
+                GameEntry.Event.FirePlayerHealth(value);
                 _health = value;
             }
         }
@@ -39,8 +38,7 @@ namespace GenBall.Player
             get => _killPoints;
             set
             {
-                var e=ValueChangeEventArgs<int>.Create("ActorInfo.KillPoints",value);
-                GameEntry.GetModule<EventManager>().Fire(this,e);
+                GameEntry.Event.FirePlayerKillPoints(value);
                 _killPoints = value;
             }
         }
@@ -52,8 +50,7 @@ namespace GenBall.Player
             get => _armor;
             set
             {
-                var e=ValueChangeEventArgs<int>.Create("ActorInfo.Armor",value);
-                GameEntry.GetModule<EventManager>().Fire(this,e);
+                GameEntry.Event.FirePlayerArmor(value);
                 _armor = value;
             }
         }

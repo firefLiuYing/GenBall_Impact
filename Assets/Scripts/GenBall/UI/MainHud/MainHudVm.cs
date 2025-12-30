@@ -1,6 +1,7 @@
 using GenBall.BattleSystem.Accessory;
 using GenBall.Event;
 using GenBall.Player;
+using GenBall.Player.Generated;
 using Yueyn.Base.Variable;
 using Yueyn.Event;
 
@@ -36,41 +37,15 @@ namespace GenBall.UI
 
         private void RegisterEvents()
         {
-            GameEntry.GetModule<EventManager>().Subscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.Health"),OnHealthChanged);
-            GameEntry.GetModule<EventManager>().Subscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.Armor"),OnArmorChanged);
-            GameEntry.GetModule<EventManager>().Subscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.KillPoints"),OnKillPointsChanged);
-            GameEntry.GetModule<EventManager>().Subscribe(ValueChangeEventArgs<int>.GetId("AccessoryInfo.Level"),OnLevelChanged);
+            GameEntry.Event.SubscribePlayerHealth(Health.PostValue);
+            GameEntry.Event.SubscribePlayerArmor(Armor.PostValue);
+            GameEntry.Event.SubscribePlayerKillPoints(KillPoints.PostValue);
         }
         private void UnregisterEvents()
         {
-            GameEntry.GetModule<EventManager>().Unsubscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.Health"),OnHealthChanged);
-            GameEntry.GetModule<EventManager>().Unsubscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.Armor"),OnArmorChanged);
-            GameEntry.GetModule<EventManager>().Unsubscribe(ValueChangeEventArgs<int>.GetId("ActorInfo.KillPoints"),OnKillPointsChanged);
-            GameEntry.GetModule<EventManager>().Unsubscribe(ValueChangeEventArgs<int>.GetId("AccessoryInfo.Level"),OnLevelChanged);
-        }
-
-        private void OnHealthChanged(object sender, GameEventArgs e)
-        {
-            if(e is not ValueChangeEventArgs<int> args) return;
-            Health.PostValue(args.Value);
-        }
-
-        private void OnArmorChanged(object sender, GameEventArgs e)
-        {
-            if(e is not ValueChangeEventArgs<int> args) return;
-            Armor.PostValue(args.Value);
-        }
-
-        private void OnKillPointsChanged(object sender, GameEventArgs e)
-        {
-            if(e is not ValueChangeEventArgs<int> args) return;
-            KillPoints.PostValue(args.Value);
-        }
-
-        private void OnLevelChanged(object sender, GameEventArgs e)
-        {
-            if(e is not ValueChangeEventArgs<int> args) return;
-            Level.PostValue(args.Value);
+            GameEntry.Event.UnsubscribePlayerHealth(Health.PostValue);
+            GameEntry.Event.UnsubscribePlayerArmor(Armor.PostValue);
+            GameEntry.Event.UnsubscribePlayerKillPoints(KillPoints.PostValue);
         }
 
         public override void Clear()
