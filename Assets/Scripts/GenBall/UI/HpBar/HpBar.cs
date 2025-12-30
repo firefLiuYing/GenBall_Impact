@@ -64,7 +64,6 @@ namespace GenBall.UI
         private void UpdateHeartArgs(int maxHealth, int health, int armor)
         {
             _heartArgs.Clear();
-            Debug.Log($"µ±Ç°ÑªÁ¿{health}");
             var heartCount = (maxHealth + 1) / 2;
             for (int i = 0; i < heartCount; i++)
             {
