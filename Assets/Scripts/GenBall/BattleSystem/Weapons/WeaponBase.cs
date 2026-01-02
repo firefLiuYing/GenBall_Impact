@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GenBall.BattleSystem.Accessory;
 using GenBall.BattleSystem.Generated;
 using GenBall.Player;
+using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.EventPool;
 
@@ -12,6 +13,7 @@ namespace GenBall.BattleSystem.Weapons
     {
         private readonly EventPool<EffectEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
         private readonly List<IEffect> _effects = new();
+        private readonly Dictionary<Type, IWeaponComponent> _weaponComponents = new();
         public void EntityUpdate(float deltaTime)
         {
             this.FireUpdate(deltaTime);
@@ -65,6 +67,7 @@ namespace GenBall.BattleSystem.Weapons
         public void Equip(IAttacker owner)
         {
             Owner=owner;
+            EquipWeaponComponent();
             OnEquip(owner);
             gameObject.SetActive(true);
         }
@@ -72,6 +75,7 @@ namespace GenBall.BattleSystem.Weapons
 
         public void Unequip()
         {
+            UnequipWeaponComponents();
             Owner = null;
         }
 
@@ -82,6 +86,32 @@ namespace GenBall.BattleSystem.Weapons
             this.FireAfterAttackCalculate(result);
         }
 
+        public T GetWeaponComponent<T>() where T : IWeaponComponent =>(T)InternalGetWeaponComponent(typeof(T));
+        private IWeaponComponent InternalGetWeaponComponent([NotNull] Type type) => _weaponComponents.GetValueOrDefault(type);
+
+        private void EquipWeaponComponent()
+        {
+            _weaponComponents.Clear();
+            var weaponComponents = GetComponentsInChildren<IWeaponComponent>();
+            foreach (var weaponComponent in weaponComponents)
+            {
+                _weaponComponents.Add(weaponComponent.GetType(),weaponComponent);
+            }
+
+            foreach (var wc in _weaponComponents.Values)
+            {
+                wc.Equip(this);
+            }
+        }
+
+        private void UnequipWeaponComponents()
+        {
+            foreach (var weaponComponent in _weaponComponents.Values)
+            {
+                weaponComponent.Unequip();
+            }
+            _weaponComponents.Clear();
+        }
         public abstract IWeaponStats Stats { get; }
     }
 }
