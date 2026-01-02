@@ -12,6 +12,22 @@ namespace GenBall.BattleSystem
         public T BaseValue;
         public T CurrentValue;
         protected readonly List<StatModifier<T>> Modifiers = new();
+
+        public StatValue(T baseValue)
+        {
+            SetBaseValue(baseValue);
+        }
+
+        public StatValue()
+        {
+            SetBaseValue(default(T));
+        }
+
+        public void SetBaseValue(T baseValue)
+        {
+            BaseValue = baseValue;
+            Recalculate();
+        }
         public void AddModifier(StatModifier<T> modifier)
         {
             Modifiers.Add(modifier);
@@ -28,6 +44,8 @@ namespace GenBall.BattleSystem
     }
     public class IntStat: StatValue<int>
     {
+        public IntStat():base(0){}
+        public IntStat(int baseValue):base(baseValue){}
         protected override void Recalculate()
         {
             CurrentValue = BaseValue;
@@ -40,6 +58,8 @@ namespace GenBall.BattleSystem
 
     public class FloatStat : StatValue<float>
     {
+        public FloatStat():base(0){}
+        public FloatStat(float baseValue):base(baseValue){}
         protected override void Recalculate()
         {
             CurrentValue = BaseValue;
