@@ -5,6 +5,7 @@ namespace GenBall.BattleSystem.Weapons
     public class MagazineComponent : WeaponComponentBase
     {
         [SerializeField] private int baseCapacity;
+        public void SetBaseCapacity(int capacity) => baseCapacity=capacity;
         public readonly IntStat Capacity = new();
         public int AmmunitionCount { get;private set; }
 
