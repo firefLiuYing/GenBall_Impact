@@ -1,3 +1,5 @@
+using GenBall.Event.Generated;
+using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
@@ -24,6 +26,28 @@ namespace GenBall.BattleSystem.Weapons
         {
             Capacity.SetBaseValue(baseCapacity);
             Reload();
+            
+            RegisterEvents();
+        }
+
+        protected override void OnUnequip()
+        {
+            UnregisterEvents();
+        }
+
+        private void OnReloadInput(ButtonState buttonState)
+        {
+            if(buttonState == ButtonState.Down) Reload();
+        }
+
+        private void RegisterEvents()
+        {
+            GameEntry.Event.SubscribeInputReload(OnReloadInput);
+        }
+
+        private void UnregisterEvents()
+        {
+            GameEntry.Event.UnsubscribeInputReload(OnReloadInput);
         }
     }
 }

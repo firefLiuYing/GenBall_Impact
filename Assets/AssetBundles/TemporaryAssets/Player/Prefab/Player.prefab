@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerConfigSo: {fileID: 11400000, guid: e5aacef654e7cfc4b8650dbf71d8889a, type: 2}
+  mainCameraTransform: {fileID: 0}
   weaponSpawnPoint: {fileID: 8198182811824451035}
 --- !u!54 &821639758389167587
 Rigidbody:
@@ -167,53 +168,37 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5842609144646964894}
-        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
-        m_MethodName: MoveInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 0754ebd2-481f-422a-bde4-5aea4e7c60a7
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5842609144646964894}
-        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
-        m_MethodName: ViewInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 7229967c-f815-4ffc-b0d8-0a23c7e0e75e
     m_ActionName: Player/Look[/Mouse/delta,/Touchscreen/delta]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5842609144646964894}
-        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
-        m_MethodName: FireInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: eb04d834-e5de-4096-8ce3-e6c0f09830f6
     m_ActionName: Player/Fire[/Mouse/leftButton,/Touchscreen/primaryTouch/tap]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c5dcc85a-e0ab-40e7-aefa-27cacf0c865a
+    m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 95b81b57-6614-49a7-9159-56ca7eff0f49
+    m_ActionName: Player/Dash[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be57530e-2ad2-44ae-9c28-891e3ff7a431
+    m_ActionName: Player/Accessory[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92191dec-bbe9-4e59-91c5-06873c842feb
+    m_ActionName: Player/Upgrade[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4d706dc1-8998-4e99-a0a8-0b2a40b9e841
+    m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 19bed5b7-60de-4825-a8cf-b1ea17f85298
@@ -254,38 +239,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c1c89dcf-b20b-48b3-a35c-8dc93c1c797f
     m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5842609144646964894}
-        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
-        m_MethodName: JumpInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c5dcc85a-e0ab-40e7-aefa-27cacf0c865a
-    m_ActionName: Player/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5842609144646964894}
-        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
-        m_MethodName: DashInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 95b81b57-6614-49a7-9159-56ca7eff0f49
-    m_ActionName: Player/Dash[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

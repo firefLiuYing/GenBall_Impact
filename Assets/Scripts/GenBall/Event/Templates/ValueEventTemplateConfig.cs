@@ -1,6 +1,7 @@
 // ValueEventTemplateConfig.cs
 
 using System;
+using GenBall.Player;
 using UnityEngine;
 using Yueyn.Event;
 
@@ -21,6 +22,7 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("Armor", typeof(int), "护甲值变化", "Player"),
             new ValueEventDefinition("KillPoints", typeof(int), "击杀点数变化", "Player"),
             new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
+            new ValueEventDefinition("Reload",typeof(ButtonState),"换弹按键输入","Input"),
         };
     }
     

@@ -1,4 +1,5 @@
 using System;
+using GenBall.Event.Generated;
 using GenBall.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -104,6 +105,18 @@ namespace GenBall.Player
                 }
                 _accessoryFormOpened=!_accessoryFormOpened;
             }
+        }
+
+        public void ReloadInput(InputAction.CallbackContext context)
+        {
+            var buttonState= context.phase switch
+            {
+                InputActionPhase.Started=>ButtonState.Down,
+                InputActionPhase.Canceled=>ButtonState.Up,
+                InputActionPhase.Performed=>ButtonState.Hold,
+                _=>ButtonState.None
+            };
+            GameEntry.Event.FireInputReload(buttonState);
         }
     }
 }

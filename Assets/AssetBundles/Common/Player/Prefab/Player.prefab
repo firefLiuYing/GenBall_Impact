@@ -294,6 +294,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 92191dec-bbe9-4e59-91c5-06873c842feb
     m_ActionName: Player/Upgrade[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6064106902281739801}
+        m_TargetAssemblyTypeName: GenBall.Player.InputController, Assembly-CSharp
+        m_MethodName: ReloadInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4d706dc1-8998-4e99-a0a8-0b2a40b9e841
+    m_ActionName: Player/Reload[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
