@@ -14,12 +14,17 @@ namespace GenBall.BattleSystem.Weapons
         public void Reload()
         {
             AmmunitionCount = Capacity.CurrentValue;
+            FireMagazineInfoChange();
         }
 
         public bool CanFire(int amount = 1) =>AmmunitionCount>=amount;
         public void Fire(int amount=1)
         {
-            if(CanFire()) AmmunitionCount -= amount;
+            if (CanFire())
+            {
+                AmmunitionCount -= amount;
+                FireMagazineInfoChange();
+            }
         }
 
         protected override void OnEquip()
@@ -48,6 +53,16 @@ namespace GenBall.BattleSystem.Weapons
         private void UnregisterEvents()
         {
             GameEntry.Event.UnsubscribeInputReload(OnReloadInput);
+        }
+
+        private void FireMagazineInfoChange()
+        {
+            GameEntry.Event.FireNowWeaponMagazineInfoChange(new  MagazineInfo { AmmunitionCount = AmmunitionCount , Capacity = Capacity.CurrentValue });
+        }
+        public struct MagazineInfo
+        {
+            public int AmmunitionCount;
+            public int Capacity;
         }
     }
 }

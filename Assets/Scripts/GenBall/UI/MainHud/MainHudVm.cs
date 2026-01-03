@@ -1,4 +1,5 @@
 using GenBall.BattleSystem.Accessory;
+using GenBall.BattleSystem.Weapons;
 using GenBall.Event;
 using GenBall.Event.Generated;
 using GenBall.Player;
@@ -14,6 +15,7 @@ namespace GenBall.UI
         public readonly Variable<int> KillPoints;
         public readonly Variable<int> Level;
         public readonly Variable<int> MaxHealth;
+        public readonly Variable<MagazineComponent.MagazineInfo> MagazineInfo;
         public MainHudVm()
         {
             Health = Variable<int>.Create();
@@ -21,11 +23,13 @@ namespace GenBall.UI
             Armor = Variable<int>.Create();
             Level = Variable<int>.Create();
             MaxHealth = Variable<int>.Create();
+            MagazineInfo = Variable<MagazineComponent.MagazineInfo>.Create();
             AddDispose(Health);
             AddDispose(Armor);
             AddDispose(KillPoints);
             AddDispose(Level);
             AddDispose(MaxHealth);
+            AddDispose(MagazineInfo);
         }
 
         public void Init()
@@ -46,6 +50,7 @@ namespace GenBall.UI
             GameEntry.Event.SubscribePlayerKillPoints(KillPoints.PostValue);
             GameEntry.Event.SubscribePlayerMaxHealth(MaxHealth.PostValue);
             GameEntry.Event.SubscribeWeaponLevel(Level.PostValue);
+            GameEntry.Event.SubscribeWeaponMagazineInfoChange(MagazineInfo.PostValue);
         }
         private void UnregisterEvents()
         {
@@ -54,6 +59,7 @@ namespace GenBall.UI
             GameEntry.Event.UnsubscribePlayerKillPoints(KillPoints.PostValue);
             GameEntry.Event.UnsubscribePlayerMaxHealth(MaxHealth.PostValue);
             GameEntry.Event.UnsubscribeWeaponLevel(Level.PostValue);
+            GameEntry.Event.UnsubscribeWeaponMagazineInfoChange(MagazineInfo.PostValue);
         }
 
         public override void Clear()

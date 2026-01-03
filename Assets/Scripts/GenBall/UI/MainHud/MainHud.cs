@@ -1,3 +1,4 @@
+using GenBall.BattleSystem.Weapons;
 using UnityEngine;
 
 namespace GenBall.UI
@@ -35,12 +36,14 @@ namespace GenBall.UI
         {
             _mainHudVm.KillPoints.Observe(OnKillPointsChanged);
             _mainHudVm.Level.Observe(OnLevelChanged);
+            _mainHudVm.MagazineInfo.Observe(OnMagazineInfoChange);
         }
 
         private void UnRegisterEvents()
         {
             _mainHudVm.KillPoints.Unobserve(OnKillPointsChanged);
             _mainHudVm.Level.Unobserve(OnLevelChanged);
+            _mainHudVm.MagazineInfo.Unobserve(OnMagazineInfoChange);
         }
 
         private void OnKillPointsChanged(int kills)
@@ -51,6 +54,11 @@ namespace GenBall.UI
         private void OnLevelChanged(int level)
         {
             _autoTxtLevel.text=$"Level: {level}";
+        }
+
+        private void OnMagazineInfoChange(MagazineComponent.MagazineInfo magazineInfo)
+        {
+            _autoTxtMagazine.text=$"{magazineInfo.AmmunitionCount}/{magazineInfo.Capacity}";
         }
     }
 }
