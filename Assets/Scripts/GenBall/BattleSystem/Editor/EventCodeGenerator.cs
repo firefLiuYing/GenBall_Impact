@@ -1,4 +1,4 @@
-// EffectEventCodeGenerator.cs
+// EffectEventCodeGenerator.cs（完整修正版，包含2参数取消订阅支持）
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -22,6 +22,7 @@ namespace GenBall.BattleSystem.Editor
                 var namespaces = new HashSet<string>
                 {
                     "System",
+                    "System.Collections.Generic",
                     "Yueyn.Event",
                     "Yueyn.Base.ReferencePool",
                     "GenBall.Event"
@@ -177,14 +178,172 @@ namespace GenBall.BattleSystem.Editor
                 sb.AppendLine("    }");
                 sb.AppendLine();
                 
-                // 5. 核心：ILocalEventManager扩展方法
+                // 5. 核心：ILocalEventManager扩展方法（修复版）
                 sb.AppendLine("    /// <summary>");
                 sb.AppendLine("    /// ILocalEventManager扩展方法（类型安全的包装器）");
                 sb.AppendLine("    /// </summary>");
                 sb.AppendLine("    public static class LocalEventManagerExtensions");
                 sb.AppendLine("    {");
                 
-                // 订阅扩展方法
+                // 添加委托缓存系统
+                sb.AppendLine("        #region 委托缓存系统（内部使用）");
+                sb.AppendLine("        private static class EventHandlerCache");
+                sb.AppendLine("        {");
+                sb.AppendLine("            private class HandlerWrapper");
+                sb.AppendLine("            {");
+                sb.AppendLine("                public Delegate TypedHandler { get; }");
+                sb.AppendLine("                public EventHandler<GameEventArgs> EventHandler { get; }");
+                sb.AppendLine("");
+                sb.AppendLine("                public HandlerWrapper(Delegate typedHandler, EventHandler<GameEventArgs> eventHandler)");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    TypedHandler = typedHandler;");
+                sb.AppendLine("                    EventHandler = eventHandler;");
+                sb.AppendLine("                }");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                sb.AppendLine("            private static readonly Dictionary<int, List<HandlerWrapper>> _wrappers = new Dictionary<int, List<HandlerWrapper>>();");
+                sb.AppendLine("");
+                // 用于无参数事件的包装器
+                sb.AppendLine("            public static void AddWrapper(int eventId, Action typedHandler, EventHandler<GameEventArgs> eventHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (!_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    list = new List<HandlerWrapper>();");
+                sb.AppendLine("                    _wrappers[eventId] = list;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                list.Add(new HandlerWrapper(typedHandler, eventHandler));");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 用于单参数事件的包装器
+                sb.AppendLine("            public static void AddWrapper<T>(int eventId, Action<T> typedHandler, EventHandler<GameEventArgs> eventHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (!_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    list = new List<HandlerWrapper>();");
+                sb.AppendLine("                    _wrappers[eventId] = list;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                list.Add(new HandlerWrapper(typedHandler, eventHandler));");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 用于双参数事件的包装器
+                sb.AppendLine("            public static void AddWrapper<T1, T2>(int eventId, Action<T1, T2> typedHandler, EventHandler<GameEventArgs> eventHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (!_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    list = new List<HandlerWrapper>();");
+                sb.AppendLine("                    _wrappers[eventId] = list;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                list.Add(new HandlerWrapper(typedHandler, eventHandler));");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 用于三参数事件的包装器
+                sb.AppendLine("            public static void AddWrapper<T1, T2, T3>(int eventId, Action<T1, T2, T3> typedHandler, EventHandler<GameEventArgs> eventHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (!_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    list = new List<HandlerWrapper>();");
+                sb.AppendLine("                    _wrappers[eventId] = list;");
+                sb.AppendLine("                }");
+                sb.AppendLine("                list.Add(new HandlerWrapper(typedHandler, eventHandler));");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 移除无参数事件的包装器
+                sb.AppendLine("            public static bool RemoveWrapper(int eventId, Action typedHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    for (int i = list.Count - 1; i >= 0; i--)");
+                sb.AppendLine("                    {");
+                sb.AppendLine("                        if (list[i].TypedHandler is Action handler && handler == typedHandler)");
+                sb.AppendLine("                        {");
+                sb.AppendLine("                            list.RemoveAt(i);");
+                sb.AppendLine("                            return true;");
+                sb.AppendLine("                        }");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return false;");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 移除单参数事件的包装器
+                sb.AppendLine("            public static bool RemoveWrapper<T>(int eventId, Action<T> typedHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    for (int i = list.Count - 1; i >= 0; i--)");
+                sb.AppendLine("                    {");
+                sb.AppendLine("                        if (list[i].TypedHandler is Action<T> handler && handler == typedHandler)");
+                sb.AppendLine("                        {");
+                sb.AppendLine("                            list.RemoveAt(i);");
+                sb.AppendLine("                            return true;");
+                sb.AppendLine("                        }");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return false;");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 移除双参数事件的包装器
+                sb.AppendLine("            public static bool RemoveWrapper<T1, T2>(int eventId, Action<T1, T2> typedHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    for (int i = list.Count - 1; i >= 0; i--)");
+                sb.AppendLine("                    {");
+                sb.AppendLine("                        if (list[i].TypedHandler is Action<T1, T2> handler && handler == typedHandler)");
+                sb.AppendLine("                        {");
+                sb.AppendLine("                            list.RemoveAt(i);");
+                sb.AppendLine("                            return true;");
+                sb.AppendLine("                        }");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return false;");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 获取无参数事件的事件处理器
+                sb.AppendLine("            public static EventHandler<GameEventArgs> GetEventHandler(int eventId, Action typedHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    foreach (var wrapper in list)");
+                sb.AppendLine("                    {");
+                sb.AppendLine("                        if (wrapper.TypedHandler is Action handler && handler == typedHandler)");
+                sb.AppendLine("                            return wrapper.EventHandler;");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return null;");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 获取单参数事件的事件处理器
+                sb.AppendLine("            public static EventHandler<GameEventArgs> GetEventHandler<T>(int eventId, Action<T> typedHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    foreach (var wrapper in list)");
+                sb.AppendLine("                    {");
+                sb.AppendLine("                        if (wrapper.TypedHandler is Action<T> handler && handler == typedHandler)");
+                sb.AppendLine("                            return wrapper.EventHandler;");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return null;");
+                sb.AppendLine("            }");
+                sb.AppendLine("");
+                // 获取双参数事件的事件处理器
+                sb.AppendLine("            public static EventHandler<GameEventArgs> GetEventHandler<T1, T2>(int eventId, Action<T1, T2> typedHandler)");
+                sb.AppendLine("            {");
+                sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+                sb.AppendLine("                {");
+                sb.AppendLine("                    foreach (var wrapper in list)");
+                sb.AppendLine("                    {");
+                sb.AppendLine("                        if (wrapper.TypedHandler is Action<T1, T2> handler && handler == typedHandler)");
+                sb.AppendLine("                            return wrapper.EventHandler;");
+                sb.AppendLine("                    }");
+                sb.AppendLine("                }");
+                sb.AppendLine("                return null;");
+                sb.AppendLine("            }");
+                sb.AppendLine("        }");
+                sb.AppendLine("        #endregion");
+                sb.AppendLine();
+                
+                // 订阅扩展方法（修复版）
                 sb.AppendLine("        #region 订阅扩展方法");
                 foreach (var evt in events)
                 {
@@ -194,44 +353,56 @@ namespace GenBall.BattleSystem.Editor
                     {
                         sb.AppendLine($"        public static void Subscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action handler)");
                         sb.AppendLine("        {");
-                        sb.AppendLine($"            eventManager.Subscribe(EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)}, (sender, args) =>");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
                         sb.AppendLine("            {");
                         sb.AppendLine($"                if (args is EffectEventArgs<object>)");
                         sb.AppendLine("                    handler?.Invoke();");
-                        sb.AppendLine("            });");
+                        sb.AppendLine("            };");
+                        sb.AppendLine($"            EventHandlerCache.AddWrapper(eventId, handler, eventHandler);");
+                        sb.AppendLine("            eventManager.Subscribe(eventId, eventHandler);");
                         sb.AppendLine("        }");
                     }
                     else if (evt.ParamCount == 1)
                     {
                         sb.AppendLine($"        public static void Subscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action<{evt.ParamTypes[0].Name}> handler)");
                         sb.AppendLine("        {");
-                        sb.AppendLine($"            eventManager.Subscribe(EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)}, (sender, args) =>");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
                         sb.AppendLine("            {");
                         sb.AppendLine($"                if (args is EffectEventArgs<{evt.ParamTypes[0].Name}> effectArgs)");
                         sb.AppendLine("                    handler?.Invoke(effectArgs.Args);");
-                        sb.AppendLine("            });");
+                        sb.AppendLine("            };");
+                        sb.AppendLine($"            EventHandlerCache.AddWrapper(eventId, handler, eventHandler);");
+                        sb.AppendLine("            eventManager.Subscribe(eventId, eventHandler);");
                         sb.AppendLine("        }");
                     }
                     else if (evt.ParamCount == 2)
                     {
                         sb.AppendLine($"        public static void Subscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action<{evt.ParamTypes[0].Name}, {evt.ParamTypes[1].Name}> handler)");
                         sb.AppendLine("        {");
-                        sb.AppendLine($"            eventManager.Subscribe(EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)}, (sender, args) =>");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
                         sb.AppendLine("            {");
                         sb.AppendLine($"                if (args is EffectEventArgs<{evt.ParamTypes[0].Name}, {evt.ParamTypes[1].Name}> effectArgs)");
                         sb.AppendLine("                    handler?.Invoke(effectArgs.Args1, effectArgs.Args2);");
-                        sb.AppendLine("            });");
+                        sb.AppendLine("            };");
+                        sb.AppendLine($"            EventHandlerCache.AddWrapper(eventId, handler, eventHandler);");
+                        sb.AppendLine("            eventManager.Subscribe(eventId, eventHandler);");
                         sb.AppendLine("        }");
                     }
                     else if (evt.ParamCount == 3)
                     {
                         sb.AppendLine($"        public static void Subscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action<{evt.ParamTypes[0].Name}, {evt.ParamTypes[1].Name}, {evt.ParamTypes[2].Name}> handler)");
                         sb.AppendLine("        {");
-                        sb.AppendLine($"            eventManager.Subscribe(EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)}, (sender, args) =>");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
                         sb.AppendLine("            {");
                         sb.AppendLine($"                if (args is EffectEventArgs<{evt.ParamTypes[0].Name}, {evt.ParamTypes[1].Name}, {evt.ParamTypes[2].Name}> effectArgs)");
                         sb.AppendLine("                    handler?.Invoke(effectArgs.Args1, effectArgs.Args2, effectArgs.Args3);");
-                        sb.AppendLine("            });");
+                        sb.AppendLine("            };");
+                        sb.AppendLine($"            EventHandlerCache.AddWrapper(eventId, handler, eventHandler);");
+                        sb.AppendLine("            eventManager.Subscribe(eventId, eventHandler);");
                         sb.AppendLine("        }");
                     }
                     sb.AppendLine();
@@ -240,7 +411,7 @@ namespace GenBall.BattleSystem.Editor
                 sb.AppendLine("        #endregion");
                 sb.AppendLine();
                 
-                // 取消订阅扩展方法
+                // 取消订阅扩展方法（修复版）- 现在支持0,1,2参数
                 sb.AppendLine("        #region 取消订阅扩展方法");
                 foreach (var evt in events)
                 {
@@ -250,31 +421,50 @@ namespace GenBall.BattleSystem.Editor
                     {
                         sb.AppendLine($"        public static void Unsubscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action handler)");
                         sb.AppendLine("        {");
-                        sb.AppendLine($"            eventManager.Unsubscribe(EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)}, (sender, args) =>");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);");
+                        sb.AppendLine("            if (eventHandler != null)");
                         sb.AppendLine("            {");
-                        sb.AppendLine($"                if (args is EffectEventArgs<object>)");
-                        sb.AppendLine("                    handler?.Invoke();");
-                        sb.AppendLine("            });");
+                        sb.AppendLine("                eventManager.Unsubscribe(eventId, eventHandler);");
+                        sb.AppendLine("                EventHandlerCache.RemoveWrapper(eventId, handler);");
+                        sb.AppendLine("            }");
                         sb.AppendLine("        }");
                     }
                     else if (evt.ParamCount == 1)
                     {
                         sb.AppendLine($"        public static void Unsubscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action<{evt.ParamTypes[0].Name}> handler)");
                         sb.AppendLine("        {");
-                        sb.AppendLine($"            eventManager.Unsubscribe(EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)}, (sender, args) =>");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);");
+                        sb.AppendLine("            if (eventHandler != null)");
                         sb.AppendLine("            {");
-                        sb.AppendLine($"                if (args is EffectEventArgs<{evt.ParamTypes[0].Name}> effectArgs)");
-                        sb.AppendLine("                    handler?.Invoke(effectArgs.Args);");
-                        sb.AppendLine("            });");
+                        sb.AppendLine("                eventManager.Unsubscribe(eventId, eventHandler);");
+                        sb.AppendLine("                EventHandlerCache.RemoveWrapper(eventId, handler);");
+                        sb.AppendLine("            }");
                         sb.AppendLine("        }");
                     }
+                    else if (evt.ParamCount == 2)
+                    {
+                        // 新增：2参数事件的取消订阅
+                        sb.AppendLine($"        public static void Unsubscribe{evt.Category}{evt.Name}(this ILocalEventManager eventManager, Action<{evt.ParamTypes[0].Name}, {evt.ParamTypes[1].Name}> handler)");
+                        sb.AppendLine("        {");
+                        sb.AppendLine($"            int eventId = EffectEventIds.{GetSafeFieldName(evt.Category, evt.Name)};");
+                        sb.AppendLine($"            var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);");
+                        sb.AppendLine("            if (eventHandler != null)");
+                        sb.AppendLine("            {");
+                        sb.AppendLine("                eventManager.Unsubscribe(eventId, eventHandler);");
+                        sb.AppendLine($"                EventHandlerCache.RemoveWrapper(eventId, handler);");
+                        sb.AppendLine("            }");
+                        sb.AppendLine("        }");
+                    }
+                    // 3参数事件的取消订阅暂时不需要
                     sb.AppendLine();
                 }
                 
                 sb.AppendLine("        #endregion");
                 sb.AppendLine();
                 
-                // 触发事件扩展方法（FireEvent）
+                // 触发事件扩展方法（FireEvent）- 保持不变
                 sb.AppendLine("        #region 触发事件扩展方法（排队）");
                 foreach (var evt in events)
                 {
@@ -318,7 +508,7 @@ namespace GenBall.BattleSystem.Editor
                 sb.AppendLine("        #endregion");
                 sb.AppendLine();
                 
-                // 立即触发事件扩展方法（FireNow）
+                // 立即触发事件扩展方法（FireNow）- 保持不变
                 sb.AppendLine("        #region 立即触发事件扩展方法（立即执行）");
                 foreach (var evt in events)
                 {
@@ -365,7 +555,7 @@ namespace GenBall.BattleSystem.Editor
                 sb.AppendLine("    }");
                 sb.AppendLine();
                 
-                // 6. 按类别组织的静态辅助类
+                // 6. 按类别组织的静态辅助类（保持不变）
                 var categories = events.GroupBy(e => e.Category);
                 foreach (var category in categories)
                 {

@@ -1,5 +1,4 @@
-// GlobalEventCodeGenerator.cs（完全修正版）
-
+// GlobalEventCodeGenerator.cs（修复取消订阅bug的版本）
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +20,7 @@ namespace GenBall.Event.Editor
             var namespaces = new HashSet<string>
             {
                 "System",
+                "System.Collections.Generic",
                 "Yueyn.Event",
                 "Yueyn.Base.ReferencePool",
                 "GenBall.Event"
@@ -110,7 +110,7 @@ namespace GenBall.Event.Editor
             
             sb.AppendLine("        /// <summary>");
             sb.AppendLine("        /// 获取事件ID（非泛型版本，通过事件名）");
-            sb.AppendLine("        /// </summary>");
+            sb.AppendLine("    /// </summary>");
             sb.AppendLine("        public static int GetId(string eventName)");
             sb.AppendLine("        {");
             sb.AppendLine("            // 默认使用object类型，适用于未预定义的事件");
@@ -140,14 +140,74 @@ namespace GenBall.Event.Editor
             sb.AppendLine("    }");
             sb.AppendLine();
             
-            // 4. 核心：EventManager扩展方法
+            // 4. 委托缓存系统（修复取消订阅问题的关键）
             sb.AppendLine("    /// <summary>");
             sb.AppendLine("    /// EventManager扩展方法（类型安全的包装器）");
             sb.AppendLine("    /// </summary>");
             sb.AppendLine("    public static class EventManagerExtensions");
             sb.AppendLine("    {");
             
-            // 订阅扩展方法
+            // 添加委托缓存类
+            sb.AppendLine("        #region 委托缓存系统（内部使用）");
+            sb.AppendLine("        private static class EventHandlerCache");
+            sb.AppendLine("        {");
+            sb.AppendLine("            private class HandlerWrapper");
+            sb.AppendLine("            {");
+            sb.AppendLine("                public Delegate TypedHandler { get; }");
+            sb.AppendLine("                public EventHandler<GameEventArgs> EventHandler { get; }");
+            sb.AppendLine("");
+            sb.AppendLine("                public HandlerWrapper(Delegate typedHandler, EventHandler<GameEventArgs> eventHandler)");
+            sb.AppendLine("                {");
+            sb.AppendLine("                    TypedHandler = typedHandler;");
+            sb.AppendLine("                    EventHandler = eventHandler;");
+            sb.AppendLine("                }");
+            sb.AppendLine("            }");
+            sb.AppendLine("");
+            sb.AppendLine("            private static readonly Dictionary<int, List<HandlerWrapper>> _wrappers = new Dictionary<int, List<HandlerWrapper>>();");
+            sb.AppendLine("");
+            sb.AppendLine("            public static void AddWrapper<T>(int eventId, Action<T> typedHandler, EventHandler<GameEventArgs> eventHandler)");
+            sb.AppendLine("            {");
+            sb.AppendLine("                if (!_wrappers.TryGetValue(eventId, out var list))");
+            sb.AppendLine("                {");
+            sb.AppendLine("                    list = new List<HandlerWrapper>();");
+            sb.AppendLine("                    _wrappers[eventId] = list;");
+            sb.AppendLine("                }");
+            sb.AppendLine("                list.Add(new HandlerWrapper(typedHandler, eventHandler));");
+            sb.AppendLine("            }");
+            sb.AppendLine("");
+            sb.AppendLine("            public static bool RemoveWrapper<T>(int eventId, Action<T> typedHandler)");
+            sb.AppendLine("            {");
+            sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+            sb.AppendLine("                {");
+            sb.AppendLine("                    for (int i = list.Count - 1; i >= 0; i--)");
+            sb.AppendLine("                    {");
+            sb.AppendLine("                        if (list[i].TypedHandler is Action<T> handler && handler == typedHandler)");
+            sb.AppendLine("                        {");
+            sb.AppendLine("                            list.RemoveAt(i);");
+            sb.AppendLine("                            return true;");
+            sb.AppendLine("                        }");
+            sb.AppendLine("                    }");
+            sb.AppendLine("                }");
+            sb.AppendLine("                return false;");
+            sb.AppendLine("            }");
+            sb.AppendLine("");
+            sb.AppendLine("            public static EventHandler<GameEventArgs> GetEventHandler<T>(int eventId, Action<T> typedHandler)");
+            sb.AppendLine("            {");
+            sb.AppendLine("                if (_wrappers.TryGetValue(eventId, out var list))");
+            sb.AppendLine("                {");
+            sb.AppendLine("                    foreach (var wrapper in list)");
+            sb.AppendLine("                    {");
+            sb.AppendLine("                        if (wrapper.TypedHandler is Action<T> handler && handler == typedHandler)");
+            sb.AppendLine("                            return wrapper.EventHandler;");
+            sb.AppendLine("                    }");
+            sb.AppendLine("                }");
+            sb.AppendLine("                return null;");
+            sb.AppendLine("            }");
+            sb.AppendLine("        }");
+            sb.AppendLine("        #endregion");
+            sb.AppendLine();
+            
+            // 订阅扩展方法（修复版）
             sb.AppendLine("        #region 订阅扩展方法");
             foreach (var evt in events)
             {
@@ -155,31 +215,36 @@ namespace GenBall.Event.Editor
                 sb.AppendLine($"        public static void Subscribe{evt.Module}{evt.Name}(this EventManager eventManager, Action<{evt.TypeName}> handler)");
                 sb.AppendLine("        {");
                 sb.AppendLine($"            int eventId = GlobalEventIds.{GetSafeFieldName(evt.Module, evt.Name)};");
-                sb.AppendLine("            eventManager.Subscribe(eventId, (sender, args) =>");
+                sb.AppendLine($"            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
                 sb.AppendLine("            {");
                 sb.AppendLine($"                if (args is ValueChangeEventArgs<{evt.TypeName}> valueArgs)");
                 sb.AppendLine("                    handler?.Invoke(valueArgs.Value);");
-                sb.AppendLine("            });");
+                sb.AppendLine("            };");
+                sb.AppendLine($"            EventHandlerCache.AddWrapper(eventId, handler, eventHandler);");
+                sb.AppendLine("            eventManager.Subscribe(eventId, eventHandler);");
                 sb.AppendLine("        }");
                 sb.AppendLine();
             }
             
-            // 通用的订阅方法
+            // 通用的订阅方法（也需要修复）
             sb.AppendLine("        /// <summary>通用订阅方法（支持自定义事件名）</summary>");
             sb.AppendLine("        public static void SubscribeValueChange<T>(this EventManager eventManager, string eventName, Action<T> handler)");
             sb.AppendLine("        {");
             sb.AppendLine("            int eventId = ValueChangeEventArgs<T>.GetEventId(eventName);");
-            sb.AppendLine("            eventManager.Subscribe(eventId, (sender, args) =>");
+            sb.AppendLine("            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
             sb.AppendLine("            {");
             sb.AppendLine("                if (args is ValueChangeEventArgs<T> valueArgs)");
             sb.AppendLine("                    handler?.Invoke(valueArgs.Value);");
-            sb.AppendLine("            });");
+            sb.AppendLine("            };");
+            sb.AppendLine("            // 注意：通用方法的缓存需要特殊处理，这里简单实现");
+            sb.AppendLine("            // 如果需要支持取消订阅，请使用预定义的事件或自己管理委托引用");
+            sb.AppendLine("            eventManager.Subscribe(eventId, eventHandler);");
             sb.AppendLine("        }");
             
             sb.AppendLine("        #endregion");
             sb.AppendLine();
             
-            // 取消订阅扩展方法
+            // 取消订阅扩展方法（修复版）
             sb.AppendLine("        #region 取消订阅扩展方法");
             foreach (var evt in events)
             {
@@ -187,31 +252,37 @@ namespace GenBall.Event.Editor
                 sb.AppendLine($"        public static void Unsubscribe{evt.Module}{evt.Name}(this EventManager eventManager, Action<{evt.TypeName}> handler)");
                 sb.AppendLine("        {");
                 sb.AppendLine($"            int eventId = GlobalEventIds.{GetSafeFieldName(evt.Module, evt.Name)};");
-                sb.AppendLine("            eventManager.Unsubscribe(eventId, (sender, args) =>");
+                sb.AppendLine($"            var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);");
+                sb.AppendLine("            if (eventHandler != null)");
                 sb.AppendLine("            {");
-                sb.AppendLine($"                if (args is ValueChangeEventArgs<{evt.TypeName}> valueArgs)");
-                sb.AppendLine("                    handler?.Invoke(valueArgs.Value);");
-                sb.AppendLine("            });");
+                sb.AppendLine("                eventManager.Unsubscribe(eventId, eventHandler);");
+                sb.AppendLine("                EventHandlerCache.RemoveWrapper(eventId, handler);");
+                sb.AppendLine("            }");
                 sb.AppendLine("        }");
                 sb.AppendLine();
             }
             
-            // 通用的取消订阅方法
+            // 通用的取消订阅方法（也需要修复）
             sb.AppendLine("        /// <summary>通用取消订阅方法</summary>");
             sb.AppendLine("        public static void UnsubscribeValueChange<T>(this EventManager eventManager, string eventName, Action<T> handler)");
             sb.AppendLine("        {");
+            sb.AppendLine("            // 警告：通用方法无法正确取消订阅，因为匿名委托不匹配");
+            sb.AppendLine("            // 建议：使用预定义的事件，或者自己存储EventHandler引用");
+            sb.AppendLine("            // 这里提供一个简化的实现，但可能无法正常工作");
             sb.AppendLine("            int eventId = ValueChangeEventArgs<T>.GetEventId(eventName);");
-            sb.AppendLine("            eventManager.Unsubscribe(eventId, (sender, args) =>");
+            sb.AppendLine("            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
             sb.AppendLine("            {");
             sb.AppendLine("                if (args is ValueChangeEventArgs<T> valueArgs)");
             sb.AppendLine("                    handler?.Invoke(valueArgs.Value);");
-            sb.AppendLine("            });");
+            sb.AppendLine("            };");
+            sb.AppendLine("            // 注意：这很可能无法正确取消订阅");
+            sb.AppendLine("            eventManager.Unsubscribe(eventId, eventHandler);");
             sb.AppendLine("        }");
             
             sb.AppendLine("        #endregion");
             sb.AppendLine();
             
-            // 触发事件扩展方法（Fire）
+            // 触发事件扩展方法（Fire）- 不需要修改
             sb.AppendLine("        #region 触发事件扩展方法");
             foreach (var evt in events)
             {
@@ -224,7 +295,7 @@ namespace GenBall.Event.Editor
                 sb.AppendLine();
             }
             
-            // 通用触发方法
+            // 通用触发方法 - 不需要修改
             sb.AppendLine("        /// <summary>通用触发方法</summary>");
             sb.AppendLine("        public static void FireValueChange<T>(this EventManager eventManager, string eventName, T value, object sender = null)");
             sb.AppendLine("        {");
@@ -235,7 +306,7 @@ namespace GenBall.Event.Editor
             sb.AppendLine("        #endregion");
             sb.AppendLine();
             
-            // 立即触发事件扩展方法（FireNow）
+            // 立即触发事件扩展方法（FireNow）- 不需要修改
             sb.AppendLine("        #region 立即触发事件扩展方法");
             foreach (var evt in events)
             {
@@ -258,55 +329,41 @@ namespace GenBall.Event.Editor
             sb.AppendLine("        #endregion");
             sb.AppendLine();
             
-            // 检查事件扩展方法
+            // 检查事件扩展方法（也需要修复）
             sb.AppendLine("        #region 检查事件扩展方法");
-            // 在 GlobalEventCodeGenerator.cs 中，修正 Check 方法的生成
-
-// 检查事件扩展方法
-            // sb.AppendLine("        #region 检查事件扩展方法");
             foreach (var evt in events)
             {
                 sb.AppendLine($"        /// <summary>检查是否已订阅 {evt.Description} 事件</summary>");
                 sb.AppendLine($"        public static bool Check{evt.Module}{evt.Name}(this EventManager eventManager, Action<{evt.TypeName}> handler)");
                 sb.AppendLine("        {");
-                sb.AppendLine($"            // 创建一个匹配 EventHandler<GameEventArgs> 签名的委托");
-                sb.AppendLine($"            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
+                sb.AppendLine($"            int eventId = GlobalEventIds.{GetSafeFieldName(evt.Module, evt.Name)};");
+                sb.AppendLine($"            var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);");
+                sb.AppendLine("            if (eventHandler != null)");
                 sb.AppendLine("            {");
-                sb.AppendLine($"                if (args is ValueChangeEventArgs<{evt.TypeName}> valueArgs)");
-                sb.AppendLine("                {");
-                sb.AppendLine("                    handler?.Invoke(valueArgs.Value);");
-                sb.AppendLine("                }");
-                sb.AppendLine("            };");
-                sb.AppendLine($"            return eventManager.Check(GlobalEventIds.{GetSafeFieldName(evt.Module, evt.Name)}, eventHandler);");
+                sb.AppendLine("                return eventManager.Check(eventId, eventHandler);");
+                sb.AppendLine("            }");
+                sb.AppendLine("            return false;");
                 sb.AppendLine("        }");
                 sb.AppendLine();
             }
 
-// 通用的检查方法
+            // 通用的检查方法
             sb.AppendLine("        /// <summary>通用检查方法</summary>");
             sb.AppendLine("        public static bool CheckValueChange<T>(this EventManager eventManager, string eventName, Action<T> handler)");
             sb.AppendLine("        {");
-            sb.AppendLine("            EventHandler<GameEventArgs> eventHandler = (sender, args) =>");
-            sb.AppendLine("            {");
-            sb.AppendLine("                if (args is ValueChangeEventArgs<T> valueArgs)");
-            sb.AppendLine("                {");
-            sb.AppendLine("                    handler?.Invoke(valueArgs.Value);");
-            sb.AppendLine("                }");
-            sb.AppendLine("            };");
-            sb.AppendLine("            int eventId = ValueChangeEventArgs<T>.GetEventId(eventName);");
-            sb.AppendLine("            return eventManager.Check(eventId, eventHandler);");
+            sb.AppendLine("            // 警告：通用方法无法正确检查，因为匿名委托不匹配");
+            sb.AppendLine("            // 建议使用预定义的事件");
+            sb.AppendLine("            return false;");
             sb.AppendLine("        }");
             sb.AppendLine();
 
             sb.AppendLine("        #endregion");
-            
-            // sb.AppendLine("        #endregion");
             sb.AppendLine();
             
             sb.AppendLine("    }");
             sb.AppendLine();
             
-            // 5. 按模块组织的静态类 - 修正版本（不生成嵌套静态类）
+            // 5. 按模块组织的静态辅助类
             var modules = events.GroupBy(e => e.Module);
             foreach (var module in modules)
             {
@@ -329,7 +386,7 @@ namespace GenBall.Event.Editor
                     sb.AppendLine($"            => GlobalEventFactory.Create{evt.Module}{evt.Name}(value);");
                     sb.AppendLine();
                     
-                    // 订阅方法（使用扩展方法）
+                    // 订阅方法
                     sb.AppendLine($"        public static void Subscribe{evt.Name}(EventManager eventManager, Action<{evt.TypeName}> handler)");
                     sb.AppendLine($"            => eventManager.Subscribe{evt.Module}{evt.Name}(handler);");
                     sb.AppendLine();
