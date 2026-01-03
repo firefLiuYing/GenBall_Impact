@@ -4,6 +4,7 @@ using GenBall.BattleSystem;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
+using Yueyn.Event;
 using Yueyn.Fsm;
 
 namespace GenBall.Player
@@ -44,8 +45,6 @@ namespace GenBall.Player
             _fsm.SetData("JumpInput",jumpInput);
             var dashInput=ReferencePool.Acquire<Variable<ButtonState>>();
             _fsm.SetData("DashInput",dashInput);
-            var fireInput = ReferencePool.Acquire<Variable<ButtonState>>();
-            _fsm.SetData("FireInput",fireInput);
             var jumpPreInput=ReferencePool.Acquire<Variable<bool>>();
             _fsm.SetData("JumpPreInput",jumpPreInput);
             _onAttackDelegate = LiveDelegate<OnAttackDelegate>.Create();
@@ -81,12 +80,23 @@ namespace GenBall.Player
             throw new NotImplementedException();
         }
 
-        public void Subscribe(int id, EventHandler<EffectEventArgs> handler)
+
+        public void Subscribe(int id, EventHandler<GameEventArgs> handler)
         {
             throw new NotImplementedException();
         }
 
-        public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)
+        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FireEvent(object sender, GameEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FireNow(object sender, GameEventArgs e)
         {
             throw new NotImplementedException();
         }

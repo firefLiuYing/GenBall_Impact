@@ -5,6 +5,7 @@ using GenBall.Enemy.Fsm;
 using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
+using Yueyn.Event;
 
 namespace GenBall.Enemy
 {
@@ -104,6 +105,26 @@ namespace GenBall.Enemy
         }
 
         public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Subscribe(int id, EventHandler<GameEventArgs> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FireEvent(object sender, GameEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FireNow(object sender, GameEventArgs e)
         {
             throw new NotImplementedException();
         }

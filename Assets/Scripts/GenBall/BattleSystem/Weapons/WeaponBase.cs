@@ -6,24 +6,27 @@ using GenBall.Player;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.EventPool;
+using Yueyn.Event;
 
 namespace GenBall.BattleSystem.Weapons
 {
     public abstract class WeaponBase : MonoBehaviour,IWeapon
     {
-        private readonly EventPool<EffectEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
+        // todo Effect事件系统代码生成有问题，需要改
+        private readonly EventPool<GameEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
         private readonly List<IEffect> _effects = new();
         private readonly Dictionary<Type, IWeaponComponent> _weaponComponents = new();
         public void EntityUpdate(float deltaTime)
         {
-            this.FireUpdate(deltaTime);
+            this.FireNowSystemUpdate(deltaTime);
+            _eventPool.Update(deltaTime,deltaTime);
             OnUpdate(deltaTime);
         }
         protected virtual void OnUpdate(float deltaTime){}
 
         public void EntityFixedUpdate(float fixedDeltaTime)
         {
-            this.FireFixedUpdate(fixedDeltaTime);
+            this.FireNowSystemFixedUpdate(fixedDeltaTime);
             OnFixedUpdate(fixedDeltaTime);
         }
 
@@ -48,18 +51,11 @@ namespace GenBall.BattleSystem.Weapons
             return true;
         }
 
-        public void Subscribe(int id, EventHandler<EffectEventArgs> handler)=>_eventPool.Subscribe(id, handler);
-
-        public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)=>_eventPool.Unsubscribe(id, handler);
-        
-        public void FireEvent(object sender,EffectEventArgs e)=>_eventPool.Fire(sender,e);
-        
-        public void FireEventNow(object sender,EffectEventArgs e)=>_eventPool.Fire(sender,e);
 
         public IAttacker Owner { get;private set; }
         public void Trigger(ButtonState triggerState)
         {
-            this.FireTrigger(triggerState);
+            this.FireNowInputTrigger(triggerState);
             OnTrigger(triggerState);
         }
         protected virtual void OnTrigger(ButtonState triggerState){}
@@ -81,9 +77,9 @@ namespace GenBall.BattleSystem.Weapons
 
         public void Attack(IAttackable target, AttackInfo attackInfo)
         {
-            this.FireBeforeAttackJustify(target,attackInfo);
+            this.FireNowCombatBeforeAttackJustify(target,attackInfo);
             var result = BattleController.Attack(target, attackInfo);
-            this.FireAfterAttackCalculate(result);
+            this.FireNowCombatAfterAttackCalculate(result);
         }
 
         public T GetWeaponComponent<T>() where T : IWeaponComponent =>(T)InternalGetWeaponComponent(typeof(T));
@@ -113,5 +109,13 @@ namespace GenBall.BattleSystem.Weapons
             _weaponComponents.Clear();
         }
         public abstract IWeaponStats Stats { get; }
+
+        public void Subscribe(int id, EventHandler<GameEventArgs> handler)=>_eventPool.Subscribe(id, handler);
+
+        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)=>_eventPool.Unsubscribe(id, handler);
+
+        public void FireEvent(object sender, GameEventArgs e)=>_eventPool.Fire(sender, e);
+
+        public void FireNow(object sender, GameEventArgs e)=>_eventPool.FireNow(sender, e);
     }
 }
