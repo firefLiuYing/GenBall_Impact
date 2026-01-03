@@ -11,7 +11,7 @@ namespace GenBall.BattleSystem.Editor
 {
     public static class EffectEventCodeGenerator
     {
-        [MenuItem("Tools/生成 Effect 事件系统代码")]
+        [MenuItem("Tools/事件/Effect事件/生成 Effect 事件系统代码")]
         public static void GenerateEffectEventCode()
         {
             try
@@ -483,7 +483,7 @@ namespace GenBall.BattleSystem.Editor
             }
         }
         
-        [MenuItem("Tools/清理生成的Effect事件代码")]
+        [MenuItem("Tools/事件/Effect事件/清理生成的Effect事件代码")]
         public static void CleanGeneratedCode()
         {
             string path = "Assets/Scripts/GenBall/BattleSystem/Generated/EffectEvents.Generated.cs";
