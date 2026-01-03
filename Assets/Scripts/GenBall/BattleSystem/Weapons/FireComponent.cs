@@ -12,10 +12,11 @@ namespace GenBall.BattleSystem.Weapons
     {
         [SerializeField] private float baseFireInterval;
         [SerializeField] private Transform bulletSpawnPoint;
+        [SerializeField] private FireMode fireMode=FireMode.Automatic;
         public Type BulletType { get; private set; }=typeof(DefaultBullet);
         private EntityCreator<IBullet> BulletCreator => GameEntry.GetModule<EntityCreator<IBullet>>();
         private MagazineComponent Magazine => Owner.GetWeaponComponent<MagazineComponent>();
-        public FireMode Mode { get; set; } = FireMode.Automatic;
+        public FireMode Mode { get=>fireMode; set=>fireMode=value; } 
         public void SetBulletType(Type type)=>BulletType = type;
         public readonly FloatStat FireInterval= new FloatStat();
         public bool CanFire { get; set; } = true;
