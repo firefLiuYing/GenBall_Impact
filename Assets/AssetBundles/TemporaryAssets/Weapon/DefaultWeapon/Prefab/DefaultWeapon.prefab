@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5834599403272539643}
   - component: {fileID: 690242314474571117}
+  - component: {fileID: 2533281385553452354}
+  - component: {fileID: 7813263191112727178}
   m_Layer: 6
   m_Name: DefaultWeapon
   m_TagString: Untagged
@@ -48,6 +50,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpawnPoint: {fileID: 9068510551126640774}
   countdownTime: 0.1
+--- !u!114 &2533281385553452354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6717073459788251178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e0ffdbab86ce142b049f42940d0f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseCapacity: 30
+--- !u!114 &7813263191112727178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6717073459788251178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 162ab2b326d1a3149be82e51d025284d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseFireInterval: 0.1
+  bulletSpawnPoint: {fileID: 9068510551126640774}
 --- !u!1 &6876086586397505187
 GameObject:
   m_ObjectHideFlags: 0

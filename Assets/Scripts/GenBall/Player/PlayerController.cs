@@ -12,6 +12,7 @@ namespace GenBall.Player
         public readonly ActorInfo Actor = new();
 
         public Player Player { get;private set; }
+        public Vector3 PlayerFace=>Camera.main.transform.forward;
         public void Init(Player player)
         {
             Player = player;

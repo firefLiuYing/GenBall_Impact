@@ -13,6 +13,7 @@ namespace GenBall.Player
         // private WeaponCreator WeaponCreator => GameEntry.GetModule<WeaponCreator>();
         private EntityCreator<IWeapon> WeaponCreator => GameEntry.GetModule<EntityCreator<IWeapon>>();
         private IWeapon _physicsWeapon;
+        public IWeapon PhysicsWeapon => _physicsWeapon;
         [SerializeField] private Transform weaponSpawnPoint;
 
         // private void WeaponsUpdate(float deltaTime)
@@ -20,7 +21,7 @@ namespace GenBall.Player
         //     _physicsWeapon?.WeaponUpdate(deltaTime);
         // }
 
-        internal void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
+        private void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
         public IWeapon EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
             if (_physicsWeapon != null)
@@ -104,20 +105,5 @@ namespace GenBall.Player
             _physicsWeapon=null;
         }
 
-        // public void Handle(IInteractToken stimulus, out IInteractToken[] responses)
-        // {
-        //     // todo gzp 完善反射机制
-        //     // responses=NoResponseToken.Create(this);
-        //     responses = Array.Empty<IInteractToken>();
-        // }
-        public void AddBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

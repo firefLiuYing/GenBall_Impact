@@ -154,7 +154,7 @@ namespace GenBall.Player
             _fsm.GetData<Variable<bool>>("OnGround").Observe(OnGroundChange);
             // GameEntry.GetModule<EventManager>().Subscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"),JumpInputHandler);
             _fsm.GetData<Variable<ButtonState>>("JumpInput").Observe(OnJumpInputChange);
-            _fsm.GetData<Variable<ButtonState>>("FireInput").Observe(OnFireInputChange);
+            // _fsm.GetData<Variable<ButtonState>>("FireInput").Observe(OnFireInputChange);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Observe(OnDashInputChange);
         }
         
@@ -163,7 +163,7 @@ namespace GenBall.Player
             _fsm.GetData<Variable<bool>>("OnGround").Unobserve(OnGroundChange);
             // GameEntry.GetModule<EventManager>().Unsubscribe(InputEventArgs<ButtonState>.GetHashCode("JumpInput"), JumpInputHandler);
             _fsm.GetData<Variable<ButtonState>>("JumpInput").Unobserve(OnJumpInputChange);
-            _fsm.GetData<Variable<ButtonState>>("FireInput").Unobserve(OnFireInputChange);
+            // _fsm.GetData<Variable<ButtonState>>("FireInput").Unobserve(OnFireInputChange);
             _fsm.GetData<Variable<ButtonState>>("DashInput").Unobserve(OnDashInputChange);
         }
         private void OnDashInputChange(ButtonState dashInput)
@@ -174,13 +174,13 @@ namespace GenBall.Player
         }
 
         
-        private void OnFireInputChange(ButtonState fireInput)
-        {
-            if (fireInput is ButtonState.Down or ButtonState.Up)
-            {
-                _fsm.Owner.PhysicsWeaponTrigger(fireInput);
-            }
-        }
+        // private void OnFireInputChange(ButtonState fireInput)
+        // {
+        //     if (fireInput is ButtonState.Down or ButtonState.Up)
+        //     {
+        //         _fsm.Owner.PhysicsWeaponTrigger(fireInput);
+        //     }
+        // }
         // private void JumpInputHandler(object sender, GameEventArgs e)
         // {
         //     if(e is not InputEventArgs<ButtonState> args) return;

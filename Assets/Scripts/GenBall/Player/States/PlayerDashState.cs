@@ -1,5 +1,6 @@
 using System;
 using GenBall.BattleSystem;
+using GenBall.BattleSystem.Weapons;
 using UnityEngine;
 using Yueyn.Base.Variable;
 using Yueyn.Fsm;
@@ -42,7 +43,8 @@ namespace GenBall.Player
             _velocity = fsm.GetData<Variable<Vector3>>("Velocity");
             _onGround = fsm.GetData<Variable<bool>>("OnGround");
             InitArgs();
-            _fsm.Owner.PhysicsWeaponTrigger(ButtonState.Up);// 开始冲刺视作松开扳机
+            // _fsm.Owner.PhysicsWeaponTrigger(ButtonState.Up);// 开始冲刺视作松开扳机
+            // todo 冲刺取消射击
             _fsm.Owner.Countdown.Start("Dash");
         }
 
@@ -50,11 +52,11 @@ namespace GenBall.Player
         {
             // Debug.Log("离开冲刺态");
             // 结束冲刺恢复原本扳机状态
-            var fireInput = _fsm.GetData<Variable<ButtonState>>("FireInput");
-            if(fireInput.Value is ButtonState.Hold or ButtonState.Down)
-            {
-                _fsm.Owner.PhysicsWeaponTrigger(ButtonState.Down);
-            }
+            // var fireInput = _fsm.GetData<Variable<ButtonState>>("FireInput");
+            // if(fireInput.Value is ButtonState.Hold or ButtonState.Down)
+            // {
+            //     _fsm.Owner.PhysicsWeaponTrigger(ButtonState.Down);
+            // }
         }
 
         protected internal override void OnUpdate(Fsm<Player> fsm, float elapsedTime, float realElapseTime)

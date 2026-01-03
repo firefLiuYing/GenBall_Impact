@@ -50,8 +50,7 @@ namespace GenBall.Player
         private void OnFireInputChange(object sender, GameEventArgs eventArgs)
         {
             if(eventArgs is not InputEventArgs<ButtonState> args) return;
-            var fireInput=_fsm.GetData<Variable<ButtonState>>("FireInput");
-            fireInput.PostValue(args.Args);
+            PhysicsWeaponTrigger(args.Args);
         }
 
         private void OnUpgradeInputChange(object sender, GameEventArgs eventArgs)
