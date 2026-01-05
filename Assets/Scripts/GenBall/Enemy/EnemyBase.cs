@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Generated;
 using GenBall.Enemy.Fsm;
+using GenBall.Event.Generated;
 using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace GenBall.Enemy
         // public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Create(0,false);
 
         public abstract AttackResult OnAttacked(AttackInfo attackInfo);
+        public abstract int KillPoints { get; }
 
         public void EntityUpdate(float deltaTime)
         {
@@ -82,6 +84,8 @@ namespace GenBall.Enemy
         public void Death()
         {
             // _fsmModule.OnDeath();
+            this.FireEventEntityDeath();
+            GameEntry.Event.FireEnemyDeath(new DeathInfo(){KillPoints = this.KillPoints});
             GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
         }
 

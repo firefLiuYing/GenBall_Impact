@@ -33,6 +33,7 @@ namespace GenBall.Player
             SetCamera();
             InitPhysics();
             InitFsm();
+            InitHealth();
             InitCountdown();
             RegisterEvents();
             StartFsm();

@@ -9,43 +9,22 @@ namespace GenBall.Player
     {
         public static PlayerController Instance => SingletonManager.GetSingleton<PlayerController>();
         
-        public readonly ActorInfo Actor = new();
+        // public readonly ActorInfo Actor = new();
 
         public Player Player { get;private set; }
-        public Vector3 PlayerFace=>Camera.main.transform.forward;
+        public static Vector3 PlayerFace=>Camera.main.transform.forward;
         public void Init(Player player)
         {
             Player = player;
             // todo gzp 后续修改为可配置
-            Actor.MaxHealth = 6;
-            Actor.Health = Actor.MaxHealth;
-            Actor.Armor = Actor.MaxHealth;
-            Actor.KillPoints = 0;
+            // Actor.MaxHealth = 6;
+            // Actor.Health = Actor.MaxHealth;
+            // Actor.Armor = Actor.MaxHealth;
+            // Actor.KillPoints = 0;
 
 
-            GameEntry.GetModule<EventManager>().Subscribe(EnemyDeadEventArgs.Index,OnEnemyDead);
-        }
-
-        public void ApplyDamage(int damage)
-        {
-            if (Actor.Armor >= damage)
-            {
-                Actor.Armor -= damage;
-            }
-            else
-            {
-                damage-=Actor.Armor;
-                Actor.Armor = 0;
-                Actor.Health -= damage;
-            }
+            // GameEntry.GetModule<EventManager>().Subscribe(EnemyDeadEventArgs.Index,OnEnemyDead);
         }
         
-
-        private void OnEnemyDead(object sender, GameEventArgs eventArgs)
-        {
-            // todo gzp 可能会有范围判定
-            if(eventArgs is not EnemyDeadEventArgs args) return;
-            Actor.KillPoints += args.KillPoints;
-        }
     }
 }

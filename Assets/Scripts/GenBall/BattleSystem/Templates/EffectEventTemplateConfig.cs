@@ -33,15 +33,10 @@ namespace GenBall.BattleSystem.Templates
             new EffectEventDefinition("AfterAttackCalculate", new Type[] { typeof(AttackResult) }, 
                 "攻击后结算", "Combat"),
             
-            // 效果事件
-            
-            // 属性事件
-            
-            // 弹丸事件
-            
-            // 无参数事件
-            
-            // 新增：武器相关事件
+            // 生命相关事件
+            new EffectEventDefinition("HealthChange",typeof(int),"生命值变化","Entity"),
+            new EffectEventDefinition("ArmorChange",typeof(int),"护甲值变化","Entity"),
+            new EffectEventDefinition("Death",new Type[]{},"死亡","Entity"),
         };
     }
     

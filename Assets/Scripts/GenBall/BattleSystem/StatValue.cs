@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace GenBall.BattleSystem
 {
@@ -46,6 +48,7 @@ namespace GenBall.BattleSystem
     {
         public IntStat():base(0){}
         public IntStat(int baseValue):base(baseValue){}
+        public Action<int> OnValueChange;
         protected override void Recalculate()
         {
             CurrentValue = BaseValue;
@@ -53,6 +56,7 @@ namespace GenBall.BattleSystem
             {
                 CurrentValue += modifier.GetModifyValue(BaseValue);
             }
+            OnValueChange?.Invoke(CurrentValue);
         }
     }
 
@@ -60,6 +64,7 @@ namespace GenBall.BattleSystem
     {
         public FloatStat():base(0){}
         public FloatStat(float baseValue):base(baseValue){}
+        public Action<float> OnValueChange;
         protected override void Recalculate()
         {
             CurrentValue = BaseValue;
@@ -67,6 +72,7 @@ namespace GenBall.BattleSystem
             {
                 CurrentValue += modifier.GetModifyValue(BaseValue);
             }
+            OnValueChange?.Invoke(CurrentValue);
         }
     }
 }

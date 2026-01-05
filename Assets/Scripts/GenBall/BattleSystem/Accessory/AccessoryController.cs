@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using GenBall.BattleSystem.Weapons;
+using GenBall.Enemy;
 using GenBall.Event;
 using GenBall.Event.Generated;
 using GenBall.Player;
@@ -12,54 +14,114 @@ namespace GenBall.BattleSystem.Accessory
     public class AccessoryController : ISingleton
     {
         public static AccessoryController Instance => SingletonManager.GetSingleton<AccessoryController>();
-        
-        public readonly AccessoryInfo Accessory = new();
 
-        private readonly List<AccessoryInfo> _accessoryPackage = new();
+        private readonly Dictionary<int, LevelConfig> _levelConfigMap = new()
+        {
+            [1]=new LevelConfig
+            {
+                Level=1,
+                BaseModule = new BaseModule()
+                {
+                    WeaponType = typeof(DefaultWeapon),
+                },
+            },
+            [2]=new LevelConfig
+            {
+                Level=2,
+                BaseModule = new BaseModule()
+                {
+                    WeaponType = typeof(DefaultWeapon),
+                },
+            },
+            [3]=new LevelConfig
+            {
+                Level=3,
+                BaseModule = new BaseModule()
+                {
+                    WeaponType = typeof(DefaultWeapon),
+                },
+            },
+            [4]=new LevelConfig
+            {
+                Level=4,
+                BaseModule = new BaseModule()
+                {
+                    WeaponType = typeof(DefaultWeapon),
+                },
+            }
+        };
+        
+        private int _level;
+
+        public int Level
+        {
+            get => _level;
+            private set
+            {
+                _level = value;
+                GameEntry.Event.FireWeaponLevel(_level);
+            }
+        }
+        
+        private int _killPoints;
+
+        public int KillPoints
+        {
+            get => _killPoints;
+            set
+            {
+                _killPoints = value;
+                GameEntry.Event.FirePlayerKillPoints(_killPoints);
+            }
+        }
         
         private int _unlockedLevel;
+
+        public int UnlockedLevel
+        {
+            get => _unlockedLevel;
+            set
+            {
+                _unlockedLevel = value;
+                GameEntry.Event.FireWeaponUnlockLevel(_unlockedLevel);
+            }
+        }
 
         public void Init()
         {
             RegisterEvents();
-            Accessory.Level = 0;
+            Level = 0;
+            KillPoints = 0;
         }
 
         private void RegisterEvents()
         {
             GameEntry.Event.SubscribePlayerKillPoints(OnKillPointsChange);
-
+            GameEntry.Event.SubscribeEnemyDeath(OnEnemyDeath);
         }
-        private void OnKillPointsChange(int killPoints)       
-        {
-            _unlockedLevel=KillPointsToLevel(killPoints);
-            if (_unlockedLevel > Accessory.Level)
-            {
-                UpgradeTip.Open();
-            }
-        }
+        private void OnKillPointsChange(int killPoints)=>UnlockedLevel = KillPointsToLevel(killPoints);
 
         public void Upgrade()
         {
-            if(_unlockedLevel<=Accessory.Level) return;
+            if(_unlockedLevel<=Level) return;
             ApplyUpgrade();
         }
         private void ApplyUpgrade()
         {
-            if (Accessory.Level > 0)
+            if (Level > 0)
             {
-                Accessory.LevelConfigMap[Accessory.Level].UnApply();
+                _levelConfigMap[Level].UnApply();
             }
 
-            Accessory.Level++;
-            Accessory.LevelConfigMap[Accessory.Level].Apply();
-            Debug.Log($"Level:{Accessory.Level},UnLockedLevel:{_unlockedLevel}");
-            if (_unlockedLevel <= Accessory.Level)
-            {
-                GameEntry.GetModule<UIManager>().CloseForm<UpgradeTip>();
-            }
+            Level++;
+            _levelConfigMap[Level].Apply();
+            Debug.Log($"Level:{Level},UnLockedLevel:{_unlockedLevel}");
         }
 
+        private void OnEnemyDeath(DeathInfo deathInfo)
+        {
+            KillPoints += deathInfo.KillPoints;
+        }
         private int KillPointsToLevel(int killPoints)
         {
             var level = killPoints / 10;

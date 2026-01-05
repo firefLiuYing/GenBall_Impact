@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Weapons;
 using GenBall.Event;
 using GenBall.Event.Generated;
 using GenBall.Player;
+using UnityEngine;
 using Yueyn.Base.Variable;
 using Yueyn.Event;
 
@@ -35,12 +36,6 @@ namespace GenBall.UI
         public void Init()
         {
             RegisterEvents();
-            
-            Health.PostValue(PlayerController.Instance.Actor.Health);
-            Armor.PostValue(PlayerController.Instance.Actor.Armor);
-            KillPoints.PostValue(PlayerController.Instance.Actor.KillPoints);
-            Level.PostValue(AccessoryController.Instance.Accessory.Level);
-            MaxHealth.PostValue(PlayerController.Instance.Actor.MaxHealth);
         }
 
         private void RegisterEvents()
@@ -51,6 +46,8 @@ namespace GenBall.UI
             GameEntry.Event.SubscribePlayerMaxHealth(MaxHealth.PostValue);
             GameEntry.Event.SubscribeWeaponLevel(Level.PostValue);
             GameEntry.Event.SubscribeWeaponMagazineInfoChange(MagazineInfo.PostValue);
+            GameEntry.Event.SubscribeWeaponLevel(OnLevelChanged);
+            GameEntry.Event.SubscribeWeaponUnlockLevel(OnLevelChanged);
         }
         private void UnregisterEvents()
         {
@@ -60,12 +57,27 @@ namespace GenBall.UI
             GameEntry.Event.UnsubscribePlayerMaxHealth(MaxHealth.PostValue);
             GameEntry.Event.UnsubscribeWeaponLevel(Level.PostValue);
             GameEntry.Event.UnsubscribeWeaponMagazineInfoChange(MagazineInfo.PostValue);
+            GameEntry.Event.UnsubscribeWeaponLevel(OnLevelChanged);
+            GameEntry.Event.UnsubscribeWeaponUnlockLevel(OnLevelChanged);
         }
 
         public override void Clear()
         {
             base.Clear();
             UnregisterEvents();
+        }
+
+        private void OnLevelChanged(int level)
+        {
+            Debug.Log("OnLevelChanged");
+            if (AccessoryController.Instance.Level < AccessoryController.Instance.UnlockedLevel)
+            {
+                UpgradeTip.Open();
+            }
+            else
+            {
+                GameEntry.GetModule<UIManager>().CloseForm<UpgradeTip>();
+            }
         }
     }
 }

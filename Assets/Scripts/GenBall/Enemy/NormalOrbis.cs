@@ -8,6 +8,8 @@ namespace GenBall.Enemy
     public class NormalOrbis : EnemyBase
     {
         private NormalHurtModule _hurtModule;
+        public override int KillPoints => 10;
+
         protected override void OnInitialize()
         {
             _hurtModule=GetModule<NormalHurtModule>();

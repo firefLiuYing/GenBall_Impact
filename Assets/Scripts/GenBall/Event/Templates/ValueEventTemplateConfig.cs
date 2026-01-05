@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Weapons;
+using GenBall.Enemy;
 using GenBall.Player;
 using UnityEngine;
 using Yueyn.Event;
@@ -26,6 +27,8 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
             new ValueEventDefinition("Reload",typeof(ButtonState),"换弹按键输入","Input"),
             new ValueEventDefinition("MagazineInfoChange",typeof(MagazineComponent.MagazineInfo),"弹匣子弹变化","Weapon"),
+            new ValueEventDefinition("Death",typeof(DeathInfo),"敌人死亡","Enemy"),
+            new ValueEventDefinition("UnlockLevel",typeof(int),"武器阶段可提升至新阶段","Weapon")
         };
     }
     
