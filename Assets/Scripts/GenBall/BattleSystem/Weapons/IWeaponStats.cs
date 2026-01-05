@@ -2,7 +2,7 @@ namespace GenBall.BattleSystem.Weapons
 {
     public interface IWeaponStats
     {
-        public IntStat Damage { get; }
-        public FloatStat ImpactForce { get; }
+        public int Damage { get; }
+        public float ImpactForce { get; }
     }
 }

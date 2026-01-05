@@ -101,7 +101,7 @@ namespace GenBall.BattleSystem.Bullets
             var attackables = hitInfo.collider.GetComponentsInParent<IAttackable>();
             foreach (var attackable in attackables)
             {
-                var attackInfo = AttackInfo.Create(Source.Owner, Source.Stats.Damage.CurrentValue, _direction.normalized, Source.Stats.ImpactForce.CurrentValue);
+                var attackInfo = AttackInfo.Create(Source.Owner, Source.Stats.Damage, _direction.normalized, Source.Stats.ImpactForce);
                 Source.Attack(attackable,attackInfo);
             }
             BulletCreator.RecycleEntity(gameObject);

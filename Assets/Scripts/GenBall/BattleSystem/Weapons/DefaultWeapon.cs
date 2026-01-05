@@ -19,8 +19,10 @@ namespace GenBall.BattleSystem.Weapons
 
         public class WeaponStats : IWeaponStats
         {
-            public IntStat Damage { get; } = new IntStat(50);
-            public FloatStat ImpactForce { get; } = new FloatStat(1);
+            public int Damage => DamageStats.CurrentValue;
+            public float ImpactForce => ImpactForceStats.CurrentValue;
+            public IntStat DamageStats { get; } = new IntStat(50);
+            public FloatStat ImpactForceStats { get; } = new FloatStat(1);
         }
     }
 }
