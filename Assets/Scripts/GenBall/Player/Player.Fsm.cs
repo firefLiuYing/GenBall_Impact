@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem;
 using UnityEngine;
+using Yueyn.Base.EventPool;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
 using Yueyn.Event;
@@ -9,11 +10,14 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
-    public partial class Player:IAttackable
+    public partial class Player
     {
         private Fsm<Player> _fsm;
         private readonly List<FsmState<Player>> _states = new();
         private LiveDelegate<OnAttackDelegate> _onAttackDelegate;
+        private readonly List<IEffect> _effects = new();
+
+        private readonly EventPool<GameEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler | EventPoolMode.AllowMultiHandler);
         private void InitFsm()
         {
             RegisterStates();
@@ -58,54 +62,29 @@ namespace GenBall.Player
             _states.Add(new PlayerJumpState());
             _states.Add(new PlayerDashState());
         }
-
-        public AttackResult OnAttacked(AttackInfo attackInfo)
-        {
-            if (_onAttackDelegate.Value != null)
-            {
-                return _onAttackDelegate.Value.Invoke(attackInfo);
-            }
-
-            PlayerController.Instance.ApplyDamage(attackInfo.Damage);
-            return AttackResult.Create(attackInfo.Damage);
-        }
-
+        
         public void AddEffect(IEffect effect)
         {
-            throw new NotImplementedException();
+            effect.Apply(this);
+            _effects.Add(effect);
         }
 
         public bool RemoveEffect(IEffect effect)
         {
-            throw new NotImplementedException();
+            if(!_effects.Remove(effect)) return false;
+            effect.Unapply();
+            return true;
         }
 
 
-        public void Subscribe(int id, EventHandler<GameEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
+        public void Subscribe(int id, EventHandler<GameEventArgs> handler)=>_eventPool.Subscribe(id, handler);
 
-        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
+        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)=>_eventPool.Unsubscribe(id, handler);
 
-        public void FireEvent(object sender, GameEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        public void FireEvent(object sender, GameEventArgs e)=>_eventPool.Fire(sender, e);
 
-        public void FireNow(object sender, GameEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        public void FireNow(object sender, GameEventArgs e)=>_eventPool.FireNow(sender, e);
 
-        public int Health { get; }
-        public int MaxHealth { get; }
-        public void TakeDamage(int damage)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

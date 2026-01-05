@@ -20,6 +20,14 @@ namespace GenBall.BattleSystem
     {
         public void Heal(int healAmount);
     }
+
+    public interface IArmor
+    {
+        public int Armor { get; }
+        public int MaxArmor { get; }
+        public void AddArmor(int armorAmount);
+        public void SubArmor(int armorAmount);
+    }
     
     public delegate AttackResult OnAttackDelegate(AttackInfo attackInfo);
 }
