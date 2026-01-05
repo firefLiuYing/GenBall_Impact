@@ -26,6 +26,7 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("KillPoints", typeof(int), "击杀点数变化", "Player"),
             new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
             new ValueEventDefinition("Reload",typeof(ButtonState),"换弹按键输入","Input"),
+            new ValueEventDefinition("Upgrade",typeof(ButtonState),"武器阶段升级输入","Input"),
             new ValueEventDefinition("MagazineInfoChange",typeof(MagazineComponent.MagazineInfo),"弹匣子弹变化","Weapon"),
             new ValueEventDefinition("Death",typeof(DeathInfo),"敌人死亡","Enemy"),
             new ValueEventDefinition("UnlockLevel",typeof(int),"武器阶段可提升至新阶段","Weapon")

@@ -78,16 +78,14 @@ namespace GenBall.Player
         
         public void UpgradeInput(InputAction.CallbackContext context)
         {
-            var eventArgs=ReferencePool.Acquire<InputEventArgs<ButtonState>>();
-            eventArgs.Name = "UpgradeInput";
-            eventArgs.Args = context.phase switch
+            var buttonState= context.phase switch
             {
                 InputActionPhase.Started=>ButtonState.Down,
                 InputActionPhase.Canceled=>ButtonState.Up,
                 InputActionPhase.Performed=>ButtonState.Hold,
                 _=>ButtonState.None
             };
-            _eventManager.Fire(this, eventArgs);
+            GameEntry.Event.FireInputUpgrade(buttonState);
         }
 
         private bool _accessoryFormOpened = false;

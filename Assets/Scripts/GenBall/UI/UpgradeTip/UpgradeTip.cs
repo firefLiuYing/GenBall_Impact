@@ -1,3 +1,6 @@
+using GenBall.BattleSystem.Accessory;
+using GenBall.Event.Generated;
+using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.UI
@@ -14,11 +17,15 @@ namespace GenBall.UI
         {
             base.OnOpen(args);
             _isOpen = true;
+            
+            RegisterEvents();
         }
 
         private static bool _isOpen = false;
         protected override void OnClose(object args = null)
         {
+            UnRegisterEvents();
+            
             base.OnClose(args);
             _isOpen = false;
         }
@@ -27,6 +34,24 @@ namespace GenBall.UI
         {
             if(_isOpen)  return;
             GameEntry.GetModule<UIManager>().OpenForm<UpgradeTip>();
+        }
+
+        private void RegisterEvents()
+        {
+            GameEntry.Event.SubscribeInputUpgrade(OnInputUpgrade);
+        }
+
+        private void UnRegisterEvents()
+        {
+            GameEntry.Event.UnsubscribeInputUpgrade(OnInputUpgrade);
+        }
+
+        private void OnInputUpgrade(ButtonState  buttonState)
+        {
+            if (buttonState == ButtonState.Down)
+            {
+                AccessoryController.Instance.Upgrade();
+            }
         }
     }
 }
