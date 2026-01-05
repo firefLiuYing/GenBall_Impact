@@ -40,16 +40,6 @@ namespace GenBall.Enemy.Attack
             _findCallback?.Invoke(target);
         }
 
-        public override void ModuleUpdate(float deltaTime)
-        {
-            
-        }
-
-        public override void ModuleFixedUpdate(float fixedDeltaTime)
-        {
-            
-        }
-
         public override void OnRecycle()
         {
             

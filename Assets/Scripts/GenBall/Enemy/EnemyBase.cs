@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem;
+using GenBall.BattleSystem.Generated;
 using GenBall.Enemy.Fsm;
 using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
@@ -13,8 +14,9 @@ namespace GenBall.Enemy
     public abstract class EnemyBase : MonoBehaviour,IEnemy,IAttacker
     {
         private readonly List<Module> _moduleMap = new();
-        private FsmModule _fsmModule;
+        // private FsmModule _fsmModule;
         private readonly EventPool<GameEventArgs>  _eventPool=new (EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
+        private readonly List<IEffect> _effects = new();
         private Module GetModule(Type type)
         {
             foreach (var module in _moduleMap)
@@ -29,23 +31,23 @@ namespace GenBall.Enemy
         public Player.Player Target { get;private set; }
         public void SetTarget(Player.Player target)=>Target = target;
         public TModule GetModule<TModule>() where TModule : Module =>(TModule)GetModule(typeof(TModule));
-        public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Create(0,false);
+        // public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Create(0,false);
+
+        public abstract AttackResult OnAttacked(AttackInfo attackInfo);
 
         public void EntityUpdate(float deltaTime)
         {
-            foreach (var module in _moduleMap)
-            {
-                module.ModuleUpdate(deltaTime);
-            }
+            this.FireNowSystemUpdate(deltaTime);
+            OnUpdate(deltaTime);
         }
+        protected virtual void OnUpdate(float deltaTime){}
 
         public void EntityFixedUpdate(float fixedDeltaTime)
         {
-            foreach (var module in _moduleMap)
-            {
-                module.ModuleFixedUpdate(fixedDeltaTime);
-            }
+            this.FireNowSystemFixedUpdate(fixedDeltaTime);
+            OnFixedUpdate(fixedDeltaTime);
         }
+        protected virtual void OnFixedUpdate(float fixedDeltaTime){}
 
         public void OnRecycle()
         {
@@ -70,25 +72,28 @@ namespace GenBall.Enemy
             {
                 module.Initialize();
             }
-            _fsmModule=GetModule<FsmModule>();
+            // _fsmModule=GetModule<FsmModule>();
             
             gameObject.SetActive(true);
         }
 
         public void Death()
         {
-            _fsmModule.OnDeath();
+            // _fsmModule.OnDeath();
             GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
         }
 
         public void AddEffect(IEffect effect)
         {
-            throw new NotImplementedException();
+            _effects.Add(effect);
+            effect.Apply(this);
         }
 
         public bool RemoveEffect(IEffect effect)
         {
-            throw new NotImplementedException();
+            if(!_effects.Remove(effect)) return false;
+            effect.Unapply();
+            return true;
         }
 
         public void Subscribe(int id, EventHandler<GameEventArgs> handler) => _eventPool.Subscribe(id, handler);

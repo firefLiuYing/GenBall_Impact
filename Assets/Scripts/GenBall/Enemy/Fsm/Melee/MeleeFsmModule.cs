@@ -52,16 +52,6 @@ namespace GenBall.Enemy.Fsm.Melee
             _fsm.Start<InitState>();
         }
 
-        public override void ModuleUpdate(float deltaTime)
-        {
-            
-        }
-
-        public override void ModuleFixedUpdate(float fixedDeltaTime)
-        {
-            
-        }
-
         public override void OnRecycle()
         {
             UnregisterFsmEvents();

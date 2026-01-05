@@ -1,3 +1,4 @@
+using GenBall.BattleSystem.Generated;
 using UnityEngine;
 
 namespace GenBall.Enemy.Move
@@ -19,14 +20,12 @@ namespace GenBall.Enemy.Move
             _collider = GetComponentInChildren<SphereCollider>();
             _onGroundTime = 0;
             _canMove = false;
-        }
-
-        public override void ModuleUpdate(float deltaTime)
-        {
             
+            RegisterEvents();
         }
 
-        public override void ModuleFixedUpdate(float fixedDeltaTime)
+
+        private void OnFixedUpdate(float fixedDeltaTime)
         {
             GroundDetection();
             if(!_onGround) return;
@@ -55,7 +54,7 @@ namespace GenBall.Enemy.Move
         }
         public override void OnRecycle()
         {
-            
+            UnregisterEvents();
         }
 
         public override void MoveTo(Vector3 target)
@@ -81,6 +80,16 @@ namespace GenBall.Enemy.Move
                 _rigidbody.constraints |= RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
             _onGround = hit;
+        }
+
+        private void RegisterEvents()
+        {
+            Owner.SubscribeSystemFixedUpdate(OnFixedUpdate);
+        }
+
+        private void UnregisterEvents()
+        {
+            Owner.UnsubscribeSystemFixedUpdate(OnFixedUpdate);
         }
     }
 }
