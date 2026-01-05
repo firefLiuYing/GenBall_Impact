@@ -44,7 +44,7 @@ namespace GenBall.Procedure.Execute
         private void LoadEnemy()
         {
             var enemyCreator= GameEntry.GetModule<EntityCreator<IEnemy>>();
-            var orbis= enemyCreator.CreateEntity<EnemyEntity>("NormalOrbis",new Vector3(0,0.5f,15), Quaternion.identity);
+            var orbis= enemyCreator.CreateEntity<NormalOrbis>("NormalOrbis",new Vector3(0,0.5f,15), Quaternion.identity);
             orbis.Initialize();
             
         }

@@ -4,10 +4,10 @@ using Yueyn.Fsm;
 
 namespace GenBall.Enemy.Fsm
 {
-    public abstract class BaseState : FsmState<EnemyEntity>
+    public abstract class BaseState : FsmState<EnemyBase>
     {
-        protected Fsm<EnemyEntity> Fsm;
-        protected internal override void OnEnter(Fsm<EnemyEntity> fsm)
+        protected Fsm<EnemyBase> Fsm;
+        protected internal override void OnEnter(Fsm<EnemyBase> fsm)
         {
             Fsm = fsm;
         }

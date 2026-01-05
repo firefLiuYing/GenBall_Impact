@@ -4,7 +4,7 @@ namespace GenBall.Enemy.Fsm.Melee
 {
     public class InitState : BaseState
     {
-        protected internal override void OnUpdate(Fsm<EnemyEntity> fsm, float elapsedTime, float realElapseTime)
+        protected internal override void OnUpdate(Fsm<EnemyBase> fsm, float elapsedTime, float realElapseTime)
         {
             ChangeState<WanderState>();
         }

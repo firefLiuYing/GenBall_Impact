@@ -10,7 +10,7 @@ namespace GenBall.Enemy.Fsm.Melee
     {
         private DetectModule _detectModule;
         private Variable<Player.Player> _target;
-        protected internal override void OnEnter(Fsm<EnemyEntity> fsm)
+        protected internal override void OnEnter(Fsm<EnemyBase> fsm)
         {
             base.OnEnter(fsm);
             _detectModule =GetModule<DetectModule>();
@@ -18,13 +18,13 @@ namespace GenBall.Enemy.Fsm.Melee
             GetData<Variable<int>>("Health").Observe(DefaultOnHeathChanged);
         }
 
-        protected internal override void OnExit(Fsm<EnemyEntity> fsm, bool isShutdown = false)
+        protected internal override void OnExit(Fsm<EnemyBase> fsm, bool isShutdown = false)
         {
             base.OnExit(fsm, isShutdown);
             GetData<Variable<int>>("Health").Unobserve(DefaultOnHeathChanged);
         }
 
-        protected internal override void OnFixedUpdate(Fsm<EnemyEntity> fsm, float fixeDeltaTime)
+        protected internal override void OnFixedUpdate(Fsm<EnemyBase> fsm, float fixeDeltaTime)
         {
             _detectModule.Search(OnFindTarget);
         }

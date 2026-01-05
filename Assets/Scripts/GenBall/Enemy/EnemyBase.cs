@@ -5,14 +5,16 @@ using GenBall.Enemy.Fsm;
 using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
+using Yueyn.Base.EventPool;
 using Yueyn.Event;
 
 namespace GenBall.Enemy
 {
-    public class EnemyEntity : MonoBehaviour,IEnemy,IAttacker
+    public abstract class EnemyBase : MonoBehaviour,IEnemy,IAttacker
     {
         private readonly List<Module> _moduleMap = new();
         private FsmModule _fsmModule;
+        private readonly EventPool<GameEventArgs>  _eventPool=new (EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
         private Module GetModule(Type type)
         {
             foreach (var module in _moduleMap)
@@ -79,16 +81,6 @@ namespace GenBall.Enemy
             GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
         }
 
-        public void AddBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddEffect(IEffect effect)
         {
             throw new NotImplementedException();
@@ -99,34 +91,12 @@ namespace GenBall.Enemy
             throw new NotImplementedException();
         }
 
-        public void Subscribe(int id, EventHandler<EffectEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
+        public void Subscribe(int id, EventHandler<GameEventArgs> handler) => _eventPool.Subscribe(id, handler);
 
-        public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
+        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)=>_eventPool.Unsubscribe(id, handler);
 
-        public void Subscribe(int id, EventHandler<GameEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
+        public void FireEvent(object sender, GameEventArgs e)=>_eventPool.Fire(sender, e);
 
-        public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FireEvent(object sender, GameEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FireNow(object sender, GameEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        public void FireNow(object sender, GameEventArgs e)=>_eventPool.FireNow(sender, e);
     }
 }

@@ -10,8 +10,8 @@ namespace GenBall.Enemy.Fsm.Melee
 {
     public class MeleeFsmModule : FsmModule
     {
-        private Fsm<EnemyEntity> _fsm;
-        private readonly List<FsmState<EnemyEntity>> _states=new();
+        private Fsm<EnemyBase> _fsm;
+        private readonly List<FsmState<EnemyBase>> _states=new();
         private Variable<Player.Player> _target;
         private Variable<int> _health;
 
