@@ -1,3 +1,5 @@
+using GenBall.BattleSystem;
+
 namespace GenBall.Enemy.Hurt
 {
     public class NormalHurtModule : HurtModule
@@ -10,6 +12,12 @@ namespace GenBall.Enemy.Hurt
         public override void OnRecycle()
         {
             
+        }
+
+        public override AttackResult OnAttacked(AttackInfo attackInfo)
+        {
+            Owner.TakeDamage(attackInfo.Damage);
+            return AttackResult.Create(attackInfo.Damage);
         }
     }
 }

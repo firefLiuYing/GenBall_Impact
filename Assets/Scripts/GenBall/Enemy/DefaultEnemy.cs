@@ -36,15 +36,6 @@ namespace GenBall.Enemy
             
         }
 
-        public void AddBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveBuff(IBuff buff)
-        {
-            throw new NotImplementedException();
-        }
 
         public void AddEffect(IEffect effect)
         {
@@ -56,15 +47,6 @@ namespace GenBall.Enemy
             throw new NotImplementedException();
         }
 
-        public void Subscribe(int id, EventHandler<EffectEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Unsubscribe(int id, EventHandler<EffectEventArgs> handler)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Subscribe(int id, EventHandler<GameEventArgs> handler)
         {
@@ -82,6 +64,13 @@ namespace GenBall.Enemy
         }
 
         public void FireNow(object sender, GameEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Health { get; }
+        public int MaxHealth { get; }
+        public void TakeDamage(int damage)
         {
             throw new NotImplementedException();
         }

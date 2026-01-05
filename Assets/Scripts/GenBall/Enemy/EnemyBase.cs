@@ -73,9 +73,11 @@ namespace GenBall.Enemy
                 module.Initialize();
             }
             // _fsmModule=GetModule<FsmModule>();
-            
+            Health = MaxHealth;
+            OnInitialize();
             gameObject.SetActive(true);
         }
+        protected virtual void OnInitialize(){}
 
         public void Death()
         {
@@ -103,5 +105,16 @@ namespace GenBall.Enemy
         public void FireEvent(object sender, GameEventArgs e)=>_eventPool.Fire(sender, e);
 
         public void FireNow(object sender, GameEventArgs e)=>_eventPool.FireNow(sender, e);
+        public int Health { get; private set; }
+        public abstract int MaxHealth { get; }
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+            if (Health <= 0)
+            {
+                Health = 0;
+                Death();
+            }
+        }
     }
 }

@@ -100,5 +100,12 @@ namespace GenBall.Player
         {
             throw new NotImplementedException();
         }
+
+        public int Health { get; }
+        public int MaxHealth { get; }
+        public void TakeDamage(int damage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

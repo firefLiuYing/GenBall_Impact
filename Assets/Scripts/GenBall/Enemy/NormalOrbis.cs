@@ -1,12 +1,20 @@
 using GenBall.BattleSystem;
+using GenBall.Enemy.Hurt;
+using UnityEngine;
 
 namespace GenBall.Enemy
 {
+    [RequireComponent(typeof(NormalHurtModule))]
     public class NormalOrbis : EnemyBase
     {
-        public override AttackResult OnAttacked(AttackInfo attackInfo)
+        private NormalHurtModule _hurtModule;
+        protected override void OnInitialize()
         {
-            throw new System.NotImplementedException();
+            _hurtModule=GetModule<NormalHurtModule>();
         }
+
+        public override int MaxHealth => 100;
+
+        public override AttackResult OnAttacked(AttackInfo attackInfo) => _hurtModule.OnAttacked(attackInfo);
     }
 }
