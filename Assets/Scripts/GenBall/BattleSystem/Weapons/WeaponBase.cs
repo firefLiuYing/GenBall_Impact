@@ -12,7 +12,6 @@ namespace GenBall.BattleSystem.Weapons
 {
     public abstract class WeaponBase : MonoBehaviour,IWeapon
     {
-        // todo Effect事件系统代码生成有问题，需要改
         private readonly EventPool<GameEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
         private readonly List<IEffect> _effects = new();
         private readonly Dictionary<Type, IWeaponComponent> _weaponComponents = new();
