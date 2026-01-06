@@ -1,4 +1,5 @@
 using GenBall.BattleSystem;
+using UnityEngine;
 
 namespace GenBall.Enemy.Hurt
 {
@@ -16,6 +17,7 @@ namespace GenBall.Enemy.Hurt
 
         public override AttackResult OnAttacked(AttackInfo attackInfo)
         {
+            Debug.Log($" ‹µΩ{attackInfo.Damage}µ„…À∫¶");
             Owner.TakeDamage(attackInfo.Damage);
             return AttackResult.Create(attackInfo.Damage);
         }

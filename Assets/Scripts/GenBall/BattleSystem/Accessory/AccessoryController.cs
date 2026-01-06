@@ -32,6 +32,10 @@ namespace GenBall.BattleSystem.Accessory
                 {
                     WeaponType = typeof(DefaultWeapon),
                 },
+                Accessories = new List<IAccessory>()
+                {
+                    new FullArmorAddDamageAccessory(),  
+                },
             },
             [3]=new LevelConfig
             {
