@@ -6,26 +6,29 @@ namespace GenBall.BattleSystem
     public class AttackInfo:IReference
     {
         public IAttacker Attacker;
-        public int Damage;
+        public int Damage=>DamageStat.CurrentValue;
         public Vector3 Direction;
-        public float ImpactForce;//冲击力
+        public float ImpactForce=>ImpactForceStat.CurrentValue;//冲击力
+
+        public readonly IntStat DamageStat=new IntStat();
+        public readonly FloatStat ImpactForceStat=new FloatStat();
         // public AttackArgs ExtraArgs;//附加参数，可有可无
         public static AttackInfo Create(IAttacker attacker,int damage, Vector3 direction, float impactForce)
         {
             var info = ReferencePool.Acquire<AttackInfo>();
             info.Attacker = attacker;
-            info.Damage = damage;
+            info.DamageStat.SetBaseValue(damage);
             info.Direction = direction;
-            info.ImpactForce = impactForce;
+            info.ImpactForceStat.SetBaseValue(impactForce);
             // info.ExtraArgs = extraArgs;
             return info;
         }
         public void Clear()
         {
             Attacker = null;
-            Damage = 0;
             Direction = Vector3.zero;
-            ImpactForce = 0;
+            DamageStat.ResetStat();
+            ImpactForceStat.ResetStat();
             // if (ExtraArgs != null)
             // {
             //     ReferencePool.Release(ExtraArgs);

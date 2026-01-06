@@ -6,49 +6,56 @@ namespace GenBall.BattleSystem
 {
     public interface IStatValue
     {
-        
+        public void ResetStat();
     }
 
-    public abstract class StatValue<T> : IStatValue where T:struct
+    public abstract class StatValue<TStat> : IStatValue where TStat:struct
     {
-        public T BaseValue;
-        public T CurrentValue;
-        protected readonly List<StatModifier<T>> Modifiers = new();
+        public TStat BaseValue;
+        public TStat CurrentValue;
+        protected readonly List<StatModifier<TStat>> Modifiers = new();
+        public Action<TStat>  OnValueChange;
 
-        public StatValue(T baseValue)
+        public StatValue(TStat baseValue)
         {
             SetBaseValue(baseValue);
         }
 
         public StatValue()
         {
-            SetBaseValue(default(T));
+            SetBaseValue(default(TStat));
         }
 
-        public void SetBaseValue(T baseValue)
+        public void SetBaseValue(TStat baseValue)
         {
             BaseValue = baseValue;
             Recalculate();
         }
-        public void AddModifier(StatModifier<T> modifier)
+        public void AddModifier(StatModifier<TStat> modifier)
         {
             Modifiers.Add(modifier);
             Recalculate();
         }
 
-        public void RemoveModifier(StatModifier<T> modifier)
+        public void RemoveModifier(StatModifier<TStat> modifier)
         {
             Modifiers.Remove(modifier);
             Recalculate();
         }
 
+        public void ResetStat()
+        {
+            OnValueChange = null;
+            BaseValue = default(TStat);
+            Modifiers.Clear();
+            Recalculate();
+        }
         protected abstract void Recalculate();
     }
     public class IntStat: StatValue<int>
     {
         public IntStat():base(0){}
         public IntStat(int baseValue):base(baseValue){}
-        public Action<int> OnValueChange;
         protected override void Recalculate()
         {
             CurrentValue = BaseValue;
@@ -64,7 +71,6 @@ namespace GenBall.BattleSystem
     {
         public FloatStat():base(0){}
         public FloatStat(float baseValue):base(baseValue){}
-        public Action<float> OnValueChange;
         protected override void Recalculate()
         {
             CurrentValue = BaseValue;
