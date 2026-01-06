@@ -5,7 +5,7 @@ namespace GenBall.Economic
 {
     public class EconomicController : ISingleton
     {
-        public EconomicController Instance => SingletonManager.GetSingleton<EconomicController>();
+        public static EconomicController Instance => SingletonManager.GetSingleton<EconomicController>();
         private int _dataPoints;
         /// <summary>
         /// Ô²ÐÎÊý¾Ý
