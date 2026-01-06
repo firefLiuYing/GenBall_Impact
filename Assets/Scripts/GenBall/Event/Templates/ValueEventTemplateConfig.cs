@@ -24,12 +24,18 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("MaxHealth", typeof(int), "最大生命值变化", "Player"),
             new ValueEventDefinition("Armor", typeof(int), "护甲值变化", "Player"),
             new ValueEventDefinition("KillPoints", typeof(int), "击杀点数变化", "Player"),
-            new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
+            new ValueEventDefinition("DataPoints",typeof(int),"圆形数据变化","Player"),
+            
             new ValueEventDefinition("Reload",typeof(ButtonState),"换弹按键输入","Input"),
             new ValueEventDefinition("Upgrade",typeof(ButtonState),"武器阶段升级输入","Input"),
+            
+            
+            new ValueEventDefinition("UnlockLevel",typeof(int),"武器阶段可提升至新阶段","Weapon"),
             new ValueEventDefinition("MagazineInfoChange",typeof(MagazineComponent.MagazineInfo),"弹匣子弹变化","Weapon"),
+            new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
+            
             new ValueEventDefinition("Death",typeof(DeathInfo),"敌人死亡","Enemy"),
-            new ValueEventDefinition("UnlockLevel",typeof(int),"武器阶段可提升至新阶段","Weapon")
+            
         };
     }
     
