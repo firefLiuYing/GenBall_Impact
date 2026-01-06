@@ -1,15 +1,8 @@
-using GenBall.BattleSystem.Weapons;
-
-namespace GenBall.BattleSystem
+namespace GenBall.BattleSystem.Accessory
 {
-    public interface IBuff:IEffect
+    public abstract class AccessoryBase : IAccessory
     {
-        public string Name { get; }
-    }
-
-    public abstract class BuffBase : IBuff
-    {
-        public IEffectable Owner { get; private set; }
+        public IEffectable Owner { get;private set; }
         public void Apply(IEffectable target)
         {
             Owner = target;
@@ -24,6 +17,7 @@ namespace GenBall.BattleSystem
         }
         protected virtual void OnUnapply(){}
 
+        public abstract int Load { get; }
         public abstract string Name { get; }
     }
 }
