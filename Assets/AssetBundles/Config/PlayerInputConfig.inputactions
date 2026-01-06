@@ -51,15 +51,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Accessory",
-                    "type": "Button",
-                    "id": "be57530e-2ad2-44ae-9c28-891e3ff7a431",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Upgrade",
                     "type": "Button",
                     "id": "92191dec-bbe9-4e59-91c5-06873c842feb",
@@ -318,17 +309,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bf7f82a2-68c8-4955-b6d9-c632e734bdd4",
-                    "path": "<Keyboard>/#(P)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Accessory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

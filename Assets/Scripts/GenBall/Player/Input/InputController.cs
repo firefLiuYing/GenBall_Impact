@@ -88,23 +88,6 @@ namespace GenBall.Player
             GameEntry.Event.FireInputUpgrade(buttonState);
         }
 
-        private bool _accessoryFormOpened = false;
-        public void AccessoryInput(InputAction.CallbackContext context)
-        {
-            if (context.phase == InputActionPhase.Started)
-            {
-                if (_accessoryFormOpened)
-                {
-                    GameEntry.GetModule<UIManager>().CloseForm<AccessoryForm>();
-                }
-                else
-                {
-                    GameEntry.GetModule<UIManager>().OpenForm<AccessoryForm>();
-                }
-                _accessoryFormOpened=!_accessoryFormOpened;
-            }
-        }
-
         public void ReloadInput(InputAction.CallbackContext context)
         {
             var buttonState= context.phase switch
