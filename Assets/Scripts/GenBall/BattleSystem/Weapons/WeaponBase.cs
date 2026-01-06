@@ -70,6 +70,10 @@ namespace GenBall.BattleSystem.Weapons
 
         public void Unequip()
         {
+            foreach (var effect in _effects)
+            {
+                effect.Unapply();
+            }
             UnequipWeaponComponents();
             Owner = null;
         }

@@ -108,11 +108,6 @@ namespace GenBall.BattleSystem.Accessory
         }
         private void ApplyUpgrade()
         {
-            if (Level > 0)
-            {
-                _levelConfigMap[Level].UnApply();
-            }
-
             Level++;
             _levelConfigMap[Level].Apply();
             Debug.Log($"Level:{Level},UnLockedLevel:{_unlockedLevel}");

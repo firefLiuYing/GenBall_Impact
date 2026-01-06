@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GenBall.Player;
 using Yueyn.Utils;
 
@@ -6,7 +7,7 @@ namespace GenBall.BattleSystem.Accessory
 {
     public class LevelConfig
     {
-        // private readonly List<AccessoryBase> _accessories = new();
+        public List<IAccessory> Accessories;
         public int Level;
         public BaseModule BaseModule;
         /// <summary>
@@ -32,15 +33,6 @@ namespace GenBall.BattleSystem.Accessory
             4 => 4,
             _ => 0
         };
-        // public bool SetAccessory([NotNull] List<AccessoryBase> accessories)
-        // {
-        //     if(accessories.Count > MaxAccessoryCount) return false;
-        //     int totalLoad = accessories.Select(accessory=>accessory.Load).Sum();
-        //     if(totalLoad > MaxLoad) return false;
-        //     _accessories.Clear();
-        //     _accessories.AddRange(accessories);
-        //     return true;
-        // }
         public void Apply()
         {
             if (BaseModule?.WeaponType == null)
@@ -51,17 +43,14 @@ namespace GenBall.BattleSystem.Accessory
             var newWeapon = BaseModule.WeaponName.IsNullOrEmpty() 
                 ? PlayerController.Instance.Player.EquipPhysicsWeapon(BaseModule.WeaponType) 
                 : PlayerController.Instance.Player.EquipPhysicsWeapon(BaseModule.WeaponName,BaseModule.WeaponType);
-            // foreach (var accessory in _accessories)
-            // {
-            //     // accessory.Apply(newWeapon);
-            // }
-        }
-        public void UnApply()
-        {
-            // foreach (var accessory in _accessories)
-            // {
-            //     // accessory.UnApply();
-            // }
+
+            if (Accessories != null)
+            {
+                foreach (var accessory in Accessories)
+                {
+                    newWeapon.AddEffect(accessory);
+                }
+            }
         }
     }
 
