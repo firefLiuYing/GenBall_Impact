@@ -14,6 +14,7 @@ namespace GenBall.BattleSystem.Weapons
     {
         private readonly EventPool<GameEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
         private readonly List<IEffect> _effects = new();
+        private readonly List<IEffect> _cachedEffects = new();
         private readonly Dictionary<Type, IWeaponComponent> _weaponComponents = new();
         public void EntityUpdate(float deltaTime)
         {
@@ -70,12 +71,21 @@ namespace GenBall.BattleSystem.Weapons
 
         public void Unequip()
         {
-            foreach (var effect in _effects)
+            UnapplyEffects();
+            UnequipWeaponComponents();
+            Owner = null;
+        }
+
+        private void UnapplyEffects()
+        {
+            _cachedEffects.Clear();
+            _cachedEffects.AddRange(_effects);
+            foreach (var effect in _cachedEffects)
             {
                 effect.Unapply();
             }
-            UnequipWeaponComponents();
-            Owner = null;
+            _effects.Clear();
+            _cachedEffects.Clear();
         }
 
         public void Attack(IAttackable target, AttackInfo attackInfo)
