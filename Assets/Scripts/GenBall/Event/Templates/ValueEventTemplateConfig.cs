@@ -37,7 +37,7 @@ namespace GenBall.Event.Templates
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"µ–»ÀÀ¿Õˆ","Enemy"),
             
-            new ValueEventDefinition("Save",typeof(GameData),"¥Êµµ","Game"),
+            // new ValueEventDefinition("Save",typeof(GameData),"¥Êµµ","Game"),
             
         };
     }
