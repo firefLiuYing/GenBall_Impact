@@ -1,0 +1,46 @@
+{
+    "slots": [
+        {
+            "saveIndex": 0,
+            "isEmpty": false,
+            "lastUpdateTime": 639033130483082882,
+            "totalTime": 0,
+            "createTime": 639033130483057745
+        },
+        {
+            "saveIndex": 1,
+            "isEmpty": true,
+            "lastUpdateTime": 0,
+            "totalTime": 0,
+            "createTime": 0
+        },
+        {
+            "saveIndex": 2,
+            "isEmpty": true,
+            "lastUpdateTime": 0,
+            "totalTime": 0,
+            "createTime": 0
+        },
+        {
+            "saveIndex": 3,
+            "isEmpty": true,
+            "lastUpdateTime": 0,
+            "totalTime": 0,
+            "createTime": 0
+        },
+        {
+            "saveIndex": 4,
+            "isEmpty": true,
+            "lastUpdateTime": 0,
+            "totalTime": 0,
+            "createTime": 0
+        },
+        {
+            "saveIndex": 5,
+            "isEmpty": true,
+            "lastUpdateTime": 0,
+            "totalTime": 0,
+            "createTime": 0
+        }
+    ]
+}

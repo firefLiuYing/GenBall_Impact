@@ -5,6 +5,7 @@ using GenBall.Map;
 using GenBall.UI;
 using GenBall.Utils.EntityCreator;
 using GenBall.Player;
+using GenBall.Procedure;
 using Yueyn.Event;
 using Yueyn.Fsm;
 using Yueyn.Main.Entry;
@@ -28,6 +29,9 @@ namespace GenBall
             Entry.Register(new FsmManager());
             Entry.Register(new ObjectPoolManager());
             Entry.Register(new ResourceManager());
+            
+            Entry.Register(GetComponentInChildren<SaveComponent>());
+            
             Entry.Register(new EntityCreator<IBullet>());
             Entry.Register(new EntityCreator<IWeapon>());
             Entry.Register(new EntityCreator<IEnemy>());

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
 using GenBall.Player;
+using GenBall.Procedure;
 using UnityEngine;
 using Yueyn.Event;
 
@@ -35,6 +36,8 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("Level",typeof(int),"ÎäÆ÷½×¶Î±ä»¯","Weapon"),
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"µÐÈËËÀÍö","Enemy"),
+            
+            new ValueEventDefinition("Save",typeof(GameData),"´æµµ","Game"),
             
         };
     }
