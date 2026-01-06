@@ -69,7 +69,6 @@ namespace GenBall.UI
 
         private void OnLevelChanged(int level)
         {
-            Debug.Log("OnLevelChanged");
             if (AccessoryController.Instance.Level < AccessoryController.Instance.UnlockedLevel)
             {
                 UpgradeTip.Open();
