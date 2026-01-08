@@ -48,5 +48,6 @@ namespace GenBall
         public static EventManager Event => GetModule<EventManager>();
         public static UIManager UI => GetModule<UIManager>();
         public static SaveComponent Save => GetModule<SaveComponent>();
+        public static PlayerManager Player => GetModule<PlayerManager>();
     }
 }

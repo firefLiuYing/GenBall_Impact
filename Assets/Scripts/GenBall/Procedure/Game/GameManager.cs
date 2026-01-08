@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GenBall.Utils.EntityCreator;
 using GenBall.Utils.Singleton;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -149,6 +150,13 @@ namespace GenBall.Procedure.Game
                 // todo gzp 模拟通过游戏数据开始游戏
                 Debug.Log($"读取到存档信息：{gameData}");
                 Debug.Log("开始游戏");
+                
+                // 隐藏鼠标
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                // 加载地图
+                // 创建玩家
+                GameEntry.Player.CreatePlayer();
                 _gameData = gameData;
                 return true;
             }
@@ -166,6 +174,9 @@ namespace GenBall.Procedure.Game
                 if(_curSaveIndex <0||_gameData==null) return false;
                 await Task.Delay(1);
                 // todo gzp 模拟获取存档还有的数据
+                
+                // 最近一次游玩改成现在
+                _gameData.LastUpdateTime = DateTime.Now;
                 Debug.Log($"保存存档信息：{_gameData}");
                 return await GameEntry.Save.SaveGameData(_gameData, _curSaveIndex);
             }
