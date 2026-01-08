@@ -13,7 +13,7 @@ namespace Yueyn.Resource
             callback?.Invoke(prefab);
         }
 
-        public object LoadPrefab(string path)=>AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        public GameObject LoadPrefab(string path)=>AssetDatabase.LoadAssetAtPath<GameObject>(path);
 
         public void OnRegister()
         {
