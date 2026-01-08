@@ -1,12 +1,11 @@
+using GenBall.BattleSystem;
 using GenBall.Utils.EntityCreator;
 
 namespace GenBall.Map
 {
-    public interface IMapBlock : IEntity
+    public interface IMapBlock : IEntity,IEffectable
     {
-        public void OnLoad();
-        public void OnUnload();
-        public void OnPlayerEnter();
-        public void OnPlayerExit();
+        public void EnterMapBlock();
+        public void ExitMapBlock();
     }
 }
