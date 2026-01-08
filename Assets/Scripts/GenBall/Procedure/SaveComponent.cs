@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using GenBall.Utils.Singleton;
+using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using Yueyn.Main;
@@ -12,16 +15,6 @@ namespace GenBall.Procedure
 {
     public class SaveComponent : MonoBehaviour,IComponent
     {
-        /// <summary>
-        /// todo gzp 存档组件思路整理，事后记得删除
-        /// 需要提供的接口有：
-        /// 查看当前存档位情况：当前有哪几个存档位有存入数据，以及他们的基本信息（需要在读取界面显示的信息，例如最近一次游玩日期）
-        /// 创建一个指定id的存档，不能超过最大存档数量
-        /// 读取一个指定id的存档，
-        /// 更新一个指定id的存档，
-        /// 为了实现上述功能，需要引入一个单独的文件用来存放存档的信息
-        /// 这个东西会在创建存档，更新存档时更新，会在游戏打开时就进行一次读取，其他时候都是写入，如果是第一次打开，那还要进行一次创建操作
-        /// </summary>
         
         [SerializeField] private int maxSaveCount = 6;
 
@@ -32,27 +25,21 @@ namespace GenBall.Procedure
         }
         
         private bool _hasLoadCachedSaveSlot = false;
-        private readonly List<SaveSlotData> _cachedSaveSlotData = new();
 
+        private readonly Dictionary<int, SaveSlotData> _cachedSaveSlotMap = new();
+        private readonly SaveSlotDataListJson _cachedSaveSlotDataJson = new()
+        {
+            slots = new(),
+        };
         /// <summary>
         /// 获取存档位情况（有哪几个存档位有存档记录，每个存档的基本信息）
         /// </summary>
         /// <returns></returns>
-        public async Task<SaveSlotInfo> GetSaveSlotInfo()
+        public async Task<IEnumerable<SaveSlotData>> GetSaveSlotDatas()
         {
             try
             {
-                SaveSlotInfo saveSlotInfo;
-                if (_hasLoadCachedSaveSlot)
-                {
-                    saveSlotInfo = new();
-                    saveSlotInfo.slots.AddRange(_cachedSaveSlotData);
-                }
-                else
-                {
-                    saveSlotInfo = await InternalGetSaveSlotInfo();
-                }
-                return saveSlotInfo;
+                return await InternalGetSaveSlotInfo();
             }
             catch (Exception e)
             {
@@ -101,18 +88,17 @@ namespace GenBall.Procedure
         /// <summary>
         /// 在指定存档位创建新存档
         /// </summary>
-        /// <param name="saveIndex"></param>
         /// <returns></returns>
-        public async Task<bool> CreateNewSave(int saveIndex)
+        public async Task<int> CreateNewSave()
         {
             try
             {
-                return await InternalCreateSaveFile(saveIndex);
+                return await InternalCreateSaveFile();
             }
             catch (Exception e)
             {
                 Debug.LogError(e.Message);
-                return false;
+                return -1;
             }
         }
 
@@ -150,11 +136,13 @@ namespace GenBall.Procedure
         {
             try
             {
-                SaveSlotInfo saveSlotInfo = new ();
-                saveSlotInfo.slots.AddRange(_cachedSaveSlotData);
-                string json = JsonUtility.ToJson(saveSlotInfo,true);
+                _cachedSaveSlotDataJson.slots.Clear();
+                _cachedSaveSlotDataJson.slots.AddRange(_cachedSaveSlotMap.Values);
+                string json = JsonUtility.ToJson(_cachedSaveSlotDataJson,true);
+                Debug.Log($"gzp 当前存档有：{json}");
                 if (!File.Exists(GetSaveSlotFilePath()))
                 {
+                    Debug.Log("gzp 检测到文件不存在，正在创建新的存档信息文件");
                     var directory = Path.GetDirectoryName(GetSaveSlotFilePath());
                     if (!string.IsNullOrEmpty(directory))
                     {
@@ -169,7 +157,8 @@ namespace GenBall.Procedure
                 {
                     await File.WriteAllTextAsync(GetSaveSlotFilePath(), json);
                 }
-
+    
+                Debug.Log($"gzp 要写入的存档基本信息为：{json}");
                 return true;
             }
             catch (Exception e)
@@ -179,43 +168,30 @@ namespace GenBall.Procedure
             }
         }
 
-        private async Task<SaveSlotInfo> InternalGetSaveSlotInfo()
+        private async Task<IEnumerable<SaveSlotData>> InternalGetSaveSlotInfo()
         {
             try
             {
-                SaveSlotInfo saveSlotInfo;
-                if (!File.Exists(GetSaveSlotFilePath()))
+                if (_hasLoadCachedSaveSlot)
                 {
-                    saveSlotInfo = new SaveSlotInfo
-                    {
-                        slots = new List<SaveSlotData>()
-                    };
-                    for (int i = 0; i < MaxSaveCount; i++)
-                    {
-                        saveSlotInfo.slots.Add(new SaveSlotData()
-                        {
-                            saveIndex = i,
-                            isEmpty = true,
-                        });
-                    }
+                    return _cachedSaveSlotMap.Values;
                 }
-                else
+
+                if (File.Exists(GetSaveSlotFilePath()))
                 {
                     string json =await File.ReadAllTextAsync(GetSaveSlotFilePath());
-                    saveSlotInfo = JsonUtility.FromJson<SaveSlotInfo>(json);
-                    for (int i = saveSlotInfo.slots.Count; i < MaxSaveCount; i++)
+                    var saveSlotInfo = JsonUtility.FromJson<SaveSlotDataListJson>(json);
+                    _cachedSaveSlotMap.Clear();
+                    foreach (var item in saveSlotInfo.slots)
                     {
-                        saveSlotInfo.slots.Add(new SaveSlotData()
-                        {
-                            saveIndex = i,
-                            isEmpty = true,
-                        });
+                        _cachedSaveSlotMap.TryAdd(item.saveIndex, item);
                     }
+                    _hasLoadCachedSaveSlot = true;
+                    return saveSlotInfo.slots;
                 }
-                _cachedSaveSlotData.Clear();
-                _cachedSaveSlotData.AddRange(saveSlotInfo.slots);
+                await InternalWriteSaveSlotInfo();
                 _hasLoadCachedSaveSlot = true;
-                return saveSlotInfo;
+                return _cachedSaveSlotMap.Values;
             }
             catch (Exception e)
             {
@@ -224,33 +200,33 @@ namespace GenBall.Procedure
             }
         }
 
-        private void UpdateCachedSaveSlotInfo(GameData gameData,int saveIndex)
+        private void UpdateCachedSaveSlotInfo([NotNull] GameData gameData,int saveIndex)
         {
-            if (saveIndex >= MaxSaveCount || saveIndex < 0)
+            
+            var slot = new SaveSlotData
             {
-                throw new Exception($"gzp saveIndex不合法：saveIndex: {saveIndex}");
-            }
-
-            if (gameData == null)
-            {
-                _cachedSaveSlotData[saveIndex].isEmpty=true;
-                return;
-            }
-            _cachedSaveSlotData[saveIndex].isEmpty=false;
-            _cachedSaveSlotData[saveIndex].CreateTime = gameData.CreateTime;
-            _cachedSaveSlotData[saveIndex].LastUpdateTime = gameData.LastUpdateTime;
-            _cachedSaveSlotData[saveIndex].TotalTime = gameData.TotalTime;
+                saveIndex = saveIndex,
+                isEmpty = false,
+                CreateTime = gameData.CreateTime,
+                LastUpdateTime = gameData.LastUpdateTime,
+                TotalTime = gameData.TotalTime
+            };
+            _cachedSaveSlotMap[saveIndex] = slot;
         }
 
-        private async Task<bool> InternalCreateSaveFile(int saveIndex)
+        private async Task<int> InternalCreateSaveFile()
         {
             try
             {
-                if (saveIndex >= MaxSaveCount || saveIndex < 0)
+                int saveIndex=0;
+                foreach (var saveSlot in _cachedSaveSlotMap.Values)
                 {
-                    throw new Exception($"gzp saveIndex不合法：{saveIndex}");
+                    if (saveIndex <= saveSlot.saveIndex)
+                    {
+                        saveIndex = saveSlot.saveIndex+1;
+                    }
                 }
-
+                Debug.Log($"gzp 创建新存档的id为：{saveIndex}");
                 var filePath = GetSaveFilePath(saveIndex);
                 GameData gameData = new GameData
                 {
@@ -259,25 +235,26 @@ namespace GenBall.Procedure
                     TotalTime = new DateTime(0)
                 };
                 var json= JsonUtility.ToJson(gameData,true);
-                Debug.Log(json);
+                Debug.Log($"gzp 创建新的存档信息：{json}");
                 await File.WriteAllTextAsync(filePath, json);
                 UpdateCachedSaveSlotInfo(gameData,saveIndex);
-                return await InternalWriteSaveSlotInfo();
+                await InternalWriteSaveSlotInfo();
+                return saveIndex;
             }
             catch (Exception e)
             {
                 Debug.LogError($"gzp 创建存档失败：{e.Message}");
-                return false;
+                return -1;
             }
         }
 
-        private async Task<bool> InternalUpdateSaveFile(GameData gameData, int saveIndex)
+        private async Task<bool> InternalUpdateSaveFile([NotNull] GameData gameData, int saveIndex)
         {
             try
             {
-                if (saveIndex >= MaxSaveCount || saveIndex < 0)
+                if (!_cachedSaveSlotMap.ContainsKey(saveIndex))
                 {
-                    throw new Exception($"gzp saveIndex:{saveIndex} 不合法");
+                    throw new Exception($"gzp 找不到saveIndex: {saveIndex} 对应的存档");
                 }
                 var filePath = GetSaveFilePath(saveIndex);
                 if (!File.Exists(filePath))
@@ -287,7 +264,8 @@ namespace GenBall.Procedure
                 var json = JsonUtility.ToJson(gameData,true);
                 await File.WriteAllTextAsync(filePath, json);
                 UpdateCachedSaveSlotInfo(gameData,saveIndex);
-                return await InternalWriteSaveSlotInfo();
+                await InternalWriteSaveSlotInfo();
+                return true;
             }
             catch (Exception e)
             {
@@ -300,9 +278,9 @@ namespace GenBall.Procedure
         {
             try
             {
-                if (saveIndex >= MaxSaveCount || saveIndex < 0)
+                if (!_cachedSaveSlotMap.ContainsKey(saveIndex))
                 {
-                    throw new Exception($"gzp saveIndex:{saveIndex} 不合法");
+                    throw new Exception($"gzp 找不到saveIndex: {saveIndex} 对应的存档");
                 }
                 var filePath = GetSaveFilePath(saveIndex);
                 var json = await File.ReadAllTextAsync(filePath);
@@ -319,22 +297,19 @@ namespace GenBall.Procedure
         {
             try
             {
-                if (saveIndex >= MaxSaveCount || saveIndex < 0)
+                if (!_cachedSaveSlotMap.ContainsKey(saveIndex))
                 {
-                    throw new Exception($"gzp saveIndex:{saveIndex} 不合法");
+                    throw new Exception($"gzp 找不到saveIndex: {saveIndex} 对应的存档");
                 }
 
-                if (_cachedSaveSlotData[saveIndex].isEmpty)
-                {
-                    throw new Exception($"gzp 指定存档位无存档 saveIndex:{saveIndex}");
-                }
                 var filePath = GetSaveFilePath(saveIndex);
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
                 }
-                _cachedSaveSlotData[saveIndex].isEmpty = false;
-                return await InternalWriteSaveSlotInfo();
+                _cachedSaveSlotMap.Remove(saveIndex);
+                await InternalWriteSaveSlotInfo();
+                return true;
             }
             catch (Exception e)
             {
@@ -344,16 +319,9 @@ namespace GenBall.Procedure
         }
         #region 生命周期
 
-        public async void OnRegister()
+        public void OnRegister()
         {
-            try
-            {
-                await InternalGetSaveSlotInfo();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-            }
+            
         }
         public void OnUnregister()
         {
@@ -377,13 +345,13 @@ namespace GenBall.Procedure
     }
 
     [Serializable]
-    public class SaveSlotInfo
+    public class SaveSlotDataListJson
     {
-        public List<SaveSlotData> slots=new();
+        public List<SaveSlotData> slots;
     }
     
     [Serializable]
-    public class SaveSlotData
+    public struct SaveSlotData
     {
         public int saveIndex;
         public bool isEmpty;

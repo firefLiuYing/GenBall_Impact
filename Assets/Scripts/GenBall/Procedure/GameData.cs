@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using UnityEngine;
 
 namespace GenBall.Procedure
@@ -32,5 +33,15 @@ namespace GenBall.Procedure
         [SerializeField] private long createTime;
         [SerializeField] private long lastUpdateTime;
         [SerializeField] private long totalTime;
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("GameData");
+            sb.AppendLine($"CreateTime: {CreateTime:yyyy/MM/dd HH:mm:ss}" );
+            sb.AppendLine($"LastUpdateTime: {LastUpdateTime:yyyy/MM/dd HH:mm:ss}");
+            sb.AppendLine($"TotalTime: {TotalTime:yyyy/MM/dd HH:mm:ss}");
+            return sb.ToString();
+        }
     }
 }
