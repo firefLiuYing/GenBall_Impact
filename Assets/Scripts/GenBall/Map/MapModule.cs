@@ -98,7 +98,7 @@ namespace GenBall.Map
                 return;
             }
             _curMapBlockIndex = mapBlockIndex;
-            LoadBlocks(mapBlockIndex,3);
+            LoadBlocks(mapBlockIndex,loadLayerCount);
             Debug.Log($"gzp ½øÈëµØ¿é£º{mapBlockIndex}");
         }
         
@@ -120,13 +120,13 @@ namespace GenBall.Map
             LoadMapBlock(blockIndex);
             _cachedBlockNeighborIndexList.Clear();
             _tempBlockNeighborIndexList.Clear();
-            _cachedBlockNeighborIndexList.AddRange(_blockMap[blockIndex].neighbors);
+            _cachedBlockNeighborIndexList.Add(blockIndex);
             for (int i = 0; i < layerCount; i++)
             {
                 _tempBlockNeighborIndexList.Clear();
-                foreach (var neighbor in _cachedBlockNeighborIndexList)
+                foreach (var blockIndexInCached in _cachedBlockNeighborIndexList)
                 {
-                    _tempBlockNeighborIndexList.AddRange(_blockMap[neighbor].neighbors);
+                    _tempBlockNeighborIndexList.AddRange(_blockMap[blockIndexInCached].neighbors);
                 }
                 _cachedBlockNeighborIndexList.Clear();
                 _cachedBlockNeighborIndexList.AddRange(_tempBlockNeighborIndexList);
