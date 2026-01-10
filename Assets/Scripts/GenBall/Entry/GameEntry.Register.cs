@@ -27,27 +27,16 @@ namespace GenBall
         }
         private void RegisterModules()
         {
-            // Entry.Register(new EventManager());
-            // Entry.Register(new FsmManager());
-            // Entry.Register(new ObjectPoolManager());
-            // Entry.Register(new ResourceManager());
-            
-            // Entry.Register(GetComponentInChildren<SaveComponent>());
-            
+            foreach (var com in GetComponentsInChildren<IComponent>())
+            {
+                _entry.Register(com);
+            }
             _entry.Register(new EntityCreator<IBullet>());
             _entry.Register(new EntityCreator<IWeapon>());
             _entry.Register(new EntityCreator<IEnemy>());
             _entry.Register(new EntityCreator<IUserInterface>());
             _entry.Register(new EntityCreator<Player.Player>());
             _entry.Register(new EntityCreator<IMapBlock>());
-            
-            // Entry.Register(GetComponentInChildren<UIManager>());
-            // Entry.Register(GetComponentInChildren<PlayerManager>());
-            // Entry.Register(GetComponentInChildren<MapModule>());
-            foreach (var com in GetComponentsInChildren<IComponent>())
-            {
-                _entry.Register(com);
-            }
         }
 
         public static EventManager Event => GetModule<EventManager>();
@@ -57,5 +46,6 @@ namespace GenBall
         public static MapModule Map => GetModule<MapModule>();
         public static ExecuteComponent Execute => GetModule<ExecuteComponent>();
         public static SceneModule Scene => GetModule<SceneModule>();
+        public static FsmManager Fsm => GetModule<FsmManager>();
     }
 }
