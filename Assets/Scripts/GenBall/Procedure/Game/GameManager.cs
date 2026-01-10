@@ -11,7 +11,6 @@ namespace GenBall.Procedure.Game
     {
         public static GameManager Instance => SingletonManager.GetSingleton<GameManager>();
         private int _curSaveIndex;
-        private readonly List<SaveSlotData> _cachedSaveSlotData = new();
 
         public GameData GameData { get; set; }
 
