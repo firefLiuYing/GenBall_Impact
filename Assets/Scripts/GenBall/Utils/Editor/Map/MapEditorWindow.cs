@@ -218,6 +218,8 @@ namespace GenBall.Utils.Editor.Map
                     _previewInstances.Add(instance);
                 }
             }
+            
+            MarkSceneDirty();
         }
 
         private void DeletePreviewMap()
@@ -226,12 +228,21 @@ namespace GenBall.Utils.Editor.Map
             {
                 if (go != null)
                 {
-                    DestroyImmediate(go);
+                    Undo.DestroyObjectImmediate(go);
                 }
             }
             _previewInstances.Clear();
+            MarkSceneDirty();
         }
 
+        private void MarkSceneDirty()
+        {
+            var scene = SceneManager.GetActiveScene();
+            if (scene.IsValid())
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+            }
+        }
         #endregion
     }
 }
