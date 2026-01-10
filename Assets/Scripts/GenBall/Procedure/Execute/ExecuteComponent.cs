@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using GenBall.Procedure.Execute;
 using UnityEngine;
 using Yueyn.Fsm;
 using Yueyn.Main;
 
-namespace GenBall.Procedure.Game
+namespace GenBall.Procedure.Execute
 {
     public class ExecuteComponent : MonoBehaviour, IComponent
     {
@@ -24,6 +23,11 @@ namespace GenBall.Procedure.Game
             Cursor.lockState = CursorLockMode.Locked;
         }
         
+        private void RegisterStates()
+        {
+            _states.Clear();
+            _states.Add(new ProcedureLoadState());
+        }
         public void Init()
         {
             #if UNITY_EDITOR
@@ -32,9 +36,10 @@ namespace GenBall.Procedure.Game
             playMode = PlayMode.Play;
             #endif
             _fsm=GameEntry.Fsm.CreateFsm("LauncherExecute", this, _states);
-            
-            
+            RegisterStates();
+            _fsm.Start<ProcedureLoadState>();
         }
+
         public void OnUnregister()
         {
             
