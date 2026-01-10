@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSceneName: YueynTestMap
+  playMode: 0
 --- !u!1 &1027462564
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +415,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 6155553999742371099, guid: 31e17dcd0045da74c96a661bee8c190d, type: 3}
     - {fileID: 3956091294487049710, guid: 31e17dcd0045da74c96a661bee8c190d, type: 3}
+    - {fileID: 4972599808077094293, guid: 31e17dcd0045da74c96a661bee8c190d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7126374777430973612, guid: 31e17dcd0045da74c96a661bee8c190d, type: 3}
       insertIndex: -1

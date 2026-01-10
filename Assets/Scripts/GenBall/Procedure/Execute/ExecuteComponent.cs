@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GenBall.Procedure.Game;
 using UnityEngine;
 using Yueyn.Base.Variable;
 using Yueyn.Fsm;
@@ -39,6 +40,7 @@ namespace GenBall.Procedure.Execute
             // 编辑器以外的环境强制是游玩模式
             playMode = PlayMode.Play;
             #endif
+            GameManager.Instance.Mode = Mode;
             RegisterStates();
             _fsm=GameEntry.Fsm.CreateFsm("LauncherExecute", this, _states);
             _fsm.Start<ProcedureLoadState>();

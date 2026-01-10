@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GenBall.Map;
+using GenBall.Procedure.Execute;
 using GenBall.Utils.EntityCreator;
 using GenBall.Utils.Singleton;
 using JetBrains.Annotations;
@@ -18,6 +19,7 @@ namespace GenBall.Procedure.Game
         private readonly List<SaveSlotData> _cachedSaveSlotData = new();
         private GameData _gameData;
         public GameData GameData => _gameData;
+        public ExecuteComponent.PlayMode Mode { get; set; }
 
         /// <summary>
         /// 获取所有存档的基本信息
