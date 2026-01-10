@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using GenBall.Procedure.Execute;
 using UnityEngine;
+using Yueyn.Fsm;
 using Yueyn.Main;
 
 namespace GenBall.Procedure.Game
@@ -12,12 +14,11 @@ namespace GenBall.Procedure.Game
         private PlayMode playMode;
         public PlayMode Mode => playMode;
         public string StartSceneName => startSceneName;
-        private readonly ExecuteProcedure  _executeProcedure=new();
 
+        private Fsm<ExecuteComponent> _fsm;
+        private readonly List<FsmState<ExecuteComponent>> _states = new();
         public void StartGame(GameData gameData)
         {
-            
-            Debug.Log($"读取到存档信息：{gameData}");
             Debug.Log("开始游戏");
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -30,8 +31,9 @@ namespace GenBall.Procedure.Game
             // 编辑器以外的环境强制是游玩模式
             playMode = PlayMode.Play;
             #endif
-            _executeProcedure.Init();
-            _executeProcedure.Start();
+            _fsm=GameEntry.Fsm.CreateFsm("LauncherExecute", this, _states);
+            
+            
         }
         public void OnUnregister()
         {

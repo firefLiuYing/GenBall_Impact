@@ -13,15 +13,15 @@ using Yueyn.Fsm;
 
 namespace GenBall.Procedure.Execute
 {
-    public class ProcedureLoadState : FsmState<ExecuteProcedure>
+    public class ProcedureLoadState : FsmState<ExecuteComponent>
     {
-        protected internal override void OnEnter(Fsm<ExecuteProcedure> fsm)
+        protected internal override void OnEnter(Fsm<ExecuteComponent> fsm)
         {
             RegisterEvents();
             GameEntry.UI.OpenForm<StartForm>();
         }
 
-        protected internal override void OnExit(Fsm<ExecuteProcedure> fsm, bool isShutdown = false)
+        protected internal override void OnExit(Fsm<ExecuteComponent> fsm, bool isShutdown = false)
         {
             UnRegisterEvents();
         }
