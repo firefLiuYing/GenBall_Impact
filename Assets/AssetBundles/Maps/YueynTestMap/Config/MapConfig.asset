@@ -22,31 +22,31 @@ MonoBehaviour:
       m_Extent: {x: 5, y: 0.5, z: 5}
     mapBlockPrefabPath: Assets/AssetBundles/Maps/YueynTestMap/Prefab/Block.prefab
   - mapBlockIndex: 1
-    neighbors: 010000000200000003000000
+    neighbors: 000000000200000003000000
     multiBounds:
     - m_Center: {x: 10, y: 0, z: 0}
       m_Extent: {x: 5, y: 0.5, z: 5}
     mapBlockPrefabPath: Assets/AssetBundles/Maps/YueynTestMap/Prefab/Block (1).prefab
   - mapBlockIndex: 2
-    neighbors: 02000000020000000300000005000000
+    neighbors: 00000000010000000300000005000000
     multiBounds:
     - m_Center: {x: 0, y: 0, z: 10}
       m_Extent: {x: 5, y: 0.5, z: 5}
     mapBlockPrefabPath: Assets/AssetBundles/Maps/YueynTestMap/Prefab/Block (2).prefab
   - mapBlockIndex: 3
-    neighbors: 030000000300000003000000
+    neighbors: 000000000100000002000000
     multiBounds:
     - m_Center: {x: 10, y: 0, z: 10}
       m_Extent: {x: 5, y: 0.5, z: 5}
     mapBlockPrefabPath: Assets/AssetBundles/Maps/YueynTestMap/Prefab/Block (3).prefab
   - mapBlockIndex: 4
-    neighbors: 0400000005000000
+    neighbors: 0000000005000000
     multiBounds:
     - m_Center: {x: -10, y: 0, z: -10}
       m_Extent: {x: 5, y: 0.5, z: 5}
     mapBlockPrefabPath: Assets/AssetBundles/Maps/YueynTestMap/Prefab/Block (4).prefab
   - mapBlockIndex: 5
-    neighbors: 050000000500000005000000
+    neighbors: 000000000200000004000000
     multiBounds:
     - m_Center: {x: -10, y: 0, z: 0}
       m_Extent: {x: 5, y: 0.5, z: 5}

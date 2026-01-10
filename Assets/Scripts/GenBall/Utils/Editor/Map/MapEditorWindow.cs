@@ -169,7 +169,7 @@ namespace GenBall.Utils.Editor.Map
                     if (AreBlocksAdjacent(a, b))
                     {
                         a.neighbors.Add(b.mapBlockIndex);
-                        b.neighbors.Add(b.mapBlockIndex);
+                        b.neighbors.Add(a.mapBlockIndex);
                     }
                 }
             }
