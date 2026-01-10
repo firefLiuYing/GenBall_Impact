@@ -19,12 +19,11 @@ namespace GenBall.Player
             GroundDetection();
         }
 
+        [SerializeField]private LayerMask groundDetectLayerMask; 
         private void GroundDetection()
         {
-            int layerToExclude = LayerMask.NameToLayer("Player");
-            LayerMask layerMask=~(1<<layerToExclude);
             var origin = transform.position + _collider.center;
-            var hit=Physics.Raycast(origin,Vector3.down,_collider.height/2+0.01f,layerMask);
+            var hit=Physics.Raycast(origin,Vector3.down,_collider.height/2+0.01f,groundDetectLayerMask);
             // Debug.Log($"µØÃæ¼ì²â£º{hit}");
             if(hit!=_onGround.Value) _onGround.PostValue(hit);
             // _onGround.PostValue(hit);

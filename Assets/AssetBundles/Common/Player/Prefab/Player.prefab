@@ -398,6 +398,9 @@ MonoBehaviour:
   playerConfigSo: {fileID: 11400000, guid: e5aacef654e7cfc4b8650dbf71d8889a, type: 2}
   mainCameraTransform: {fileID: 9175025401701857626}
   baseMaxHealth: 6
+  groundDetectLayerMask:
+    serializedVersion: 2
+    m_Bits: 1143
   weaponSpawnPoint: {fileID: 45311691861840396}
 --- !u!54 &510875234863370023
 Rigidbody:
