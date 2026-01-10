@@ -13,8 +13,7 @@ namespace GenBall.Procedure.Execute
     {
         public int Priority => 10000;
         [SerializeField] private string startSceneName;
-        [SerializeField,Tooltip("PlayMode的区别：\nDebug:启动到StartSceneName所指的场景\nPlay:按照正常游戏流程启动到存档中上次游玩的场景或者游戏开始场景")] 
-        private RunningMode runningMode;
+        [SerializeField] private RunningMode runningMode;
         public RunningMode Mode => runningMode;
         public string StartSceneName => startSceneName;
 
