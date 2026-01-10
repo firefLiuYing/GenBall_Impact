@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GenBall.Map;
 using GenBall.Utils.Singleton;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ namespace GenBall.Procedure.Game
             get => _curSaveIndex;
             set=> _curSaveIndex = value;
         }
+        
+        public LoadInfo CachedLoadInfo { get; set; }
 
         /// <summary>
         /// ±£¥Ê”Œœ∑

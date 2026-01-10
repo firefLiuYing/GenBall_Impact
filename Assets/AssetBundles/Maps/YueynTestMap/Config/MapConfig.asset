@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MapConfig
   m_EditorClassIdentifier: 
   sceneName: YueynTestMap
-  sceneDisplayName: "\u6D4B\u8BD5\u5730\u56FE1"
+  sceneDisplayName: "\u6D4B\u8BD5\u5730\u56FE"
   mapBlockConfigs:
   - mapBlockIndex: 0
     neighbors: 0100000002000000030000000400000005000000

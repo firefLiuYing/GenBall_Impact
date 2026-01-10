@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GenBall.Procedure.Execute;
+using GenBall.Procedure.Game;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,6 +34,7 @@ namespace GenBall.Map
                 Debug.LogError("gzp º”‘ÿ ß∞‹");
                 yield break;
             }
+            GameManager.Instance.CachedLoadInfo = loadInfo;
             operation.allowSceneActivation = false;
             // SplashController.Instance.OpenSplashForm();
             while (operation.progress<0.9f)

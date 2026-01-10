@@ -15,6 +15,17 @@ namespace GenBall.Player
         public Transform DefaultPlayerSpawnPoint=>defaultPlayerSpawnPoint??transform;
 
         public void CreatePlayer()=>CreatePlayer(defaultPlayerSpawnPoint);
+
+        public void CreatePlayer(Vector3 position, Quaternion rotation)
+        {
+            if (Player != null)
+            {
+                throw new Exception("当前场景已有Player");
+            }
+            var player = PlayerCreator.CreateEntity<Player>(position, rotation,DefaultPlayerSpawnPoint);
+            player.Initialize();
+            Player = player;
+        }
         public void CreatePlayer(Transform spawnTransform)
         {
             if (Player != null)
