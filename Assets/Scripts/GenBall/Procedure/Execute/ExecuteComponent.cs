@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Yueyn.Base.Variable;
 using Yueyn.Fsm;
 using Yueyn.Main;
 
@@ -16,17 +18,19 @@ namespace GenBall.Procedure.Execute
 
         private Fsm<ExecuteComponent> _fsm;
         private readonly List<FsmState<ExecuteComponent>> _states = new();
+        private Variable<GameData> _gameData;
         public void StartGame(GameData gameData)
         {
             Debug.Log("开始游戏");
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            _gameData.PostValue(gameData);
         }
         
         private void RegisterStates()
         {
             _states.Clear();
             _states.Add(new ProcedureLoadState());
+            _states.Add(new StartFormState());
+            _states.Add(new LoadSceneState());
         }
         public void Init()
         {
@@ -35,9 +39,11 @@ namespace GenBall.Procedure.Execute
             // 编辑器以外的环境强制是游玩模式
             playMode = PlayMode.Play;
             #endif
-            _fsm=GameEntry.Fsm.CreateFsm("LauncherExecute", this, _states);
             RegisterStates();
+            _fsm=GameEntry.Fsm.CreateFsm("LauncherExecute", this, _states);
             _fsm.Start<ProcedureLoadState>();
+            _gameData=Variable<GameData>.Create();
+            _fsm.SetData("GameData",_gameData);
         }
 
         public void OnUnregister()
