@@ -27,6 +27,7 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("Armor", typeof(int), "护甲值变化", "Player"),
             new ValueEventDefinition("KillPoints", typeof(int), "击杀点数变化", "Player"),
             new ValueEventDefinition("DataPoints",typeof(int),"圆形数据变化","Player"),
+            new ValueEventDefinition("Position",typeof(Transform),"玩家位置变化","Player"),
             
             new ValueEventDefinition("Reload",typeof(ButtonState),"换弹按键输入","Input"),
             new ValueEventDefinition("Upgrade",typeof(ButtonState),"武器阶段升级输入","Input"),
@@ -38,8 +39,6 @@ namespace GenBall.Event.Templates
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"敌人死亡","Enemy"),
             
-            new ValueEventDefinition("Enter",typeof(int),"进入地图块","Map"),
-            new ValueEventDefinition("Exit",typeof(int),"离开地图块","Map"),
             
             new ValueEventDefinition("Load",typeof(LoadInfo),"加载地图","Game"),
         };

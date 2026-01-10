@@ -19,6 +19,7 @@ namespace GenBall.Utils.Editor.Map
         private GameObject _rootObject;
         private string _targetPath;
         private string _mapDisplayName;
+        private float _playerActHeight=4f;
         private string ConfigPath => _targetPath + "/Config";
         private string PrefabPath => _targetPath + "/Prefab";
 
@@ -32,6 +33,7 @@ namespace GenBall.Utils.Editor.Map
             _rootObject=(GameObject)EditorGUILayout.ObjectField("根物体（root）",_rootObject, typeof(GameObject), true);
             _targetPath=EditorGUILayout.TextField("生成路径", _targetPath);
             _mapDisplayName=EditorGUILayout.TextField("地图名称", _mapDisplayName);
+            _playerActHeight=EditorGUILayout.FloatField("玩家活动高度", _playerActHeight);
             EditorGUILayout.Space();
             GUILayout.Label("生成路径预览：", EditorStyles.boldLabel);
             GUILayout.Label("配置文件生成路径："+ConfigPath);
@@ -116,14 +118,10 @@ namespace GenBall.Utils.Editor.Map
                 var block = new MapBlockConfig
                 {
                     mapBlockIndex = indexCounter++,
-                    multiBounds = new()
                 };
                 blockAuthor.AddMapBlock();
-                foreach (var r in blockAuthor.GetComponentsInChildren<Renderer>())
-                {
-                    block.multiBounds.Add(r.bounds);
-                }
-
+                block.bounds=BuildLogicBounds(blockAuthor.gameObject.GetComponentsInChildren<Renderer>());
+                blockAuthor.bounds=block.bounds;
                 foreach (var savePointAuthor in blockAuthor.GetComponentsInChildren<SavePointAuthoring>())
                 {
                     var savePointInfo=new SavePointInfo
@@ -185,17 +183,42 @@ namespace GenBall.Utils.Editor.Map
             SceneMapIndexProvider.RegisterMapConfig(mapConfig);
         }
 
-        private bool AreBlocksAdjacent(MapBlockConfig a, MapBlockConfig b)
+        private Bounds BuildLogicBounds(IEnumerable<Renderer> renderers)
         {
-            foreach (var ba in a.multiBounds)
+            float minX = float.MaxValue;
+            float minZ = float.MaxValue;
+            float maxX = float.MinValue;
+            float maxZ = float.MinValue;
+            float minY = float.MaxValue;
+
+            foreach (var r in renderers)
             {
-                foreach (var bb in b.multiBounds)
-                {
-                    if(ba.Intersects(bb)) return true;
-                }
+                var b = r.bounds;
+                minX = Mathf.Min(minX, b.min.x);
+                minZ = Mathf.Min(minZ, b.min.z);
+                maxX = Mathf.Max(maxX, b.max.x);
+                maxZ = Mathf.Max(maxZ, b.max.z);
+                minY = Mathf.Min(minY, b.min.y);
             }
-            return false;
+
+            float height = _playerActHeight; // 玩家可活动高度（全局配置）
+
+            var center = new Vector3(
+                (minX + maxX) * 0.5f,
+                minY + height * 0.5f,
+                (minZ + maxZ) * 0.5f
+            );
+
+            var size = new Vector3(
+                maxX - minX,
+                height,
+                maxZ - minZ
+            );
+
+            return new Bounds(center, size);
         }
+        
+        private bool AreBlocksAdjacent(MapBlockConfig a, MapBlockConfig b)=>a.bounds.Intersects(b.bounds);
 
         #endregion
 

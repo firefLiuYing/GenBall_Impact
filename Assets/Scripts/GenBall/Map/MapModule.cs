@@ -53,6 +53,7 @@ namespace GenBall.Map
             }
             
             _curMapBlockIndex = -1;
+            GameEntry.Event.SubscribePlayerPosition(OnPlayerPositionChanged);
         }
 
         public void LoadSavePointAround(int savePointIndex)
@@ -75,6 +76,14 @@ namespace GenBall.Map
         private void OnPlayerPositionChanged(Transform playerTransform)
         {
             // todo gzp 补充判定进入哪个地块的逻辑
+            foreach (var blockConfig in _blockMap.Values)
+            {
+                if (blockConfig.InBlock(playerTransform.position))
+                {
+                    EnterMapBlock(blockConfig.mapBlockIndex);
+                    break;
+                }
+            }
         }
         private void EnterMapBlock(int mapBlockIndex)
         {
@@ -82,11 +91,6 @@ namespace GenBall.Map
             {
                 // Debug.LogError($"gzp 进入的地图块和当前地图块index相同：_curMapBlockIndex:{mapBlockIndex}");
                 return;
-            }
-        
-            if (_curMapBlockIndex != -1)
-            {
-                GameEntry.Event.FireMapExit(_curMapBlockIndex);
             }
             if (!_blockMap.ContainsKey(mapBlockIndex)&&_curMapBlockIndex!=-1)
             {
@@ -96,7 +100,6 @@ namespace GenBall.Map
             _curMapBlockIndex = mapBlockIndex;
             LoadBlocks(mapBlockIndex,3);
             Debug.Log($"gzp 进入地块：{mapBlockIndex}");
-            GameEntry.Event.FireMapEnter(mapBlockIndex);
         }
         
         private void LoadMapBlock(int index)

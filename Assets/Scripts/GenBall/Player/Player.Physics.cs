@@ -1,3 +1,4 @@
+using GenBall.Event.Generated;
 using UnityEngine;
 using Yueyn.Base.Variable;
 
@@ -17,6 +18,8 @@ namespace GenBall.Player
         private void PhysicsUpdate()
         {
             GroundDetection();
+            
+            GameEntry.Event.FirePlayerPosition(transform);
         }
 
         [SerializeField]private LayerMask groundDetectLayerMask; 

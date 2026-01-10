@@ -25,11 +25,13 @@ namespace GenBall.Map
 
         public List<int> neighbors;
         
-        public List<Bounds> multiBounds;
+        public Bounds bounds;
         
         public string mapBlockPrefabPath;
 
         public string BlockName=> $"Block_{mapBlockIndex}";
+
+        public bool InBlock(Vector3 position)=>bounds.Contains(position);
     }
     
     [Serializable]
