@@ -1,4 +1,5 @@
 using GenBall.Map;
+using GenBall.Procedure.Game;
 using GenBall.UI;
 using UnityEngine;
 using Yueyn.Base.Variable;
@@ -41,7 +42,7 @@ namespace GenBall.Procedure.Execute
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            if (fsm.Owner.Mode == ExecuteComponent.PlayMode.Debug)
+            if ((fsm.Owner.Mode&RunningMode.LoadData)==0)
             {
                 GameEntry.Scene.LoadScene(new LoadInfo()
                 {

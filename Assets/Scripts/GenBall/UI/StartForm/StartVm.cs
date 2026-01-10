@@ -19,7 +19,7 @@ namespace GenBall.UI
             try
             {
                 ActivePage.PostValue(Page.Welcome);
-                var saveSlotDatas=await GameManager.Instance.GetSaveSlotDatas();
+                var saveSlotDatas = await GameEntry.Save.GetSaveSlotDatas();
                 var slots=saveSlotDatas.ToList();
                 Debug.Log($"gzp 获取到已有存档数量为：{slots.Count}");
                 CanContinueLastGame.PostValue(slots.Count>0);
@@ -38,19 +38,20 @@ namespace GenBall.UI
 
         public void ContinueLastGame()
         {
-            GameManager.Instance.ContinueLastGame();
+            GameEntry.Execute.ContinueLastGame();
             CloseStartForm();
         }
 
         public void StartNewGame()
         {
-            GameManager.Instance.StartNewGame();
+            GameEntry.Execute.StartNewGame();
             CloseStartForm();
         }
 
         public void LoadGame(int saveIndex)
         {
-            GameManager.Instance.LoadGame(saveIndex);
+            GameEntry.Execute.LoadGame(saveIndex);
+            CloseStartForm();
         }
 
         private void CloseStartForm()

@@ -31,12 +31,7 @@ namespace GenBall.Procedure
         public DateTime CreateTime
         {
             get => new DateTime(createTime);
-            set
-            {
-                // Debug.Log(value.Ticks);
-                createTime = value.Ticks;
-                Debug.Log("CreateTime: " + createTime);
-            }
+            set => createTime = value.Ticks;
         }
 
         public DateTime LastUpdateTime
