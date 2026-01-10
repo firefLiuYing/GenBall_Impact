@@ -4,7 +4,8 @@ namespace Yueyn.Timer
 {
     public class TimerManager : IComponent
     {
-        public void OnRegister()
+        public int Priority => 100;
+        public void Init()
         {
             
         }

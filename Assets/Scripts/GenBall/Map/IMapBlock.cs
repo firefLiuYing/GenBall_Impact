@@ -3,9 +3,8 @@ using GenBall.Utils.EntityCreator;
 
 namespace GenBall.Map
 {
-    public interface IMapBlock : IEntity,IEffectable
+    public interface IMapBlock : IEntity
     {
-        public void EnterMapBlock();
-        public void ExitMapBlock();
+        public void SetIndex(int index);
     }
 }

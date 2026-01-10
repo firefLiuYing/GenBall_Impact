@@ -1,5 +1,7 @@
 using System;
 using System.Text;
+using GenBall.Map;
+using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.Procedure
@@ -7,6 +9,25 @@ namespace GenBall.Procedure
     [Serializable]
     public class GameData
     {
+        
+        [SerializeField] private long createTime;
+        [SerializeField] private long lastUpdateTime;
+        [SerializeField] private long totalTime;
+        
+        public PlayerSaveData  playerSaveData;
+        public MapSaveData mapSaveSaveData; 
+
+        public GameData()
+        {
+            CreateTime = DateTime.Now;
+            LastUpdateTime = DateTime.Now;
+            TotalTime = new  DateTime(0);
+            playerSaveData = new PlayerSaveData()
+            {
+                lastSavePointIndex = 0,
+                lastSceneName = "",
+            };
+        }
         public DateTime CreateTime
         {
             get => new DateTime(createTime);
@@ -30,9 +51,6 @@ namespace GenBall.Procedure
             set => totalTime = value.Ticks;
         }
         
-        [SerializeField] private long createTime;
-        [SerializeField] private long lastUpdateTime;
-        [SerializeField] private long totalTime;
 
         public override string ToString()
         {

@@ -36,42 +36,21 @@ namespace GenBall.UI
             ActivePage.PostValue(page);
         }
 
-        public async void ContinueLastGame()
+        public void ContinueLastGame()
         {
-            try
-            {
-                await GameManager.Instance.ContinueLastGame();
-                CloseStartForm();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"gzp 继续最近一次游玩失败：{e.Message}");
-            }
+            GameManager.Instance.ContinueLastGame();
+            CloseStartForm();
         }
 
-        public async void StartNewGame()
+        public void StartNewGame()
         {
-            try
-            {
-                await GameManager.Instance.StartNewGame();
-                CloseStartForm();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"gzp 开始新的游戏失败：{e.Message}");
-            }
+            GameManager.Instance.StartNewGame();
+            CloseStartForm();
         }
 
-        public async void LoadGame(int saveIndex)
+        public void LoadGame(int saveIndex)
         {
-            try
-            {
-                await GameManager.Instance.LoadGame(saveIndex);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"gzp 加载存档 saveIndex={saveIndex} 失败：{e.Message}");
-            }
+            GameManager.Instance.LoadGame(saveIndex);
         }
 
         private void CloseStartForm()

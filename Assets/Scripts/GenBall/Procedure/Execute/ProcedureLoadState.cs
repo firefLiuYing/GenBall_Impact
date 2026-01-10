@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using GenBall.Enemy;
+using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
 using GenBall.UI;
@@ -14,18 +15,27 @@ namespace GenBall.Procedure.Execute
 {
     public class ProcedureLoadState : FsmState<ExecuteProcedure>
     {
-        protected internal override async void OnEnter(Fsm<ExecuteProcedure> fsm)
+        protected internal override void OnEnter(Fsm<ExecuteProcedure> fsm)
         {
-            try
-            {
-                await Task.Delay(1);
-                // todo gzp 模拟一下可能的异步方法
-                GameEntry.UI.OpenForm<StartForm>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-            }
+            RegisterEvents();
+            GameEntry.UI.OpenForm<StartForm>();
         }
+
+        protected internal override void OnExit(Fsm<ExecuteProcedure> fsm, bool isShutdown = false)
+        {
+            UnRegisterEvents();
+        }
+
+
+        private void RegisterEvents()
+        {
+            
+        }
+
+        private void UnRegisterEvents()
+        {
+            
+        }
+        
     }
 }

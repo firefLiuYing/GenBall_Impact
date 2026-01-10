@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ab3c67f8400e84fa2f48dccc6d91e4, type: 3}
-  m_Name: GzpTestMap
+  m_Script: {fileID: 11500000, guid: d5078ac7a26ea8242b02ac157f9afe98, type: 3}
+  m_Name: SceneMapIndex
   m_EditorClassIdentifier: 
-  mapBlockConfigs: []
+  mapConfigChooses:
+  - mapConfig: {fileID: 11400000, guid: 7ce2588facedd89479fd48de956161df, type: 2}
+    selected: 1

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
+using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure;
 using UnityEngine;
@@ -37,8 +38,10 @@ namespace GenBall.Event.Templates
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"敌人死亡","Enemy"),
             
-            // new ValueEventDefinition("Save",typeof(GameData),"存档","Game"),
+            new ValueEventDefinition("Enter",typeof(int),"进入地图块","Map"),
+            new ValueEventDefinition("Exit",typeof(int),"离开地图块","Map"),
             
+            new ValueEventDefinition("Load",typeof(LoadInfo),"加载地图","Game"),
         };
     }
     

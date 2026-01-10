@@ -1,11 +1,13 @@
 ﻿using System;
+using UnityEngine;
 using Yueyn.Base.EventPool;
 using Yueyn.Main;
 
 namespace Yueyn.Event
 {
-    public sealed class EventManager:IComponent
+    public sealed class EventManager:MonoBehaviour,IComponent
     {
+        public int Priority => 1;
         private readonly EventPool<GameEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
 
         public void Subscribe(int id, EventHandler<GameEventArgs> handler)=>_eventPool.Subscribe(id, handler);
@@ -14,7 +16,7 @@ namespace Yueyn.Event
         public void FireNow(object sender,GameEventArgs e)=>_eventPool.FireNow(sender,e);
         public void SetDefaultHandler(EventHandler<GameEventArgs> handler)=>_eventPool.SetDefaultHandler(handler);
         public bool Check(int id,EventHandler<GameEventArgs> handler)=>_eventPool.Check(id,handler);
-        public void OnRegister()
+        public void Init()
         {
             
         }

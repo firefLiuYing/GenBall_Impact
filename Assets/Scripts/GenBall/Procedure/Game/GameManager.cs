@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GenBall.Map;
 using GenBall.Utils.EntityCreator;
 using GenBall.Utils.Singleton;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GenBall.Procedure.Game
 {
@@ -15,6 +17,7 @@ namespace GenBall.Procedure.Game
         private int _curSaveIndex;
         private readonly List<SaveSlotData> _cachedSaveSlotData = new();
         private GameData _gameData;
+        public GameData GameData => _gameData;
 
         /// <summary>
         /// 获取所有存档的基本信息
@@ -37,35 +40,18 @@ namespace GenBall.Procedure.Game
         /// 开始新的游戏
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> StartNewGame()
+        public void StartNewGame()
         {
-            try
-            {
-                var saveIndex = await GameEntry.Save.CreateNewSave();
-                return await InternalStartGame(saveIndex);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-                return false;
-            }
+            InternalStartNewGame();
         }
 
         /// <summary>
         /// 继续上次游玩
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> ContinueLastGame()
+        public void ContinueLastGame()
         {
-            try
-            {
-                return await InternalContinueLastGame();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-                return false;
-            }
+            InternalContinueLastGame();
         }
 
         /// <summary>
@@ -73,17 +59,9 @@ namespace GenBall.Procedure.Game
         /// </summary>
         /// <param name="saveIndex"></param>
         /// <returns></returns>
-        public async Task<bool> LoadGame(int saveIndex)
+        public void LoadGame(int saveIndex)
         {
-            try
-            {
-                return await InternalStartGame(saveIndex);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-                return false;
-            }
+            InternalStartGame(saveIndex);
         }
 
         /// <summary>
@@ -102,9 +80,20 @@ namespace GenBall.Procedure.Game
                 return false;
             }
         }
-        
+        private async void InternalStartNewGame()
+        {
+            try
+            {
+                var saveIndex = await GameEntry.Save.CreateNewSave();
+                InternalStartGame(saveIndex);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+        }
 
-        private async Task<bool> InternalContinueLastGame()
+        private async void InternalContinueLastGame()
         {
             try
             {
@@ -113,58 +102,31 @@ namespace GenBall.Procedure.Game
                 _cachedSaveSlotData.Clear();
                 _cachedSaveSlotData.AddRange(saveSlotDatas);
                 var saveIndex= _cachedSaveSlotData.OrderByDescending(slot=>slot.LastUpdateTime).First().saveIndex;
-                return await InternalStartGame(saveIndex);
+                InternalStartGame(saveIndex);
             }
             catch (Exception e)
             {
                 Debug.LogError(e.Message);
-                return false;
             }
         }
 
-        private async Task<bool> InternalStartGame(int saveIndex)
+        private async void InternalStartGame(int saveIndex)
         {
             try
             {   
                 var gameData = await GameEntry.Save.LoadGameData(saveIndex);
                 _curSaveIndex = saveIndex;
-                if (await InternalStartGame(gameData))
-                {
-                    _curSaveIndex=saveIndex;
-                    return true;
-                }
-                _curSaveIndex = -1;
-                return false;
+                InternalStartGame(gameData);
             }
             catch (Exception e)
             {
                 Debug.LogError(e.Message);
-                return false;
             }
         }
-        private async Task<bool> InternalStartGame(GameData gameData)
+        private void InternalStartGame(GameData gameData)
         {
-            try
-            {
-                await Task.Delay(1);
-                // todo gzp 模拟通过游戏数据开始游戏
-                Debug.Log($"读取到存档信息：{gameData}");
-                Debug.Log("开始游戏");
-                
-                // 隐藏鼠标
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                // 加载地图
-                // 创建玩家
-                GameEntry.Player.CreatePlayer();
-                _gameData = gameData;
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.Message);
-                return false;
-            }
+            _gameData = gameData;
+            GameEntry.Execute.StartGame(gameData);
         }
 
         private async Task<bool> InternalSaveGame()

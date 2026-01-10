@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Yueyn.Main.Entry
 {
-    public static class Entry
+    public class Entry
     {
-        private static readonly Dictionary<Type,IComponent> _components=new();
+        private readonly Dictionary<Type,IComponent> _components=new();
 
-        public static void Update(float elapsedSeconds, float realElapseSeconds)
+        public void Update(float elapsedSeconds, float realElapseSeconds)
         {
             foreach (var component in _components.Values)
             {
@@ -15,26 +16,37 @@ namespace Yueyn.Main.Entry
             }
         }
 
-        public static void FixedUpdate(float fixedDeltaTime)
+        public void FixedUpdate(float fixedDeltaTime)
         {
             foreach (var component in _components.Values)
             {
                 component.ComponentFixedUpdate(fixedDeltaTime);
             }
         }
-        public static T GetComponent<T>() where T : IComponent
+        public T GetComponent<T>() where T : IComponent
         {
             _components.TryGetValue(typeof(T), out IComponent component);
             return (T)component;
         }
 
-        public static void Register(IComponent component)
+        public void Register(IComponent component)
         {
-            component.OnRegister();
+            // component.OnRegister();
             _components.Add(component.GetType(), component);
+            
         }
 
-        public static void Unregister(IComponent component)
+        private readonly List<IComponent> _cachedComponents = new List<IComponent>();
+        public void Initialize()
+        {
+            _cachedComponents.Clear();
+            _cachedComponents.AddRange(_components.Values.OrderBy(c=>c.Priority));
+            foreach (var component in _cachedComponents)
+            {
+                component.Init();
+            }
+        }
+        public void Unregister(IComponent component)
         {
             component.OnUnregister();
             _components.Remove(component.GetType());

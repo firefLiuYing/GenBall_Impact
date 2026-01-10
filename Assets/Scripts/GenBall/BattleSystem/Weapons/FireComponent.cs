@@ -78,7 +78,7 @@ namespace GenBall.BattleSystem.Weapons
             _fireButtonDownThisFrame = false;
             Magazine.Fire();
             var bullet = BulletCreator.CreateEntity(BulletType);
-            bullet.Fire(Owner,bulletSpawnPoint.position,PlayerController.PlayerFace);
+            bullet.Fire(Owner,bulletSpawnPoint.position,Camera.main.transform.forward);
         }
 
         private void RegisterEvents()

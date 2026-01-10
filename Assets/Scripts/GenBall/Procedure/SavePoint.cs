@@ -7,6 +7,9 @@ namespace GenBall.Procedure
     public class SavePoint : MonoBehaviour
     {
         private TriggerObject _triggerObject;
+        // [SerializeField] private Transform playerSpawnPoint; 
+        public int index;
+        // public Transform PlayerSpawnPoint => playerSpawnPoint ?? transform;
 
         private void Awake()
         {

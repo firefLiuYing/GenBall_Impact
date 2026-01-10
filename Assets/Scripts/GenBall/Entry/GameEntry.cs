@@ -16,30 +16,29 @@ namespace GenBall
 {
     public partial class GameEntry : MonoBehaviour
     {
-        private ExecuteProcedure _procedure;
+        private static Entry _entry;
         private void Awake()
         {
+            _entry = new Entry();
             RegisterModules();
+            
             RegisterEntityPrefabs();
-            _procedure = new ExecuteProcedure();
-            _procedure.Init();
-            _procedure.Start();
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            _procedure.Stop();
+            _entry.Initialize();
         }
 
         private void Update()
         {
-            Entry.Update(Time.deltaTime,Time.deltaTime);
+            _entry.Update(Time.deltaTime,Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
-            Entry.FixedUpdate(Time.deltaTime);
+            _entry.FixedUpdate(Time.deltaTime);
         }
-        public static T GetModule<T>() where T:IComponent => Entry.GetComponent<T>();
+        public static T GetModule<T>() where T:IComponent => _entry.GetComponent<T>();
     }
 }

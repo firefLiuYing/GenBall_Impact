@@ -2,16 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine;
 using Yueyn.Main;
 using Yueyn.Utils;
 
 namespace Yueyn.Fsm
 {
-    public sealed class FsmManager:IComponent
+    public sealed class FsmManager:MonoBehaviour,IComponent
     {
+        public int Priority => 10;
         private readonly Dictionary<TypeNamePair, IFsm> _fsms=new();
         private readonly List<IFsm> _tempFsms=new();
-        public void OnRegister()
+        public void Init()
         {
             
         }

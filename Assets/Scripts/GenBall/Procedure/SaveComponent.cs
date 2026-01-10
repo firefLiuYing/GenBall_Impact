@@ -15,7 +15,7 @@ namespace GenBall.Procedure
 {
     public class SaveComponent : MonoBehaviour,IComponent
     {
-        
+        public int Priority => 500;
         [SerializeField] private int maxSaveCount = 6;
 
         public int MaxSaveCount
@@ -228,12 +228,7 @@ namespace GenBall.Procedure
                 }
                 Debug.Log($"gzp 创建新存档的id为：{saveIndex}");
                 var filePath = GetSaveFilePath(saveIndex);
-                GameData gameData = new GameData
-                {
-                    CreateTime = DateTime.Now,
-                    LastUpdateTime = DateTime.Now,
-                    TotalTime = new DateTime(0)
-                };
+                GameData gameData = new GameData();
                 var json= JsonUtility.ToJson(gameData,true);
                 Debug.Log($"gzp 创建新的存档信息：{json}");
                 await File.WriteAllTextAsync(filePath, json);
@@ -319,7 +314,7 @@ namespace GenBall.Procedure
         }
         #region 生命周期
 
-        public void OnRegister()
+        public void Init()
         {
             
         }

@@ -7,9 +7,12 @@ namespace GenBall.Player
 {
     public sealed class PlayerManager : MonoBehaviour,IComponent
     {
+        public int Priority => 1000;
         private EntityCreator<Player> PlayerCreator => GameEntry.GetModule<EntityCreator<Player>>();
         public Player Player { get;private set; }
         [SerializeField] private Transform defaultPlayerSpawnPoint;
+        
+        public Transform DefaultPlayerSpawnPoint=>defaultPlayerSpawnPoint??transform;
 
         public void CreatePlayer()=>CreatePlayer(defaultPlayerSpawnPoint);
         public void CreatePlayer(Transform spawnTransform)
@@ -23,11 +26,11 @@ namespace GenBall.Player
             {
                 spawnTransform = transform;
             }
-            var player = PlayerCreator.CreateEntity<Player>(spawnTransform);
+            var player = PlayerCreator.CreateEntity<Player>(spawnTransform.position, spawnTransform.rotation,DefaultPlayerSpawnPoint);
             player.Initialize();
             Player = player;
         }
-        public void OnRegister()
+        public void Init()
         {
             PlayerCreator.AddPrefab<Player>("Assets/AssetBundles/Common/Player/Prefab/Player.prefab");
         }

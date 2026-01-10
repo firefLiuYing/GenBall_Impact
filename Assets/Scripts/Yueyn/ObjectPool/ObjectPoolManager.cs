@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine;
 using Yueyn.Main;
 using Yueyn.Utils;
 
 namespace Yueyn.ObjectPool
 {
-    public sealed partial class ObjectPoolManager : IComponent
+    public sealed partial class ObjectPoolManager : MonoBehaviour,IComponent
     {
+        public int Priority => 0;
         private const int DefaultCapacity = int.MaxValue;
         private const float DefaultExpireTime = float.MaxValue;
         private const int DefaultPriority = 0;
         private readonly Dictionary<TypeNamePair, ObjectPoolBase> _objectPools = new();
         private readonly List<ObjectPoolBase> _cachedAllObjectPools = new();
         
-        public void OnRegister()
+        public void Init()
         {
             
         }

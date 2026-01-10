@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Launcher.unity
+    guid: 6414ffafa151bf044bd2f5045bb311b0
+  - enabled: 1
+    path: Assets/Scenes/YueynTestMap.unity
+    guid: 9c58271144a162c489beab0f16026c9d
   m_configObjects: {}

@@ -5,8 +5,9 @@ using Yueyn.Main;
 
 namespace Yueyn.Resource
 {
-    public class ResourceManager:IComponent
+    public class ResourceManager:MonoBehaviour,IComponent
     {
+        public int Priority => 0;
         public void LoadPrefab(string path, Action<object> callback)
         {
             GameObject prefab=AssetDatabase.LoadAssetAtPath<GameObject>(path);
@@ -15,7 +16,7 @@ namespace Yueyn.Resource
 
         public GameObject LoadPrefab(string path)=>AssetDatabase.LoadAssetAtPath<GameObject>(path);
 
-        public void OnRegister()
+        public void Init()
         {
             
         }

@@ -7,6 +7,7 @@ namespace GenBall.UI
 {
     public partial class UIManager : MonoBehaviour,IComponent
     {
+        public int Priority => 1000;
         private EntityCreator<IUserInterface> UiCreator => GameEntry.GetModule<EntityCreator<IUserInterface>>();
         private readonly Stack<IUserInterface> _activeUI = new();
         [SerializeField] private Transform uiRoot;
@@ -78,7 +79,7 @@ namespace GenBall.UI
         
         #region 没用的东西喵
 
-        public void OnRegister()
+        public void Init()
         {
             
         }

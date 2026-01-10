@@ -2,7 +2,8 @@
 {
     public interface IComponent
     {
-        public void OnRegister();
+        public int Priority { get; }
+        public void Init();
         public void OnUnregister();
         public void ComponentUpdate(float elapsedSeconds,float realElapseSeconds);
         public void ComponentFixedUpdate(float fixedDeltaTime);

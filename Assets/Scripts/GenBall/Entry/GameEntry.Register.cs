@@ -6,8 +6,10 @@ using GenBall.UI;
 using GenBall.Utils.EntityCreator;
 using GenBall.Player;
 using GenBall.Procedure;
+using GenBall.Procedure.Game;
 using Yueyn.Event;
 using Yueyn.Fsm;
+using Yueyn.Main;
 using Yueyn.Main.Entry;
 using Yueyn.ObjectPool;
 using Yueyn.Resource;
@@ -25,29 +27,35 @@ namespace GenBall
         }
         private void RegisterModules()
         {
-            Entry.Register(new EventManager());
-            Entry.Register(new FsmManager());
-            Entry.Register(new ObjectPoolManager());
-            Entry.Register(new ResourceManager());
+            // Entry.Register(new EventManager());
+            // Entry.Register(new FsmManager());
+            // Entry.Register(new ObjectPoolManager());
+            // Entry.Register(new ResourceManager());
             
-            Entry.Register(GetComponentInChildren<SaveComponent>());
+            // Entry.Register(GetComponentInChildren<SaveComponent>());
             
-            Entry.Register(new EntityCreator<IBullet>());
-            Entry.Register(new EntityCreator<IWeapon>());
-            Entry.Register(new EntityCreator<IEnemy>());
-            Entry.Register(new EntityCreator<IUserInterface>());
-            Entry.Register(new EntityCreator<Player.Player>());
-            Entry.Register(new EntityCreator<IMapBlock>());
+            _entry.Register(new EntityCreator<IBullet>());
+            _entry.Register(new EntityCreator<IWeapon>());
+            _entry.Register(new EntityCreator<IEnemy>());
+            _entry.Register(new EntityCreator<IUserInterface>());
+            _entry.Register(new EntityCreator<Player.Player>());
+            _entry.Register(new EntityCreator<IMapBlock>());
             
-            Entry.Register(GetComponentInChildren<UIManager>());
-            Entry.Register(GetComponentInChildren<PlayerManager>());
-            Entry.Register(GetComponentInChildren<MapModule>());
-            
+            // Entry.Register(GetComponentInChildren<UIManager>());
+            // Entry.Register(GetComponentInChildren<PlayerManager>());
+            // Entry.Register(GetComponentInChildren<MapModule>());
+            foreach (var com in GetComponentsInChildren<IComponent>())
+            {
+                _entry.Register(com);
+            }
         }
 
         public static EventManager Event => GetModule<EventManager>();
         public static UIManager UI => GetModule<UIManager>();
         public static SaveComponent Save => GetModule<SaveComponent>();
         public static PlayerManager Player => GetModule<PlayerManager>();
+        public static MapModule Map => GetModule<MapModule>();
+        public static ExecuteComponent Execute => GetModule<ExecuteComponent>();
+        public static SceneModule Scene => GetModule<SceneModule>();
     }
 }

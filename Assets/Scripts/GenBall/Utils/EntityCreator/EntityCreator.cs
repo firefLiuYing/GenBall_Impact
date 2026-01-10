@@ -13,6 +13,7 @@ namespace GenBall.Utils.EntityCreator
 {
     public partial class EntityCreator<TEntityInterface>:IComponent where TEntityInterface:IEntity
     {
+        public int Priority => 1000;
         private readonly Dictionary<TypeNamePair, string> _prefabMap = new();
         private readonly List<TEntityInterface> _prefabs = new();
         private readonly List<TEntityInterface> _tempPrefabs = new();
@@ -182,7 +183,7 @@ namespace GenBall.Utils.EntityCreator
                 throw new Exception($"{typeNamePair.Type} is already registered");
             }
         }
-        public void OnRegister()
+        public void Init()
         {
             _entityPool = GameEntry.GetModule<ObjectPoolManager>().CreateSingleSpawnObjectPool<EntityObject>($"{typeof(TEntityInterface).FullName}");
         }

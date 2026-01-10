@@ -5,5 +5,6 @@ namespace GenBall.Player
     public class PlayerSaveData
     {
         public int lastSavePointIndex;
+        public string lastSceneName;
     }
 }

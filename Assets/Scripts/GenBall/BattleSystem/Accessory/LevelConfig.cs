@@ -41,8 +41,8 @@ namespace GenBall.BattleSystem.Accessory
             }
 
             var newWeapon = BaseModule.WeaponName.IsNullOrEmpty() 
-                ? PlayerController.Instance.Player.EquipPhysicsWeapon(BaseModule.WeaponType) 
-                : PlayerController.Instance.Player.EquipPhysicsWeapon(BaseModule.WeaponName,BaseModule.WeaponType);
+                ? GameEntry.Player.Player.EquipPhysicsWeapon(BaseModule.WeaponType)
+                : GameEntry.Player.Player.EquipPhysicsWeapon(BaseModule.WeaponName,BaseModule.WeaponType);
 
             if (Accessories != null)
             {
