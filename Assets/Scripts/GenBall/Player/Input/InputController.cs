@@ -1,5 +1,6 @@
 using System;
 using GenBall.Event.Generated;
+using GenBall.Procedure.Game;
 using GenBall.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -99,5 +100,31 @@ namespace GenBall.Player
             };
             GameEntry.Event.FireInputReload(buttonState);
         }
+
+        public void TempPauseInput(InputAction.CallbackContext context)
+        {
+            var buttonState= context.phase switch
+            {
+                InputActionPhase.Started=>ButtonState.Down,
+                InputActionPhase.Canceled=>ButtonState.Up,
+                InputActionPhase.Performed=>ButtonState.Hold,
+                _=>ButtonState.None
+            };
+            if (buttonState == ButtonState.Down)
+            {
+                if (_tempIsPaused)
+                {
+                    PauseManager.Instance.SetPauseState(PauseState.Unpaused);
+                    _tempIsPaused=false;
+                }
+                else
+                {
+                    PauseManager.Instance.SetPauseState(PauseState.PhysicsPaused|PauseState.LogicPaused);
+                    _tempIsPaused=true;
+                }
+            }
+            
+        }
+        private bool _tempIsPaused=false;
     }
 }

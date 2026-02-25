@@ -1,4 +1,6 @@
+using GenBall.BattleSystem;
 using GenBall.BattleSystem.Generated;
+using GenBall.BattleSystem.Mover;
 using UnityEngine;
 
 namespace GenBall.Enemy.Move
@@ -8,16 +10,18 @@ namespace GenBall.Enemy.Move
         [Header("ÌøÔ¾Í£¶ÙÊ±¼ä")] [SerializeField] private float jumpInterval;
         [Header("ÌøÔ¾Ñö½Ç")] [SerializeField] private float jumpElevation;
         [Header("ÌøÔ¾Á¦¶È")] [SerializeField] private float jumpForce;
-        private Rigidbody _rigidbody;
+        // private Rigidbody _rigidbody;
         private SphereCollider _collider; 
         private bool _onGround;
         private float _onGroundTime;
         private bool _canMove;
         private Vector3 _target;
+        private RigidbodyMover _rigidbodyMover;
         public override void Initialize()
         {
-            _rigidbody=GetComponent<Rigidbody>();
+            // _rigidbody=GetComponent<Rigidbody>();
             _collider = GetComponentInChildren<SphereCollider>();
+            _rigidbodyMover=GetComponent<RigidbodyMover>();
             _onGroundTime = 0;
             _canMove = false;
             
@@ -49,8 +53,8 @@ namespace GenBall.Enemy.Move
             direction.x*=Mathf.Cos(Mathf.Deg2Rad * jumpElevation);
             direction.z*=Mathf.Sin(Mathf.Deg2Rad * jumpElevation);
             
-            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-            _rigidbody.AddForce(direction*jumpForce, ForceMode.Impulse);
+            _rigidbodyMover.Constraints = RigidbodyConstraints.FreezeRotation;
+            _rigidbodyMover.AddForce(direction*jumpForce, ForceMode.Impulse);
         }
         public override void OnRecycle()
         {
@@ -74,10 +78,10 @@ namespace GenBall.Enemy.Move
             LayerMask layerMask=~layerToExclude;
             var origin = transform.position + _collider.center;
             var hit=Physics.Raycast(origin,Vector3.down,_collider.radius+0.01f,layerMask);
-            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            _rigidbodyMover.Constraints = RigidbodyConstraints.FreezeRotation;
             if (hit&&!_onGround)
             {
-                _rigidbody.constraints |= RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                _rigidbodyMover.Constraints |= RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
             }
             _onGround = hit;
         }

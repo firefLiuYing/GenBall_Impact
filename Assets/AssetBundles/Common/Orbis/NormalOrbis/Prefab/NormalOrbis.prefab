@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: -8197349400533851398}
   - component: {fileID: 8871342521496606630}
   - component: {fileID: 5787397012599991663}
+  - component: {fileID: 592222866085354312}
   m_Layer: 8
   m_Name: NormalOrbis
   m_TagString: Untagged
@@ -293,6 +294,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 461712c02420fdb4e9e39fccfa31c74c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &592222866085354312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983499097883007140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d9a318490fa0245bde71040b4640ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5483964004250460062

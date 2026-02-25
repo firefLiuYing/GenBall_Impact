@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GenBall.BattleSystem;
+using GenBall.BattleSystem.Mover;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
@@ -19,8 +20,9 @@ namespace GenBall.Enemy.Attack
         [Header("蓄力时间")] [SerializeField] private float chargingTime;
         [Header("反弹力")] [SerializeField] private float reboundForce;
         
-        private Rigidbody _rigidbody;
+        // private Rigidbody _rigidbody;
         private SphereCollider _collider;
+        private RigidbodyMover _rigidbodyMover;
 
         private Fsm<DashAttackModule> _fsm;
         private readonly List<FsmState<DashAttackModule>> _states = new();
@@ -33,7 +35,7 @@ namespace GenBall.Enemy.Attack
         
         public override void Initialize()
         {
-            _rigidbody=GetComponent<Rigidbody>();
+            _rigidbodyMover=GetComponent<RigidbodyMover>();
             _collider=GetComponentInChildren<SphereCollider>();
             
             _states.Clear();
@@ -150,7 +152,7 @@ namespace GenBall.Enemy.Attack
             protected internal override void OnEnter(Fsm<DashAttackModule> fsm)
             {
                 base.OnEnter(fsm);
-                Owner._rigidbody.useGravity = true;
+                Owner._rigidbodyMover.UseGravity = true;
                 _curPrepareTime = 0f;
             }
 
@@ -183,8 +185,8 @@ namespace GenBall.Enemy.Attack
             protected internal override void OnEnter(Fsm<DashAttackModule> fsm)
             {
                 base.OnEnter(fsm);
-                Owner._rigidbody.useGravity = false;
-                Owner._rigidbody.velocity =Owner.uppingSpeed * Vector3.up;
+                Owner._rigidbodyMover.UseGravity = false;
+                Owner._rigidbodyMover.SetVelocity(Owner.uppingSpeed * Vector3.up);
             }
 
             protected internal override void OnFixedUpdate(Fsm<DashAttackModule> fsm, float fixeDeltaTime)
@@ -194,12 +196,12 @@ namespace GenBall.Enemy.Attack
                     ChangeState<ChargeState>();
                     return;
                 }
-                Owner._rigidbody.velocity =Owner.uppingSpeed * Vector3.up;
+                Owner._rigidbodyMover.SetVelocity(Owner.uppingSpeed * Vector3.up);
             }
 
             protected internal override void OnExit(Fsm<DashAttackModule> fsm, bool isShutdown = false)
             {
-                Owner._rigidbody.velocity=Vector3.zero;
+                Owner._rigidbodyMover.SetVelocity(Vector3.zero);
             }
         }
 
@@ -237,7 +239,7 @@ namespace GenBall.Enemy.Attack
                 
                 _direction=Owner._targetPos-Owner.transform.position;
                 _direction.Normalize();
-                Owner._rigidbody.velocity=Owner.dashSpeed*_direction;
+                Owner._rigidbodyMover.SetVelocity(Owner.dashSpeed*_direction);
             }
 
             protected internal override void OnExit(Fsm<DashAttackModule> fsm, bool isShutdown = false)
@@ -254,7 +256,7 @@ namespace GenBall.Enemy.Attack
                     ChangeState<PrepareState>();
                     return;
                 }
-                Owner._rigidbody.velocity=Owner.dashSpeed*_direction;
+                Owner._rigidbodyMover.SetVelocity(Owner.dashSpeed*_direction);
             }
 
             private void OnHitPlayer(Player.Player player)
@@ -276,10 +278,10 @@ namespace GenBall.Enemy.Attack
             protected internal override void OnEnter(Fsm<DashAttackModule> fsm)
             {
                 base.OnEnter(fsm);
-                Owner._rigidbody.useGravity = true;
+                Owner._rigidbodyMover.UseGravity = true;
                 _reboundDirection=Owner.transform.position-Owner._targetPos;
                 _reboundDirection.Normalize();
-                Owner._rigidbody.AddForce(Owner.reboundForce*_reboundDirection,ForceMode.VelocityChange);
+                Owner._rigidbodyMover.AddForce(Owner.reboundForce*_reboundDirection,ForceMode.VelocityChange);
             }
 
             protected internal override void OnFixedUpdate(Fsm<DashAttackModule> fsm, float fixeDeltaTime)

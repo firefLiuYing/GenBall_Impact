@@ -7,6 +7,7 @@ using GenBall.Enemy;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure;
+using GenBall.Procedure.Game;
 using UnityEngine;
 using Yueyn.Event;
 
@@ -39,6 +40,7 @@ namespace GenBall.Event.Templates
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"µ–»ÀÀ¿Õˆ","Enemy"),
             
+            new ValueEventDefinition("Pause",typeof(PauseState),"”Œœ∑‘›Õ£","System"),
         };
     }
     
