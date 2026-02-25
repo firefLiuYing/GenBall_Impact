@@ -42,11 +42,14 @@ namespace GenBall.Procedure.Execute
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            SceneSystem.Instance.InitializeSceneStateObjs(fsm.GetData<Variable<GameData>>("GameData").Value.mapSaveData);
+            SceneSystem.Instance.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
             if ((fsm.Owner.Mode&RunningMode.LoadData)==0)
             {
-                GameEntry.Scene.LoadScene(new LoadInfo()
+                TeleportSystem.Instance.Teleport(new TeleportRequestInfo()
                 {
                     SceneName = fsm.Owner.StartSceneName,
+                    SavePointIndex = 0
                 });
             }
         }

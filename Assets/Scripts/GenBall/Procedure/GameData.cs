@@ -15,7 +15,7 @@ namespace GenBall.Procedure
         [SerializeField] private long totalTime;
         
         public PlayerSaveData  playerSaveData;
-        public MapSaveData mapSaveSaveData; 
+        public MapSaveData mapSaveData; 
 
         public GameData()
         {
@@ -26,6 +26,10 @@ namespace GenBall.Procedure
             {
                 lastSavePointIndex = 0,
                 lastSceneName = "",
+            };
+            mapSaveData = new MapSaveData()
+            {
+                unlockedScenes = new(),
             };
         }
         public DateTime CreateTime

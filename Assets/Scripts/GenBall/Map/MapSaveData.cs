@@ -14,5 +14,6 @@ namespace GenBall.Map
     {
         public string sceneName;
         public List<int> unlockedSavePoints=new();
+        public List<int> killedEnemyUnits = new();
     }
 }

@@ -27,33 +27,33 @@ namespace GenBall.Map
                 mapRoot = transform;
             }
             var sceneName=SceneManager.GetActiveScene().name;
-            _mapConfig=SceneMapIndexProvider.GetMapConfig(sceneName);
-            if (_mapConfig == null)
-            {
-                Debug.LogError("gzp 请添加地图配置");
-                return;
-            }
-            if (_mapConfig.mapBlockConfigs.Count == 0)
-            {
-                Debug.LogError("gzp 地图配置至少要有一个地图块");
-                return;
-            }
-
-            if (_mapConfig.mapBlockConfigs.Count == 0)
-            {
-                Debug.LogError("gzp 地图配置至少要有一个存档点");
-                return;
-            }
-        
-            foreach (var blockConfig in _mapConfig.mapBlockConfigs)
-            {
-                _blockActiveTable[blockConfig.mapBlockIndex] = false;
-                _blockMap.Add(blockConfig.mapBlockIndex, blockConfig);
-                MapBlockCreator.AddPrefab<MapBlockBase>(blockConfig.BlockName,blockConfig.mapBlockPrefabPath);
-            }
-            
-            _curMapBlockIndex = -1;
-            GameEntry.Event.SubscribePlayerPosition(OnPlayerPositionChanged);
+            // _mapConfig=SceneMapIndexProvider.GetMapConfig(sceneName);
+            // if (_mapConfig == null)
+            // {
+            //     Debug.LogError("gzp 请添加地图配置");
+            //     return;
+            // }
+            // if (_mapConfig.mapBlockConfigs.Count == 0)
+            // {
+            //     Debug.LogError("gzp 地图配置至少要有一个地图块");
+            //     return;
+            // }
+            //
+            // if (_mapConfig.mapBlockConfigs.Count == 0)
+            // {
+            //     Debug.LogError("gzp 地图配置至少要有一个存档点");
+            //     return;
+            // }
+            //
+            // foreach (var blockConfig in _mapConfig.mapBlockConfigs)
+            // {
+            //     _blockActiveTable[blockConfig.mapBlockIndex] = false;
+            //     _blockMap.Add(blockConfig.mapBlockIndex, blockConfig);
+            //     MapBlockCreator.AddPrefab<MapBlockBase>(blockConfig.BlockName,blockConfig.mapBlockPrefabPath);
+            // }
+            //
+            // _curMapBlockIndex = -1;
+            // GameEntry.Event.SubscribePlayerPosition(OnPlayerPositionChanged);
         }
 
         public void LoadSavePointAround(int savePointIndex)

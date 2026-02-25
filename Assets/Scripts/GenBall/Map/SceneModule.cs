@@ -15,26 +15,24 @@ namespace GenBall.Map
     {
         public int Priority => 1000;
 
-        public void LoadScene([NotNull] LoadInfo loadInfo)
+        public void LoadScene([NotNull] string sceneName)
         {
-            StartCoroutine(LoadSceneAsync(loadInfo));
+            StartCoroutine(LoadSceneAsync(sceneName));
         }
 
-        private IEnumerator LoadSceneAsync([NotNull] LoadInfo loadInfo)
+        private IEnumerator LoadSceneAsync([NotNull] string sceneName)
         {
-            if (string.IsNullOrEmpty(loadInfo.SceneName))
+            if (string.IsNullOrEmpty(sceneName))
             {
                 Debug.LogError("gzp 缺少场景名字");
                 yield break;
             }
-            var sceneName = loadInfo.SceneName;
             var operation = SceneManager.LoadSceneAsync(sceneName);
             if (operation == null)
             {
                 Debug.LogError("gzp 加载失败");
                 yield break;
             }
-            GameManager.Instance.CachedLoadInfo = loadInfo;
             operation.allowSceneActivation = false;
             // SplashController.Instance.OpenSplashForm();
             while (operation.progress<0.9f)
@@ -42,7 +40,6 @@ namespace GenBall.Map
                 yield return null;
             }
             operation.allowSceneActivation = true;
-            loadInfo.OnLoadComplete?.Invoke();
         }
         public void Init()
         {
@@ -70,10 +67,4 @@ namespace GenBall.Map
         }
     }
 
-    public class LoadInfo
-    {
-        public string SceneName;
-        public int SavePointIndex;
-        public Action OnLoadComplete;
-    }
 }

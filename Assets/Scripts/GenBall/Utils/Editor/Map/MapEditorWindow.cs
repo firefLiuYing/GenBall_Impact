@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GenBall.Map;
+using GenBall.Map.EnemyUnitConfig;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -15,257 +17,118 @@ namespace GenBall.Utils.Editor.Map
         {
             GetWindow<MapEditorWindow>("地图编辑器");
         }
-        
-        private GameObject _rootObject;
-        private string _targetPath;
-        private string _mapDisplayName;
-        private float _playerActHeight=4f;
-        private string ConfigPath => _targetPath + "/Config";
-        private string PrefabPath => _targetPath + "/Prefab";
 
-        private MapConfig _curMapConfig;
-
-        private readonly List<GameObject> _previewInstances = new();
-        private Dictionary<string, int> _blockNameMap = new();
         private void OnGUI()
         {
             GUILayout.Label("地图解析工具", EditorStyles.boldLabel);
-            _rootObject=(GameObject)EditorGUILayout.ObjectField("根物体（root）",_rootObject, typeof(GameObject), true);
-            _targetPath=EditorGUILayout.TextField("生成路径", _targetPath);
-            _mapDisplayName=EditorGUILayout.TextField("地图名称", _mapDisplayName);
-            _playerActHeight=EditorGUILayout.FloatField("玩家活动高度", _playerActHeight);
-            EditorGUILayout.Space();
-            GUILayout.Label("生成路径预览：", EditorStyles.boldLabel);
-            GUILayout.Label("配置文件生成路径："+ConfigPath);
-            GUILayout.Label("预制体生成路径"+PrefabPath);
-
-            if (GUILayout.Button("生成Config并导出预制体"))
+            if (GUILayout.Button("解析存档点信息"))
             {
-                if (_rootObject == null)
-                {
-                    Debug.LogWarning("请先选择要解析的根物体");
-                }
-                else if(string.IsNullOrEmpty(_targetPath))
-                {
-                    Debug.LogWarning("请配置生成路径");
-                }
-                else if (string.IsNullOrEmpty(_mapDisplayName))
-                {
-                    Debug.LogWarning("请配置地图在游戏内展示的名称");
-                }
-                else
-                {
-                    BakeMapConfig();
-                }
-            }
-            
-            EditorGUILayout.Space();
-            _curMapConfig=(MapConfig)EditorGUILayout.ObjectField("MapConfig", _curMapConfig, typeof(MapConfig), true);
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("在当前场景生成地图预览"))
-            {
-                if (_rootObject == null)
-                {
-                    Debug.LogWarning("请先选择生成的根物体");
-                }
-                else
-                {
-                    SpawnPreviewMap();
-                }
+                AnalysisSavePoint();
             }
 
-            if (GUILayout.Button("删除预览地图"))
+            if (GUILayout.Button("解析敌人配置信息"))
             {
-                DeletePreviewMap();
+                AnalysisEnemyUnit();
             }
-            EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button("一键解析地图信息"))
+            {
+                AnalysisSavePoint();
+                AnalysisEnemyUnit();
+            }
         }
 
-        #region Bake MapConfig
+    #region Bake SavePointConfig
 
-        private void BakeMapConfig()
+    private readonly List<SavePointConfig> _cachedSavePoints = new List<SavePointConfig>();
+    private void AnalysisSavePoint()
+    {
+        var scene = SceneManager.GetActiveScene();
+        var roots = scene.GetRootGameObjects();
+        _cachedSavePoints.Clear();
+        SceneConfig sceneConfig=null;
+        foreach (var root in roots)
         {
-            var blockAuthors = _rootObject.GetComponentsInChildren<MapBlockAuthoring>();
-            _previewInstances.Clear();
-            if (blockAuthors.Length <= 0)
+            _cachedSavePoints.AddRange(root.GetComponentsInChildren<SavePointConfig>());
+            if (sceneConfig == null)
             {
-                Debug.LogWarning("没有检测到带有MapBlockAuthoring组件的子物体");
-                return;
+                sceneConfig= root.GetComponentInChildren<SceneConfig>();
             }
-
-            if (!AssetDatabase.IsValidFolder(_targetPath))
-            {
-                Debug.LogWarning($"找不到指定路径：{_targetPath}");
-                return;
-            }
-            if (!AssetDatabase.IsValidFolder(ConfigPath))
-            {
-                AssetDatabase.CreateFolder(_targetPath, "Config");
-            }
-
-            if (!AssetDatabase.IsValidFolder(PrefabPath))
-            {
-                AssetDatabase.CreateFolder(_targetPath, "Prefab");
-            }
-            
-            var mapConfig = ScriptableObject.CreateInstance<MapConfig>();
-            mapConfig.sceneDisplayName=_mapDisplayName;
-            mapConfig.sceneName=SceneManager.GetActiveScene().name;
-            int indexCounter = 0;
-            int savePointIndexCounter = 0;
-            foreach (var blockAuthor in blockAuthors)
-            {
-                var block = new MapBlockConfig
-                {
-                    mapBlockIndex = indexCounter++,
-                };
-                blockAuthor.AddMapBlock();
-                block.bounds=BuildLogicBounds(blockAuthor.gameObject.GetComponentsInChildren<Renderer>());
-                blockAuthor.bounds=block.bounds;
-                foreach (var savePointAuthor in blockAuthor.GetComponentsInChildren<SavePointAuthoring>())
-                {
-                    var savePointInfo=new SavePointInfo
-                    {
-                        index = savePointIndexCounter++,
-                        mapBlockIndex = block.mapBlockIndex,
-                        playerSpawnPosition = savePointAuthor.transform.position,
-                        playerSpawnRotation = savePointAuthor.transform.rotation,
-                        savePointName = savePointAuthor.SavePointName,
-                    };
-                    savePointAuthor.SavePointIndex=savePointInfo.index;
-                    mapConfig.savePointInfos.Add(savePointInfo);
-                }
-                // 保存预制体
-                var blockName = blockAuthor.gameObject.name;
-                if (_blockNameMap.TryGetValue(blockName, out var value))
-                {
-                    blockName = $"{blockName}_{value+1}";
-                }
-                else
-                {
-                    _blockNameMap.Add(blockName,0);
-                }
-
-                _blockNameMap[blockAuthor.gameObject.name]++;
-                blockAuthor.gameObject.name = blockName;
-                string prefabPath = $"{PrefabPath}/{blockName}.prefab";
-                PrefabUtility.SaveAsPrefabAsset(blockAuthor.gameObject, prefabPath);
-                block.mapBlockPrefabPath = prefabPath;
-                block.neighbors = new List<int>();
-                mapConfig.mapBlockConfigs.Add(block);
-                
-                // 收集到实例列表里面
-                _previewInstances.Add(blockAuthor.gameObject);
-            }
-            // 邻接节点分析
-            for (int i = 0; i < mapConfig.mapBlockConfigs.Count; i++)
-            {
-                var a=mapConfig.mapBlockConfigs[i];
-                for (int j = i + 1; j < mapConfig.mapBlockConfigs.Count; j++)
-                {
-                    var  b=mapConfig.mapBlockConfigs[j];
-                    if (AreBlocksAdjacent(a, b))
-                    {
-                        a.neighbors.Add(b.mapBlockIndex);
-                        b.neighbors.Add(a.mapBlockIndex);
-                    }
-                }
-            }
-            
-            // 保存config
-            string configPath = $"{ConfigPath}/MapConfig.asset";
-            AssetDatabase.CreateAsset(mapConfig, configPath);
-            AssetDatabase.SaveAssets();
-            EditorUtility.DisplayDialog("解析完成", $"生成了{mapConfig.mapBlockConfigs.Count}个地块，MapConfig已保存到{configPath}",
-                "Ok");
-            _curMapConfig = mapConfig;
-            
-            SceneMapIndexProvider.RegisterMapConfig(mapConfig);
         }
 
-        private Bounds BuildLogicBounds(IEnumerable<Renderer> renderers)
+        var mapModel = ConfigProvider.GetOrCreateMapConfig();
+        var sceneModel = mapModel.scenes.FirstOrDefault(s => s.sceneName == scene.name);
+        if (sceneModel == null)
         {
-            float minX = float.MaxValue;
-            float minZ = float.MaxValue;
-            float maxX = float.MinValue;
-            float maxZ = float.MinValue;
-            float minY = float.MaxValue;
+            sceneModel = new SceneModel();
+            mapModel.scenes.Add(sceneModel);
+        }
 
-            foreach (var r in renderers)
+        sceneModel.displayName = sceneConfig != null ? sceneConfig.DisplayName : "请输入文本";
+        sceneModel.sceneName=scene.name;
+        sceneModel.savePoints.Clear();
+        for (var i = 0; i < _cachedSavePoints.Count; i++)
+        {
+            _cachedSavePoints[i].Index = i;
+            var savePointModel = new SavePointModel
             {
-                var b = r.bounds;
-                minX = Mathf.Min(minX, b.min.x);
-                minZ = Mathf.Min(minZ, b.min.z);
-                maxX = Mathf.Max(maxX, b.max.x);
-                maxZ = Mathf.Max(maxZ, b.max.z);
-                minY = Mathf.Min(minY, b.min.y);
-            }
-
-            float height = _playerActHeight; // 玩家可活动高度（全局配置）
-
-            var center = new Vector3(
-                (minX + maxX) * 0.5f,
-                minY + height * 0.5f,
-                (minZ + maxZ) * 0.5f
-            );
-
-            var size = new Vector3(
-                maxX - minX,
-                height,
-                maxZ - minZ
-            );
-
-            return new Bounds(center, size);
+                id = i,
+                displayName = _cachedSavePoints[i].DisplayName,
+                spawnPosition = _cachedSavePoints[i].PlayerSpawnPoint.position,
+                spawnRotation = _cachedSavePoints[i].PlayerSpawnPoint.rotation
+            };
+            sceneModel.savePoints.Add(savePointModel);
         }
         
-        private bool AreBlocksAdjacent(MapBlockConfig a, MapBlockConfig b)=>a.bounds.Intersects(b.bounds);
+        EditorUtility.SetDirty(mapModel);
+        AssetDatabase.SaveAssets();
+    }
 
-        #endregion
-
-        #region Preview Map
-
-        private void SpawnPreviewMap()
+    private readonly List<EnemyUnitConfigBase> _cachedEnemyUnitConfigs = new();
+    private void AnalysisEnemyUnit()
+    {
+        var scene = SceneManager.GetActiveScene();
+        var roots = scene.GetRootGameObjects();
+        _cachedEnemyUnitConfigs.Clear();
+        SceneConfig sceneConfig=null;
+        foreach (var root in roots)
         {
-            if (_previewInstances.Count > 0)
+            _cachedEnemyUnitConfigs.AddRange(root.GetComponentsInChildren<EnemyUnitConfigBase>());
+            if (sceneConfig == null)
             {
-                DeletePreviewMap();
-            }
-
-            foreach (var block in _curMapConfig.mapBlockConfigs)
-            {
-                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(block.mapBlockPrefabPath);
-                if (prefab != null)
-                {
-                    var instance=Instantiate(prefab, _rootObject.transform, true);
-                    instance.name = prefab.name;
-                    _previewInstances.Add(instance);
-                }
-            }
-            
-            MarkSceneDirty();
-        }
-
-        private void DeletePreviewMap()
-        {
-            foreach (var go in _previewInstances)
-            {
-                if (go != null)
-                {
-                    Undo.DestroyObjectImmediate(go);
-                }
-            }
-            _previewInstances.Clear();
-            MarkSceneDirty();
-        }
-
-        private void MarkSceneDirty()
-        {
-            var scene = SceneManager.GetActiveScene();
-            if (scene.IsValid())
-            {
-                EditorSceneManager.MarkSceneDirty(scene);
+                sceneConfig= root.GetComponentInChildren<SceneConfig>();
             }
         }
-        #endregion
+        var mapModel = ConfigProvider.GetOrCreateMapConfig();
+        var sceneModel = mapModel.scenes.FirstOrDefault(s => s.sceneName == scene.name);
+        if (sceneModel == null)
+        {
+            sceneModel = new SceneModel();
+            mapModel.scenes.Add(sceneModel);
+        }
+        sceneModel.displayName = sceneConfig != null ? sceneConfig.DisplayName : "请输入文本";
+        sceneModel.sceneName=scene.name;
+        sceneModel.enemyUnits.Clear();
+
+        for (var i = 0; i < _cachedEnemyUnitConfigs.Count; i++)
+        {
+            _cachedEnemyUnitConfigs[i].Index = i;
+            var enemyUnitModel = new EnemyUnitModel()
+            {
+                id = i,
+                enemyType = _cachedEnemyUnitConfigs[i].TypeName,
+                spawnPosition = _cachedEnemyUnitConfigs[i].transform.position,
+                spawnRotation = _cachedEnemyUnitConfigs[i].transform.rotation,
+            };
+            sceneModel.enemyUnits.Add(enemyUnitModel);
+        }
+        EditorUtility.SetDirty(mapModel);
+        AssetDatabase.SaveAssets();
+    }
+    
+
+
+    #endregion
+    
     }
 }

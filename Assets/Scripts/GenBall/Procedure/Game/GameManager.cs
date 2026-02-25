@@ -22,8 +22,6 @@ namespace GenBall.Procedure.Game
             get => _curSaveIndex;
             set=> _curSaveIndex = value;
         }
-        
-        public LoadInfo CachedLoadInfo { get; set; }
 
         /// <summary>
         /// ±£¥Ê”Œœ∑
