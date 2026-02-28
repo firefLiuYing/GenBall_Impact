@@ -84,6 +84,7 @@ namespace GenBall.BattleSystem.Buff
 
         /// <summary>
         /// 移除Buff统一流程，暂时未考虑移除过程中的回调点，后续如果有相关需求再来拓展
+        /// 会自动回收BuffObj
         /// </summary>
         /// <param name="buffObj"></param>
         public void RemoveBuff([NotNull] BuffObj buffObj)
@@ -91,6 +92,7 @@ namespace GenBall.BattleSystem.Buff
             var buffContainer=buffObj.Carrier.GetComponent<IBuffContainer>();
             buffContainer.RemoveBuff(buffObj);
             _activeBuffs.Remove(buffObj);
+            ReferencePool.Release(buffObj);
         }
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
