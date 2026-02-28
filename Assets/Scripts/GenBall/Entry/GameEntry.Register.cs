@@ -1,3 +1,4 @@
+using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
@@ -48,5 +49,6 @@ namespace GenBall
         public static ExecuteComponent Execute => GetModule<ExecuteComponent>();
         public static SceneModule Scene => GetModule<SceneModule>();
         public static FsmManager Fsm => GetModule<FsmManager>();
+        public static BuffSystem Buff => GetModule<BuffSystem>();
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem
 {
@@ -9,7 +10,7 @@ namespace GenBall.BattleSystem
         public void ResetStat();
     }
 
-    public abstract class StatValue<TStat> : IStatValue where TStat:struct
+    public abstract class StatValue<TStat> :IReference, IStatValue where TStat:struct
     {
         public TStat BaseValue;
         public TStat CurrentValue;
@@ -47,10 +48,18 @@ namespace GenBall.BattleSystem
         {
             OnValueChange = null;
             BaseValue = default(TStat);
+            foreach (var modifier in Modifiers)
+            {
+                modifier.Clear();
+            }
             Modifiers.Clear();
             Recalculate();
         }
         protected abstract void Recalculate();
+        public void Clear()
+        {
+            ResetStat();
+        }
     }
     public class IntStat: StatValue<int>
     {
@@ -64,6 +73,13 @@ namespace GenBall.BattleSystem
                 CurrentValue += modifier.GetModifyValue(BaseValue);
             }
             OnValueChange?.Invoke(CurrentValue);
+        }
+
+        public static IntStat Create(int baseValue=0)
+        {
+            var stat=ReferencePool.Acquire<IntStat>();
+            stat.SetBaseValue(baseValue);
+            return stat;
         }
     }
 
@@ -79,6 +95,13 @@ namespace GenBall.BattleSystem
                 CurrentValue += modifier.GetModifyValue(BaseValue);
             }
             OnValueChange?.Invoke(CurrentValue);
+        }
+
+        public static FloatStat Create(float baseValue=0)
+        {
+            var stat=ReferencePool.Acquire<FloatStat>();
+            stat.SetBaseValue(baseValue);
+            return stat;
         }
     }
 }
