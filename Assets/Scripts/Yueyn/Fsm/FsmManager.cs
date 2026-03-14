@@ -12,7 +12,7 @@ namespace Yueyn.Fsm
     {
         public int Priority => 10;
         private readonly Dictionary<TypeNamePair, IFsm> _fsms=new();
-        private readonly List<IFsm> _tempFsms=new();
+        // private readonly List<IFsm> _tempFsms=new();
         public void Init()
         {
             
@@ -25,26 +25,26 @@ namespace Yueyn.Fsm
 
         public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
-            _tempFsms.Clear();
-            if(_fsms.Count<=0) return;
-            _tempFsms.AddRange(_fsms.Values);
-            foreach (var fsm in _tempFsms)
-            {
-                if(fsm.IsDestroyed) continue;
-                fsm.Update(elapsedSeconds, realElapseSeconds);
-            }
+            // _tempFsms.Clear();
+            // if(_fsms.Count<=0) return;
+            // _tempFsms.AddRange(_fsms.Values);
+            // foreach (var fsm in _tempFsms)
+            // {
+            //     if(fsm.IsDestroyed) continue;
+            //     fsm.Update(elapsedSeconds, realElapseSeconds);
+            // }
         }
 
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            _tempFsms.Clear();
-            if(_fsms.Count<=0) return;
-            _tempFsms.AddRange(_fsms.Values);
-            foreach (var fsm in _tempFsms)
-            {
-                if(fsm.IsDestroyed) continue;
-                fsm.FixedUpdate(fixedDeltaTime);
-            }
+            // _tempFsms.Clear();
+            // if(_fsms.Count<=0) return;
+            // _tempFsms.AddRange(_fsms.Values);
+            // foreach (var fsm in _tempFsms)
+            // {
+            //     if(fsm.IsDestroyed) continue;
+            //     fsm.FixedUpdate(fixedDeltaTime);
+            // }
         }
 
         public void Shutdown()
@@ -54,7 +54,7 @@ namespace Yueyn.Fsm
                 fsm.Shutdown();
             }
             _fsms.Clear();
-            _tempFsms.Clear();
+            // _tempFsms.Clear();
         }
 
         #region GetFsm

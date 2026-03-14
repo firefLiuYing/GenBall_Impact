@@ -1,9 +1,10 @@
+using GenBall.Interact;
 using GenBall.Utils.Trigger;
 using UnityEngine;
 
 namespace GenBall.Map
 {
-    public class SavePoint : MonoBehaviour
+    public class SavePoint : MonoBehaviour,IInteractable
     {
         private TriggerObject _triggerObject;
         private void Awake()
@@ -21,12 +22,18 @@ namespace GenBall.Map
         }
         private void OnEnter()
         {
-            Debug.Log("此时应该弹出交互按钮");
+            InteractSystem.Instance.AddInteractable(this);
         }
 
         private void OnExit()
         {
-            Debug.Log("此时应该关闭交互按钮");
+            InteractSystem.Instance.RemoveInteractable(this);
+        }
+
+        public string OperationDescription => "和存档点交互";
+        public void Interact()
+        {
+            // todo gzp 打开存档点菜单
         }
     }
 }

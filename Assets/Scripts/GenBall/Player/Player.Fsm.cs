@@ -54,7 +54,12 @@ namespace GenBall.Player
             _onAttackDelegate = LiveDelegate<OnAttackDelegate>.Create();
             _fsm.SetData("OnAttackDelegate",_onAttackDelegate);
         }
-        
+
+        public void OnSpawn()
+        {
+            
+        }
+
         private void RegisterStates()
         {
             _states.Add(new PlayerInitState());
@@ -62,10 +67,20 @@ namespace GenBall.Player
             _states.Add(new PlayerJumpState());
             _states.Add(new PlayerDashState());
         }
-        
+
+        public void TakeDamage(DamageInfo damageInfo)
+        {
+            // todo gzp 战斗系统重构完记得回来处理
+        }
+
+        // todo gzp 战斗系统重构完记得回来处理
+        public bool IsDead { get; }
+
         public void AddEffect(IEffect effect)
         {
-            effect.Apply(this);
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // effect.Apply(this);
             _effects.Add(effect);
         }
 

@@ -88,11 +88,18 @@ namespace GenBall.BattleSystem.Weapons
             _cachedEffects.Clear();
         }
 
-        public void Attack(IAttackable target, AttackInfo attackInfo)
+        public void OnSpawn()
         {
-            this.FireNowCombatBeforeAttackJustify(target,attackInfo);
-            var result = BattleController.Attack(target, attackInfo);
-            this.FireNowCombatAfterAttackCalculate(result);
+            
+        }
+
+        public void Attack(IDamageable target, AttackInfo attackInfo)
+        {
+            // todo gzp 等新的战斗系统重构完记得回来修改
+            
+            // this.FireNowCombatBeforeAttackJustify(target,attackInfo);
+            // var result = BattleController.Attack(target, attackInfo);
+            // this.FireNowCombatAfterAttackCalculate(result);
         }
 
         public T GetWeaponComponent<T>() where T : IWeaponComponent =>(T)InternalGetWeaponComponent(typeof(T));

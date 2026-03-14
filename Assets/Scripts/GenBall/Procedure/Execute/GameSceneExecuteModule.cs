@@ -1,4 +1,5 @@
 using System.Linq;
+using GenBall.BattleSystem.Character;
 using GenBall.Enemy;
 using GenBall.Map;
 using GenBall.Procedure.Game;
@@ -46,6 +47,9 @@ namespace GenBall.Procedure.Execute
             {
                 GameEntry.Player.CreatePlayer();
             }
+
+            // todo gzp ≤‚ ‘¥˙¬Î£¨º«µ√…æ
+            GameEntry.CharacterCreator.CreateEntity<CharacterState>(nameof(EnemyId.TestOrbis));
         }
         
         public void Init()

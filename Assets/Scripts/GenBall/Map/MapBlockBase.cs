@@ -10,6 +10,11 @@ namespace GenBall.Map
 {
     public abstract class MapBlockBase : MonoBehaviour, IMapBlock
     {
+        public void OnSpawn()
+        {
+            
+        }
+
         public void SetIndex(int index)
         {
             gameObject.SetActive(true);

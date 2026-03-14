@@ -1,20 +1,21 @@
 namespace GenBall.BattleSystem
 {
-    public interface IAttackable:IEffectable,IDamageable
-    {
-        public AttackResult OnAttacked(AttackInfo attackInfo);
-    }
-
     public interface IHealth
     {
         public int Health { get; }
         public int MaxHealth { get; }
+        public bool IsDead { get; }
+        public void Die(DeathInfo deathInfo);
     }
-
     public interface IDamageable:IHealth
     {
-        public void TakeDamage(int damage);
+        /// <summary>
+        /// 实际扣除伤害，改方法传入的伤害和冲击力等数值都是已经计算完成的，不要再修改
+        /// </summary>
+        /// <param name="damageInfo"></param>
+        public void TakeDamage(DamageInfo damageInfo);
     }
+
 
     public interface IHealable:IHealth
     {

@@ -72,6 +72,7 @@ namespace GenBall.BattleSystem.Buff
             var buffObj = BuffObj.Create(info);
             buffContainer.AddBuff(buffObj);
             _activeBuffs.Add(buffObj);
+            buffObj.OnAdd(info);
             // 触发添加后回调点
             var afterAddBuffs = buffContainer.GetBuffs<ITriggerAfterAddBuff>();
             foreach (var afterAddBuff in afterAddBuffs)

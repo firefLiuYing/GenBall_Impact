@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using GenBall.BattleSystem.Buff;
 using GenBall.Utils.Singleton;
+using JetBrains.Annotations;
+using UnityEngine;
 using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem
@@ -8,17 +11,132 @@ namespace GenBall.BattleSystem
     public class DamageSystem : ISingleton
     {
         public static DamageSystem Instance=>SingletonManager.GetSingleton<DamageSystem>();
-        
+
+        /// <summary>
+        /// 造成伤害的统一流程，会自动管理DamageInfo生命周期，任何伤害结算务必通过该流程
+        /// </summary>
+        /// <param name="damageInfo"></param>
+        public void ApplyDamage(DamageInfo damageInfo)
+        {
+            var attackable = damageInfo.Defender.GetComponent<IDamageable>();
+            if (attackable == null)
+            {
+                Debug.LogError($"gzp 受击方：{damageInfo.Defender}没有IAttackable组件");
+                ReferencePool.Release(damageInfo);
+                return;
+            }
+
+            IBuffContainer attackerBuffContainer=null;
+            if (damageInfo.Attacker?.TryGetComponent(out attackerBuffContainer)??false)
+            {
+                // 触发攻击方身上造成伤害前触发的Buff 
+                var beforeCauseDamageBuffs = attackerBuffContainer.GetBuffs<ITriggerBeforeCauseDamage>();
+                foreach (var beforeCauseDamageBuff in beforeCauseDamageBuffs)
+                {
+                    beforeCauseDamageBuff.TriggerBeforeCauseDamage(damageInfo);
+                }
+                beforeCauseDamageBuffs.Clear();
+            }
+
+            if (damageInfo.Defender.TryGetComponent<IBuffContainer>(out var defenderBuffContainer))
+            {
+                // 触发受击方身上受到伤害前触发的Buff
+                var beforeTakeDamageBuffs = defenderBuffContainer.GetBuffs<ITriggerBeforeTakeDamage>();
+                foreach (var beforeTakeDamageBuff in beforeTakeDamageBuffs)
+                {
+                    beforeTakeDamageBuff.TriggerBeforeTakeDamage(damageInfo);
+                }
+                beforeTakeDamageBuffs.Clear();
+            }
+            
+            // 实际造成伤害
+            attackable.TakeDamage(damageInfo);
+
+            if (attackerBuffContainer != null)
+            {
+                // 触发攻击方身上造成伤害后触发的Buff
+                var afterCauseDamageBuffs = attackerBuffContainer.GetBuffs<ITriggerAfterCauseDamage>();
+                foreach (var afterCauseDamageBuff in afterCauseDamageBuffs)
+                {
+                    afterCauseDamageBuff.TriggerAfterCauseDamage(damageInfo);
+                }
+                afterCauseDamageBuffs.Clear();
+            }
+
+            if (defenderBuffContainer != null)
+            {
+                // 触发受击方身上受到伤害后触发的Buff
+                var afterTakeDamageBuffs = defenderBuffContainer.GetBuffs<ITriggerAfterTakeDamage>();
+                foreach (var afterTakeDamageBuff in afterTakeDamageBuffs)
+                {
+                    afterTakeDamageBuff.TriggerAfterTakeDamage(damageInfo);
+                }
+                afterTakeDamageBuffs.Clear();
+            }
+            
+            // 流程结束，回收DamageInfo
+            ReferencePool.Release(damageInfo);
+        }
     }
 
     public class DamageInfo:IReference
     {
-        // todo gzp 管理单一段攻击的计算
-        // 需要包括伤害计算，冲击力计算，给受击方挂载的buff，其中buff部分可以等到buff系统做好了再写，其中如果计算得出会造成受击单位死亡，需要走死亡结算流程
-        
+        /// <summary>
+        /// 被攻击方，不可以为null
+        /// </summary>
+        public GameObject Defender;
+        /// <summary>
+        /// 攻击方，可以为null
+        /// </summary>
+        public GameObject Attacker;
+
+        public List<string> Tags;
+        /// <summary>
+        /// 本次攻击所能造成的伤害
+        /// </summary>
+        public DamageValue Damage;
+        /// <summary>
+        /// 本次攻击所造成的冲击力
+        /// </summary>
+        public DamageValue ImpactForce;
+        /// <summary>
+        /// 本次攻击来自的方向
+        /// </summary>
+        public Vector3 Direction;
+        /// <summary>
+        /// 本次攻击对目标所添加的Buff信息，会在攻击流程结束后再添加
+        /// </summary>
+        public List<AddBuffInfo> AddBuffs;
+
+        public static DamageInfo Create([NotNull] GameObject defender,int damage,List<string> tags,int impactForce=0,GameObject attacker=null,List<AddBuffInfo> addBuffs = null)
+        {
+            return Create(defender, damage, tags,Vector3.one, impactForce, attacker, addBuffs);
+        }
+        public static DamageInfo Create([NotNull] GameObject defender,int damage,List<string> tags,Vector3 direction,int impactForce=0,GameObject attacker=null,List<AddBuffInfo> addBuffs = null)
+        {
+            var info=ReferencePool.Acquire<DamageInfo>();
+            info.Defender = defender;
+            info.Damage = DamageValue.Create(damage);
+            info.ImpactForce = DamageValue.Create(impactForce);
+            info.Attacker = attacker;
+            info.AddBuffs = addBuffs;
+            info.Tags = tags;
+            info.Direction=direction;
+            return info;
+        }
         public void Clear()
         {
-            
+            Defender = null;
+            Attacker = null;
+            Tags?.Clear();
+            Tags = null;
+            ReferencePool.Release(Damage);
+            Damage = null;
+            ReferencePool.Release(ImpactForce);
+            ImpactForce = null;
+            Direction = Vector3.zero;
+            AddBuffs.Clear();
+            AddBuffs = null;
         }
     }
     public class DamageValue:IReference
@@ -27,11 +145,11 @@ namespace GenBall.BattleSystem
         private IntStat _baseDamageStat;
         private IntStat _addDamageStat;
 
-        public DamageValue Create(int baseValue)
+        public static DamageValue Create(int baseValue)
         {
             var damage=ReferencePool.Acquire<DamageValue>();
-            _baseDamageStat=IntStat.Create(baseValue);
-            _addDamageStat=IntStat.Create();
+            damage._baseDamageStat=IntStat.Create(baseValue);
+            damage._addDamageStat=IntStat.Create();
             return damage;
         }
         public void AddDamage(int value)
@@ -76,12 +194,12 @@ namespace GenBall.BattleSystem
         {
             foreach (var multipleZone in _multipleZones.Values)
             {
-                multipleZone.Clear();
+                ReferencePool.Release(multipleZone);
             }
             _multipleZones.Clear();
-            _baseDamageStat.Clear();
+            ReferencePool.Release(_baseDamageStat);
             _baseDamageStat = null;
-            _addDamageStat.Clear();
+            ReferencePool.Release(_addDamageStat);
             _addDamageStat = null;
         }
     }

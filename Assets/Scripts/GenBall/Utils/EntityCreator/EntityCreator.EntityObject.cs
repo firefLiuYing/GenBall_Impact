@@ -12,6 +12,7 @@ namespace GenBall.Utils.EntityCreator
             {
                 if(Target is not GameObject go) return;
                 go.SetActive(false);
+                go.GetComponent<IEntity>().OnSpawn();
             }
 
             public override void OnDespawn()

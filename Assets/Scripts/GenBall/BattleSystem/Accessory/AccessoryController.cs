@@ -101,7 +101,9 @@ namespace GenBall.BattleSystem.Accessory
         private void RegisterEvents()
         {
             GameEntry.Event.SubscribePlayerKillPoints(OnKillPointsChange);
-            GameEntry.Event.SubscribeEnemyDeath(OnEnemyDeath);
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // GameEntry.Event.SubscribeEnemyDeath(OnEnemyDeath);
         }
         private void OnKillPointsChange(int killPoints)=>UnlockedLevel = KillPointsToLevel(killPoints);
 
@@ -119,7 +121,9 @@ namespace GenBall.BattleSystem.Accessory
 
         private void OnEnemyDeath(DeathInfo deathInfo)
         {
-            KillPoints += deathInfo.KillPoints;
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // KillPoints += deathInfo.KillPoints;
         }
         private int KillPointsToLevel(int killPoints)
         {

@@ -39,14 +39,18 @@ namespace GenBall.Enemy
 
         public void EntityUpdate(float deltaTime)
         {
-            this.FireNowSystemUpdate(deltaTime);
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // this.FireNowSystemUpdate(deltaTime);
             OnUpdate(deltaTime);
         }
         protected virtual void OnUpdate(float deltaTime){}
 
         public void EntityFixedUpdate(float fixedDeltaTime)
         {
-            this.FireNowSystemFixedUpdate(fixedDeltaTime);
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // this.FireNowSystemFixedUpdate(fixedDeltaTime);
             OnFixedUpdate(fixedDeltaTime);
         }
         protected virtual void OnFixedUpdate(float fixedDeltaTime){}
@@ -79,20 +83,30 @@ namespace GenBall.Enemy
             OnInitialize();
             gameObject.SetActive(true);
         }
+
+        public void OnSpawn()
+        {
+            
+        }
+
         protected virtual void OnInitialize(){}
 
         public void Death()
         {
             // _fsmModule.OnDeath();
-            this.FireEventEntityDeath();
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // this.FireEventEntityDeath();
             GameEntry.Event.FireEnemyDeath(new DeathInfo(){KillPoints = this.KillPoints});
             GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
         }
 
         public void AddEffect(IEffect effect)
         {
+            // todo gzp 战斗系统重构完记得回来处理
+            
             _effects.Add(effect);
-            effect.Apply(this);
+            // effect.Apply(this);
         }
 
         public bool RemoveEffect(IEffect effect)
@@ -100,6 +114,18 @@ namespace GenBall.Enemy
             if(!_effects.Remove(effect)) return false;
             effect.Unapply();
             return true;
+        }
+
+        public void TakeDamage(DamageInfo damageInfo)
+        {
+            // todo gzp 战斗系统重构完记得回来处理
+        }
+
+        // todo gzp 战斗系统重构完记得回来处理
+        public bool IsDead { get; }
+        public void Die(BattleSystem.DeathInfo deathInfo)
+        {
+            // todo gzp 战斗系统重构完记得回来处理
         }
 
         public void Subscribe(int id, EventHandler<GameEventArgs> handler) => _eventPool.Subscribe(id, handler);

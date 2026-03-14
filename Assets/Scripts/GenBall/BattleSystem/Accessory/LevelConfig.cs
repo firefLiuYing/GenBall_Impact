@@ -35,22 +35,24 @@ namespace GenBall.BattleSystem.Accessory
         };
         public void Apply()
         {
-            if (BaseModule?.WeaponType == null)
-            {
-                throw new Exception("gzp BaseModule is null");
-            }
-
-            var newWeapon = BaseModule.WeaponName.IsNullOrEmpty() 
-                ? GameEntry.Player.Player.EquipPhysicsWeapon(BaseModule.WeaponType)
-                : GameEntry.Player.Player.EquipPhysicsWeapon(BaseModule.WeaponName,BaseModule.WeaponType);
-
-            if (Accessories != null)
-            {
-                foreach (var accessory in Accessories)
-                {
-                    newWeapon.AddEffect(accessory);
-                }
-            }
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // if (BaseModule?.WeaponType == null)
+            // {
+            //     throw new Exception("gzp BaseModule is null");
+            // }
+            //
+            // var newWeapon = BaseModule.WeaponName.IsNullOrEmpty() 
+            //     ? GameEntry.Player.Player.EquipPhysicsWeapon(BaseModule.WeaponType)
+            //     : GameEntry.Player.Player.EquipPhysicsWeapon(BaseModule.WeaponName,BaseModule.WeaponType);
+            //
+            // if (Accessories != null)
+            // {
+            //     foreach (var accessory in Accessories)
+            //     {
+            //         newWeapon.AddEffect(accessory);
+            //     }
+            // }
         }
     }
 

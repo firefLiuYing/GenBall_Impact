@@ -30,6 +30,7 @@ namespace GenBall.Event.Templates
             new ValueEventDefinition("DataPoints",typeof(int),"圆形数据变化","Player"),
             new ValueEventDefinition("Position",typeof(Transform),"玩家位置变化","Player"),
             
+            // 玩家输入
             new ValueEventDefinition("Reload",typeof(ButtonState),"换弹按键输入","Input"),
             new ValueEventDefinition("Upgrade",typeof(ButtonState),"武器阶段升级输入","Input"),
             

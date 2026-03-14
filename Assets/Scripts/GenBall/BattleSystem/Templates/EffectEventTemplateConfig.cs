@@ -28,7 +28,7 @@ namespace GenBall.BattleSystem.Templates
             // 生命周期事件
             
             // 攻击相关事件
-            new EffectEventDefinition("BeforeAttackJustify", new Type[] { typeof(IAttackable), typeof(AttackInfo) }, 
+            new EffectEventDefinition("BeforeAttackJustify", new Type[] { typeof(IDamageable), typeof(AttackInfo) }, 
                 "攻击前判定", "Combat"),
             new EffectEventDefinition("AfterAttackCalculate", new Type[] { typeof(AttackResult) }, 
                 "攻击后结算", "Combat"),

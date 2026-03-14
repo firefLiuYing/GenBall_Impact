@@ -5,5 +5,6 @@ namespace GenBall.Utils.EntityCreator
         public void EntityUpdate(float deltaTime);
         public void EntityFixedUpdate(float fixedDeltaTime);
         public void OnRecycle();
+        public void OnSpawn();
     }
 }

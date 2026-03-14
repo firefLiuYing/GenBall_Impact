@@ -54,6 +54,11 @@ namespace GenBall.BattleSystem.Bullets
             gameObject.SetActive(true);
         }
 
+        public void OnSpawn()
+        {
+            
+        }
+
         public void OnRecycle()
         {
             _fired=false;
@@ -98,7 +103,7 @@ namespace GenBall.BattleSystem.Bullets
             Physics.Raycast(ray,out var hitInfo,bulletSpeed*fixedDeltaTime,targetLayer);
             if (hitInfo.collider == null) return;
             _hit=true;
-            var attackables = hitInfo.collider.GetComponentsInParent<IAttackable>();
+            var attackables = hitInfo.collider.GetComponentsInParent<IDamageable>();
             foreach (var attackable in attackables)
             {
                 var attackInfo = AttackInfo.Create(Source.Owner, Source.Stats.Damage, _direction.normalized, Source.Stats.ImpactForce);

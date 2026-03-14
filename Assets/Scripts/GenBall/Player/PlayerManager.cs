@@ -1,4 +1,5 @@
 using System;
+using GenBall.BattleSystem.Character;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Main;
@@ -8,8 +9,8 @@ namespace GenBall.Player
     public sealed class PlayerManager : MonoBehaviour,IComponent
     {
         public int Priority => 1000;
-        private EntityCreator<Player> PlayerCreator => GameEntry.GetModule<EntityCreator<Player>>();
-        public Player Player { get;private set; }
+        // private EntityCreator<Player> PlayerCreator => GameEntry.GetModule<EntityCreator<Player>>();
+        public GameObject Player { get;private set; }
         [SerializeField] private Transform defaultPlayerSpawnPoint;
         
         public Transform DefaultPlayerSpawnPoint=>defaultPlayerSpawnPoint??transform;
@@ -22,9 +23,9 @@ namespace GenBall.Player
             {
                 throw new Exception("当前场景已有Player");
             }
-            var player = PlayerCreator.CreateEntity<Player>(position, rotation,DefaultPlayerSpawnPoint);
-            player.Initialize();
-            Player = player;
+            var player = GameEntry.CharacterCreator.CreateEntity<CharacterState>("Player",position, rotation,DefaultPlayerSpawnPoint);
+            // player.Initialize();
+            Player = player.gameObject;
         }
         public void CreatePlayer(Transform spawnTransform)
         {
@@ -37,13 +38,13 @@ namespace GenBall.Player
             {
                 spawnTransform = transform;
             }
-            var player = PlayerCreator.CreateEntity<Player>(spawnTransform.position, spawnTransform.rotation,DefaultPlayerSpawnPoint);
-            player.Initialize();
-            Player = player;
+            var player = GameEntry.CharacterCreator.CreateEntity<CharacterState>("Player",spawnTransform.position, spawnTransform.rotation,DefaultPlayerSpawnPoint);
+            // player.Initialize();
+            Player = player.gameObject;
         }
         public void Init()
         {
-            PlayerCreator.AddPrefab<Player>("Assets/AssetBundles/Common/Player/Prefab/Player.prefab");
+            GameEntry.CharacterCreator.AddPrefab<CharacterState>("Player","Assets/AssetBundles/Common/Player/Prefab/Player.prefab");
         }
 
         public void OnUnregister()

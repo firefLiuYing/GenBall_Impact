@@ -10,21 +10,17 @@ namespace GenBall.BattleSystem.Buff
     {
         [SerializeField] private List<BuffModel> buffModels=new();
         private readonly Dictionary<BuffId,BuffModel> _buffDict = new();
-        private bool _initialized = false;
-        private void Init()
+        public void Init()
         {
-            if (_initialized) return;
             _buffDict.Clear();
             foreach (var buffModel in buffModels)
             {
                 _buffDict.TryAdd(buffModel.BuffId,buffModel);
             }
-            _initialized = true;
         }
 
         public BuffModel GetBuffModel(BuffId buffId)
         {
-            Init();
             return _buffDict.GetValueOrDefault(buffId);
         }
     }
@@ -33,6 +29,7 @@ namespace GenBall.BattleSystem.Buff
     {
         private const string BuffModelConfigPath = "Assets/AssetBundles/Config/BuffModelConfig.asset";
         private static BuffModelConfig _cachedConfig;
+        private static bool _configInitialized=false;
         public static BuffModelConfig GetOrCreateBuffModelConfig()
         {
             if(_cachedConfig!=null)  return _cachedConfig;
@@ -46,6 +43,11 @@ namespace GenBall.BattleSystem.Buff
             {
                 var path=AssetDatabase.GUIDToAssetPath(guids[0]);
                 _cachedConfig= AssetDatabase.LoadAssetAtPath<BuffModelConfig>(path);
+                if (!_configInitialized)
+                {
+                    _cachedConfig.Init();
+                    _configInitialized=true;
+                }
                 return _cachedConfig;
             }
             var config=ScriptableObject.CreateInstance<BuffModelConfig>();
@@ -53,6 +55,11 @@ namespace GenBall.BattleSystem.Buff
             AssetDatabase.SaveAssets();
             Debug.Log("gzp 已自动创建BuffModelConfig");
             _cachedConfig = config;
+            if (!_configInitialized)
+            {
+                _cachedConfig.Init();
+                _configInitialized=true;
+            }
             return _cachedConfig;
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using GenBall.BattleSystem.Buff.Player;
 
 namespace GenBall.BattleSystem.Buff
 {
@@ -8,10 +9,7 @@ namespace GenBall.BattleSystem.Buff
     public enum BuffId
     {
         Default,
-        /// <summary>
-        /// …’…À£¨≤‚ ‘”√
-        /// </summary>
-        TestBurn=1,
+        PlayerArmor=1,
     }
 
     public static class BuffIdToExtension
@@ -20,6 +18,7 @@ namespace GenBall.BattleSystem.Buff
         {
             return id switch
             {
+                BuffId.PlayerArmor=>typeof(ArmorBuff),
                 _ => typeof(BuffObj),
             };
         }

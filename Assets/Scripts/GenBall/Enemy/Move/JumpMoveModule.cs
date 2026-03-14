@@ -88,12 +88,16 @@ namespace GenBall.Enemy.Move
 
         private void RegisterEvents()
         {
-            Owner.SubscribeSystemFixedUpdate(OnFixedUpdate);
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // Owner.SubscribeSystemFixedUpdate(OnFixedUpdate);
         }
 
         private void UnregisterEvents()
         {
-            Owner.UnsubscribeSystemFixedUpdate(OnFixedUpdate);
+            // todo gzp 战斗系统重构完记得回来处理
+            
+            // Owner.UnsubscribeSystemFixedUpdate(OnFixedUpdate);
         }
     }
 }

@@ -1,5 +1,7 @@
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
+using GenBall.BattleSystem.Character;
+using GenBall.BattleSystem.Timeline;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
 using GenBall.Map;
@@ -26,6 +28,8 @@ namespace GenBall
             RegisterWeapons();
             RegisterEnemys();
             RegisterUIs();
+            
+            EnemyRegister.Register();
         }
         private void RegisterModules()
         {
@@ -39,6 +43,8 @@ namespace GenBall
             _entry.Register(new EntityCreator<IUserInterface>());
             _entry.Register(new EntityCreator<Player.Player>());
             _entry.Register(new EntityCreator<IMapBlock>());
+            _entry.Register(new EntityCreator<CharacterState>());
+            _entry.Register(new EntityCreator<BulletState>());
         }
 
         public static EventManager Event => GetModule<EventManager>();
@@ -50,5 +56,7 @@ namespace GenBall
         public static SceneModule Scene => GetModule<SceneModule>();
         public static FsmManager Fsm => GetModule<FsmManager>();
         public static BuffSystem Buff => GetModule<BuffSystem>();
+        public static EntityCreator<CharacterState> CharacterCreator => GetModule<EntityCreator<CharacterState>>();
+        public static TimelineSystem Timeline => GetModule<TimelineSystem>();
     }
 }

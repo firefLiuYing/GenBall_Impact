@@ -16,6 +16,11 @@ namespace GenBall.UI
         private readonly List<ItemBase> _items = new();
         private readonly Dictionary<Type,VmBase> _vmMap = new();
 
+        public void OnSpawn()
+        {
+            
+        }
+
         // public void CloseSelf()
         // {
         //     if (!IsTop)

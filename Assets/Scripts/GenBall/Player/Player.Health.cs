@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GenBall.Player
 {
-    public partial class Player:IAttackable,IHealable,IArmor
+    public partial class Player:IDamageable,IHealable,IArmor
     {
         [SerializeField] private int baseMaxHealth;
         private void InitHealth()
@@ -40,7 +40,9 @@ namespace GenBall.Player
                 GameEntry.Event.FirePlayerHealth(_health);
                 if (_health <= 0)
                 {
-                    this.FireEventEntityDeath();
+                    // todo gzp 战斗系统重构完记得回来处理
+                    
+                    // this.FireEventEntityDeath();
                 }
             }
         }
@@ -72,6 +74,11 @@ namespace GenBall.Player
                 Health = 0;
                 Debug.Log("我死了，但是没写死亡逻辑");
             }
+        }
+
+        public void Die(DeathInfo deathInfo)
+        {
+            // todo gzp 战斗系统重构完记得回来处理
         }
 
         public void Heal(int healAmount)

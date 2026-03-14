@@ -119,9 +119,9 @@ namespace GenBall.BattleSystem.Generated
         }
 
         /// <summary>攻击前判定</summary>
-        public static EffectEventArgs<IAttackable, AttackInfo> CreateCombatBeforeAttackJustify(IAttackable arg1, AttackInfo arg2)
+        public static EffectEventArgs<IDamageable, AttackInfo> CreateCombatBeforeAttackJustify(IDamageable arg1, AttackInfo arg2)
         {
-            return EffectEventArgs<IAttackable, AttackInfo>.Create(EffectEventConstants.Combat_BeforeAttackJustify, arg1, arg2);
+            return EffectEventArgs<IDamageable, AttackInfo>.Create(EffectEventConstants.Combat_BeforeAttackJustify, arg1, arg2);
         }
 
         /// <summary>攻击后结算</summary>
@@ -342,12 +342,12 @@ namespace GenBall.BattleSystem.Generated
         }
 
         /// <summary>订阅 攻击前判定 事件</summary>
-        public static void SubscribeCombatBeforeAttackJustify(this ILocalEventManager eventManager, Action<IAttackable, AttackInfo> handler)
+        public static void SubscribeCombatBeforeAttackJustify(this ILocalEventManager eventManager, Action<IDamageable, AttackInfo> handler)
         {
             int eventId = EffectEventIds.Combat_BeforeAttackJustify;
             EventHandler<GameEventArgs> eventHandler = (sender, args) =>
             {
-                if (args is EffectEventArgs<IAttackable, AttackInfo> effectArgs)
+                if (args is EffectEventArgs<IDamageable, AttackInfo> effectArgs)
                     handler?.Invoke(effectArgs.Args1, effectArgs.Args2);
             };
             EventHandlerCache.AddWrapper(eventId, handler, eventHandler);
@@ -446,7 +446,7 @@ namespace GenBall.BattleSystem.Generated
         }
 
         /// <summary>取消订阅 攻击前判定 事件</summary>
-        public static void UnsubscribeCombatBeforeAttackJustify(this ILocalEventManager eventManager, Action<IAttackable, AttackInfo> handler)
+        public static void UnsubscribeCombatBeforeAttackJustify(this ILocalEventManager eventManager, Action<IDamageable, AttackInfo> handler)
         {
             int eventId = EffectEventIds.Combat_BeforeAttackJustify;
             var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);
@@ -530,7 +530,7 @@ namespace GenBall.BattleSystem.Generated
         }
 
         /// <summary>触发 攻击前判定 事件（排队）</summary>
-        public static void FireEventCombatBeforeAttackJustify(this ILocalEventManager eventManager, IAttackable arg1, AttackInfo arg2, object sender = null)
+        public static void FireEventCombatBeforeAttackJustify(this ILocalEventManager eventManager, IDamageable arg1, AttackInfo arg2, object sender = null)
         {
             var eventArgs = EffectEventFactory.CreateCombatBeforeAttackJustify(arg1, arg2);
             eventManager.FireEvent(sender ?? eventManager, eventArgs);
@@ -589,7 +589,7 @@ namespace GenBall.BattleSystem.Generated
         }
 
         /// <summary>立即触发 攻击前判定 事件</summary>
-        public static void FireNowCombatBeforeAttackJustify(this ILocalEventManager eventManager, IAttackable arg1, AttackInfo arg2, object sender = null)
+        public static void FireNowCombatBeforeAttackJustify(this ILocalEventManager eventManager, IDamageable arg1, AttackInfo arg2, object sender = null)
         {
             var eventArgs = EffectEventFactory.CreateCombatBeforeAttackJustify(arg1, arg2);
             eventManager.FireNow(sender ?? eventManager, eventArgs);
@@ -703,16 +703,16 @@ namespace GenBall.BattleSystem.Generated
             public const string Name = EffectEventConstants.Combat_BeforeAttackJustify;
             public static int Id => EffectEventIds.Combat_BeforeAttackJustify;
 
-            public static EffectEventArgs<IAttackable, AttackInfo> Create(IAttackable arg1, AttackInfo arg2)
+            public static EffectEventArgs<IDamageable, AttackInfo> Create(IDamageable arg1, AttackInfo arg2)
                 => EffectEventFactory.CreateCombatBeforeAttackJustify(arg1, arg2);
 
-            public static void Subscribe(ILocalEventManager eventManager, Action<IAttackable, AttackInfo> handler)
+            public static void Subscribe(ILocalEventManager eventManager, Action<IDamageable, AttackInfo> handler)
                 => eventManager.SubscribeCombatBeforeAttackJustify(handler);
 
-            public static void FireEvent(ILocalEventManager eventManager, IAttackable arg1, AttackInfo arg2, object sender = null)
+            public static void FireEvent(ILocalEventManager eventManager, IDamageable arg1, AttackInfo arg2, object sender = null)
                 => eventManager.FireEventCombatBeforeAttackJustify(arg1, arg2, sender);
 
-            public static void FireNow(ILocalEventManager eventManager, IAttackable arg1, AttackInfo arg2, object sender = null)
+            public static void FireNow(ILocalEventManager eventManager, IDamageable arg1, AttackInfo arg2, object sender = null)
                 => eventManager.FireNowCombatBeforeAttackJustify(arg1, arg2, sender);
         }
 
