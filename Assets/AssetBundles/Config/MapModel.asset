@@ -20,6 +20,10 @@ MonoBehaviour:
       displayName: "\u6D4B\u8BD5\u4F20\u9001\u70B9"
       spawnPosition: {x: -10, y: 1.56, z: -2.29}
       spawnRotation: {x: -0, y: -0, z: -0, w: 1}
+    - id: 1
+      displayName: "\u5BF9\u7167\u7EC4"
+      spawnPosition: {x: -10, y: 1.33, z: -1.12}
+      spawnRotation: {x: -0, y: -0, z: -0, w: 1}
     enemyUnits:
     - id: 0
       enemyType: NormalOrbis

@@ -45,7 +45,23 @@ namespace GenBall.Player.Input
             }
             _jumpInputActionPhase=context.phase;
         }
+        public Action OnInteract;
+        public void OnInteractInputChange(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Started)
+            {
+                OnInteract?.Invoke();
+            }
+        }
 
+        public Action<float> OnScrollChange; 
+        public void OnScrollInputChange(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Started)
+            {
+                OnScrollChange?.Invoke(context.ReadValue<Vector2>().y);
+            }
+        }
         private void FixedUpdate()
         {
             if (IsJumpPressed)

@@ -348,6 +348,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: bfd32435-6c91-4bac-a2c2-8bdfe5bd8c34
     m_ActionName: Player/TempPause[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7512571353247123934}
+        m_TargetAssemblyTypeName: GenBall.Player.Input.InputHandler, Assembly-CSharp
+        m_MethodName: OnInteractInputChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8e1d49a3-ae62-4818-9e74-2a3f46cb1303
+    m_ActionName: Player/Interact[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7512571353247123934}
+        m_TargetAssemblyTypeName: GenBall.Player.Input.InputHandler, Assembly-CSharp
+        m_MethodName: OnScrollInputChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7e99f5cb-f8b8-436c-ab11-710844998142
+    m_ActionName: Player/Scroll[/Mouse/scroll]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -398,6 +430,7 @@ GameObject:
   - component: {fileID: 7974084882187000034}
   - component: {fileID: 2077995753070724127}
   - component: {fileID: 7025143009965142937}
+  - component: {fileID: 3241132163521163898}
   m_Layer: 7
   m_Name: Controller
   m_TagString: Untagged
@@ -470,6 +503,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ea9830ad4d1a674896e41829b17fb3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 100
+--- !u!114 &3241132163521163898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6030017751813127460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9c688aba0653b419c56446d89f5b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 100

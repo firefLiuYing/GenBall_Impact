@@ -7,9 +7,11 @@ namespace GenBall.Map
     public class SavePoint : MonoBehaviour,IInteractable
     {
         private TriggerObject _triggerObject;
+        private SavePointConfig _savePointConfig;
         private void Awake()
         {
             _triggerObject = GetComponentInChildren<TriggerObject>();
+            _savePointConfig = GetComponent<SavePointConfig>();
             if (_triggerObject == null)
             {
                 Debug.LogError("gzp 存档点没绑定触发器");
@@ -30,10 +32,10 @@ namespace GenBall.Map
             InteractSystem.Instance.RemoveInteractable(this);
         }
 
-        public string OperationDescription => "和存档点交互";
+        public string OperationDescription => _savePointConfig.DisplayName;
         public void Interact()
         {
-            // todo gzp 打开存档点菜单
+            Debug.Log($"此时应该打开存档点:{_savePointConfig.DisplayName}交互菜单");
         }
     }
 }
