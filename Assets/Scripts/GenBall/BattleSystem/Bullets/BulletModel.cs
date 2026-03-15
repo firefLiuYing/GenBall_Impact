@@ -2,6 +2,7 @@ namespace GenBall.BattleSystem.Bullets
 {
     public struct BulletModel
     {
+        public BulletId Id;
         /// <summary>
         /// 碰撞半径
         /// </summary>
@@ -22,5 +23,13 @@ namespace GenBall.BattleSystem.Bullets
         /// 可以命中友军
         /// </summary>
         public bool HitAlly;
+        /// <summary>
+        /// 子弹飞行速度
+        /// </summary>
+        public float Speed;
+        /// <summary>
+        /// 子弹基础伤害
+        /// </summary>
+        public int Damage;
     }
 }

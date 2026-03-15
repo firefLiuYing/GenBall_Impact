@@ -24,5 +24,10 @@ namespace GenBall.BattleSystem.Bullets
             var bulletName=bulletId.ToString();
             GameEntry.GetModule<EntityCreator<BulletState>>().AddPrefab<BulletState>(bulletName,Path+bulletName+".prefab");
         }
+
+        public static BulletState Create(this BulletId bulletId)
+        {
+            return GameEntry.GetModule<EntityCreator<BulletState>>().CreateEntity<BulletState>(bulletId.ToString());
+        }
     }
 }

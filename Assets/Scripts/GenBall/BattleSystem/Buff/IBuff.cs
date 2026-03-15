@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GenBall.BattleSystem.Bullets;
 
 namespace GenBall.BattleSystem.Buff
 {
@@ -14,7 +15,38 @@ namespace GenBall.BattleSystem.Buff
     // todo gzp 实现各个回调点接口
 
     #region Buff回调点
+    
+    /// <summary>
+    /// 发射子弹时，在实际发射之前调用
+    /// </summary>
+    public interface ITriggerBeforeFireBullet : IBuff
+    {
+        public void TriggerBeforeFireBullet(BulletLaunchInfo  launchInfo);
+    }
+    
+    /// <summary>
+    /// 发射子弹时，在实际发射之后调用
+    /// </summary>
+    public interface ITriggerAfterFireBullet : IBuff
+    {
+        public void TriggerAfterFireBullet(BulletLaunchInfo  launchInfo);
+    }
 
+    /// <summary>
+    /// 子弹被发射时，在实际发射之前调用
+    /// </summary>
+    public interface ITriggerBeforeBulletBeFired : IBuff
+    {
+        public void TriggerBeforeBulletBeFired(BulletLaunchInfo  launchInfo);
+    }
+
+    /// <summary>
+    /// 子弹被发射时，在实际发射之后调用
+    /// </summary>
+    public interface ITriggerAfterBulletBeFired : IBuff
+    {
+        public void TriggerAfterBulletBeFired(BulletLaunchInfo  launchInfo);
+    }
     /// <summary>
     /// 死亡时，在实际死亡前触发
     /// </summary>
