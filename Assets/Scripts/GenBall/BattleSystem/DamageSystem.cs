@@ -18,12 +18,15 @@ namespace GenBall.BattleSystem
         /// <param name="damageInfo"></param>
         public void ApplyDamage(DamageInfo damageInfo)
         {
-            var attackable = damageInfo.Defender.GetComponent<IDamageable>();
+            var attackable = damageInfo.Defender.GetComponentInChildren<IDamageable>();
             if (attackable == null)
             {
-                Debug.LogError($"gzp 受击方：{damageInfo.Defender}没有IAttackable组件");
-                ReferencePool.Release(damageInfo);
-                return;
+                attackable = damageInfo.Defender.GetComponentInParent<IDamageable>();
+                if (attackable == null)
+                {
+                    ReferencePool.Release(damageInfo);
+                    return;
+                }
             }
 
             IBuffContainer attackerBuffContainer=null;
@@ -51,6 +54,7 @@ namespace GenBall.BattleSystem
             
             // 实际造成伤害
             attackable.TakeDamage(damageInfo);
+            Debug.Log($"造成了{damageInfo.Damage.GetValue()}点伤害");
 
             if (attackerBuffContainer != null)
             {
@@ -135,8 +139,11 @@ namespace GenBall.BattleSystem
             ReferencePool.Release(ImpactForce);
             ImpactForce = null;
             Direction = Vector3.zero;
-            AddBuffs.Clear();
-            AddBuffs = null;
+            if (AddBuffs != null)
+            {
+                AddBuffs.Clear();
+                AddBuffs = null;
+            }
         }
     }
     public class DamageValue:IReference

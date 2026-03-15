@@ -11,9 +11,14 @@ namespace GenBall.BattleSystem.Weapons
 {
     public class WeaponState : MonoBehaviour,IBuffContainer,IEntity
     {
-        private CharacterState _player;
+        public CharacterState Player { get;private set; }
         private IWeaponTriggerController _trigger;
 
+        public void Init(CharacterState player)
+        {
+            Player = player;
+            _trigger.Init(this);
+        }
         public void Trigger(ButtonState buttonState)
         {
             _trigger?.Trigger(buttonState);

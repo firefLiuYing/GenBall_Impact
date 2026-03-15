@@ -17,6 +17,7 @@ namespace GenBall.Player.Controller
             _currentWeapon= WeaponId.Pistol.Create();
             _currentWeapon.transform.SetParent(weaponSpawnPoint,false);
             _currentWeapon.gameObject.SetActive(true);
+            _currentWeapon.Init(_player);
         }
 
         public void OnFireInputChange(InputAction.CallbackContext context)

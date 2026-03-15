@@ -143,6 +143,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelTransform: {fileID: 4736285342208876829}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1281
 --- !u!114 &4261197714412234263
 MonoBehaviour:
   m_ObjectHideFlags: 0

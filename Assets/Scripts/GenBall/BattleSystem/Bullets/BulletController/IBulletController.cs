@@ -1,6 +1,6 @@
-namespace GenBall.BattleSystem.Bullets.BulletMover
+namespace GenBall.BattleSystem.Bullets.BulletController
 {
-    public interface IBulletMover
+    public interface IBulletController
     {
         public void Init(BulletState bulletState);
         public void Fire();

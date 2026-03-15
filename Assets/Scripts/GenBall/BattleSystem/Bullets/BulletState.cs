@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Buff;
-using GenBall.BattleSystem.Bullets.BulletMover;
+using GenBall.BattleSystem.Bullets.BulletController;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace GenBall.BattleSystem.Bullets
         public Vector3 LogicSpawnPoint{get;private set;}
         public Vector3 RendererSpawnPoint{get;private set;}
         public Vector3 SpawnDirection{get;private set;}
-        private IBulletMover _mover;
+        private IBulletController _controller;
         public void Init(BulletLaunchInfo info)
         {
             Model = info.Model;
@@ -23,17 +23,17 @@ namespace GenBall.BattleSystem.Bullets
             LogicSpawnPoint = info.LogicSpawnPoint;
             RendererSpawnPoint = info.RendererSpawnPoint;
             SpawnDirection = info.SpawnDirection;
-            _mover.Init(this);
+            _controller.Init(this);
         }
 
         public void Fire()
         {
-            _mover.Fire();
+            _controller.Fire();
         }
 
         private void Awake()
         {
-            _mover = GetComponent<IBulletMover>();
+            _controller = GetComponent<IBulletController>();
         }
 
         #region Buff
@@ -54,7 +54,7 @@ namespace GenBall.BattleSystem.Bullets
 
         public void EntityFixedUpdate(float fixedDeltaTime)
         {
-            _mover.Tick(fixedDeltaTime);
+            _controller.Tick(fixedDeltaTime);
         }
 
         public void OnRecycle()

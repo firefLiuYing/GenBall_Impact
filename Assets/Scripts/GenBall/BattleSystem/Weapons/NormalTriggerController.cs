@@ -9,6 +9,12 @@ namespace GenBall.BattleSystem.Weapons
     {
         [SerializeField] private Transform bulletSpawnPoint;
         [SerializeField] private FireMode fireMode=FireMode.Automatic;
+        private WeaponState _weapon;
+
+        public void Init(WeaponState weapon)
+        {
+            _weapon = weapon;
+        }
         public void Trigger(ButtonState buttonState)
         {
             if (buttonState == ButtonState.Down)
@@ -21,7 +27,7 @@ namespace GenBall.BattleSystem.Weapons
                     Camera.main.transform.position,
                     bulletSpawnPoint.position,
                     Camera.main.transform.forward,
-                    gameObject));
+                    _weapon.gameObject));
             }
         }
         [Flags]

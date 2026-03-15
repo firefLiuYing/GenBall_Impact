@@ -1,15 +1,17 @@
-using System;
+using System.Collections.Generic;
 using GenBall.BattleSystem.Mover;
+using GenBall.BattleSystem.Weapons;
 using GenBall.Procedure.Game;
 using UnityEngine;
 
-namespace GenBall.BattleSystem.Bullets.BulletMover
+namespace GenBall.BattleSystem.Bullets.BulletController
 {
-    public class RayBulletMover : MonoBehaviour, IBulletMover
+    public class RayBulletController : MonoBehaviour, IBulletController
     {
         private BulletState _bullet;
         private TransformMover _logicMover;
         [SerializeField] private Transform modelTransform;
+        [SerializeField] private LayerMask targetLayer;
         public void Init(BulletState bulletState)
         {
             _bullet = bulletState;
@@ -27,8 +29,22 @@ namespace GenBall.BattleSystem.Bullets.BulletMover
 
         public void Tick(float deltaTime)
         {
+            if (_flyTime > 2f)
+            {
+                GameEntry.Bullet.RecycleBullet(_bullet);
+            }
             _logicMover.SetVelocity(_bullet.Model.Speed*_bullet.SpawnDirection);
             _logicMover.Tick(deltaTime);
+            var ray=new Ray(transform.position,_bullet.SpawnDirection);
+            Physics.Raycast(ray,out var hitInfo,_bullet.Model.Speed*deltaTime,targetLayer);
+            if (hitInfo.collider == null) return;
+            _flying = false;
+            DamageSystem.Instance.ApplyDamage(DamageInfo.Create(hitInfo.collider.gameObject,_bullet.Model.Damage,new List<string>()
+            {
+                "Bullet"
+            },_bullet.SpawnDirection,0,_bullet.Source.GetComponent<WeaponState>().Player.gameObject));
+            
+            GameEntry.Bullet.RecycleBullet(_bullet);
         }
 
         #region ‰÷»æ≤„
