@@ -30,6 +30,8 @@ namespace GenBall
             RegisterUIs();
             
             EnemyRegister.Register();
+            BulletRegister.Register();
+            WeaponRegister.Register();
         }
         private void RegisterModules()
         {
@@ -45,6 +47,7 @@ namespace GenBall
             _entry.Register(new EntityCreator<IMapBlock>());
             _entry.Register(new EntityCreator<CharacterState>());
             _entry.Register(new EntityCreator<BulletState>());
+            _entry.Register(new EntityCreator<WeaponState>());
         }
 
         public static EventManager Event => GetModule<EventManager>();
@@ -58,5 +61,6 @@ namespace GenBall
         public static BuffSystem Buff => GetModule<BuffSystem>();
         public static EntityCreator<CharacterState> CharacterCreator => GetModule<EntityCreator<CharacterState>>();
         public static TimelineSystem Timeline => GetModule<TimelineSystem>();
+        public static BulletSystem Bullet => GetModule<BulletSystem>();
     }
 }

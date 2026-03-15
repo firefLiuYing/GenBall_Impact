@@ -28,6 +28,7 @@ namespace GenBall.BattleSystem.Bullets.BulletMover
         public void Tick(float deltaTime)
         {
             _logicMover.SetVelocity(_bullet.Model.Speed*_bullet.SpawnDirection);
+            _logicMover.Tick(deltaTime);
         }
 
         #region ‰÷»æ≤„
