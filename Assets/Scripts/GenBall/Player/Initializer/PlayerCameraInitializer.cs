@@ -17,6 +17,11 @@ namespace GenBall.Player.Initializer
             camTrans.SetParent(mainCameraTransform,false);
             camTrans.localPosition = Vector3.zero;
             camTrans.localRotation = Quaternion.identity;
+            var mainCamera=camTrans.gameObject.GetComponent<Camera>();
+            if (mainCamera != null)
+            {
+                mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("FirstPersonWeapon"));
+            }
         }
         public override void Initialize(CharacterState characterState)
         {

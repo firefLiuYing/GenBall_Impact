@@ -30,11 +30,13 @@ namespace GenBall.BattleSystem.Command
     [StructLayout(LayoutKind.Auto)]
     public struct RotateCommand : ICommand
     {
-        public Quaternion Rotation;
+        public float HorizontalAngle;
+        public float VerticalAngle;
 
-        public RotateCommand(Quaternion rotation)
+        public RotateCommand(float horizontalAngle, float verticalAngle)
         {
-            Rotation = rotation;
+            HorizontalAngle = horizontalAngle;
+            VerticalAngle = verticalAngle;
         }
     }
     
