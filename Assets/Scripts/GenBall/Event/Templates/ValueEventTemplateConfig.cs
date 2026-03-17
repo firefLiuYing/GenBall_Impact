@@ -36,7 +36,7 @@ namespace GenBall.Event.Templates
             
             
             new ValueEventDefinition("UnlockLevel",typeof(int),"武器阶段可提升至新阶段","Weapon"),
-            new ValueEventDefinition("MagazineInfoChange",typeof(MagazineComponent.MagazineInfo),"弹匣子弹变化","Weapon"),
+            new ValueEventDefinition("MagazineInfoChange",typeof(MagazineInfo),"弹匣子弹变化","Weapon"),
             new ValueEventDefinition("Level",typeof(int),"武器阶段变化","Weapon"),
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"敌人死亡","Enemy"),

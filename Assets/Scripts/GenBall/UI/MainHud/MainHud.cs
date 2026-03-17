@@ -66,7 +66,7 @@ namespace GenBall.UI
             _autoTxtLevel.text=$"Level: {level}";
         }
 
-        private void OnMagazineInfoChange(MagazineComponent.MagazineInfo magazineInfo)
+        private void OnMagazineInfoChange(MagazineInfo magazineInfo)
         {
             _autoTxtMagazine.text=$"{magazineInfo.AmmunitionCount}/{magazineInfo.Capacity}";
         }

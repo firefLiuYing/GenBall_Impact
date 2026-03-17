@@ -32,6 +32,19 @@ namespace GenBall.Player.Controller
             };
             _currentWeapon?.Trigger(buttonState);
         }
+
+        public void OnReloadInputChange(InputAction.CallbackContext context)
+        {
+            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            var buttonState = context.phase switch
+            {
+                InputActionPhase.Started=>ButtonState.Down,
+                InputActionPhase.Canceled=>ButtonState.Up,
+                InputActionPhase.Performed=>ButtonState.Hold,
+                _=>ButtonState.None
+            };
+            _currentWeapon?.Reload(buttonState);
+        }
         public override void Tick(float deltaTime)
         {
             

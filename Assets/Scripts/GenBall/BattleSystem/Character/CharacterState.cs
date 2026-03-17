@@ -47,6 +47,7 @@ namespace GenBall.BattleSystem.Character
         public bool CanMove { get; set; }
         public bool CanRotate { get; set; }
         public bool CanJump { get; set; }
+        public bool CanAttack{get;set;}
         public void HandleCommand(ICommand command)
         {
             if(IsPause) return;

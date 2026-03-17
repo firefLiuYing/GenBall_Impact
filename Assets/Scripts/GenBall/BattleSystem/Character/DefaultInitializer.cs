@@ -13,6 +13,7 @@ namespace GenBall.BattleSystem.Character
         {
             characterState.CanMove = true;
             characterState.CanRotate = true;
+            characterState.CanAttack=true;
             characterState.gameObject.SetActive(true);
         }
     }

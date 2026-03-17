@@ -4,6 +4,7 @@ using System.Linq;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Character;
 using GenBall.Player;
+using GenBall.Procedure.Game;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
@@ -13,19 +14,27 @@ namespace GenBall.BattleSystem.Weapons
     {
         public CharacterState Player { get;private set; }
         private IWeaponTriggerController _trigger;
+        private IWeaponReloadController _reload;
 
         public void Init(CharacterState player)
         {
             Player = player;
             _trigger.Init(this);
+            _reload.Init(this);
         }
         public void Trigger(ButtonState buttonState)
         {
             _trigger?.Trigger(buttonState);
         }
+
+        public void Reload(ButtonState buttonState)
+        {
+            _reload?.Reload(buttonState);
+        }
         private void Awake()
         {
             _trigger = GetComponent<IWeaponTriggerController>();
+            _reload = GetComponent<IWeaponReloadController>();
         }
 
         #region Buffs

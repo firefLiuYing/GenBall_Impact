@@ -1,5 +1,9 @@
+using System;
+using System.Runtime.InteropServices;
+
 namespace GenBall.BattleSystem.Bullets
 {
+    [Serializable,StructLayout(LayoutKind.Auto)]
     public struct BulletModel
     {
         public BulletId Id;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1718602155986816865}
   - component: {fileID: 4313465411382136887}
   - component: {fileID: 5098732223520334287}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 9138532472138585744}
   - component: {fileID: 5975639427053148129}
   - component: {fileID: 4261197714412234263}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RayBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4736285342208876829}
   - component: {fileID: 2765341510814057757}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

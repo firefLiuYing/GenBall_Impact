@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 3824715310057165400}
   - component: {fileID: 983902276728304234}
   - component: {fileID: 204134031905769558}
+  - component: {fileID: 4152157325315494885}
   m_Layer: 6
   m_Name: Pistol
   m_TagString: Untagged
@@ -369,4 +370,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawnPoint: {fileID: 5601568748458976589}
-  fireMode: 1
+  fireMode: 6
+  bulletModel:
+    Id: 0
+    Radius: 0
+    HitTimes: 1
+    SameTargetDelay: 0
+    HitFoe: 1
+    HitAlly: 0
+    Speed: 100
+    Damage: 5
+  baseFireInterval: 0.1
+--- !u!114 &4152157325315494885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9181005814546841188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599e0e581b6c81c458e24a7e77a4ebab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseCapacity: 30

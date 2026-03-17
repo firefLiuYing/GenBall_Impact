@@ -16,7 +16,7 @@ namespace GenBall.UI
         public readonly Variable<int> KillPoints;
         public readonly Variable<int> Level;
         public readonly Variable<int> MaxHealth;
-        public readonly Variable<MagazineComponent.MagazineInfo> MagazineInfo;
+        public readonly Variable<MagazineInfo> MagazineInfo;
         public MainHudVm()
         {
             Health = Variable<int>.Create();
@@ -24,7 +24,7 @@ namespace GenBall.UI
             Armor = Variable<int>.Create();
             Level = Variable<int>.Create();
             MaxHealth = Variable<int>.Create();
-            MagazineInfo = Variable<MagazineComponent.MagazineInfo>.Create();
+            MagazineInfo = Variable<MagazineInfo>.Create();
             AddDispose(Health);
             AddDispose(Armor);
             AddDispose(KillPoints);

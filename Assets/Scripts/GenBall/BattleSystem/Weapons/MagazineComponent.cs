@@ -57,7 +57,7 @@ namespace GenBall.BattleSystem.Weapons
 
         private void FireMagazineInfoChange()
         {
-            GameEntry.Event.FireNowWeaponMagazineInfoChange(new  MagazineInfo { AmmunitionCount = AmmunitionCount , Capacity = Capacity.CurrentValue });
+            // GameEntry.Event.FireNowWeaponMagazineInfoChange(new  MagazineInfo { AmmunitionCount = AmmunitionCount , Capacity = Capacity.CurrentValue });
         }
         public struct MagazineInfo
         {

@@ -353,7 +353,19 @@ MonoBehaviour:
     m_ActionId: 92191dec-bbe9-4e59-91c5-06873c842feb
     m_ActionName: Player/Upgrade[/Keyboard/q]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3522764683433457109}
+        m_TargetAssemblyTypeName: GenBall.Player.Controller.WeaponController, Assembly-CSharp
+        m_MethodName: OnReloadInputChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4d706dc1-8998-4e99-a0a8-0b2a40b9e841
     m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
@@ -557,10 +569,10 @@ GameObject:
   - component: {fileID: 4680791089736567285}
   - component: {fileID: 510875234863370023}
   - component: {fileID: 2327297631560162312}
-  - component: {fileID: 276996867367446232}
   - component: {fileID: 4045522508717659216}
   - component: {fileID: 2339697708242691810}
   - component: {fileID: 2970161109041850567}
+  - component: {fileID: 5724760346998435340}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -629,18 +641,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterStatsModel:
     baseHealth: 6
---- !u!114 &276996867367446232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7097962330675605279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c82725f8cb1ac349adc1bb3be858fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4045522508717659216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,6 +681,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 10000
+--- !u!114 &5724760346998435340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7097962330675605279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4298164d90fc09443957b9f1a89ce4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 9175025401701857626}
 --- !u!1 &8681231637059757601
 GameObject:
   m_ObjectHideFlags: 0

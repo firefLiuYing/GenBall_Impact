@@ -43,16 +43,16 @@ namespace GenBall.Player.Controller
 
         private void OnViewInputChange(Vector2 input)
         {
-            var rotationEulerAngles = _player.transform.rotation.eulerAngles;
-            // unity 沟槽欧拉角小巧思处理
-            if (rotationEulerAngles.x is > 180 and < 360)
-            {
-                rotationEulerAngles.x -= 360;
-            }
-            rotationEulerAngles.y += input.x * _config.horizontalSensitivity;
-            rotationEulerAngles.x += -input.y * _config.verticalSensitivity;
-            rotationEulerAngles.x=Mathf.Clamp(rotationEulerAngles.x, -80, 80f);
-            _player.HandleCommand(new RotateCommand(Quaternion.Euler(rotationEulerAngles)));
+            // var rotationEulerAngles = _player.transform.rotation.eulerAngles;
+            // // unity 沟槽欧拉角小巧思处理
+            // if (rotationEulerAngles.x is > 180 and < 360)
+            // {
+            //     rotationEulerAngles.x -= 360;
+            // }
+            // rotationEulerAngles.y += input.x * _config.horizontalSensitivity;
+            // rotationEulerAngles.x += -input.y * _config.verticalSensitivity;
+            // rotationEulerAngles.x=Mathf.Clamp(rotationEulerAngles.x, -80, 80f);
+            _player.HandleCommand(new RotateCommand(input.x*_config.horizontalSensitivity, -input.y*_config.verticalSensitivity));
         }
 
     }
