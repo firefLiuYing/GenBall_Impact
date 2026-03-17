@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed63f561c52680b408dae8d4bf679f19, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 6
   verticalSensitivity: 0.1
   horizontalSensitivity: 0.1
-  shortPressJumpHeight: 1
+  shortPressJumpHeight: 2
   longPressJumpMaxHeight: 3
-  longPressMaxTime: 0.8
-  shortPressJustifyTime: 0.02
-  gravityAcceleration: 20
-  maxDropVelocity: 8
+  longPressMaxTime: 0.6
+  shortPressJustifyTime: 0.01
+  gravityAcceleration: 35
+  maxDropVelocity: 15
   coyoteTime: 0.01
   jumpInputBufferTime: 0.01
   invincibleTime: 0.2
-  endingTime: 0.1
-  dashSpeed: 20
+  endingTime: 0.2
+  dashSpeed: 25
   dashCountdownTime: 4
