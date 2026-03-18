@@ -56,6 +56,19 @@ namespace GenBall.BattleSystem.Buff
         /// </summary>
         /// <param name="addBuffInfo"></param>
         public virtual void OnStack(AddBuffInfo addBuffInfo){}
+
+        /// <summary>
+        /// 外部减少层数，不走统一流程，默认实现为减少Stack计数，如果减到0一以下就自动移除，如果需要重写请务必考虑减到0以下的情况
+        /// </summary>
+        /// <param name="unStackCount"></param>
+        public virtual void OnUnstack(int unStackCount)
+        {
+            Stacks-=unStackCount;
+            if (Stacks <= 0)
+            {
+                GameEntry.Buff.RemoveBuff(this);
+            }
+        }
         /// <summary>
         /// 当前Buff被移除时触发
         /// </summary>

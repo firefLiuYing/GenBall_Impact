@@ -18,19 +18,19 @@ namespace GenBall.BattleSystem.Buff
         /// info已经在流程中自动释放，无需再手动释放
         /// </summary>
         /// <param name="info"></param>
-        public void AddBuff([NotNull] AddBuffInfo info)
+        public BuffObj AddBuff([NotNull] AddBuffInfo info)
         {
             if (info.Model == null)
             {
                 Debug.LogError("gzp BuffModel不能为null");
                 ReferencePool.Release(info);
-                return;
+                return null;
             }
             if (info.Carrier == null)
             {
                 Debug.LogError("gzp Buff添加目标不能为null");
                 ReferencePool.Release(info);
-                return;
+                return null;
             }
 
             var buffContainer = info.Carrier.GetComponent<IBuffContainer>();
@@ -46,10 +46,8 @@ namespace GenBall.BattleSystem.Buff
                 beforeStackBuffs.Clear();
                 
                 // 实际进行叠层
-                foreach (var sameIdBuff in sameIdBuffs)
-                {
-                    sameIdBuff.OnStack(info);
-                }
+                var sameIdBuff = sameIdBuffs.First();
+                sameIdBuff?.OnStack(info);
 
                 var afterStackBuffs = buffContainer.GetBuffs<ITriggerAfterStackBuff>();
                 foreach (var afterStackBuff in afterStackBuffs)
@@ -58,7 +56,7 @@ namespace GenBall.BattleSystem.Buff
                 }
                 afterStackBuffs.Clear();
                 ReferencePool.Release(info);
-                return;
+                return sameIdBuff;
             }
             // 可同时存在多个，或者还未存在同名Buff，走添加流程
             // 触发添加前回调点
@@ -81,6 +79,8 @@ namespace GenBall.BattleSystem.Buff
             }
             afterAddBuffs.Clear();
             ReferencePool.Release(info);
+            
+            return buffObj;
         }
 
         /// <summary>
