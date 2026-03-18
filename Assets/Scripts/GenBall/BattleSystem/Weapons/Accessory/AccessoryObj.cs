@@ -1,0 +1,36 @@
+using System.Collections.Generic;
+using GenBall.BattleSystem.Buff;
+using Yueyn.Base.ReferencePool;
+
+namespace GenBall.BattleSystem.Weapons.Accessory
+{
+    public class AccessoryObj : IReference
+    {
+        public AccessoryModel Model { get;private set; }
+
+        private readonly Dictionary<BuffObj, AccessoryAddBuffInfo> _addBuffs = new();
+        public void OnAdd(WeaponState weapon)
+        {
+            if (Model.addBuffs == null) return;
+            foreach (var addBuff in Model.addBuffs)
+            {
+                var buffObj = GameEntry.Buff.AddBuff(AddBuffInfo.Create(addBuff.buffId, weapon.gameObject, addBuff.stackCount));
+                if(buffObj==null) return;
+                _addBuffs.Add(buffObj, addBuff);
+            }
+        }
+
+        public void OnRemove()
+        {
+            foreach (var buffObj in _addBuffs.Keys)
+            {
+                buffObj.OnUnstack(_addBuffs[buffObj].stackCount);
+            }
+            _addBuffs.Clear();
+        }
+        public void Clear()
+        {
+            _addBuffs.Clear();
+        }
+    }
+}
