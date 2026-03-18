@@ -62,5 +62,6 @@ namespace GenBall
         public static EntityCreator<CharacterState> CharacterCreator => GetModule<EntityCreator<CharacterState>>();
         public static TimelineSystem Timeline => GetModule<TimelineSystem>();
         public static BulletSystem Bullet => GetModule<BulletSystem>();
+        public static EvolutionSystem Evolution => GetModule<EvolutionSystem>();
     }
 }

@@ -21,8 +21,10 @@ namespace GenBall.BattleSystem.Character
         private void GroundDetection()
         {
             var origin = transform.position + _collider.center;
-            var hit=Physics.Raycast(origin,Vector3.down,_collider.height/2+0.01f,groundDetectLayerMask);
-            IsOnGround = hit;
+            var sphereCenter=origin+transform.up*(-_collider.height * 0.5f+_collider.radius);
+            var sphereHit = Physics.OverlapSphere(sphereCenter, _collider.radius+0.01f, groundDetectLayerMask);
+            var hit=Physics.Raycast(origin,-transform.up,_collider.height/2+0.414f*_collider.radius,groundDetectLayerMask);
+            IsOnGround = hit&&sphereHit.Length>0;
         }
     }
 }
