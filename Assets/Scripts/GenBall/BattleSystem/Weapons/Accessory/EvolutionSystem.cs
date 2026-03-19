@@ -44,7 +44,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
 
         public EquipInfo GetEquipInfo(int level)
         {
-            if(level<1||level>=_config.loadOfLevel.Count) return null;
+            if(level<1||level>_config.loadOfLevel.Count) return null;
             return _equipInfos[level-1];
         }
         public void Init()
