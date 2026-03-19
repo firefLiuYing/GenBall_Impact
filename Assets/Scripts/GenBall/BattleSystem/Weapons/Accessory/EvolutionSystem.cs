@@ -8,12 +8,12 @@ namespace GenBall.BattleSystem.Weapons.Accessory
     public class EvolutionSystem:MonoBehaviour,IComponent
     {
         public int Priority => 1000;
-        public int MaxEvolutionLevel { get;private set; }
+        public int MaxEvolutionLevel { get; private set; } = 4;
 
         public int CurrentEvolutionLevel
         {
             get=>_currentEvolutionLevel;
-            private set
+            set
             {
                 _currentEvolutionLevel = value;
                 GameEntry.Event.FireWeaponLevel(_currentEvolutionLevel);
@@ -35,18 +35,20 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             get
             {
                 if(CurrentEvolutionLevel+1>MaxEvolutionLevel) return false;
-                if(CurrentEvolutionLevel+2>_config.loadOfLevel.Count) return false;
-                return KillPoints >= _config.loadOfLevel[CurrentEvolutionLevel+1];
+                if(CurrentEvolutionLevel+2>_config.stageConfigs.Count) return false;
+                return KillPoints >= _config.stageConfigs[CurrentEvolutionLevel+1].needKillPoints;
             }
         }
         private EvolutionConfig _config;
         private readonly List<EquipInfo>  _equipInfos=new();
 
+        private readonly EquipInfo _defaultEquipInfo=new EquipInfo{WeaponId = WeaponId.Pistol};
         public EquipInfo GetEquipInfo(int level)
         {
-            if(level<1||level>_config.loadOfLevel.Count) return null;
+            if(level<1||level>_equipInfos.Count) return _defaultEquipInfo;
             return _equipInfos[level-1];
         }
+        
         public void Init()
         {
             _config = EvolutionConfigProvider.GetOrCreateConfig();

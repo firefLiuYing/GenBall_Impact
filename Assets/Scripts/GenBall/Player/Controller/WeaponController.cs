@@ -17,10 +17,7 @@ namespace GenBall.Player.Controller
         public override void Initialize(CharacterState characterState)
         {
             _player = characterState;
-            Equip(new EquipInfo
-            {
-                WeaponId = WeaponId.Pistol,
-            });
+            Equip(1);
         }
 
         public void OnFireInputChange(InputAction.CallbackContext context)
@@ -54,11 +51,16 @@ namespace GenBall.Player.Controller
             if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
             if(context.phase!=InputActionPhase.Started) return;
             if(!GameEntry.Evolution.CanEvolve) return;
-            var equipInfo = GameEntry.Evolution.GetEquipInfo(GameEntry.Evolution.CurrentEvolutionLevel + 1);
-            if(equipInfo==null) return;
-            Equip(equipInfo);
+            Equip(GameEntry.Evolution.CurrentEvolutionLevel+1);
         }
 
+        private void Equip(int level)
+        {
+            var equipInfo = GameEntry.Evolution.GetEquipInfo(level);
+            if(equipInfo==null) return;
+            GameEntry.Evolution.CurrentEvolutionLevel = level;
+            Equip(equipInfo);
+        }
         private void Equip(EquipInfo info)
         {
             if (_currentWeapon != null)

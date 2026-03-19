@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,7 +8,14 @@ namespace GenBall.BattleSystem.Weapons.Accessory
 {
     public class EvolutionConfig:ScriptableObject
     {
-        public List<int> loadOfLevel=new();
+        public List<EvolutionStageConfig> stageConfigs=new();
+    }
+
+    [Serializable,StructLayout(LayoutKind.Auto)]
+    public struct EvolutionStageConfig
+    {
+        public int maxLoad;
+        public int needKillPoints;
     }
     public static class EvolutionConfigProvider
     {
