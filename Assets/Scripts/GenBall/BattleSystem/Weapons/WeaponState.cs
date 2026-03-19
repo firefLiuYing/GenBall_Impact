@@ -16,9 +16,10 @@ namespace GenBall.BattleSystem.Weapons
         public CharacterState Player { get;private set; }
         private IWeaponTriggerController _trigger;
         private IWeaponReloadController _reload;
-
+        
         private readonly List<AccessoryObj> _accessoryObjs = new();
-
+        [SerializeField] private WeaponModel model;
+        public WeaponStats Stats { get;private set; }
         public void AddAccessory(AccessoryObj accessoryObj)
         {
             _accessoryObjs.Add(accessoryObj);
@@ -41,6 +42,12 @@ namespace GenBall.BattleSystem.Weapons
         public void Init(CharacterState player)
         {
             Player = player;
+            Stats = new WeaponStats
+            {
+                Damage = DamageValue.Create(model.damage),
+                FireInterval = FloatStat.Create(model.fireInterval),
+                ReloadTime = FloatStat.Create(model.reloadTime),
+            };
             _trigger.Init(this);
             _reload.Init(this);
         }
@@ -88,5 +95,13 @@ namespace GenBall.BattleSystem.Weapons
         {
             
         }
+    }
+
+    [Serializable]
+    public struct WeaponModel
+    {
+        public int damage;
+        public float fireInterval;
+        public float reloadTime;
     }
 }

@@ -12,11 +12,10 @@ namespace GenBall.BattleSystem.Weapons
         [SerializeField] private Transform bulletSpawnPoint;
         [SerializeField] private FireMode fireMode=FireMode.Automatic;
         [SerializeField] private BulletModel bulletModel;
-        [SerializeField] private float baseFireInterval;
         
         private WeaponState _weapon;
         private NormalReloadController _reload;
-        public float FireInterval=>baseFireInterval;
+        private float FireInterval=>_weapon.Stats.FireInterval.CurrentValue;
         public void Init(WeaponState weapon)
         {
             _weapon = weapon;
@@ -66,6 +65,7 @@ namespace GenBall.BattleSystem.Weapons
         private void HandleFireBullet()
         {
             _reload.CostBullet(1);
+            bulletModel.Damage=_weapon.Stats.Damage.GetValue();
             GameEntry.Bullet.FireBullet(BulletLaunchInfo.Create(
                 bulletModel,
                 Camera.main.transform.position,

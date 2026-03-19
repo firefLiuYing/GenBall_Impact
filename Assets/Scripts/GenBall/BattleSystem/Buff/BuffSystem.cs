@@ -10,7 +10,7 @@ namespace GenBall.BattleSystem.Buff
 {
     public class BuffSystem:MonoBehaviour,IComponent
     {
-        private readonly SortedSet<BuffObj> _activeBuffs = new();
+        private readonly SortedSet<BuffObj> _activeBuffs = new(new DefaultComparerBuff());
         private readonly List<BuffObj> _cachedBuffs = new();
         
         /// <summary>

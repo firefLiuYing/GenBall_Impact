@@ -40,7 +40,17 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             }
         }
         private EvolutionConfig _config;
-        private readonly List<EquipInfo>  _equipInfos=new();
+        private readonly List<EquipInfo>  _equipInfos=new()
+        {
+            new EquipInfo()
+            {
+                WeaponId = WeaponId.Pistol,
+                Accessories = new List<AccessoryId>()
+                {
+                    AccessoryId.BulletDamageUp,
+                }
+            }
+        };
 
         private readonly EquipInfo _defaultEquipInfo=new EquipInfo{WeaponId = WeaponId.Pistol};
         public EquipInfo GetEquipInfo(int level)

@@ -22,3 +22,12 @@ MonoBehaviour:
     - Armor
     parameters: []
     maxStack: 1
+  - buffId: 2
+    displayName: "\u5B50\u5F39\u4F24\u5BB3\u63D0\u5347"
+    canMultiExist: 0
+    priority: 0
+    tags:
+    - Player
+    - Armor
+    parameters: []
+    maxStack: 1

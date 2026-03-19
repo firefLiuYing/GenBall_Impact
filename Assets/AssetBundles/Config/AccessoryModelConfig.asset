@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e6ba583de57f345b8956d53674d237, type: 3}
   m_Name: AccessoryModelConfig
   m_EditorClassIdentifier: 
-  models: []
+  models:
+  - Id: 0
+    displayName: "\u5B50\u5F39\u4F24\u5BB3\u63D0\u9AD825%"
+    loadCost: 3
+    addBuffs:
+    - buffId: 2
+      stackCount: 1
