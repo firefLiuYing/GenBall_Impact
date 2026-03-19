@@ -53,7 +53,10 @@ namespace GenBall.Player.Controller
         {
             if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
             if(context.phase!=InputActionPhase.Started) return;
-            
+            if(!GameEntry.Evolution.CanEvolve) return;
+            var equipInfo = GameEntry.Evolution.GetEquipInfo(GameEntry.Evolution.CurrentEvolutionLevel + 1);
+            if(equipInfo==null) return;
+            Equip(equipInfo);
         }
 
         private void Equip(EquipInfo info)
