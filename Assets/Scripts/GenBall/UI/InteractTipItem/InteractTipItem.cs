@@ -36,6 +36,7 @@ namespace GenBall.UI
         {
             if(_args == null) return;
             _autoTxtDiscription.text = _args.OperationDescription;
+            _autoTxtDiscription.fontStyle=InteractSystem.Instance.CurrentSelectionIndex.Value==_index?FontStyle.Bold:FontStyle.Normal;
         }
 
         private void RegisterEvents()

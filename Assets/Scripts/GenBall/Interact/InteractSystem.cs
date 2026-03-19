@@ -48,6 +48,7 @@ namespace GenBall.Interact
         }
         public void AddInteractable(IInteractable interactable)
         {
+            if(_interactables.Contains(interactable))  return;
             _interactables.Add(interactable);
             Interactables.PostValue();
             if (_interactables.Count == 1)
@@ -58,8 +59,13 @@ namespace GenBall.Interact
 
         public void RemoveInteractable(IInteractable interactable)
         {
+            if(!_interactables.Contains(interactable)) return;
             _interactables.Remove(interactable);
             Interactables.PostValue();
+            if (_interactables.Count >= CurrentSelectionIndex.Value)
+            {
+                CurrentSelectionIndex.PostValue(0);
+            }
         }
     }
     

@@ -556,6 +556,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 100
+  sightDetectRadius: 2
+  sightDetectDistance: 2
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!114 &3522764683433457109
 MonoBehaviour:
   m_ObjectHideFlags: 0
