@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Character;
+using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Player;
 using GenBall.Procedure.Game;
 using GenBall.Utils.EntityCreator;
@@ -16,6 +17,27 @@ namespace GenBall.BattleSystem.Weapons
         private IWeaponTriggerController _trigger;
         private IWeaponReloadController _reload;
 
+        private readonly List<AccessoryObj> _accessoryObjs = new();
+
+        public void AddAccessory(AccessoryObj accessoryObj)
+        {
+            _accessoryObjs.Add(accessoryObj);
+            accessoryObj.OnAdd(this);
+        }
+
+        private void RemoveAllAccessories()
+        {
+            foreach (var accessoryObj in _accessoryObjs)
+            {
+                accessoryObj.OnRemove();
+            }
+            _accessoryObjs.Clear();
+        }
+
+        public void OnUnequip()
+        {
+            RemoveAllAccessories();    
+        }
         public void Init(CharacterState player)
         {
             Player = player;

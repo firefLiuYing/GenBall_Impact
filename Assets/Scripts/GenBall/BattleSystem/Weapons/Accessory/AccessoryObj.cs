@@ -28,6 +28,13 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             }
             _addBuffs.Clear();
         }
+
+        public static AccessoryObj Create(AccessoryModel model)
+        {
+            var obj=ReferencePool.Acquire<AccessoryObj>();
+            obj.Model=model;
+            return obj;
+        }
         public void Clear()
         {
             _addBuffs.Clear();

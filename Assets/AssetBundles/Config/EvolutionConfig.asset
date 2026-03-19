@@ -9,16 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e73d93e52bf84e4499b7ab294853554c, type: 3}
-  m_Name: BuffModelConfig
+  m_Script: {fileID: 11500000, guid: 1d47578c22400e44c9bc806721064ac5, type: 3}
+  m_Name: EvolutionConfig
   m_EditorClassIdentifier: 
-  buffModels:
-  - buffId: 1
-    displayName: "\u62A4\u7532"
-    canMultiExist: 0
-    priority: 0
-    tags:
-    - Player
-    - Armor
-    parameters: []
-    maxStack: 1
+  loadOfLevel: 070000000f0000001900000028000000

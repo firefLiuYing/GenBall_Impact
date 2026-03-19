@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Timeline;
 using GenBall.BattleSystem.Weapons;
+using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Enemy;
 using GenBall.Map;
 using GenBall.UI;

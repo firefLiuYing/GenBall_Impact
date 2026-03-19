@@ -9,6 +9,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
     [StructLayout(LayoutKind.Auto)]
     public struct AccessoryModel
     {
+        public AccessoryId Id;
         /// <summary>
         /// 游戏内用于展示的配件名称
         /// </summary>
