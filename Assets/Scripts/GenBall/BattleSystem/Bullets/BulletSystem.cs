@@ -12,10 +12,10 @@ namespace GenBall.BattleSystem.Bullets
     public class BulletSystem:MonoBehaviour,IComponent
     {
         public int Priority => 1000;
-        // ÐèÒª¸ÉµÄÊÂÇéÓÐ£¬Éú³É×Óµ¯£¬Ïú»Ù×Óµ¯£¬¹ÜÀí×Óµ¯ÉúÃüÖÜÆÚ
+        // ï¿½ï¿½Òªï¿½Éµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         
         /// <summary>
-        /// ·¢Éä×Óµ¯Í³Ò»·½·¨
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½Í³Ò»ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="info"></param>
         public void FireBullet([NotNull] BulletLaunchInfo info)
@@ -25,40 +25,40 @@ namespace GenBall.BattleSystem.Bullets
             var sourceBuffContainer = info.Source?.GetComponent<IBuffContainer>();
             if (sourceBuffContainer != null)
             {
-                var beforeFireBuffs = sourceBuffContainer.GetBuffs<ITriggerBeforeFireBullet>();
+                sourceBuffContainer.GetBuffs<ITriggerBeforeFireBullet>(out var beforeFireBuffs);
                 foreach (var beforeFireBuff in beforeFireBuffs)
                 {
                     beforeFireBuff.TriggerBeforeFireBullet(info);
                 }
-                beforeFireBuffs.Clear();
+                beforeFireBuffs.ReleaseBuffList();
             }
 
-            var beforeBulletBeFiredBuffs = bulletState.GetBuffs<ITriggerBeforeBulletBeFired>();
+            bulletState.GetBuffs<ITriggerBeforeBulletBeFired>(out var beforeBulletBeFiredBuffs);
             foreach (var beforeBulletBeFiredBuff in beforeBulletBeFiredBuffs)
             {
                 beforeBulletBeFiredBuff.TriggerBeforeBulletBeFired(info);
             }
-            beforeBulletBeFiredBuffs.Clear();
-            // Êµ¼Ê·¢Éä
+            beforeBulletBeFiredBuffs.ReleaseBuffList();
+            // Êµï¿½Ê·ï¿½ï¿½ï¿½
             bulletState.Fire();
             if (sourceBuffContainer != null)
             {
-                var afterFireBulletBuffs = sourceBuffContainer.GetBuffs<ITriggerAfterFireBullet>();
+                sourceBuffContainer.GetBuffs<ITriggerAfterFireBullet>(out var afterFireBulletBuffs);
                 foreach (var afterFireBulletBuff in afterFireBulletBuffs)
                 {
                     afterFireBulletBuff.TriggerAfterFireBullet(info);
                 }
-                afterFireBulletBuffs.Clear();
+                afterFireBulletBuffs.ReleaseBuffList();
             }
 
-            var afterBulletBeFiredBuffs = bulletState.GetBuffs<ITriggerAfterBulletBeFired>();
+            bulletState.GetBuffs<ITriggerAfterBulletBeFired>(out var afterBulletBeFiredBuffs);
             foreach (var afterBulletBeFiredBuff in afterBulletBeFiredBuffs)
             {
                 afterBulletBeFiredBuff.TriggerAfterBulletBeFired(info);
             }
-            afterBulletBeFiredBuffs.Clear();
+            afterBulletBeFiredBuffs.ReleaseBuffList();
             
-            // »ØÊÕ´´½¨ÐÅÏ¢
+            // ï¿½ï¿½ï¿½Õ´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             ReferencePool.Release(info);
         }
 
@@ -95,7 +95,7 @@ namespace GenBall.BattleSystem.Bullets
     public class BulletLaunchInfo:IReference
     {
         /// <summary>
-        /// ·¢Éä×Óµ¯µÄÎïÌå£¬¿ÉÒÔÎª¿Õ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å£¬ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
         /// </summary>
         public GameObject Source;
 
