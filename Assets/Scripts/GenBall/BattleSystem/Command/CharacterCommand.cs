@@ -9,14 +9,14 @@ namespace GenBall.BattleSystem.Command
     }
 
     /// <summary>
-    /// Ð§¹ûÖ»Ó¦¸Ã³ÖÐøÒ»Ö¡
+    /// Ð§ï¿½ï¿½Ö»Ó¦ï¿½Ã³ï¿½ï¿½ï¿½Ò»Ö¡
     /// </summary>
     [StructLayout(LayoutKind.Auto)]
     public struct MoveCommand : ICommand
     {
         public Vector3 Velocity;
         /// <summary>
-        /// ÓÅÏÈ¼¶Öµ´óµÄ»á¸²¸ÇÐ¡µÄ
+        /// ï¿½ï¿½ï¿½È¼ï¿½Öµï¿½ï¿½Ä»á¸²ï¿½ï¿½Ð¡ï¿½ï¿½
         /// </summary>
         public readonly int Priority;
 
@@ -43,6 +43,20 @@ namespace GenBall.BattleSystem.Command
     [StructLayout(LayoutKind.Auto)]
     public struct AttackCommand: ICommand
     {
-        
+        public readonly int AttackId;
+        public AttackCommand(int attackId)
+        {
+            AttackId = attackId;
+        }
+    }
+
+    [StructLayout(LayoutKind.Auto)]
+    public struct FaceDirectionCommand : ICommand
+    {
+        public readonly Vector3 Direction;
+        public FaceDirectionCommand(Vector3 direction)
+        {
+            Direction = direction;
+        }
     }
 }

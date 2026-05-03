@@ -16,7 +16,9 @@ namespace GenBall.BattleSystem.Character
         private readonly List<ICharacterController>  _controllers=new();
         private IMove _move;
         private IRotate _rotate;
-        [SerializeField,Tooltip("½ÇÉ«»ù´¡ÊôÐÔÅäÖÃ")] private CharacterStatsModel characterStatsModel;
+        private IAttack _attack;
+        private IFaceDirection _faceDirection;
+        [SerializeField,Tooltip("ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")] private CharacterStatsModel characterStatsModel;
         public CharacterStats Stats;
         private void Awake()
         {
@@ -28,6 +30,8 @@ namespace GenBall.BattleSystem.Character
             _controllers.Sort((a, b) => a.Priority.CompareTo(b.Priority));
             TryGetComponent(out _move);
             TryGetComponent(out _rotate);
+            TryGetComponent(out _attack);
+            TryGetComponent(out _faceDirection);
         }
 
         private void Initialize()
@@ -59,6 +63,12 @@ namespace GenBall.BattleSystem.Character
                 case RotateCommand rotateCommand:
                     if(CanRotate) _rotate?.Rotate(rotateCommand);
                     break;
+                case AttackCommand attackCommand:
+                    if(CanAttack) _attack?.Attack(attackCommand);
+                    break;
+                case FaceDirectionCommand faceCommand:
+                    if(CanRotate) _faceDirection?.Face(faceCommand);
+                    break;
                 default:
                     break;
             }
@@ -83,7 +93,7 @@ namespace GenBall.BattleSystem.Character
         public void Die(DeathInfo deathInfo)
         {
             IsDead=true;
-            // todo gzp ºóÐøËÀÍöÂß¼­
+            // todo gzp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
         }
 
         #endregion
@@ -92,17 +102,17 @@ namespace GenBall.BattleSystem.Character
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            // ÉËº¦½áËã
+            // ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½
             Health-=damageInfo.Damage.GetValue();
             if (Health <= 0)
             {
-                // ËÀÁË£¬×ßËÀÍöÁ÷³Ì
+                // ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 DeathSystem.Instance.ApplyDeath(DeathInfo.Create(gameObject,new List<string>()
                 {
                     DeathTag.HealthEmpty,
                 },damageInfo.Attacker));
             }
-            // todo gzp ºóÐø²¹³ä
+            // todo gzp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
 
         #endregion
