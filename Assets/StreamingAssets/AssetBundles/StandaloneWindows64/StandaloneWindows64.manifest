@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 3940067155
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: common
+      Dependencies:
+        Dependency_0: config
+        Dependency_1: temporaryassets
+    Info_1:
+      Name: config
+      Dependencies: {}
+    Info_2:
+      Name: entry
+      Dependencies: {}
+    Info_3:
+      Name: temporaryassets
+      Dependencies:
+        Dependency_0: config
+    Info_4:
+      Name: timeline
+      Dependencies: {}
+    Info_5:
+      Name: ui
+      Dependencies: {}

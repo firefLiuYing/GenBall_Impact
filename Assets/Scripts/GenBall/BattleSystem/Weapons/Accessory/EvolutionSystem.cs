@@ -61,7 +61,11 @@ namespace GenBall.BattleSystem.Weapons.Accessory
         
         public void Init()
         {
+            #if UNITY_EDITOR
             _config = EvolutionConfigProvider.GetOrCreateConfig();
+            #else
+            _config=new EvolutionConfig();
+            #endif
             KillPoints = 0;
             CurrentEvolutionLevel = 0;
         }

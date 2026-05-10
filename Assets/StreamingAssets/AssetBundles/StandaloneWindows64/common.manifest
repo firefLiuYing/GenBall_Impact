@@ -1,0 +1,186 @@
+ManifestFileVersion: 0
+CRC: 2417630000
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 311230812ea45b151c59e7da3c48c031
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1994887cdc27ec96dcb13311adb3cdde
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 311230812ea45b151c59e7da3c48c031
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 90cacd51caeb184459d5f19ee81f1df9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c292d8f48e56d434f8c4b5d45a8e78df, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: bd94f4ea3cdf1b74b9d46aaff981bd7f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ded6a2f5aeddd4046bc83544bfcf8e0e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6b9c688aba0653b419c56446d89f5b77, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b19ed0c29bc40ce4ea5677db7722e9e6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5ea9830ad4d1a674896e41829b17fb3e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4329deb20b45c0141a673c3e4f3f089f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1094f089fa071c34195ffa7e94c1a027, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0589fd389d75c784397fe25e32304f36, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4054e831ed5579347bf523f77d23d18a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 461712c02420fdb4e9e39fccfa31c74c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 39fa3d8997a24136984ca6e2c99902bc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 44be457b8278c6047a88dcf21e8c02ba, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fba48b8c3c159ec4da3c532ba7844ee7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 06ae0770340eb7a4998c9314c603aa2b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9efe5ceb327b0e1428e94ec29ab14ce3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3b0e335e3a57d9342b2a4c64643b4a83, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4397d4fff6e0b54a89d09611179f1c1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a852b426f482de443b313442798a7b52, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: bfdaffac4824a7640986bdc945097667, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: cb48b5635bdb9914982501862f9d12c4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b17a27c2655d51c46b4d1f0b784dc10e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 00d9a318490fa0245bde71040b4640ef, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 117924f08656a4942b50ece534160143, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b87db37cf65a84c45b363d38a6da86e5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ed3741fd7c6031c4693750156060d784, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ee58d008df69df147861d25b8ef9d460, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4298164d90fc09443957b9f1a89ce4d1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 539447029c7c2694f9be56b36b51479e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7ad38e6a44b78f044980c587f9d3b570, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0a4ce0197083be94ea95fde64a865851, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4bf75d2917fe6074488287b884bffa63, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fb09d02725faf9642bc612f090475770, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f096fdd727ff5f54e8185e13405c436a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0791ed2158cc0ec47b6f53b527c842fc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: bcac072d0e6ac7c49be6d8113528d7fc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 01de57bc6c972644dae4f7d8d0c43400, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f7043077b2e27554797319f1ff641264, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 254ce05b302942f499862160176af71c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 599e0e581b6c81c458e24a7e77a4ebab, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 567f4bc79c01d174e928656a0e713c25, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4302bb9ca0da16047b2cdaf235bb5780, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3e7ff1bd15192ca49a301d401d2cc975, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Bullets.BulletModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Character.CharacterStatsModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Weapons.WeaponModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Enemy.AI.AIStateConfig
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputAction
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputActionMap
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputBinding
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputControlScheme
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputControlScheme/DeviceRequirement
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/ActionEvent
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/ControlsChangedEvent
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/DeviceLostEvent
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/DeviceRegainedEvent
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.ArgumentCache
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentListenerMode
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/AssetBundles/Common/Weapon/Pistol.prefab
+- Assets/AssetBundles/Common/Orbis/Components/PlayerBarrier.prefab
+- Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/Test Enemy AI Config So.asset
+- Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/Test Enemy Config So.asset
+- Assets/AssetBundles/Common/Player/PhysicsMaterial/PlayerMaterial.physicMaterial
+- Assets/AssetBundles/Common/TriggerObject/SavePoint.prefab
+- Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/TestOrbis.prefab
+- Assets/AssetBundles/Common/TriggerObject/Trigger.prefab
+- Assets/AssetBundles/Common/Orbis/Components/AttackCollider.prefab
+- Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab
+- Assets/AssetBundles/Common/Player/Prefab/Player.prefab
+- Assets/AssetBundles/Common/Bullet/RayBullet.prefab
+- Assets/AssetBundles/Common/Bullet/Material/RayBullet.mat
+Dependencies:
+- D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/StreamingAssets/AssetBundles/StandaloneWindows64/config
+- D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/StreamingAssets/AssetBundles/StandaloneWindows64/temporaryassets

@@ -36,8 +36,10 @@ namespace GenBall.Player
     {
         private const string PlayerConfigSoPath = "Assets/AssetBundles/Config/PlayerConfig.asset";
         private static PlayerConfigSo _cachedConfig;
+        #if UNITY_EDITOR
         public static PlayerConfigSo GetOrCreatePlayerConfigSo()
         {
+            
             if(_cachedConfig!=null)  return _cachedConfig;
             var guids=AssetDatabase.FindAssets("t:PlayerConfigSO");
             if (guids.Length > 1)
@@ -58,5 +60,6 @@ namespace GenBall.Player
             _cachedConfig = config;
             return _cachedConfig;
         }
+        #endif
     }
 }

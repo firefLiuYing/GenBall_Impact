@@ -1,0 +1,141 @@
+ManifestFileVersion: 0
+CRC: 1551545059
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6a7ced9146ba2ecefb808ac66155a2ae
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5375612406947f3a5ba3477cdb5294ee
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 6a7ced9146ba2ecefb808ac66155a2ae
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 794ab07af3d785849a0881a1f358775d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 427edda159389e743a1f235d72d31f83, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: de2f22b47aa081243839778a52601643, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 32a63826e30fd7b4d8ca3238007899e2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 30c137efba209134b801eba345cb2eff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0962ce71948b3ca4aa1a8a59c1d143af, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1c63442727185ca44a180753e4f36290, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 40af850c81305214aa3ef7d95c137862, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 19051aafa2ba8bc40bb7ccde6c8782f8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 89b2f0b5d4e73814e9940ba0e08ee81f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 53d47c51d8b5dc944960dc2f8c952489, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 12396600a62158347a283be1705b6ee5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2467354b02215c74babb5ed732827998, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 267ea6051f44abe4f8dcc701d1be4099, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Utils.CodeGenerator.UI.BindButton
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Utils.CodeGenerator.UI.BindImage
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Utils.CodeGenerator.UI.BindRect
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Utils.CodeGenerator.UI.BindText
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.RectOffset
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.AnimationTriggers
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Button/ButtonClickedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.FontData
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Navigation
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.SpriteState
+Assets:
+- Assets/AssetBundles/UI/MainHud/Sprites/DistractOutlinePart.png
+- Assets/AssetBundles/UI/MainHud/Form/AccessoryForm.prefab
+- Assets/AssetBundles/UI/MainHud/Sprites/New/KillArrowL.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/4x/HalfHeart_1@4x.png
+- Assets/AssetBundles/UI/MainHud/Item/HeartItem.prefab
+- Assets/AssetBundles/UI/MainHud/Sprites/New/Canvas 1.prefab
+- Assets/AssetBundles/UI/MainHud/Sprites/New/KillArrow@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/KillEffectPart_1.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/AimCircle_2@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/KillArrow_1@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/HalfHeart@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/DefaultGun@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/4x/FullArmor_1@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/4x/OutHeart@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/KillEffectPart.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/HalfArmor@4x.png
+- Assets/AssetBundles/UI/MainHud/Form/TestForm.prefab
+- Assets/AssetBundles/UI/MainHud/Form/SplashForm.prefab
+- Assets/AssetBundles/UI/MainHud/Sprites/New/FullHeart@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/HitEffectPart.png
+- Assets/AssetBundles/UI/MainHud/Form/MainHud.prefab
+- Assets/AssetBundles/UI/MainHud/Form/UpgradeTip.prefab
+- Assets/AssetBundles/UI/MainHud/Sprites/New/4x/FullHeart_1@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/ScatterBox@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/OutlinePart.png
+- Assets/AssetBundles/UI/MainHud/Sprites/AimPoint_1.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/FullArmor@4x.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/HitArrow@4x.png
+- Assets/AssetBundles/UI/MainHud/Item/InteractTipItem.prefab
+- Assets/AssetBundles/UI/MainHud/Sprites/New/KillArrowR.png
+- Assets/AssetBundles/UI/MainHud/Sprites/New/4x/HalfArmor_1@4x.png
+- Assets/AssetBundles/UI/MainHud/Form/StartForm.prefab
+Dependencies: []

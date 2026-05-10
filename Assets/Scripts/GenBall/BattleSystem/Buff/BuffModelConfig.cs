@@ -30,6 +30,7 @@ namespace GenBall.BattleSystem.Buff
         private const string BuffModelConfigPath = "Assets/AssetBundles/Config/BuffModelConfig.asset";
         private static BuffModelConfig _cachedConfig;
         private static bool _configInitialized=false;
+        #if UNITY_EDITOR
         public static BuffModelConfig GetOrCreateBuffModelConfig()
         {
             if(_cachedConfig!=null)  return _cachedConfig;
@@ -62,6 +63,7 @@ namespace GenBall.BattleSystem.Buff
             }
             return _cachedConfig;
         }
+        #endif
     }
     [Serializable]
     public class BuffModel

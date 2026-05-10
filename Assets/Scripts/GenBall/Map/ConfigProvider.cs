@@ -7,6 +7,8 @@ namespace GenBall.Map
     public static class ConfigProvider
     {
         private const string SavePointConfigPath = "Assets/AssetBundles/Config/MapModel.asset";
+       
+#if UNITY_EDITOR
         public static MapModel GetOrCreateMapConfig()
         {
             var guids=AssetDatabase.FindAssets("t:MapModel");
@@ -28,5 +30,6 @@ namespace GenBall.Map
             Debug.Log("已自动创建SavePointConfig");
             return index;
         }
+#endif
     }
 }

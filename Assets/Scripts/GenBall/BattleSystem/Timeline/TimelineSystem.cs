@@ -44,7 +44,11 @@ namespace GenBall.BattleSystem.Timeline
         public int Priority => 1000;
         public void Init()
         {
-            _config = ConfigProvider.GetOrCreateConfig();
+            #if UNITY_EDITOR
+            _config=ConfigProvider.GetOrCreateConfig();
+            #else
+            _config=null;
+            #endif
         }
 
         public void OnUnregister()

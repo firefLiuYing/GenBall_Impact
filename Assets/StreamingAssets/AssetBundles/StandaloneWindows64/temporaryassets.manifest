@@ -1,0 +1,96 @@
+ManifestFileVersion: 0
+CRC: 3029890698
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1b940b4c40335c834e248e54626dbfcb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f2205a237f9cc4989c3859c2f68ac74b
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 1b940b4c40335c834e248e54626dbfcb
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 25ef209622a2cf64c82c7396d2b09ae8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7da059d6c7554e94aac374fa44531713, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 39fa3d8997a24136984ca6e2c99902bc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f85c7127b2aaaa843941415d043cd0fe, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c47909cfa292ff7448b6418bc1466601, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b4e0ffdbab86ce142b049f42940d0f00, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ed63f561c52680b408dae8d4bf679f19, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 162ab2b326d1a3149be82e51d025284d, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/ActionEvent
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/ControlsChangedEvent
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/DeviceLostEvent
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.PlayerInput/DeviceRegainedEvent
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+Assets:
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Prefabs/SM_SciFi_Weapons_03.prefab
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Prefabs/SM_SciFi_Weapons_04.prefab
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Prefabs/SM_SciFi_Weapons_02.prefab
+- Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/Model/DefaultOrbis.fbx
+- Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/UVTexture/Materials/DeafaultOrbisTexture.mat
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Models/SM_SciFi_Weapons_05.fbx
+- Assets/AssetBundles/TemporaryAssets/Player/Prefab/Player.prefab
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Prefabs/SM_SciFi_Weapons_01.prefab
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Models/SM_SciFi_Weapons_02.fbx
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Models/SM_SciFi_Weapons_03.fbx
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Prefabs/SM_SciFi_Weapons_05.prefab
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Textures/T_Texture_SciFiWeapons.png
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Materials/LP_SciFiWeaponsLite_BG.mat
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Materials/LP_SciFiWeaponsLite_Light.mat
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Models/SM_SciFi_Weapons_04.fbx
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Models/SM_SciFi_Weapons_01.fbx
+- Assets/AssetBundles/TemporaryAssets/LP_SciFiWeapons_Lite/Materials/LP_SciFiWeaponsLite_MAIN.mat
+- Assets/AssetBundles/TemporaryAssets/Weapon/DefaultWeapon/Prefab/DefaultWeapon.prefab
+- Assets/AssetBundles/TemporaryAssets/Bullet/DefaultBullet/Prefab/DefaultBullet.prefab
+- Assets/AssetBundles/TemporaryAssets/Enemy/DefaultEnemy/UVTexture/DeafaultOrbisTexture.png
+Dependencies:
+- D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/StreamingAssets/AssetBundles/StandaloneWindows64/config

@@ -26,6 +26,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
         private const string ConfigPath = "Assets/AssetBundles/Config/AccessoryModelConfig.asset";
         private static AccessoryModelConfig _cachedConfig;
         private static bool _configInitialized=false;
+        #if UNITY_EDITOR
         public static AccessoryModelConfig GetOrCreateConfig()
         {
             if(_cachedConfig!=null)  return _cachedConfig;
@@ -58,5 +59,6 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             }
             return _cachedConfig;
         }
+        #endif
     }
 }

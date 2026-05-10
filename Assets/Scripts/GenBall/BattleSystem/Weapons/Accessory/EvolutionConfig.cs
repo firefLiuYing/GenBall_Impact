@@ -21,6 +21,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
     {
         private const string ConfigPath = "Assets/AssetBundles/Config/EvolutionConfig.asset";
         private static EvolutionConfig _cachedConfig;
+        #if UNITY_EDITOR
         public static EvolutionConfig GetOrCreateConfig()
         {
             if(_cachedConfig!=null)  return _cachedConfig;
@@ -43,5 +44,6 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             _cachedConfig = config;
             return _cachedConfig;
         }
+        #endif
     }
 }

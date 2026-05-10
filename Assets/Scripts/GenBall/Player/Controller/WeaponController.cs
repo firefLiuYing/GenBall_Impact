@@ -77,7 +77,11 @@ namespace GenBall.Player.Controller
             if(info.Accessories==null) return;
             foreach (var accessory in info.Accessories)
             {
+                #if UNITY_EDITOR
                 var model= AccessoryModelConfigProvider.GetOrCreateConfig().GetModel(accessory);
+                #else
+                var model=new AccessoryModel();
+                #endif
                 var obj = AccessoryObj.Create(model);
                 _currentWeapon.AddAccessory(obj);
             }

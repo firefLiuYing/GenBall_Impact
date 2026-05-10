@@ -1,0 +1,70 @@
+ManifestFileVersion: 0
+CRC: 1575533609
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d5fd07dbe3bebbf82a1abdd399149ee2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb43010e2310efe6800bb8dc55cff33e
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: d5fd07dbe3bebbf82a1abdd399149ee2
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 1d47578c22400e44c9bc806721064ac5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 529914c032c782a439def57515b48aaa, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 39fa3d8997a24136984ca6e2c99902bc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e73d93e52bf84e4499b7ab294853554c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 750c30fed35029740903574d5a3b092f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16e6ba583de57f345b8956d53674d237, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ed63f561c52680b408dae8d4bf679f19, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Buff.BuffModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Timeline.TimelineModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Timeline.TimelineParam
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Timeline.TimelineSegment
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Weapons.Accessory.AccessoryAddBuffInfo
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.BattleSystem.Weapons.Accessory.AccessoryModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Map.EnemyUnitModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Map.SavePointModel
+- AssemblyName: Assembly-CSharp
+  ClassName: GenBall.Map.SceneModel
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputAction
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputActionMap
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputBinding
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputControlScheme
+- AssemblyName: Unity.InputSystem
+  ClassName: UnityEngine.InputSystem.InputControlScheme/DeviceRequirement
+Assets:
+- Assets/AssetBundles/Config/TimelineModelConfig.asset
+- Assets/AssetBundles/Config/PlayerInputConfig.inputactions
+- Assets/AssetBundles/Config/BuffModelConfig.asset
+- Assets/AssetBundles/Config/MapModel.asset
+- Assets/AssetBundles/Config/AccessoryModelConfig.asset
+- Assets/AssetBundles/Config/EvolutionConfig.asset
+- Assets/AssetBundles/Config/PlayerConfig.asset
+Dependencies: []

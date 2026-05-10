@@ -21,7 +21,11 @@ namespace GenBall.Player.Controller
             _input=characterState.GetComponentInChildren<InputHandler>();
             _physics=characterState.GetComponentInChildren<PhysicsController>();
             _mover=characterState.GetComponent<PlayerMover>();
+            #if UNITY_EDITOR
             _config = PlayerConfigProvider.GetOrCreatePlayerConfigSo();
+            #else
+            _config = null;
+            #endif
             InitArgs();
         }
 

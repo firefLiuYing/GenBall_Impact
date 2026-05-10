@@ -23,8 +23,13 @@ namespace GenBall.Procedure.Execute
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             // 初始化地图存档信息
+            #if UNITY_EDITOR
             SceneSystem.Instance.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
             SceneSystem.Instance.InitializeSceneStateObjs(gameData.mapSaveData);
+            #else
+            SceneSystem.Instance.InitializeMapConfig(new MapModel());
+            SceneSystem.Instance.InitializeSceneStateObjs(new MapSaveData());
+            #endif
             // 加载地图
             // GameEntry.Map.LoadSavePointAround(loadInfo.SavePointIndex);
             // 加载敌人

@@ -28,6 +28,7 @@ namespace GenBall.BattleSystem.Timeline
         private static TimelineModelConfig _cachedConfig;
         private const string ConfigPath = "Assets/AssetBundles/Config/TimelineModelConfig.asset";
 
+        #if UNITY_EDITOR
         public static TimelineModelConfig GetOrCreateConfig()
         {
             if(_cachedConfig!=null)  return _cachedConfig;
@@ -60,6 +61,7 @@ namespace GenBall.BattleSystem.Timeline
             }
             return _cachedConfig;
         }
+        #endif
     }
     [Serializable]
     public class TimelineModel

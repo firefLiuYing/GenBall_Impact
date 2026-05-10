@@ -140,7 +140,11 @@ namespace GenBall.BattleSystem.Buff
         public static AddBuffInfo Create(BuffId buffId, [NotNull] GameObject carrier,int addStacks=1,
             IEnumerable<BuffParam> param = null, GameObject caster = null)
         {
+            #if UNITY_EDITOR
             var buffModel=ConfigProvider.GetOrCreateBuffModelConfig().GetBuffModel(buffId);
+            #else
+            var buffModel=new BuffModel();
+            #endif
             if (buffModel == null)
             {
                 Debug.LogError($"gzp δ�ҵ�BuffId��{buffId}��Ӧ��BuffModel����");

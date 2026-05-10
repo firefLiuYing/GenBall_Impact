@@ -1,0 +1,60 @@
+ManifestFileVersion: 0
+CRC: 977863646
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ec3131765a8868bc2d821778741fcc86
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0fd51374e7c3c28feb32a555ddbd62da
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: ec3131765a8868bc2d821778741fcc86
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1a9533b415574e758615eb6fb5e6c375, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 286392981aad6fb4193aa976a5e17b70, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8687d6c2b4de0db4fa712242385201e1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 763afe99098c00c4e86316cd560a8cc4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 03f461e5267f6a346bda27c7f162f6fd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 32bcf0e23f543254e840defeecde2ea7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0f93487f9211fb643b12dfaf6ebb0b1b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2acd3aabe5e899e43991dc70f485f186, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3e8122bbc5684d640b4a330a1f009003, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6dc2972f8a921934ca231d17e6e447c6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3ed357380f659d24a918187a02c1a252, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7bf9723f5ba587c4db230532688fc09b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 76aaf04de0c5c9a4ca84b0855f0fe5cc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dc37295f602776845aeb8fd3be484ff1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 573c75228330fd445b61ca5ed9b0566b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ea2466ce66467a14bbdfae78e1183f22, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/AssetBundles/Entry/Entry.prefab
+Dependencies: []

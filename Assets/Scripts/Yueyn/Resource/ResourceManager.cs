@@ -10,12 +10,14 @@ namespace Yueyn.Resource
         public int Priority => 0;
         public void LoadPrefab(string path, Action<object> callback)
         {
+            #if UNITY_EDITOR
             GameObject prefab=AssetDatabase.LoadAssetAtPath<GameObject>(path);
             callback?.Invoke(prefab);
+            #endif
         }
-
+#if UNITY_EDITOR
         public GameObject LoadPrefab(string path)=>AssetDatabase.LoadAssetAtPath<GameObject>(path);
-
+#endif
         public void Init()
         {
             

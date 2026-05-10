@@ -72,7 +72,11 @@ namespace GenBall.Utils.EntityCreator
             {
                 throw new Exception($"Entity Prefab {typeNamePair} is not registered");
             }
+            #if UNITY_EDITOR
             var prefab=(GameObject)ResourceManager.LoadPrefab(prefabPath);
+            #else
+            var prefab=new GameObject();
+            #endif
             var go = Object.Instantiate(prefab);
             entityInterface = go.GetComponent<TEntityInterface>();
             if (entityInterface == null) throw new Exception($"Entity Prefab not found Component {typeof(TEntityInterface).FullName}");
@@ -101,7 +105,11 @@ namespace GenBall.Utils.EntityCreator
             {
                 throw new Exception($"Entity Prefab {typeNamePair} is not registered");
             }
+            #if UNITY_EDITOR
             var prefab=(GameObject)ResourceManager.LoadPrefab(prefabPath);
+            #else
+            var prefab=new GameObject();
+            #endif
             go = Object.Instantiate(prefab, parent,false);
             entityInterface = go.GetComponent<TEntityInterface>();
             if (entityInterface == null) throw new Exception($"Entity Prefab not found Component {typeof(TEntityInterface).FullName}");
@@ -130,7 +138,11 @@ namespace GenBall.Utils.EntityCreator
             {
                 throw new Exception($"Entity Prefab {typeNamePair} is not registered");
             }
+            #if UNITY_EDITOR
             var prefab=(GameObject)ResourceManager.LoadPrefab(prefabPath);
+            #else
+            var prefab=new GameObject();
+            #endif
             go = Object.Instantiate(prefab, position, rotation);
             entityInterface = go.GetComponent<TEntityInterface>();
             if (entityInterface == null) throw new Exception($"Entity Prefab not found Component {typeof(TEntityInterface).FullName}");
@@ -158,7 +170,11 @@ namespace GenBall.Utils.EntityCreator
             {
                 throw new Exception($"Entity Prefab {typeNamePair} is not registered");
             }
+            #if UNITY_EDITOR
             var prefab=(GameObject)ResourceManager.LoadPrefab(prefabPath);
+            #else
+            var prefab=new GameObject();
+            #endif
             go = Object.Instantiate(prefab, position, rotation, parent);
             entityInterface = go.GetComponent<TEntityInterface>();
             if (entityInterface == null) throw new Exception($"Entity Prefab not found Component {typeof(TEntityInterface).FullName}");

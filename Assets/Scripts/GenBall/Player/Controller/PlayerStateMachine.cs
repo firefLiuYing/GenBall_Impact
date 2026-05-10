@@ -22,7 +22,11 @@ namespace GenBall.Player.Controller
         }
         public override void Initialize(CharacterState characterState)
         {
+            #if UNITY_EDITOR
             _config = PlayerConfigProvider.GetOrCreatePlayerConfigSo();
+            #else
+            _config = null;
+            #endif
             _player=characterState;
             _mover=_player.GetComponent<PlayerMover>();
             _player = characterState;

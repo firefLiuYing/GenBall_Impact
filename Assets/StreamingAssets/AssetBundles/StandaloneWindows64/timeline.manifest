@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 71998048
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 26ddc0ba83edea15c20e76cb98c6a4c4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f082c0bff369db98007fc6aeb91f50c0
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 26ddc0ba83edea15c20e76cb98c6a4c4
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d21dcc2386d650c4597f3633c75a1f98, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 21bf7f712d84d26478ebe6a299f21738, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Unity.Timeline
+  ClassName: UnityEngine.Timeline.MarkerList
+- AssemblyName: Unity.Timeline
+  ClassName: UnityEngine.Timeline.TimelineAsset/EditorSettings
+- AssemblyName: Unity.Timeline
+  ClassName: UnityEngine.Timeline.TimelineClip
+Assets:
+- Assets/AssetBundles/TimeLine/OrbisOut.playable
+Dependencies: []

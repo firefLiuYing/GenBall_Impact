@@ -43,7 +43,11 @@ namespace GenBall.Procedure.Execute
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             SceneSystem.Instance.InitializeSceneStateObjs(fsm.GetData<Variable<GameData>>("GameData").Value.mapSaveData);
+            #if UNITY_EDITOR
             SceneSystem.Instance.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
+            #else
+            SceneSystem.Instance.InitializeMapConfig(new MapModel());
+            #endif
             if ((fsm.Owner.Mode&RunningMode.LoadData)==0)
             {
                 TeleportSystem.Instance.Teleport(new TeleportRequestInfo()
