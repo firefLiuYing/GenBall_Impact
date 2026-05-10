@@ -230,7 +230,7 @@ namespace GenBall.Enemy.Attack
             protected internal override void OnEnter(Fsm<DashAttackModule> fsm)
             {
                 base.OnEnter(fsm);
-                _barrier = Owner.Owner.GetModule<Barrier>();
+                // _barrier = Owner.Owner.GetModule<Barrier>();
                 _attackCollider = Owner.Owner.GetModule<AttackCollider>();
                 
                 _barrier.SetColliderEnable(false);

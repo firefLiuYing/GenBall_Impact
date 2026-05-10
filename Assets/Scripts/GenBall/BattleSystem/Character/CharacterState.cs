@@ -18,7 +18,7 @@ namespace GenBall.BattleSystem.Character
         private IRotate _rotate;
         private IAttack _attack;
         private IFaceDirection _faceDirection;
-        [SerializeField,Tooltip("��ɫ������������")] private CharacterStatsModel characterStatsModel;
+        [SerializeField,Tooltip("基本属性")] private CharacterStatsModel characterStatsModel;
         public CharacterStats Stats;
         private void Awake()
         {

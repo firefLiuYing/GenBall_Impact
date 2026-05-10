@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5793916339296842206}
   - component: {fileID: 8041221639041057477}
   - component: {fileID: 2904879648324386922}
-  - component: {fileID: 3872304107531883402}
   - component: {fileID: 5511867000081905115}
   - component: {fileID: 7843683070415528513}
+  - component: {fileID: 2978924944025725829}
+  - component: {fileID: 4771731010788376863}
   m_Layer: 8
   m_Name: TestOrbis
   m_TagString: Untagged
@@ -107,19 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba48b8c3c159ec4da3c532ba7844ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3872304107531883402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 418388610143044023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3466a8a09913361498b3acd93dd49aaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 2000
 --- !u!114 &5511867000081905115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +134,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 2000
-  rotateSpeed: 720
+  rotateSpeed: 90
+--- !u!114 &2978924944025725829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418388610143044023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1094f089fa071c34195ffa7e94c1a027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 2000
+  jumpInterval: 0.5
+  jumpElevation: 45
+  jumpForce: 8
+--- !u!114 &4771731010788376863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418388610143044023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17a27c2655d51c46b4d1f0b784dc10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackId: 0
+  damage: 1
+  preparationTime: 0.2
+  uppingSpeed: 3
+  flyHeightOffset: 1.5
+  dashHeightOffset: 0.5
+  dashSpeed: 10
+  chargingTime: 0.4
+  reboundForce: 15
 --- !u!1 &599744407751349055
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4745564217011356973}
   - component: {fileID: 3390301509356884310}
-  - component: {fileID: 503114779763780837}
+  - component: {fileID: 3022685634310869766}
   m_Layer: 9
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -399,7 +424,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &503114779763780837
+--- !u!114 &3022685634310869766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -408,7 +433,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4374911214238085165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd94f4ea3cdf1b74b9d46aaff981bd7f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4054e831ed5579347bf523f77d23d18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5223717416380321192
@@ -477,6 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0589fd389d75c784397fe25e32304f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 0
 --- !u!1 &7076125717908405854
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,8 +563,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
-  detectRange: 3
-  hateRange: 5
+  detectRange: 5
+  hateRange: 8
   attackRange: 2
   targetLayer:
     serializedVersion: 2
