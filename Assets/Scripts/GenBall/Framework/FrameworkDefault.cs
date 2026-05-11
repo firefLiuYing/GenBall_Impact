@@ -1,8 +1,9 @@
 using UnityEngine;
+using Yueyn.Main;
 using Yueyn.Resource;
 using Yueyn.UI;
 
-namespace Yueyn.Main
+namespace GenBall.Framework
 {
     /// <summary>
     /// 默认框架，用于初始化一些全局的系统
