@@ -9,7 +9,7 @@ namespace GenBall.UI.TestForm
     /// </summary>
     public class TestFormLogic : UIFormLogic
     {
-        protected override string PrefabPath => "Assets/AssetBundles/UI/MainHud/Form/TestForm.prefab";
+        protected override string PrefabPath => "Assets/AssetBundles/UI/Test/TestForm.prefab";
 
         private string _testData;
 

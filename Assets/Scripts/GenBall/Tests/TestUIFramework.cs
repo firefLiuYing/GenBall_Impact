@@ -3,11 +3,12 @@ using Yueyn.Main;
 using Yueyn.UI;
 using GenBall.UI.TestForm;
 
-namespace GenBall.UI
+namespace GenBall.Tests
 {
     /// <summary>
-    /// 测试新UI框架的示例脚本
-    /// 演示如何创建和打开UI
+    /// UI框架测试入口（MonoBehaviour）
+    /// 挂载到场景GameObject上即可运行测试
+    /// 按T键打开测试Form / P暂停 / R恢复
     /// </summary>
     public class TestUIFramework : MonoBehaviour
     {
