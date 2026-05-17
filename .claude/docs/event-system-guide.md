@@ -4,6 +4,22 @@
 
 新的事件系统移除了对 `EventArgs` 的依赖，支持直接传递参数，使用更加简洁。
 
+**当前状态**：新旧系统并存，逐步迁移中。
+
+## 访问方式
+
+### 旧系统（保持兼容）
+```csharp
+GameEntry.Event.Fire(sender, eventArgs);  // 使用 EventArgs
+GameEntry.Event.Subscribe(id, handler);
+```
+
+### 新系统（推荐使用）
+```csharp
+GameEntry.EventV2.Fire<int>(id, value);  // 直接传参
+GameEntry.EventV2.Subscribe<int>(id, handler);
+```
+
 ## 核心组件
 
 ### 1. IEventSystem 接口
@@ -50,33 +66,33 @@ public enum InputEvent
 
 ```csharp
 // 无参数事件
-GameEntry.Event.Subscribe((int)SystemEvent.GameStart, OnGameStart);
+GameEntry.EventV2.Subscribe((int)SystemEvent.GameStart, OnGameStart);
 
 // 单参数事件
-GameEntry.Event.Subscribe<int>((int)PlayerEvent.HealthChanged, OnHealthChanged);
+GameEntry.EventV2.Subscribe<int>((int)PlayerEvent.HealthChanged, OnHealthChanged);
 
 // 多参数事件
-GameEntry.Event.Subscribe<Vector2, float>((int)InputEvent.MoveInput, OnMoveInput);
+GameEntry.EventV2.Subscribe<Vector2, float>((int)InputEvent.MoveInput, OnMoveInput);
 ```
 
 ### 触发事件
 
 ```csharp
 // 延迟触发（下一帧执行，线程安全）
-GameEntry.Event.Fire((int)SystemEvent.GameStart);
-GameEntry.Event.Fire<int>((int)PlayerEvent.HealthChanged, newHealth);
-GameEntry.Event.Fire<Vector2, float>((int)InputEvent.MoveInput, direction, magnitude);
+GameEntry.EventV2.Fire((int)SystemEvent.GameStart);
+GameEntry.EventV2.Fire<int>((int)PlayerEvent.HealthChanged, newHealth);
+GameEntry.EventV2.Fire<Vector2, float>((int)InputEvent.MoveInput, direction, magnitude);
 
 // 立即触发（当前帧执行，非线程安全）
-GameEntry.Event.FireNow((int)SystemEvent.GameStart);
-GameEntry.Event.FireNow<int>((int)PlayerEvent.HealthChanged, newHealth);
+GameEntry.EventV2.FireNow((int)SystemEvent.GameStart);
+GameEntry.EventV2.FireNow<int>((int)PlayerEvent.HealthChanged, newHealth);
 ```
 
 ### 取消订阅
 
 ```csharp
-GameEntry.Event.Unsubscribe((int)SystemEvent.GameStart, OnGameStart);
-GameEntry.Event.Unsubscribe<int>((int)PlayerEvent.HealthChanged, OnHealthChanged);
+GameEntry.EventV2.Unsubscribe((int)SystemEvent.GameStart, OnGameStart);
+GameEntry.EventV2.Unsubscribe<int>((int)PlayerEvent.HealthChanged, OnHealthChanged);
 ```
 
 ## 局部事件总线
@@ -150,10 +166,10 @@ public enum PlayerEvent
 }
 
 // 触发事件
-GameEntry.Event.Fire<int, int>((int)PlayerEvent.HealthChanged, newHealth, oldHealth);
+GameEntry.EventV2.Fire<int, int>((int)PlayerEvent.HealthChanged, newHealth, oldHealth);
 
 // 订阅事件
-GameEntry.Event.Subscribe<int, int>((int)PlayerEvent.HealthChanged, OnHealthChanged);
+GameEntry.EventV2.Subscribe<int, int>((int)PlayerEvent.HealthChanged, OnHealthChanged);
 
 void OnHealthChanged(int newHealth, int oldHealth)
 {

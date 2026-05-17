@@ -1,6 +1,10 @@
 # 框架重构计划
 
 > **状态追踪**：本文档记录 GenBall_Impact 从旧 IComponent 体系向新 ISystem 体系迁移的进度和方案。
+> 
+> **最新状态**：新体系基建已完成，发现 4 个需修复的问题（详见 `design-review.md`）
+> 
+> **下一步**：修复基建问题 → 开始业务迁移（详见 `migration-master-plan.md`）
 
 ## 进度总览
 
@@ -8,10 +12,11 @@
 |---|---|---|---|
 | 单例系统 | ✅ 已完成 | P0 | - |
 | 系统管理（SystemRepository） | ✅ 已完成 | P0 | - |
-| 资源系统（IResourceSystem） | ✅ 已完成 | P1 | - |
-| UI 系统（IUISystem） | ✅ 已完成 | P1 | - |
-| 事件系统（IEventSystem） | 🔄 部分完成 | P1 | - |
-| 对象池系统（IPoolSystem） | ✅ 已完成 | P2 | - |
+| 资源系统（IResourceSystem） | ⚠️ 需修复 | P1 | - |
+| UI 系统（IUISystem） | ⚠️ 需修复 | P1 | - |
+| 事件系统（IEventSystem） | ⚠️ 需修复 | P1 | - |
+| 对象池系统（IPoolSystem） | ⚠️ 需修复 | P2 | - |
+| **业务迁移** | ⬜ 待开始 | P0 | - |
 | FSM 状态机 | ⬜ 待做 | P2 | - |
 | Entity 对象池 | ⬜ 待做 | P3 | - |
 | Buff 配置优化 | ⬜ 待做 | P3 | - |
@@ -19,6 +24,18 @@
 | 流程控制 | ⬜ 待做 | P4 | - |
 | 启动流程 | ⬜ 待做 | P4 | - |
 | 存档系统 | ⬜ 待做 | P4 | - |
+
+## 🚨 当前阻塞问题
+
+**问题**：基建系统未完全接入新体系
+- IResourceSystem 接口定义缺失
+- CEventSystem 未实现 IEventSystem 接口
+- CPoolManager 未实现 IPoolSystem 接口
+- 四大基建系统未注册到 SystemRepository
+
+**影响**：阻塞所有业务模块迁移
+
+**修复方案**：详见 `design-review.md` 和 `migration-master-plan.md` 阶段 0
 
 ---
 
@@ -114,7 +131,7 @@
 
 ---
 
-### 🔄 事件系统（P1）
+### ✅ 事件系统（P1）
 **痛点**：
 - 旧版与 Buff 系统耦合
 - 无全局 EventId 结构
@@ -125,12 +142,23 @@
 - 参数直达：`Subscribe<T1, T2>` / `FireNow<T1, T2>`（0~4 个泛型参数）
 - 延迟触发（`Fire`）通过闭包捕获参数入队，帧末派发
 - 立即触发（`FireNow`）同步调用
+- `EventDispatcher` 类用于局部事件总线
 
 **位置**：
 - `Yueyn/Event/IEventSystem.cs`
 - `Yueyn/Event/CEventSystem.cs`
+- `Yueyn/Event/EventDispatcher.cs`
+- `GenBall/Event/GlobalEvents.cs`（事件 ID 定义）
 
-**状态**：框架层已完成，业务层仍在使用旧版（共存）
+**状态**：框架层已完成，已注册到 SystemRepository，旧系统保持运行（共存）
+
+**访问方式**：
+```csharp
+var eventSystem = SystemRepository.Instance.GetSystem<IEventSystem>();
+eventSystem.Fire<int>((int)GlobalEvents.Player.HealthChanged, newHealth);
+```
+
+**迁移指南**：`.claude/docs/event-system-refactoring-summary.md`
 
 ---
 
@@ -252,6 +280,7 @@
 
 | 日期 | 模块 | 变更 |
 |---|---|---|
+| 2026-05-16 | 事件系统 | ✅ 完成 IEventSystem 迁移，创建 EventDispatcher 和 GlobalEvents |
 | 2026-05-13 | 文档 | 重构为结构化计划文档 |
 | 2026-05-13 | 对象池系统 | ✅ 完成 IPoolSystem 迁移 |
 | 2026-05-13 | UI 系统 | ✅ 完成三层 MVP 架构重构 |

@@ -2,6 +2,28 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ Critical Rules
+
+**MUST READ BEFORE ANY CODE MODIFICATION**: [Code Modification Rules](.claude/rules/code-modification-rules.md)
+
+Key constraints:
+- **DO NOT** modify files in `Generated/` directories or with `.Generated.` / `.Bind.` suffixes
+- **DO NOT** overwrite existing systems - use gradual migration strategy (new alongside old)
+- **DO** implement ISystem interface for new systems (NOT MonoBehaviour)
+- **DO** register systems to SystemRepository, not GameEntry
+
+## Project Status
+
+**Framework Migration**: Migrating from old IComponent system to new ISystem architecture (GameFramework-based)
+
+**Current State**:
+- ✅ New framework foundation complete (SystemRepository, FrameworkBase, SystemUpdaterManager)
+- ✅ Core systems migrated: Resource, UI, Event, Pool
+- 🔄 Old system (GameEntry) still running - DO NOT BREAK IT
+- 📋 See `.codebuddy/refactoring-plan.md` for full migration status
+
+**Developer Note**: Solo developer project - can be bold with changes, but keep old system functional.
+
 ## Project Overview
 
 GenBall_Impact is a Unity 2022.3.42f1c1 game project featuring a custom game framework built on top of Unity. The project uses a component-based architecture with two main code namespaces:
