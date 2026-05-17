@@ -41,7 +41,7 @@ namespace GenBall.Event.Templates
             
             new ValueEventDefinition("Death",typeof(DeathInfo),"µ–»ÀÀ¿Õˆ","Enemy"),
             
-            new ValueEventDefinition("Pause",typeof(PauseState),"”Œœ∑‘›Õ£","System"),
+            new ValueEventDefinition("Pause",typeof(PauseState),"”Œœ∑‘›Õ£","Framework"),
         };
     }
     

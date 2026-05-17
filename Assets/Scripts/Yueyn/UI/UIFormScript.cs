@@ -10,6 +10,11 @@ namespace Yueyn.UI
     /// <summary>
     /// UI页面脚本（通用容器，无子类）
     /// 管理页面的生命周期、组件、分辨率适配、渐显渐隐等
+    ///
+    /// 设计原则：
+    /// - 只负责Unity层面的管理（生命周期、组件、事件分发）
+    /// - 不包含业务逻辑（业务逻辑由第二层次的BusinessLogic处理）
+    /// - 通过 public 方法暴露接口，protected virtual 方法允许子类重写
     /// </summary>
     public class UIFormScript : MonoBehaviour
     {
@@ -23,14 +28,14 @@ namespace Yueyn.UI
         // ===== 标识信息 =====
 
         /// <summary>
-        /// 页面唯一ID（由UISystem分配）
+        /// 页面唯一ID（由UIManager分配）
         /// </summary>
         public int FormId { get; private set; } = -1;
 
         /// <summary>
-        /// 关联的Logic ID
+        /// 预制体路径（用于标识页面类型）
         /// </summary>
-        public int LogicId { get; private set; } = -1;
+        public string PrefabPath { get; private set; }
 
         /// <summary>
         /// 是否可复用
@@ -45,7 +50,7 @@ namespace Yueyn.UI
         /// <summary>
         /// 初始化参数（保存以便后续使用）
         /// </summary>
-        protected object Param { get; private set; }
+        public object Param { get; private set; }
 
         // ===== 状态标志 =====
 
@@ -80,34 +85,29 @@ namespace Yueyn.UI
         private List<UIComponent> _components = new List<UIComponent>();
         private List<UIComponent> _cachedComponents = new List<UIComponent>();
 
-        // ===== Logic层 =====
-
-        private UILogicBase _logic;
-
         // ===== 分辨率监听 =====
 
         private Vector2 _lastResolution;
         private Coroutine _resolutionMonitor;
 
-        // ===== 内部方法（由UISystem调用） =====
+        // ===== 内部方法（由UIManager调用） =====
 
         /// <summary>
-        /// 设置页面ID（由UISystem调用）
+        /// 设置页面ID和路径（由UIManager调用）
         /// </summary>
-        internal void SetFormId(int id)
+        internal void SetFormInfo(int id, string prefabPath)
         {
             FormId = id;
+            PrefabPath = prefabPath;
         }
 
         /// <summary>
-        /// 初始化（由UISystem调用，传入Logic）
+        /// 初始化（由UIManager调用）
         /// </summary>
-        internal void InternalInit(UILogicBase logic, object param)
+        internal void InternalInit(object param)
         {
             if (IsInitialized) return;
 
-            _logic = logic;
-            LogicId = logic.LogicId;
             Param = param;
 
             // 1. 初始化Canvas
@@ -116,23 +116,14 @@ namespace Yueyn.UI
             // 2. 收集所有UIComponent
             CollectComponents();
 
-            // 3. Logic绑定View
-            _logic.BindView(this);
-
-            // 4. 初始化所有Component
-            DispatchToComponents(c => c.InternalInit(this));
-
-            // 5. Logic初始化
-            _logic.OnInit(param);
-
-            // 6. Logic设置View数据
-            _logic.SetViewData(param);
+            // 3. 初始化所有Component
+            DispatchToComponents(c => c.DoStart(this));
 
             IsInitialized = true;
         }
 
         /// <summary>
-        /// 打开（由UISystem调用）
+        /// 打开（由UIManager调用）
         /// </summary>
         internal void InternalOpen()
         {
@@ -141,29 +132,23 @@ namespace Yueyn.UI
             OpenTime = Time.realtimeSinceStartup;
 
             // 1. 分发到所有Component
-            DispatchToComponents(c => c.InternalOpen());
+            DispatchToComponents(c => c.DoOpen());
 
-            // 2. Logic进入
-            _logic?.OnEnter();
-
-            // 3. 渐显动画
+            // 2. 渐显动画
             PlayFadeIn();
 
             IsOpen = true;
         }
 
         /// <summary>
-        /// 关闭（由UISystem调用）
+        /// 关闭（由UIManager调用）
         /// </summary>
         internal void InternalClose()
         {
             if (!IsOpen) return;
 
-            // 1. Logic退出
-            _logic?.OnExit();
-
-            // 2. 分发到所有Component
-            DispatchToComponents(c => c.InternalClose());
+            // 1. 分发到所有Component
+            DispatchToComponents(c => c.DoClose());
 
             // 3. 渐隐动画
             PlayFadeOut();
@@ -179,47 +164,43 @@ namespace Yueyn.UI
         }
 
         /// <summary>
-        /// 获得焦点（由UISystem调用）
+        /// 获得焦点（由UIManager调用）
         /// </summary>
         internal void InternalFocus()
         {
             if (IsFocused) return;
 
-            DispatchToComponents(c => c.InternalFocus());
-            _logic?.OnFocus();
+            DispatchToComponents(c => c.DoFocus());
 
             IsFocused = true;
         }
 
         /// <summary>
-        /// 失去焦点（由UISystem调用）
+        /// 失去焦点（由UIManager调用）
         /// </summary>
         internal void InternalUnfocus()
         {
             if (!IsFocused) return;
 
-            _logic?.OnUnfocus();
-            DispatchToComponents(c => c.InternalUnfocus());
+            DispatchToComponents(c => c.DoUnfocus());
 
             IsFocused = false;
         }
 
         /// <summary>
-        /// 暂停（由UISystem调用）
+        /// 暂停（由UIManager调用）
         /// </summary>
         internal void InternalPause()
         {
-            DispatchToComponents(c => c.InternalPause());
-            _logic?.OnPause();
+            DispatchToComponents(c => c.DoPause());
         }
 
         /// <summary>
-        /// 恢复（由UISystem调用）
+        /// 恢复（由UIManager调用）
         /// </summary>
         internal void InternalResume()
         {
-            DispatchToComponents(c => c.InternalResume());
-            _logic?.OnResume();
+            DispatchToComponents(c => c.DoResume());
         }
 
         // ===== Canvas初始化和分辨率适配 =====
@@ -235,7 +216,8 @@ namespace Yueyn.UI
                 Canvas = gameObject.AddComponent<Canvas>();
             }
 
-            Canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            Canvas.worldCamera = UIManager.Instance.UICamera;
 
             _canvasScaler = GetComponent<CanvasScaler>();
             if (_canvasScaler == null)
@@ -359,17 +341,17 @@ namespace Yueyn.UI
             // 生命周期补偿
             if (IsInitialized)
             {
-                component.InternalInit(this);
+                component.DoStart(this);
             }
 
             if (IsOpen)
             {
-                component.InternalOpen();
+                component.DoOpen();
             }
 
             if (IsFocused)
             {
-                component.InternalFocus();
+                component.DoFocus();
             }
         }
 
@@ -384,12 +366,12 @@ namespace Yueyn.UI
             // 先执行关闭生命周期
             if (IsFocused)
             {
-                component.InternalUnfocus();
+                component.DoUnfocus();
             }
 
             if (IsOpen)
             {
-                component.InternalClose();
+                component.DoClose();
             }
 
             _components.Remove(component);

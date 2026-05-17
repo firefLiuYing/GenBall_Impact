@@ -17,8 +17,8 @@ namespace GenBall.BattleSystem.Templates
             // 格式: new EffectEventDefinition("事件名", "参数类型", "描述", "分类")
             
             // 系统事件
-            new EffectEventDefinition("Update", typeof(float), "每帧更新", "System"),
-            new EffectEventDefinition("FixedUpdate", typeof(float), "固定更新", "System"),
+            new EffectEventDefinition("Update", typeof(float), "每帧更新", "Framework"),
+            new EffectEventDefinition("FixedUpdate", typeof(float), "固定更新", "Framework"),
             
             // 输入事件
             new EffectEventDefinition("Trigger", typeof(ButtonState), "触发输入", "Input"),

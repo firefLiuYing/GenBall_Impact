@@ -2,6 +2,7 @@ namespace Yueyn.Main
 {
     public interface ILogicUpdate
     {
-        public void LogicUpdate(float deltaTime);
+        void LogicUpdate(float deltaTime);
+        SystemScope LogicUpdateScope { get; }
     }
 }

@@ -5,6 +5,11 @@ namespace Yueyn.UI
     /// <summary>
     /// UI组件基类，用于页面内的可复用组件
     /// 组件会跟随页面的生命周期自动调用对应方法
+    ///
+    /// 设计原则：
+    /// - 实现通用功能（如按钮点击、动画播放等）
+    /// - 通过 internal 方法限制只能由框架调用，protected virtual 方法允许子类重写
+    /// - 不包含业务逻辑（业务逻辑由第二层次处理）
     /// </summary>
     public abstract class UIComponent : MonoBehaviour
     {
@@ -38,101 +43,122 @@ namespace Yueyn.UI
         /// </summary>
         public bool IsPaused { get; private set; }
 
-        // ===== 内部方法（由UIFormScript调用） =====
+        // ===== 框架方法（internal，只能由框架调用） =====
 
-        internal void InternalInit(UIFormScript form)
+        /// <summary>
+        /// 启动方法（由框架调用）
+        /// </summary>
+        internal void DoStart(UIFormScript form)
         {
             if (IsInitialized) return;
 
             Form = form;
-            OnInit();
+            DoBusinessStart();
             IsInitialized = true;
         }
 
-        internal void InternalOpen()
+        /// <summary>
+        /// 打开方法（由框架调用）
+        /// </summary>
+        internal void DoOpen()
         {
             if (IsOpen) return;
 
-            OnOpen();
+            DoBusinessOpen();
             IsOpen = true;
         }
 
-        internal void InternalClose()
+        /// <summary>
+        /// 关闭方法（由框架调用）
+        /// </summary>
+        internal void DoClose()
         {
             if (!IsOpen) return;
 
-            OnClose();
+            DoBusinessClose();
             IsOpen = false;
         }
 
-        internal void InternalFocus()
+        /// <summary>
+        /// 获得焦点方法（由框架调用）
+        /// </summary>
+        internal void DoFocus()
         {
             if (IsFocused) return;
 
-            OnFocus();
+            DoBusinessFocus();
             IsFocused = true;
         }
 
-        internal void InternalUnfocus()
+        /// <summary>
+        /// 失去焦点方法（由框架调用）
+        /// </summary>
+        internal void DoUnfocus()
         {
             if (!IsFocused) return;
 
-            OnUnfocus();
+            DoBusinessUnfocus();
             IsFocused = false;
         }
 
-        internal void InternalPause()
+        /// <summary>
+        /// 暂停方法（由框架调用）
+        /// </summary>
+        internal void DoPause()
         {
             if (IsPaused) return;
 
-            OnPause();
+            DoBusinessPause();
             IsPaused = true;
         }
 
-        internal void InternalResume()
+        /// <summary>
+        /// 恢复方法（由框架调用）
+        /// </summary>
+        internal void DoResume()
         {
             if (!IsPaused) return;
 
-            OnResume();
+            DoBusinessResume();
             IsPaused = false;
         }
 
-        // ===== 子类重写的生命周期方法 =====
+        // ===== 业务方法（protected virtual，供子类重写） =====
 
         /// <summary>
-        /// 初始化（在页面Init时调用）
+        /// 业务启动方法（供子类重写）
         /// </summary>
-        protected virtual void OnInit() { }
+        protected virtual void DoBusinessStart() { }
 
         /// <summary>
-        /// 打开（在页面Open时调用）
+        /// 业务打开方法（供子类重写）
         /// </summary>
-        protected virtual void OnOpen() { }
+        protected virtual void DoBusinessOpen() { }
 
         /// <summary>
-        /// 关闭（在页面Close时调用）
+        /// 业务关闭方法（供子类重写）
         /// </summary>
-        protected virtual void OnClose() { }
+        protected virtual void DoBusinessClose() { }
 
         /// <summary>
-        /// 获得焦点（在页面Focus时调用）
+        /// 业务获得焦点方法（供子类重写）
         /// </summary>
-        protected virtual void OnFocus() { }
+        protected virtual void DoBusinessFocus() { }
 
         /// <summary>
-        /// 失去焦点（在页面Unfocus时调用）
+        /// 业务失去焦点方法（供子类重写）
         /// </summary>
-        protected virtual void OnUnfocus() { }
+        protected virtual void DoBusinessUnfocus() { }
 
         /// <summary>
-        /// 暂停（在页面Pause时调用）
+        /// 业务暂停方法（供子类重写）
         /// </summary>
-        protected virtual void OnPause() { }
+        protected virtual void DoBusinessPause() { }
 
         /// <summary>
-        /// 恢复（在页面Resume时调用）
+        /// 业务恢复方法（供子类重写）
         /// </summary>
-        protected virtual void OnResume() { }
+        protected virtual void DoBusinessResume() { }
 
         /// <summary>
         /// 分辨率变化（在屏幕分辨率改变时调用）
