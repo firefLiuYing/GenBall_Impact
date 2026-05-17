@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Yueyn.Event;
 using Yueyn.Resource;
 using Yueyn.Utils;
 
@@ -32,6 +33,7 @@ namespace Yueyn.UI
         private Transform _transitionRoot;
         // private Canvas _uiCanvas;
         private Camera _uiCamera;
+        public EventDispatcher UIEventRouter { get; private set; }
 
         public Camera UICamera=>_uiCamera;
         // ===== 协程运行器 =====
@@ -40,6 +42,7 @@ namespace Yueyn.UI
 
         protected override void Init()
         {
+            UIEventRouter = new();
             CreateUIRoot();
             CreateCamera();
             CreateEventSystem();

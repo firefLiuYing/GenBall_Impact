@@ -15,6 +15,7 @@ namespace Yueyn.Resource
         protected override void Init()
         {
             // 初始化逻辑（如果需要）
+            Debug.Log("[ResourceManager] Initialized");
         }
 
         /// <summary>
