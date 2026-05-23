@@ -1,16 +1,14 @@
-using GenBall.Utils.EntityCreator;
+using System.Collections.Generic;
 using UnityEngine;
+using Yueyn.Resource;
 
 namespace GenBall.BattleSystem.Weapons
 {
     public enum WeaponId
     {
-        /// <summary>
-        /// 开局默认的小手枪
-        /// </summary>
         Pistol,
     }
-    
+
     public static class WeaponRegister
     {
         public static void Register()
@@ -21,17 +19,21 @@ namespace GenBall.BattleSystem.Weapons
 
     public static class WeaponIdExtension
     {
+        private static readonly Dictionary<WeaponId, string> _prefabPaths = new();
         private const string Path = "Assets/AssetBundles/Common/Weapon/";
 
-        public static void Register(this WeaponId bulletId)
+        public static void Register(this WeaponId weaponId)
         {
-            var bulletName=bulletId.ToString();
-            GameEntry.GetModule<EntityCreator<WeaponState>>().AddPrefab<WeaponState>(bulletName,Path+bulletName+".prefab");
+            var weaponName=weaponId.ToString();
+            _prefabPaths[weaponId] = Path + weaponName + ".prefab";
         }
 
-        public static WeaponState Create(this WeaponId bulletId)
+        public static WeaponState Create(this WeaponId weaponId)
         {
-            return GameEntry.GetModule<EntityCreator<WeaponState>>().CreateEntity<WeaponState>(bulletId.ToString());
+            var path = _prefabPaths[weaponId];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Object.Instantiate(prefab);
+            return go.GetComponent<WeaponState>();
         }
     }
 }

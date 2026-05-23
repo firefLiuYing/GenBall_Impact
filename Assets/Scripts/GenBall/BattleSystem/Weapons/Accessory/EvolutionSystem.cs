@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GenBall.Event.Generated;
+using Yueyn.Event;
 
 namespace GenBall.BattleSystem.Weapons.Accessory
 {
@@ -13,7 +14,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             set
             {
                 _currentEvolutionLevel = value;
-                GameEntry.Event.FireWeaponLevel(_currentEvolutionLevel);
+                CEventRouter.Instance.Fire(GlobalEventIds.Weapon_Level, _currentEvolutionLevel);
             }
         }
         private int _currentEvolutionLevel;
@@ -22,7 +23,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             private set
             {
                 _killPoints = value;
-                GameEntry.Event.FirePlayerKillPoints(_killPoints);
+                CEventRouter.Instance.Fire(GlobalEventIds.Player_KillPoints, _killPoints);
             }
         }
 
@@ -63,8 +64,8 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             #else
             _config=new EvolutionConfig();
             #endif
-            try { KillPoints = 0; } catch (System.NullReferenceException) { _killPoints = 0; }
-            try { CurrentEvolutionLevel = 0; } catch (System.NullReferenceException) { _currentEvolutionLevel = 0; }
+            KillPoints = 0;
+            CurrentEvolutionLevel = 0;
         }
 
         public void UnInit()

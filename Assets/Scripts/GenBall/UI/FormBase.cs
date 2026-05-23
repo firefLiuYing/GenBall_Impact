@@ -15,20 +15,6 @@ namespace GenBall.UI
         public Canvas Canvas=> _canvas ??= GetComponent<Canvas>();
         private readonly List<ItemBase> _items = new();
         private readonly Dictionary<Type,VmBase> _vmMap = new();
-
-        public void OnSpawn()
-        {
-            
-        }
-
-        // public void CloseSelf()
-        // {
-        //     if (!IsTop)
-        //     {
-        //         throw new Exception("????????????");
-        //     }
-        //     // GameEntry.GetModule<UIManager>().CloseForm<>()
-        // }
         public TVm GetVm<TVm>() where TVm : VmBase =>(TVm)GetVm(typeof(TVm));
         private VmBase GetVm([NotNull] Type type)
         {
@@ -162,20 +148,6 @@ namespace GenBall.UI
         }
 
         protected virtual void OnResume(object args = null)
-        {
-            
-        }
-
-        public virtual void EntityUpdate(float deltaTime)
-        {
-            
-        }
-
-        public virtual void EntityFixedUpdate(float fixedDeltaTime)
-        {
-            
-        }
-        public virtual void OnRecycle()
         {
             
         }

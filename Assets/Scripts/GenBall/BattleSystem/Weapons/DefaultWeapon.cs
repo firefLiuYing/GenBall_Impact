@@ -1,7 +1,4 @@
-using System;
-using GenBall.BattleSystem.Bullets;
 using GenBall.Player;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons

@@ -5,6 +5,7 @@ using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Framework.Config;
+using GenBall.Framework.Entity;
 using GenBall.Interact;
 using GenBall.Map;
 using GenBall.Player;
@@ -104,6 +105,8 @@ namespace GenBall.Framework.Tests
                 SystemRepository.Instance.UnregisterSystem<IDeathSystem>();
             if (SystemRepository.Instance.HasSystem<IDamageSystem>())
                 SystemRepository.Instance.UnregisterSystem<IDamageSystem>();
+            if (SystemRepository.Instance.HasSystem<IEntityUpdateSystem>())
+                SystemRepository.Instance.UnregisterSystem<IEntityUpdateSystem>();
             if (SystemRepository.Instance.HasSystem<IBuffTickSystem>())
                 SystemRepository.Instance.UnregisterSystem<IBuffTickSystem>();
             if (SystemRepository.Instance.HasSystem<IBuffRegistry>())
@@ -122,6 +125,7 @@ namespace GenBall.Framework.Tests
             var save = new FakeSaveService();
             var buffRegistry = new BuffRegistry();
             var buffTick = new BuffTickSystem();
+            var entityUpdate = new EntityUpdateSystem();
             var damageSystem = new DamageSystemDefault();
             var deathSystem = new DeathSystemDefault();
             var interact = new InteractSystem();
@@ -142,6 +146,7 @@ namespace GenBall.Framework.Tests
             Assert.That(() => repo.RegisterSystem<ISaveService>(save), Throws.Nothing);
             Assert.That(() => repo.RegisterSystem<IBuffRegistry>(buffRegistry), Throws.Nothing);
             Assert.That(() => repo.RegisterSystem<IBuffTickSystem>(buffTick), Throws.Nothing);
+            Assert.That(() => repo.RegisterSystem<IEntityUpdateSystem>(entityUpdate), Throws.Nothing);
             Assert.That(() => repo.RegisterSystem<IDamageSystem>(damageSystem), Throws.Nothing);
             Assert.That(() => repo.RegisterSystem<IDeathSystem>(deathSystem), Throws.Nothing);
             Assert.That(() => repo.RegisterSystem<IInteractSystem>(interact), Throws.Nothing);
@@ -160,6 +165,7 @@ namespace GenBall.Framework.Tests
             Assert.That(repo.GetSystem<ISaveService>(), Is.Not.Null);
             Assert.That(repo.GetSystem<IBuffRegistry>(), Is.Not.Null);
             Assert.That(repo.GetSystem<IBuffTickSystem>(), Is.Not.Null);
+            Assert.That(repo.GetSystem<IEntityUpdateSystem>(), Is.Not.Null);
             Assert.That(repo.GetSystem<IDamageSystem>(), Is.Not.Null);
             Assert.That(repo.GetSystem<IDeathSystem>(), Is.Not.Null);
             Assert.That(repo.GetSystem<IInteractSystem>(), Is.Not.Null);
@@ -186,6 +192,7 @@ namespace GenBall.Framework.Tests
             repo.UnregisterSystem<IInteractSystem>();
             repo.UnregisterSystem<IDeathSystem>();
             repo.UnregisterSystem<IDamageSystem>();
+            repo.UnregisterSystem<IEntityUpdateSystem>();
             repo.UnregisterSystem<IBuffTickSystem>();
             repo.UnregisterSystem<IBuffRegistry>();
             repo.UnregisterSystem<ISaveService>();

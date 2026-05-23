@@ -11,6 +11,8 @@ using UnityEngine.UI;
 namespace GenBall.Utils.CodeGenerator.UI
 {
     // [RequireComponent(typeof(IBindable))]
+    [Obsolete("Use UiViewBinding and the new UiCodeGenerator instead. " +
+              "See Window > UI Code Generator or Tools/UiCodeGenerator/ (Python CLI).")]
     public class UiBindTool : MonoBehaviour
     {
         [SerializeField] private string className;

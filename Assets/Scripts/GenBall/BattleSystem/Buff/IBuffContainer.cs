@@ -54,7 +54,7 @@ namespace GenBall.BattleSystem.Buff
             }
         }
 
-        public static List<BuffObj> GetBuffs(this IBuffContainer buffContainer, BuffId buffId)
+        public static List<BuffObj> GetBuffs(this IBuffContainer buffContainer, string buffId)
         {
             var buffObjs = buffContainer.GetBuffs<BuffObj>();
             var result = BuffListPool<BuffObj>.Rent();
@@ -68,7 +68,7 @@ namespace GenBall.BattleSystem.Buff
             return result;
         }
 
-        public static void GetBuffs(this IBuffContainer buffContainer, BuffId buffId, out List<BuffObj> buffs)
+        public static void GetBuffs(this IBuffContainer buffContainer, string buffId, out List<BuffObj> buffs)
         {
             buffs = BuffListPool<BuffObj>.Rent();
             foreach (var buff in buffContainer.Buffs)

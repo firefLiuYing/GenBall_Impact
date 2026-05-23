@@ -1,10 +1,9 @@
 using GenBall.Player;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
 {
-    public interface IWeapon:IEntity,IEffectable
+    public interface IWeapon:IEffectable
     {
         public IAttacker Owner { get; }
         public void Trigger(ButtonState triggerState);

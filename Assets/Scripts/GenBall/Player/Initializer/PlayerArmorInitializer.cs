@@ -8,7 +8,7 @@ namespace GenBall.Player.Initializer
     {
         public override void Initialize(CharacterState characterState)
         {
-            SystemRepository.Instance.GetSystem<IBuffRegistry>().AddBuff(AddBuffInfo.Create(BuffId.PlayerArmor,characterState.gameObject));
+            SystemRepository.Instance.GetSystem<IBuffRegistry>().AddBuff(AddBuffInfo.Create(BuffIdConstants.PlayerArmor,characterState.gameObject));
         }
     }
 }

@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons;
-using GenBall.Utils.EntityCreator;
+using GenBall.Framework.Entity;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
 using Yueyn.Event;
 using Yueyn.Fsm;
+using Yueyn.Main;
 
 namespace GenBall.Player
 {
-    public partial class Player:MonoBehaviour,IEntity
+    public partial class Player:MonoBehaviour,IEntityFrameUpdate,IEntityLogicUpdate
     {
         [SerializeField]private Transform mainCameraTransform;
 
@@ -19,7 +20,7 @@ namespace GenBall.Player
         {
             if (mainCameraTransform == null)
             {
-                throw new Exception("Main Camera Transform Ã»ÅäÖÃ");
+                throw new Exception("Main Camera Transform Ã»ï¿½ï¿½ï¿½ï¿½");
             }
             var camTrans=Camera.main.transform;
             camTrans.SetParent(mainCameraTransform,false);
@@ -38,15 +39,27 @@ namespace GenBall.Player
             RegisterEvents();
             StartFsm();
             EquipPhysicsWeapon<DefaultWeapon>();
+
+            var entitySystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
+            entitySystem.AddFrameUpdate(this);
+            entitySystem.AddLogicUpdate(this);
         }
-        public void EntityUpdate(float deltaTime)
+
+        public void FrameUpdate(float deltaTime)
         {
             CountdownUpdate(deltaTime);
         }
 
-        public void EntityFixedUpdate(float fixedDeltaTime)
+        public void LogicUpdate(float deltaTime)
         {
             PhysicsUpdate();
+        }
+
+        private void OnDestroy()
+        {
+            var entitySystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
+            entitySystem?.RemoveFrameUpdate(this);
+            entitySystem?.RemoveLogicUpdate(this);
         }
 
         private void RegisterEvents()
@@ -57,9 +70,5 @@ namespace GenBall.Player
             _fsm.GetData<Variable<Quaternion>>("ViewRotation").Observe(OnViewRotationChange);
         }
 
-        public void OnRecycle()
-        {
-            
-        }
     }
 }

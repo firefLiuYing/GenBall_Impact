@@ -3,12 +3,16 @@ using GenBall.BattleSystem.Character;
 using GenBall.Framework.Config;
 using UnityEngine;
 using Yueyn.Main;
+using Yueyn.Resource;
+using Object = UnityEngine.Object;
 
 namespace GenBall.Player
 {
     public class PlayerSystemDefault : IPlayerSystem
     {
         public GameObject Player { get; private set; }
+
+        private const string PlayerPrefabPath = "Assets/AssetBundles/Common/Player/Prefab/Player.prefab";
 
         private Vector3 _defaultSpawnPosition;
         private Quaternion _defaultSpawnRotation;
@@ -19,17 +23,6 @@ namespace GenBall.Player
             var config = configProvider?.GetConfig<AppSettingsConfig>();
             _defaultSpawnPosition = config != null ? config.defaultPlayerSpawnPosition : Vector3.zero;
             _defaultSpawnRotation = config != null ? Quaternion.Euler(config.defaultPlayerSpawnRotation) : Quaternion.identity;
-
-            try
-            {
-                GameEntry.CharacterCreator.AddPrefab<CharacterState>(
-                    "Player",
-                    "Assets/AssetBundles/Common/Player/Prefab/Player.prefab");
-            }
-            catch (NullReferenceException)
-            {
-                // GameEntry not available in EditMode tests
-            }
         }
 
         public void UnInit()
@@ -47,9 +40,9 @@ namespace GenBall.Player
             if (Player != null)
                 throw new Exception("Current scene already has a Player");
 
-            var player = GameEntry.CharacterCreator.CreateEntity<CharacterState>(
-                "Player", position, rotation, null);
-            Player = player.gameObject;
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(PlayerPrefabPath);
+            var go = Object.Instantiate(prefab, position, rotation);
+            Player = go;
         }
     }
 }

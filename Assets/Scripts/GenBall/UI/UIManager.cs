@@ -1,17 +1,24 @@
+using System;
 using System.Collections.Generic;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Main;
+using Yueyn.Resource;
+using Object = UnityEngine.Object;
 
 namespace GenBall.UI
 {
     public partial class UIManager : MonoBehaviour,IComponent
     {
         public int Priority => 1000;
-        private EntityCreator<IUserInterface> UiCreator => GameEntry.GetModule<EntityCreator<IUserInterface>>();
+        private static readonly Dictionary<Type, string> FormPrefabPaths = new();
         private readonly Stack<IUserInterface> _activeUI = new();
         [SerializeField] private Transform uiRoot;
         [SerializeField] private int orderInterval;
+
+        public static void RegisterForm<T>(string path) where T : IUserInterface
+        {
+            FormPrefabPaths[typeof(T)] = path;
+        }
 
         #region CloseForm
 
@@ -26,7 +33,7 @@ namespace GenBall.UI
         {
             if (_activeUI.Count <= 0)
             {
-                Debug.Log("µ±Ç°Ã»ÓÐ´ò¿ªµÄUI½çÃæ");
+                Debug.Log("å½“å‰æ²¡æœ‰æ‰“å¼€çš„UIçª—ä½“");
                 return;
             }
 
@@ -35,12 +42,12 @@ namespace GenBall.UI
             topForm.Close(args);
             if (topForm is MonoBehaviour monoBehaviour)
             {
-                UiCreator.RecycleEntity(monoBehaviour.gameObject);
+                Object.Destroy(monoBehaviour.gameObject);
             }
         }
 
         #endregion
-        
+
         #region OpenForm
 
         public void OpenForm<TUiForm>(object args=null) where TUiForm : MonoBehaviour, IUserInterface => InternalOpenForm<TUiForm>(args);
@@ -51,7 +58,11 @@ namespace GenBall.UI
             {
                 _activeUI.Peek().Unfocus();
             }
-            var uiForm = UiCreator.CreateEntity<TUiForm>(uiRoot);
+
+            var path = FormPrefabPaths[typeof(TUiForm)];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Object.Instantiate(prefab, uiRoot);
+            var uiForm = go.GetComponent<TUiForm>();
             uiForm.Init(args);
             _activeUI.Push(uiForm);
             uiForm.Canvas.sortingOrder=orderInterval*_activeUI.Count;
@@ -65,7 +76,11 @@ namespace GenBall.UI
             {
                 _activeUI.Peek().Unfocus();
             }
-            var uiForm = UiCreator.CreateEntity<TUiForm>(name,uiRoot);
+
+            var path = FormPrefabPaths[typeof(TUiForm)];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Object.Instantiate(prefab, uiRoot);
+            var uiForm = go.GetComponent<TUiForm>();
             uiForm.Init(args);
             _activeUI.Push(uiForm);
             uiForm.Canvas.sortingOrder=orderInterval*_activeUI.Count;
@@ -75,33 +90,37 @@ namespace GenBall.UI
         }
         #endregion
 
-        
-        
-        #region Ã»ÓÃµÄ¶«Î÷ß÷
+
+
+        #region æ²¡ç”¨çš„ä¸œè¥¿
 
         public void Init()
         {
-            
+            RegisterForm<MainHud>("Assets/AssetBundles/UI/MainHud/Form/MainHud.prefab");
+            RegisterForm<AccessoryForm>("Assets/AssetBundles/UI/MainHud/Form/AccessoryForm.prefab");
+            RegisterForm<UpgradeTip>("Assets/AssetBundles/UI/MainHud/Form/UpgradeTip.prefab");
+            RegisterForm<SplashForm>("Assets/AssetBundles/UI/MainHud/Form/SplashForm.prefab");
+            RegisterForm<StartForm>("Assets/AssetBundles/UI/MainHud/Form/StartForm.prefab");
         }
 
         public void OnUnregister()
         {
-            
+
         }
 
         public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
-            
+
         }
 
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            
+
         }
 
         public void Shutdown()
         {
-            
+
         }
 
         #endregion

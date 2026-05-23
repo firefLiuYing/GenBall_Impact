@@ -6,8 +6,8 @@ namespace GenBall.BattleSystem.Bullets.Tests
 {
     /// <summary>
     /// EditMode tests for IBulletSystem / BulletSystem.
-    /// FireBullet and RecycleBullet need EntityCreator which is unavailable
-    /// in EditMode, so those paths are tested with null-input exception checks.
+    /// FireBullet/RecycleBullet are tested with null-input exception checks.
+    /// RecycleBullet uses Object.Destroy; FireBullet accesses info.Model on null.
     /// </summary>
     [TestFixture]
     public class BulletSystemTests
@@ -65,7 +65,8 @@ namespace GenBall.BattleSystem.Bullets.Tests
         [Test]
         public void RecycleBullet_WithNull_Throws()
         {
-            // RecycleBullet accesses bulletState.gameObject on null, causing NullReferenceException
+            // RecycleBullet calls Object.Destroy(bulletState.gameObject); with null bulletState,
+            // causing NullReferenceException
             Assert.Throws<System.NullReferenceException>(() => _bulletSystem.RecycleBullet(null));
         }
     }

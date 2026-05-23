@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using GenBall.BattleSystem.Buff;
-using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
@@ -61,7 +60,7 @@ namespace GenBall.BattleSystem.Bullets
 
         public void RecycleBullet(BulletState bulletState)
         {
-            GameEntry.GetModule<EntityCreator<BulletState>>().RecycleEntity(bulletState.gameObject);
+            Object.Destroy(bulletState.gameObject);
         }
         public void Init()
         {

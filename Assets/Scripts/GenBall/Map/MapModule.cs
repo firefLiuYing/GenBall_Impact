@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using GenBall.Event.Generated;
 using GenBall.Procedure;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yueyn.Main;
+using Yueyn.Resource;
 
 namespace GenBall.Map
 {
@@ -13,11 +13,11 @@ namespace GenBall.Map
     {
         public int Priority => 1000;
         [SerializeField] private Transform mapRoot;
-        private EntityCreator<IMapBlock> MapBlockCreator => GameEntry.GetModule<EntityCreator<IMapBlock>>();
         private MapConfig _mapConfig;
-        [SerializeField,Header("¼ÓÔØ²ãÊı"),Tooltip("¼ÓÔØÒ»¸öµØ¿éÊ±£¬¶îÍâ¼ÓÔØÖÜÎ§µØ¿éµÄ²ãÊı£¬µÈÓÚ0Ê±´ú±í²»¶îÍâ¼ÓÔØ")] private int loadLayerCount;
+        [SerializeField,Header("åŠ è½½å‚æ•°"),Tooltip("è¿›å…¥ä¸€ä¸ªå…³å¡æ—¶ï¼Œå½“åŠ è½½å‘¨å›´å…³å¡å—å±‚æ•°ï¼Œå½“ä¸º0æ—¶åŠ è½½æ‰€æœ‰å±‚æ•°")] private int loadLayerCount;
         private readonly Dictionary<int, bool> _blockActiveTable = new();
 
+        private readonly Dictionary<int, string> _blockPrefabPaths = new();
         private readonly Dictionary<int, MapBlockConfig> _blockMap = new();
         private int _curMapBlockIndex;
         public void Init()
@@ -27,33 +27,6 @@ namespace GenBall.Map
                 mapRoot = transform;
             }
             var sceneName=SceneManager.GetActiveScene().name;
-            // _mapConfig=SceneMapIndexProvider.GetMapConfig(sceneName);
-            // if (_mapConfig == null)
-            // {
-            //     Debug.LogError("gzp ÇëÌí¼ÓµØÍ¼ÅäÖÃ");
-            //     return;
-            // }
-            // if (_mapConfig.mapBlockConfigs.Count == 0)
-            // {
-            //     Debug.LogError("gzp µØÍ¼ÅäÖÃÖÁÉÙÒªÓĞÒ»¸öµØÍ¼¿é");
-            //     return;
-            // }
-            //
-            // if (_mapConfig.mapBlockConfigs.Count == 0)
-            // {
-            //     Debug.LogError("gzp µØÍ¼ÅäÖÃÖÁÉÙÒªÓĞÒ»¸ö´æµµµã");
-            //     return;
-            // }
-            //
-            // foreach (var blockConfig in _mapConfig.mapBlockConfigs)
-            // {
-            //     _blockActiveTable[blockConfig.mapBlockIndex] = false;
-            //     _blockMap.Add(blockConfig.mapBlockIndex, blockConfig);
-            //     MapBlockCreator.AddPrefab<MapBlockBase>(blockConfig.BlockName,blockConfig.mapBlockPrefabPath);
-            // }
-            //
-            // _curMapBlockIndex = -1;
-            // GameEntry.Event.SubscribePlayerPosition(OnPlayerPositionChanged);
         }
 
         public void LoadSavePointAround(int savePointIndex)
@@ -61,7 +34,7 @@ namespace GenBall.Map
             var savePointInfo=GetSavePointInfo(savePointIndex);
             if (savePointInfo == null)
             {
-                Debug.LogError($"gzp savePointIndex:{savePointIndex}²»´æÔÚ");
+                Debug.LogError($"gzp savePointIndex:{savePointIndex}ä¸å­˜åœ¨");
                 return;
             }
             var blockIndex=savePointInfo.mapBlockIndex;
@@ -75,7 +48,6 @@ namespace GenBall.Map
         }
         private void OnPlayerPositionChanged(Transform playerTransform)
         {
-            // todo gzp ²¹³äÅĞ¶¨½øÈëÄÄ¸öµØ¿éµÄÂß¼­
             foreach (var blockConfig in _blockMap.Values)
             {
                 if (blockConfig.InBlock(playerTransform.position))
@@ -89,30 +61,31 @@ namespace GenBall.Map
         {
             if (_curMapBlockIndex == mapBlockIndex)
             {
-                // Debug.LogError($"gzp ½øÈëµÄµØÍ¼¿éºÍµ±Ç°µØÍ¼¿éindexÏàÍ¬£º_curMapBlockIndex:{mapBlockIndex}");
                 return;
             }
             if (!_blockMap.ContainsKey(mapBlockIndex)&&_curMapBlockIndex!=-1)
             {
-                Debug.LogError($"gzp mapBlockIndex:{mapBlockIndex}²»ºÏ·¨");
+                Debug.LogError($"gzp mapBlockIndex:{mapBlockIndex}ä¸åˆæ³•");
                 return;
             }
             _curMapBlockIndex = mapBlockIndex;
             LoadBlocks(mapBlockIndex,loadLayerCount);
-            Debug.Log($"gzp ½øÈëµØ¿é£º{mapBlockIndex}");
+            Debug.Log($"gzp å½“å‰å…³å¡å—ï¼š{mapBlockIndex}");
         }
-        
+
         private void LoadMapBlock(int index)
         {
             if (!_blockActiveTable[index])
             {
-                var block= MapBlockCreator.CreateEntity<MapBlockBase>($"Block_{index}");
-                block.transform.SetParent(mapRoot.transform, true);
-                block.SetIndex(index);
+                var path = _blockPrefabPaths[index];
+                var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+                var block = Object.Instantiate(prefab, mapRoot);
+                var mapBlock = block.GetComponent<IMapBlock>();
+                mapBlock.SetIndex(index);
                 _blockActiveTable[index] = true;
             }
         }
-        
+
         private readonly List<int> _cachedBlockNeighborIndexList = new List<int>();
         private readonly List<int> _tempBlockNeighborIndexList = new List<int>();
         private void LoadBlocks(int blockIndex, int layerCount)
@@ -139,22 +112,22 @@ namespace GenBall.Map
 
         public void OnUnregister()
         {
-            
+
         }
 
         public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
-            
+
         }
 
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            
+
         }
 
         public void Shutdown()
         {
-            
+
         }
     }
 }

@@ -1,9 +1,8 @@
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
 namespace GenBall.UI
 {
-    public interface IUserInterface : IEntity
+    public interface IUserInterface
     {
         public void Init(object args=null);
         public void Open(object args=null);

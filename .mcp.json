@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "unity": {
+      "command": "py",
+      "args": ["-m", "Tools.UnityMcp"]
+    }
+  }
+}

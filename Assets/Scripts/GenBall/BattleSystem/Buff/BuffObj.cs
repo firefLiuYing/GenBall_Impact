@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GenBall.Framework.Config;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
@@ -10,7 +11,7 @@ namespace GenBall.BattleSystem.Buff
     public abstract class BuffObj : IBuff,IReference
     {
         public BuffModel Model { get;private set; }
-        public BuffId BuffId=>Model?.BuffId??BuffId.Default;
+        public string BuffId => Model?.BuffId ?? string.Empty;
         public int Priority => Model?.Priority ?? 0;
         public bool CanMultiExist => Model?.CanMultiExist ?? false;
         public IReadOnlyList<string> Tags => Model?.Tags??Enumerable.Empty<string>().ToList();
@@ -32,7 +33,13 @@ namespace GenBall.BattleSystem.Buff
                 Debug.LogError("gzp ����BuffObjʧ�ܣ�ModelΪnull");
                 return null;
             }
-            var buffObj=(BuffObj)ReferencePool.Acquire(addBuffInfo.Model.BuffId.ToType());
+            var buffType = SystemRepository.Instance.GetSystem<IConfigProvider>()?.GetConfig<BuffModelConfig>()?.GetBuffType(addBuffInfo.Model.BuffId);
+            if (buffType == null)
+            {
+                Debug.LogError($"gzp 创建BuffObj失败: Type not found for BuffId={addBuffInfo.Model.BuffId}");
+                return null;
+            }
+            var buffObj=(BuffObj)ReferencePool.Acquire(buffType);
             buffObj.Model = addBuffInfo.Model;
             buffObj.Carrier = addBuffInfo.Carrier;
             buffObj.Caster = addBuffInfo.Caster;

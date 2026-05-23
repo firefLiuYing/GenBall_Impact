@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Character;
 using GenBall.Enemy;
@@ -6,10 +7,10 @@ using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
 using GenBall.UI;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yueyn.Main;
+using Yueyn.Resource;
 
 namespace GenBall.Procedure.Execute
 {
@@ -52,6 +53,8 @@ namespace GenBall.Procedure.Execute
             // 加载敌人
             LoadEnemyUnit();
             // 初始化UI
+            // TODO: Replace GameEntry.UI with Yueyn.UI.UIManager.Instance.OpenForm() after
+            // MainHud is migrated from FormBase/IUserInterface to UIFormScript-based MVP.
             GameEntry.UI.OpenForm<MainHud>();
             // 加载Player
             // var savePointInfo = SceneMapIndexProvider.GetMapConfig(loadInfo.SceneName).savePointInfos.FirstOrDefault(s=>s.index==loadInfo.SavePointIndex);
@@ -71,16 +74,23 @@ namespace GenBall.Procedure.Execute
             }
 
             // todo gzp 测试代码，记得删
-            GameEntry.CharacterCreator.CreateEntity<CharacterState>(nameof(EnemyId.TestOrbis));
+            EnemyId.TestOrbis.Create();
         }
+
+        private static readonly Dictionary<string, string> EnemyPrefabPaths = new()
+        {
+            { "NormalOrbis", "Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab" },
+        };
 
         private void LoadEnemyUnit()
         {
             var enemyUnitModels = _sceneSystem.GetAllUnKilledEnemyModel(SceneManager.GetActiveScene().name);
             foreach (var enemyUnitModel in enemyUnitModels)
             {
-                var enemy = GameEntry.GetModule<EntityCreator<IEnemy>>().CreateEntity<EnemyBase>(
-                    enemyUnitModel.enemyType, enemyUnitModel.spawnPosition, enemyUnitModel.spawnRotation);
+                var path = EnemyPrefabPaths[enemyUnitModel.enemyType];
+                var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+                var go = Object.Instantiate(prefab, enemyUnitModel.spawnPosition, enemyUnitModel.spawnRotation);
+                var enemy = go.GetComponent<EnemyBase>();
                 enemy.Initialize();
             }
         }

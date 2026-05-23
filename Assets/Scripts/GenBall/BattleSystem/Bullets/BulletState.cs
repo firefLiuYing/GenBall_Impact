@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets.BulletController;
-using GenBall.Utils.EntityCreator;
+using GenBall.Framework.Entity;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets
 {
-    public class BulletState : MonoBehaviour, IBuffContainer,IEntity
+    public class BulletState : MonoBehaviour, IBuffContainer,IEntityLogicUpdate
     {
         public BulletModel Model{get;private set;}
         public GameObject Source{get;private set;}
@@ -24,6 +25,7 @@ namespace GenBall.BattleSystem.Bullets
             RendererSpawnPoint = info.RendererSpawnPoint;
             SpawnDirection = info.SpawnDirection;
             _controller.Init(this);
+            SystemRepository.Instance.GetSystem<IEntityUpdateSystem>().AddLogicUpdate(this);
         }
 
         public void Fire()
@@ -46,26 +48,14 @@ namespace GenBall.BattleSystem.Bullets
 
         #endregion
         
-        #region Entity
-        public void EntityUpdate(float deltaTime)
+        public void LogicUpdate(float deltaTime)
         {
-            
+            _controller.Tick(deltaTime);
         }
 
-        public void EntityFixedUpdate(float fixedDeltaTime)
+        private void OnDestroy()
         {
-            _controller.Tick(fixedDeltaTime);
+            SystemRepository.Instance.GetSystem<IEntityUpdateSystem>()?.RemoveLogicUpdate(this);
         }
-
-        public void OnRecycle()
-        {
-            
-        }
-
-        public void OnSpawn()
-        {
-            
-        }
-        #endregion
     }
 }

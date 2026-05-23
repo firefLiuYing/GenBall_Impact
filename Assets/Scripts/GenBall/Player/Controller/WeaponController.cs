@@ -2,7 +2,6 @@ using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Weapons;
 using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Procedure.Game;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Yueyn.Base.ReferencePool;
@@ -69,7 +68,7 @@ namespace GenBall.Player.Controller
             if (_currentWeapon != null)
             {
                 _currentWeapon.OnUnequip();
-                GameEntry.GetModule<EntityCreator<WeaponState>>().RecycleEntity(_currentWeapon.gameObject);
+                Object.Destroy(_currentWeapon.gameObject);
                 _currentWeapon=null;
             }
             _currentWeapon=info.WeaponId.Create();

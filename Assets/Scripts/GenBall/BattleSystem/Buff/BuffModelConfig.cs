@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Buff
@@ -9,74 +8,51 @@ namespace GenBall.BattleSystem.Buff
     public class BuffModelConfig : ScriptableObject
     {
         [SerializeField] private List<BuffModel> buffModels=new();
-        private readonly Dictionary<BuffId,BuffModel> _buffDict = new();
+        private readonly Dictionary<string,BuffModel> _buffDict = new();
+        private readonly Dictionary<string, System.Type> _buffTypeCache = new();
         public void Init()
         {
             _buffDict.Clear();
+            _buffTypeCache.Clear();
             foreach (var buffModel in buffModels)
             {
                 _buffDict.TryAdd(buffModel.BuffId,buffModel);
+                if (!string.IsNullOrEmpty(buffModel.BuffType))
+                {
+                    var type = System.Type.GetType(buffModel.BuffType);
+                    if (type != null)
+                    {
+                        _buffTypeCache.TryAdd(buffModel.BuffId, type);
+                    }
+                }
             }
         }
 
-        public BuffModel GetBuffModel(BuffId buffId)
+        public BuffModel GetBuffModel(string buffId)
         {
             return _buffDict.GetValueOrDefault(buffId);
         }
+
+        public System.Type GetBuffType(string buffId)
+        {
+            return _buffTypeCache.GetValueOrDefault(buffId);
+        }
     }
 
-    public static class ConfigProvider
-    {
-        private const string BuffModelConfigPath = "Assets/AssetBundles/Config/BuffModelConfig.asset";
-        private static BuffModelConfig _cachedConfig;
-        private static bool _configInitialized=false;
-        #if UNITY_EDITOR
-        public static BuffModelConfig GetOrCreateBuffModelConfig()
-        {
-            if(_cachedConfig!=null)  return _cachedConfig;
-            var guids=AssetDatabase.FindAssets("t:BuffModelConfig");
-            if (guids.Length > 1)
-            {
-                Debug.LogError("gzp ·¢ÏÖ¶à¸öBuffModelConfig£¬ÇëÖ»±£ÁôÒ»¸ö");
-                return null;
-            }
-            if (guids.Length == 1)
-            {
-                var path=AssetDatabase.GUIDToAssetPath(guids[0]);
-                _cachedConfig= AssetDatabase.LoadAssetAtPath<BuffModelConfig>(path);
-                if (!_configInitialized)
-                {
-                    _cachedConfig.Init();
-                    _configInitialized=true;
-                }
-                return _cachedConfig;
-            }
-            var config=ScriptableObject.CreateInstance<BuffModelConfig>();
-            AssetDatabase.CreateAsset(config,BuffModelConfigPath);
-            AssetDatabase.SaveAssets();
-            Debug.Log("gzp ÒÑ×Ô¶¯´´½¨BuffModelConfig");
-            _cachedConfig = config;
-            if (!_configInitialized)
-            {
-                _cachedConfig.Init();
-                _configInitialized=true;
-            }
-            return _cachedConfig;
-        }
-        #endif
-    }
     [Serializable]
     public class BuffModel
     {
-        [SerializeField,Tooltip("¸ù¾ÝÕâ¸öÃû×ÖÀ´²éÕÒ¶ÔÓ¦buffÐ§¹û")] private BuffId buffId;
+        [SerializeField,Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½Ó¦buffÐ§ï¿½ï¿½")] private string buffId;
+        [SerializeField] private string buffType;
         [SerializeField] private string displayName;
         [SerializeField] private bool canMultiExist;
-        [SerializeField,Tooltip("´¥·¢ÓÅÏÈ¼¶")] private int priority;
+        [SerializeField,Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½")] private int priority;
         [SerializeField] private List<string> tags;
         [SerializeField] private List<BuffParam> parameters;
-        [SerializeField,Tooltip("²»¿Éµþ²ãÊ±Ìî1")] private int maxStack;
+        [SerializeField,Tooltip("ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½Ê±ï¿½ï¿½1")] private int maxStack;
         
-        public BuffId BuffId => buffId;
+        public string BuffId => buffId;
+        public string BuffType => buffType;
         public string DisplayName => displayName;
         public bool CanMultiExist => canMultiExist;
         public int Priority => priority;

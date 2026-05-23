@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Command;
+using GenBall.Framework.Entity;
 using GenBall.Procedure.Game;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Character
 {
-    public class CharacterState : MonoBehaviour,IDamageable,IBuffContainer,IEntity
+    public class CharacterState : MonoBehaviour,IDamageable,IBuffContainer,IEntityLogicUpdate
     {
         private readonly List<ICharacterInitializer> _initializers=new();
         private readonly List<ICharacterController>  _controllers=new();
@@ -47,6 +47,7 @@ namespace GenBall.BattleSystem.Character
                 controller.Initialize(this);
             }
             Health=MaxHealth;
+            SystemRepository.Instance.GetSystem<IEntityUpdateSystem>().AddLogicUpdate(this);
         }
 
         public bool CanMove { get; set; }
@@ -126,34 +127,24 @@ namespace GenBall.BattleSystem.Character
         public void RemoveBuff(Buff.IBuff buff)=>_buffs.Remove(buff);
         #endregion
 
-        #region Entity
-
-        public void OnSpawn()
-        {
-            Initialize();
-        }
-        
-        public void EntityUpdate(float deltaTime)
-        {
-            
-        }
-
-        public void EntityFixedUpdate(float fixedDeltaTime)
+        public void LogicUpdate(float deltaTime)
         {
             if(IsPause) return;
             foreach (var controller in _controllers)
             {
-                controller.Tick(fixedDeltaTime);
+                controller.Tick(deltaTime);
             }
         }
 
-        public void OnRecycle()
+        private void OnDestroy()
         {
-            ReferencePool.Release(Stats);
-            Stats = null;
+            SystemRepository.Instance.GetSystem<IEntityUpdateSystem>()?.RemoveLogicUpdate(this);
+            if (Stats != null)
+            {
+                ReferencePool.Release(Stats);
+                Stats = null;
+            }
         }
-
-        #endregion
         
         private bool IsPause=>SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused;
     }

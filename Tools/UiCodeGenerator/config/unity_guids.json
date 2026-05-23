@@ -1,0 +1,26 @@
+{
+  "description": "Unity component GUID to C# type mapping. Extracted from UnityEngine.UI package meta files.",
+  "guid_mappings": {
+    "4e29b1a8efbd4b44bb3f3716e73f07ff": "UnityEngine.UI.Button",
+    "fe87c0e1cc204ed48ad3b37840f39efc": "UnityEngine.UI.Image",
+    "5f7201a12d95ffc409449d95f23cf332": "UnityEngine.UI.Text",
+    "1344c3c82d62a2a41a3576d8abb8e3ea": "UnityEngine.UI.RawImage",
+    "d199490a83bb2b844b9695cbf13b01ef": "UnityEngine.UI.InputField",
+    "67db9e8f0e2ae9c40bc1e2b64352a6b4": "UnityEngine.UI.Slider",
+    "9085046f02f69544eb97fd06b6048fe2": "UnityEngine.UI.Toggle",
+    "1aa08ab6e0800fa44ae55d278d1423e3": "UnityEngine.UI.ScrollRect",
+    "0d0b652f32a2cc243917e4028fa0f046": "UnityEngine.UI.Dropdown",
+    "2a4db7a114972834c8e4117be1d82ba3": "UnityEngine.UI.Scrollbar",
+    "306cc8c2b49d7114eaa3623786fc2126": "UnityEngine.UI.LayoutElement",
+    "3245ec927659c4140ac4f8d17403cc18": "UnityEngine.UI.ContentSizeFitter",
+    "30649d3a9faa99c48a7b1166b86bf2a0": "UnityEngine.UI.HorizontalLayoutGroup",
+    "59f8146938fff824cb5fd77236b75775": "UnityEngine.UI.VerticalLayoutGroup",
+    "8a8695521f0d02e499659fee002a26c2": "UnityEngine.UI.GridLayoutGroup"
+  },
+  "builtin_tags": {
+    "224": "UnityEngine.RectTransform",
+    "223": "UnityEngine.Canvas",
+    "222": "UnityEngine.CanvasRenderer",
+    "225": "UnityEngine.CanvasGroup"
+  }
+}

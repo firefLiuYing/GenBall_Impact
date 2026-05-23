@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using GenBall.Framework.Config;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Buff
 {
@@ -20,14 +22,10 @@ namespace GenBall.BattleSystem.Buff
         public int AddStacks { get;private set; }
         public List<BuffParam> Parameters { get;private set; }
 
-        public static AddBuffInfo Create(BuffId buffId, [NotNull] GameObject carrier,int addStacks=1,
+        public static AddBuffInfo Create(string buffId, [NotNull] GameObject carrier,int addStacks=1,
             IEnumerable<BuffParam> param = null, GameObject caster = null)
         {
-            #if UNITY_EDITOR
-            var buffModel=ConfigProvider.GetOrCreateBuffModelConfig().GetBuffModel(buffId);
-            #else
-            var buffModel=new BuffModel();
-            #endif
+            var buffModel=SystemRepository.Instance.GetSystem<IConfigProvider>()?.GetConfig<BuffModelConfig>()?.GetBuffModel(buffId);
             if (buffModel == null)
             {
                 Debug.LogError($"gzp 未找到BuffId：{buffId}对应的BuffModel配置");

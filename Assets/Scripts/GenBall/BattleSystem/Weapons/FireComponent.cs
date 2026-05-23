@@ -1,27 +1,32 @@
 using System;
+using System.Collections.Generic;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Generated;
 using GenBall.Player;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
+using Yueyn.Resource;
 
 namespace GenBall.BattleSystem.Weapons
 {
     [RequireComponent(typeof(MagazineComponent))]
     public class FireComponent : WeaponComponentBase
     {
+        private static readonly Dictionary<Type, string> BulletPrefabPaths = new()
+        {
+            { typeof(DefaultBullet), "Assets/AssetBundles/TemporaryAssets/Bullet/DefaultBullet/Prefab/DefaultBullet.prefab" },
+        };
+
         [SerializeField] private float baseFireInterval;
         [SerializeField] private Transform bulletSpawnPoint;
         [SerializeField] private FireMode fireMode=FireMode.Automatic;
         public Type BulletType { get; private set; }=typeof(DefaultBullet);
-        private EntityCreator<IBullet> BulletCreator => GameEntry.GetModule<EntityCreator<IBullet>>();
         private MagazineComponent Magazine => Owner.GetWeaponComponent<MagazineComponent>();
-        public FireMode Mode { get=>fireMode; set=>fireMode=value; } 
+        public FireMode Mode { get=>fireMode; set=>fireMode=value; }
         public void SetBulletType(Type type)=>BulletType = type;
         public readonly FloatStat FireInterval= new FloatStat();
         public bool CanFire { get; set; } = true;
         public void SetBaseFireInterval(float time)=>baseFireInterval = time;
-        
+
         private float _fireColdTime;
         private ButtonState _fireButtonState;
         private bool _fireButtonDownThisFrame=false;
@@ -30,9 +35,9 @@ namespace GenBall.BattleSystem.Weapons
         {
             FireInterval.SetBaseValue(baseFireInterval);
             _fireColdTime=FireInterval.CurrentValue+0.01f;
-            
+
             // Mode=FireMode.None;
-            
+
             RegisterEvents();
         }
 
@@ -77,7 +82,11 @@ namespace GenBall.BattleSystem.Weapons
             _fireColdTime = 0;
             _fireButtonDownThisFrame = false;
             Magazine.Fire();
-            var bullet = BulletCreator.CreateEntity(BulletType);
+
+            var path = BulletPrefabPaths[BulletType];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Instantiate(prefab);
+            var bullet = go.GetComponent<IBullet>();
             bullet.Fire(Owner,bulletSpawnPoint.position,Camera.main.transform.forward);
         }
 

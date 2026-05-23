@@ -4,14 +4,15 @@ using System.Linq;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Weapons.Accessory;
+using GenBall.Framework.Entity;
 using GenBall.Player;
 using GenBall.Procedure.Game;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Weapons
 {
-    public class WeaponState : MonoBehaviour,IBuffContainer,IEntity
+    public class WeaponState : MonoBehaviour,IBuffContainer,IEntityLogicUpdate
     {
         public CharacterState Player { get;private set; }
         private IWeaponTriggerController _trigger;
@@ -50,6 +51,7 @@ namespace GenBall.BattleSystem.Weapons
             };
             _trigger.Init(this);
             _reload.Init(this);
+            SystemRepository.Instance.GetSystem<IEntityUpdateSystem>().AddLogicUpdate(this);
         }
         public void Trigger(ButtonState buttonState)
         {
@@ -76,24 +78,13 @@ namespace GenBall.BattleSystem.Weapons
 
         #endregion
         
-        public void EntityUpdate(float deltaTime)
+        public void LogicUpdate(float deltaTime)
         {
-            
         }
 
-        public void EntityFixedUpdate(float fixedDeltaTime)
+        private void OnDestroy()
         {
-            
-        }
-
-        public void OnRecycle()
-        {
-            
-        }
-
-        public void OnSpawn()
-        {
-            
+            SystemRepository.Instance.GetSystem<IEntityUpdateSystem>()?.RemoveLogicUpdate(this);
         }
     }
 

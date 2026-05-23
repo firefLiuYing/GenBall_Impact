@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Framework.Config;
+using GenBall.Framework.Entity;
 using GenBall.Interact;
 using GenBall.Map;
 using GenBall.Player;
@@ -31,6 +32,7 @@ namespace GenBall.Framework
             // Phase 4: 战斗系统（Buff、伤害、死亡）
             SystemRep.RegisterSystem<IBuffRegistry>(new BuffRegistry());
             SystemRep.RegisterSystem<IBuffTickSystem>(new BuffTickSystem());
+            SystemRep.RegisterSystem<IEntityUpdateSystem>(new EntityUpdateSystem());
             SystemRep.RegisterSystem<IDamageSystem>(new DamageSystemDefault());
             SystemRep.RegisterSystem<IDeathSystem>(new DeathSystemDefault());
 

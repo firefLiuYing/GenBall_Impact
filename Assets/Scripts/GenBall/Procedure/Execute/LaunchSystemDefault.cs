@@ -45,14 +45,17 @@ namespace GenBall.Procedure.Execute
                 new LoadSceneState()
             };
 
-            _fsm = GameEntry.Fsm.CreateFsm<ILaunchSystem>("LauncherExecute", this, _states);
+            _fsm = Fsm<ILaunchSystem>.Create("LauncherExecute", this, _states);
             _fsm.Start<ProcedureLoadState>();
 
             _gameData = Variable<GameData>.Create();
             _fsm.SetData("GameData", _gameData);
         }
 
-        public void UnInit() { }
+        public void UnInit()
+        {
+            _fsm?.Shutdown();
+        }
 
         public void StartNewGame()
         {

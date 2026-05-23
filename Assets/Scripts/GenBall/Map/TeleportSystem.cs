@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Yueyn.Main;
 
 namespace GenBall.Map
@@ -15,11 +16,11 @@ namespace GenBall.Map
             if(IsTeleporting) return false;
             if(string.IsNullOrEmpty(teleportRequestInfo.SceneName)) return false;
             var savePointModel=SystemRepository.Instance.GetSystem<ISceneStateSystem>().GetSavePointModel(teleportRequestInfo.SceneName, teleportRequestInfo.SavePointIndex);
-            
+
             if(savePointModel==null) return false;
             IsTeleporting=true;
             CachedSavePointModel = savePointModel;
-            GameEntry.Scene.LoadScene(teleportRequestInfo.SceneName);
+            SceneManager.LoadScene(teleportRequestInfo.SceneName);
             return true;
         }
     }

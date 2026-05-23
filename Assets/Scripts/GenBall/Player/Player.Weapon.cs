@@ -1,7 +1,7 @@
 using System;
+using System.Collections.Generic;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Weapons;
-using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Resource;
@@ -10,16 +10,14 @@ namespace GenBall.Player
 {
     public partial class Player:IAttacker
     {
-        // private WeaponCreator WeaponCreator => GameEntry.GetModule<WeaponCreator>();
-        private EntityCreator<IWeapon> WeaponCreator => GameEntry.GetModule<EntityCreator<IWeapon>>();
+        private static readonly Dictionary<Type, string> WeaponPrefabPaths = new()
+        {
+            { typeof(DefaultWeapon), "Assets/AssetBundles/TemporaryAssets/Weapon/DefaultWeapon/Prefab/DefaultWeapon.prefab" },
+        };
+
         private IWeapon _physicsWeapon;
         public IWeapon PhysicsWeapon => _physicsWeapon;
         [SerializeField] private Transform weaponSpawnPoint;
-
-        // private void WeaponsUpdate(float deltaTime)
-        // {
-        //     _physicsWeapon?.WeaponUpdate(deltaTime);
-        // }
 
         private void PhysicsWeaponTrigger(ButtonState triggerState)=>_physicsWeapon?.Trigger(triggerState);
         public IWeapon EquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
@@ -62,24 +60,36 @@ namespace GenBall.Player
         }
         private void InternalEquipPhysicsWeapon<TWeapon>() where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateEntity<TWeapon>(weaponSpawnPoint);
+            var path = WeaponPrefabPaths[typeof(TWeapon)];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Instantiate(prefab, weaponSpawnPoint);
+            var weapon = go.GetComponent<IWeapon>();
             InternalEquipPhysicsWeapon(weapon);
         }
 
         private void InternalEquipPhysicsWeapon([NotNull] Type type)
         {
-            var weapon = WeaponCreator.CreateEntity(type, weaponSpawnPoint);
+            var path = WeaponPrefabPaths[type];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Instantiate(prefab, weaponSpawnPoint);
+            var weapon = go.GetComponent<IWeapon>();
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon<TWeapon>(string name) where TWeapon : IWeapon
         {
-            var weapon = WeaponCreator.CreateEntity<TWeapon>(name,weaponSpawnPoint);
+            var path = WeaponPrefabPaths[typeof(TWeapon)];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Instantiate(prefab, weaponSpawnPoint);
+            var weapon = go.GetComponent<IWeapon>();
             InternalEquipPhysicsWeapon(weapon);
         }
 
         private void InternalEquipPhysicsWeapon(string name, [NotNull] Type type)
         {
-            var weapon = WeaponCreator.CreateEntity(name, type, weaponSpawnPoint);
+            var path = WeaponPrefabPaths[type];
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+            var go = Instantiate(prefab, weaponSpawnPoint);
+            var weapon = go.GetComponent<IWeapon>();
             InternalEquipPhysicsWeapon(weapon);
         }
         private void InternalEquipPhysicsWeapon(IWeapon newWeapon)
@@ -101,7 +111,7 @@ namespace GenBall.Player
             }
             _physicsWeapon.Unequip();
             if(_physicsWeapon is not MonoBehaviour monoBehaviour)return;
-            WeaponCreator.RecycleEntity(monoBehaviour.gameObject);
+            Destroy(monoBehaviour.gameObject);
             _physicsWeapon=null;
         }
 

@@ -1,6 +1,5 @@
 using GenBall.BattleSystem.Character;
 using GenBall.Event.Generated;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 
 namespace GenBall.Enemy.Initializer
@@ -25,7 +24,7 @@ namespace GenBall.Enemy.Initializer
         private void OnDeath()
         {
             GameEntry.Event.FireEnemyDeath(new DeathInfo { KillPoints = killPoints });
-            GameEntry.CharacterCreator.RecycleEntity(_characterState.gameObject);
+            Object.Destroy(_characterState.gameObject);
         }
     }
 }

@@ -4,18 +4,19 @@ using GenBall.BattleSystem;
 using GenBall.BattleSystem.Generated;
 using GenBall.Enemy.Fsm;
 using GenBall.Event.Generated;
-using GenBall.Utils.EntityCreator;
+using GenBall.Framework.Entity;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.EventPool;
 using Yueyn.Event;
+using Yueyn.Main;
+using Object = UnityEngine.Object;
 
 namespace GenBall.Enemy
 {
-    public abstract class EnemyBase : MonoBehaviour,IEnemy,IAttacker
+    public abstract class EnemyBase : MonoBehaviour,IEnemy,IAttacker,IEntityFrameUpdate,IEntityLogicUpdate
     {
         private readonly List<Module> _moduleMap = new();
-        // private FsmModule _fsmModule;
         private readonly EventPool<GameEventArgs>  _eventPool=new (EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);
         private readonly List<IEffect> _effects = new();
         private Module GetModule(Type type)
@@ -32,37 +33,34 @@ namespace GenBall.Enemy
         public Player.Player Target { get;private set; }
         public void SetTarget(Player.Player target)=>Target = target;
         public TModule GetModule<TModule>() where TModule : Module =>(TModule)GetModule(typeof(TModule));
-        // public AttackResult OnAttacked(AttackInfo attackInfo)=>_fsmModule?.OnAttacked(attackInfo)??AttackResult.Create(0,false);
 
         public abstract AttackResult OnAttacked(AttackInfo attackInfo);
         public abstract int KillPoints { get; }
 
-        public void EntityUpdate(float deltaTime)
+        public void FrameUpdate(float deltaTime)
         {
-            // todo gzp 战斗系统重构完记得回来处理
-            
-            // this.FireNowSystemUpdate(deltaTime);
             OnUpdate(deltaTime);
         }
-        protected virtual void OnUpdate(float deltaTime){}
 
-        public void EntityFixedUpdate(float fixedDeltaTime)
+        public void LogicUpdate(float deltaTime)
         {
-            // todo gzp 战斗系统重构完记得回来处理
-            
-            // this.FireNowSystemFixedUpdate(fixedDeltaTime);
-            OnFixedUpdate(fixedDeltaTime);
+            OnFixedUpdate(deltaTime);
         }
+
+        protected virtual void OnUpdate(float deltaTime){}
         protected virtual void OnFixedUpdate(float fixedDeltaTime){}
 
-        public void OnRecycle()
+        private void OnDestroy()
         {
+            var entitySystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
+            entitySystem?.RemoveFrameUpdate(this);
+            entitySystem?.RemoveLogicUpdate(this);
+
             foreach (var module in _moduleMap)
             {
                 module.OnRecycle();
             }
             _moduleMap.Clear();
-            gameObject.SetActive(false);
         }
 
         public void Initialize()
@@ -78,35 +76,26 @@ namespace GenBall.Enemy
             {
                 module.Initialize();
             }
-            // _fsmModule=GetModule<FsmModule>();
             Health = MaxHealth;
             OnInitialize();
             gameObject.SetActive(true);
-        }
 
-        public void OnSpawn()
-        {
-            
+            var entitySystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
+            entitySystem.AddFrameUpdate(this);
+            entitySystem.AddLogicUpdate(this);
         }
 
         protected virtual void OnInitialize(){}
 
         public void Death()
         {
-            // _fsmModule.OnDeath();
-            // todo gzp 战斗系统重构完记得回来处理
-            
-            // this.FireEventEntityDeath();
             GameEntry.Event.FireEnemyDeath(new DeathInfo(){KillPoints = this.KillPoints});
-            GameEntry.GetModule<EntityCreator<IEnemy>>().RecycleEntity(gameObject);
+            Object.Destroy(gameObject);
         }
 
         public void AddEffect(IEffect effect)
         {
-            // todo gzp 战斗系统重构完记得回来处理
-            
             _effects.Add(effect);
-            // effect.Apply(this);
         }
 
         public bool RemoveEffect(IEffect effect)
@@ -118,14 +107,11 @@ namespace GenBall.Enemy
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            // todo gzp 战斗系统重构完记得回来处理
         }
 
-        // todo gzp 战斗系统重构完记得回来处理
         public bool IsDead { get; }
         public void Die(BattleSystem.DeathInfo deathInfo)
         {
-            // todo gzp 战斗系统重构完记得回来处理
         }
 
         public void Subscribe(int id, EventHandler<GameEventArgs> handler) => _eventPool.Subscribe(id, handler);

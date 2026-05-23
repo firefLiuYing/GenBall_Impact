@@ -67,7 +67,7 @@ namespace GenBall.BattleSystem.Buff.Tests
             SystemRepository.Instance.RegisterSystem<IBuffRegistry>(_registry);
 
             // Acquire AddBuffInfo directly from ReferencePool with null Model
-            // (bypasses AddBuffInfo.Create which requires editor-only ConfigProvider)
+            // (AddBuffInfo.Create requires a valid BuffModelConfig in Resources)
             var info = ReferencePool.Acquire<AddBuffInfo>();
             Assert.That(info.Model, Is.Null);
 
