@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Bullets;
 using GenBall.Player;
 using GenBall.Procedure.Game;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Weapons
 {
@@ -31,7 +32,7 @@ namespace GenBall.BattleSystem.Weapons
 
         private void Update()
         {
-            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
             _fireColdTime+=Time.deltaTime;
             if (CanFireCurFrame())
             {
@@ -66,7 +67,7 @@ namespace GenBall.BattleSystem.Weapons
         {
             _reload.CostBullet(1);
             bulletModel.Damage=_weapon.Stats.Damage.GetValue();
-            GameEntry.Bullet.FireBullet(BulletLaunchInfo.Create(
+            SystemRepository.Instance.GetSystem<IBulletSystem>().FireBullet(BulletLaunchInfo.Create(
                 bulletModel,
                 Camera.main.transform.position,
                 bulletSpawnPoint.position,

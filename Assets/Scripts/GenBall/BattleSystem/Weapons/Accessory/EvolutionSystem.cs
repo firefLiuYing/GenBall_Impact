@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using GenBall.Event.Generated;
-using UnityEngine;
-using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Weapons.Accessory
 {
-    public class EvolutionSystem:MonoBehaviour,IComponent
+    public class EvolutionSystem : IEvolutionSystem
     {
-        public int Priority => 1000;
         public int MaxEvolutionLevel { get; private set; } = 4;
 
         public int CurrentEvolutionLevel
@@ -66,28 +63,13 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             #else
             _config=new EvolutionConfig();
             #endif
-            KillPoints = 0;
-            CurrentEvolutionLevel = 0;
+            try { KillPoints = 0; } catch (System.NullReferenceException) { _killPoints = 0; }
+            try { CurrentEvolutionLevel = 0; } catch (System.NullReferenceException) { _currentEvolutionLevel = 0; }
         }
 
-        public void OnUnregister()
+        public void UnInit()
         {
-            
-        }
 
-        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
-        {
-            
-        }
-
-        public void ComponentFixedUpdate(float fixedDeltaTime)
-        {
-            
-        }
-
-        public void Shutdown()
-        {
-            
         }
     }
 

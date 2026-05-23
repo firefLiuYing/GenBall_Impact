@@ -1,22 +1,26 @@
 using System.Collections.Generic;
-using GenBall.Utils.Singleton;
-using UnityEngine;
 using Yueyn.Base.Variable;
 
 namespace GenBall.Interact
 {
-    public class InteractSystem : ISingleton
+    public class InteractSystem : IInteractSystem
     {
-        public static InteractSystem Instance => SingletonManager.GetSingleton<InteractSystem>();
-
         private readonly List<IInteractable> _interactables = new();
-        public readonly Variable<List<IInteractable>> Interactables;
-        public readonly Variable<int> CurrentSelectionIndex;
+        public Variable<List<IInteractable>> Interactables { get; }
+        public Variable<int> CurrentSelectionIndex { get; }
+
         public InteractSystem()
         {
-            Interactables=Variable<List<IInteractable>>.Create();
-            CurrentSelectionIndex=Variable<int>.Create();
+            Interactables = Variable<List<IInteractable>>.Create();
+            CurrentSelectionIndex = Variable<int>.Create();
             Interactables.SetValue(_interactables);
+        }
+
+        public void Init() { }
+
+        public void UnInit()
+        {
+            _interactables.Clear();
         }
 
         public void NextSelection()

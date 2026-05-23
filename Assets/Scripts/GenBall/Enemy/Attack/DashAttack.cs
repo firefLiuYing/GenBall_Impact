@@ -5,6 +5,7 @@ using GenBall.BattleSystem.Mover;
 using GenBall.Enemy.Controller;
 using UnityEngine;
 using Yueyn.Fsm;
+using Yueyn.Main;
 
 namespace GenBall.Enemy.Attack
 {
@@ -241,7 +242,7 @@ namespace GenBall.Enemy.Attack
                     target, Owner.damage,
                     new List<string> { "dash" },
                     _direction, 0, Owner._owner.gameObject);
-                DamageSystem.Instance.ApplyDamage(damageInfo);
+                SystemRepository.Instance.GetSystem<IDamageSystem>().ApplyDamage(damageInfo);
                 ChangeState<ReboundState>();
             }
         }

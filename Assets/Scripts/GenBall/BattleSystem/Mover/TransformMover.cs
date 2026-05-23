@@ -1,11 +1,12 @@
 using GenBall.Procedure.Game;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Mover
 {
     public class TransformMover : MonoBehaviour
     {
-        private static bool IsPaused => (PauseManager.Instance.State & PauseState.PhysicsPaused) == PauseState.PhysicsPaused;
+        private static bool IsPaused => SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused;
         private Vector3 _velocity = Vector3.zero;
 
         public void SetVelocity(Vector3 velocity)

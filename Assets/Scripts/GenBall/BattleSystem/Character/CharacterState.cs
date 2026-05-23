@@ -7,6 +7,7 @@ using GenBall.Procedure.Game;
 using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Character
 {
@@ -107,7 +108,7 @@ namespace GenBall.BattleSystem.Character
             if (Health <= 0)
             {
                 // ���ˣ�����������
-                DeathSystem.Instance.ApplyDeath(DeathInfo.Create(gameObject,new List<string>()
+                SystemRepository.Instance.GetSystem<IDeathSystem>().ApplyDeath(DeathInfo.Create(gameObject,new List<string>()
                 {
                     DeathTag.HealthEmpty,
                 },damageInfo.Attacker));
@@ -154,7 +155,7 @@ namespace GenBall.BattleSystem.Character
 
         #endregion
         
-        private bool IsPause=>(PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused;
+        private bool IsPause=>SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused;
     }
     
 }

@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GenBall.Utils.Singleton;
 
 namespace GenBall.Map
 {
-    public class SceneSystem:ISingleton
+    public class SceneSystem : ISceneStateSystem
     {
-        public static SceneSystem Instance => SingletonManager.GetSingleton<SceneSystem>();
-
         private readonly Dictionary<string, SceneStateObj> _sceneStateObjs = new();
         private readonly Dictionary<string, SceneConfigDictionary> _mapConfig = new();
 
@@ -38,6 +35,16 @@ namespace GenBall.Map
                 _mapConfig.Add(sceneModel.sceneName, config);
             }
             _mapConfigInitialized = true;
+        }
+
+        public void Init() { }
+
+        public void UnInit()
+        {
+            _sceneStateObjs.Clear();
+            _mapConfig.Clear();
+            _mapConfigInitialized = false;
+            _sceneStateInitialized = false;
         }
 
         public void InitializeSceneStateObjs(MapSaveData mapSaveData)

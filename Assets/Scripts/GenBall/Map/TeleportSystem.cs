@@ -1,11 +1,12 @@
-using GenBall.Utils.Singleton;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.Map
 {
-    public class TeleportSystem : ISingleton
+    public class TeleportSystem : ITeleportSystem
     {
-        public static TeleportSystem Instance=>SingletonManager.GetSingleton<TeleportSystem>();
+        public void Init() { }
+        public void UnInit() { }
 
         public bool IsTeleporting { get; set; } = false;
         public SavePointModel CachedSavePointModel { get;private set; } = null;
@@ -13,7 +14,7 @@ namespace GenBall.Map
         {
             if(IsTeleporting) return false;
             if(string.IsNullOrEmpty(teleportRequestInfo.SceneName)) return false;
-            var savePointModel=SceneSystem.Instance.GetSavePointModel(teleportRequestInfo.SceneName, teleportRequestInfo.SavePointIndex);
+            var savePointModel=SystemRepository.Instance.GetSystem<ISceneStateSystem>().GetSavePointModel(teleportRequestInfo.SceneName, teleportRequestInfo.SavePointIndex);
             
             if(savePointModel==null) return false;
             IsTeleporting=true;

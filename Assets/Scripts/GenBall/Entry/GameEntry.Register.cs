@@ -1,9 +1,7 @@
-using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Timeline;
 using GenBall.BattleSystem.Weapons;
-using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Enemy;
 using GenBall.Map;
 using GenBall.UI;
@@ -54,15 +52,11 @@ namespace GenBall
         public static EventManager Event => GetModule<EventManager>();
         public static UIManager UI => GetModule<UIManager>();
         public static SaveComponent Save => GetModule<SaveComponent>();
-        public static PlayerManager Player => GetModule<PlayerManager>();
         public static MapModule Map => GetModule<MapModule>();
         public static ExecuteComponent Execute => GetModule<ExecuteComponent>();
         public static SceneModule Scene => GetModule<SceneModule>();
         public static FsmManager Fsm => GetModule<FsmManager>();
-        public static BuffSystem Buff => GetModule<BuffSystem>();
         public static EntityCreator<CharacterState> CharacterCreator => GetModule<EntityCreator<CharacterState>>();
         public static TimelineSystem Timeline => GetModule<TimelineSystem>();
-        public static BulletSystem Bullet => GetModule<BulletSystem>();
-        public static EvolutionSystem Evolution => GetModule<EvolutionSystem>();
     }
 }

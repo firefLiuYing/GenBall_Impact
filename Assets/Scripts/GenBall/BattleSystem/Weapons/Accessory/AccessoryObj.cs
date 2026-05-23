@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GenBall.BattleSystem.Buff;
 using Yueyn.Base.ReferencePool;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Weapons.Accessory
 {
@@ -14,7 +15,7 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             if (Model.addBuffs == null) return;
             foreach (var addBuff in Model.addBuffs)
             {
-                var buffObj = GameEntry.Buff.AddBuff(AddBuffInfo.Create(addBuff.buffId, weapon.gameObject, addBuff.stackCount));
+                var buffObj = SystemRepository.Instance.GetSystem<IBuffRegistry>().AddBuff(AddBuffInfo.Create(addBuff.buffId, weapon.gameObject, addBuff.stackCount));
                 if(buffObj==null) return;
                 _addBuffs.Add(buffObj, addBuff);
             }

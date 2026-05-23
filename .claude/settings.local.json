@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(bash \"D:/Apps/Unity/Unity Project/GenBall_Impact/run_editmode_tests.sh\" 2>&1)",
+      "Bash(git:*)",
+      "Bash(bash run_editmode_tests.sh)",
+      "Bash(find 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall' -name *.cs.meta -newer 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\Procedure\\\\SaveSystem.cs')",
+      "Bash(cd:*)"
+    ]
+  }
+}

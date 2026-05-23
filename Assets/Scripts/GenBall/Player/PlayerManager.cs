@@ -1,6 +1,5 @@
 using System;
 using GenBall.BattleSystem.Character;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using Yueyn.Main;
 
@@ -9,42 +8,32 @@ namespace GenBall.Player
     public sealed class PlayerManager : MonoBehaviour,IComponent
     {
         public int Priority => 1000;
-        // private EntityCreator<Player> PlayerCreator => GameEntry.GetModule<EntityCreator<Player>>();
-        public GameObject Player { get;private set; }
+        public GameObject Player => SystemRepository.Instance.GetSystem<IPlayerSystem>().Player;
         [SerializeField] private Transform defaultPlayerSpawnPoint;
-        
+
         public Transform DefaultPlayerSpawnPoint=>defaultPlayerSpawnPoint??transform;
 
-        public void CreatePlayer()=>CreatePlayer(defaultPlayerSpawnPoint);
+        public void CreatePlayer()
+        {
+            var sys = SystemRepository.Instance.GetSystem<IPlayerSystem>();
+            var pos = defaultPlayerSpawnPoint != null ? defaultPlayerSpawnPoint.position : Vector3.zero;
+            var rot = defaultPlayerSpawnPoint != null ? defaultPlayerSpawnPoint.rotation : Quaternion.identity;
+            sys.CreatePlayer(pos, rot);
+        }
 
         public void CreatePlayer(Vector3 position, Quaternion rotation)
         {
-            if (Player != null)
-            {
-                throw new Exception("当前场景已有Player");
-            }
-            var player = GameEntry.CharacterCreator.CreateEntity<CharacterState>("Player",position, rotation,DefaultPlayerSpawnPoint);
-            // player.Initialize();
-            Player = player.gameObject;
+            SystemRepository.Instance.GetSystem<IPlayerSystem>().CreatePlayer(position, rotation);
         }
         public void CreatePlayer(Transform spawnTransform)
         {
-            if (Player != null)
-            {
-                throw new Exception("当前场景已有Player");
-            }
-
             if (spawnTransform == null)
-            {
                 spawnTransform = transform;
-            }
-            var player = GameEntry.CharacterCreator.CreateEntity<CharacterState>("Player",spawnTransform.position, spawnTransform.rotation,DefaultPlayerSpawnPoint);
-            // player.Initialize();
-            Player = player.gameObject;
+            SystemRepository.Instance.GetSystem<IPlayerSystem>()
+                .CreatePlayer(spawnTransform.position, spawnTransform.rotation);
         }
         public void Init()
         {
-            GameEntry.CharacterCreator.AddPrefab<CharacterState>("Player","Assets/AssetBundles/Common/Player/Prefab/Player.prefab");
         }
 
         public void OnUnregister()

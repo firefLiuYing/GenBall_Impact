@@ -21,11 +21,14 @@
 
 **访问方式**：
 ```csharp
-// 基建模块
-SystemRepository.Instance.GetSystem<IEventSystem>()
-SystemRepository.Instance.GetSystem<IUISystem>()
+// 基建模块 — 直接单例访问（不经过 SystemRepository）
+CEventRouter.Instance
+UIManager.Instance
+CPoolManager.Instance
+CResourceManager.Instance
 
-// 业务系统（未来）
+// 业务系统 — 通过 SystemRepository 获取
+SystemRepository.Instance.GetSystem<IConfigProvider>()
 SystemRepository.Instance.GetSystem<IBuffSystem>()
 ```
 

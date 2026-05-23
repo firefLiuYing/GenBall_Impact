@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GenBall.Map;
-using GenBall.Utils.Singleton;
+using GenBall.Procedure;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.Procedure.Game
 {
-    public class GameManager : ISingleton
+    public class GameManager : IGameManagerSystem
     {
-        public static GameManager Instance => SingletonManager.GetSingleton<GameManager>();
         private int _curSaveIndex;
 
         public GameData GameData { get; set; }
@@ -23,8 +23,11 @@ namespace GenBall.Procedure.Game
             set=> _curSaveIndex = value;
         }
 
+        public void Init() { }
+        public void UnInit() { }
+
         /// <summary>
-        /// ±£´æÓÎÏ·
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·
         /// </summary>
         /// <returns></returns>
         public async Task<bool> SaveGame()
@@ -47,12 +50,13 @@ namespace GenBall.Procedure.Game
             {
                 if(_curSaveIndex <0||GameData==null) return false;
                 await Task.Delay(1);
-                // todo gzp Ä£Äâ»ñÈ¡´æµµ»¹ÓÐµÄÊý¾Ý
+                // todo gzp Ä£ï¿½ï¿½ï¿½È¡ï¿½æµµï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
                 
-                // ×î½üÒ»´ÎÓÎÍæ¸Ä³ÉÏÖÔÚ
+                // ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½
                 GameData.LastUpdateTime = DateTime.Now;
-                Debug.Log($"±£´æ´æµµÐÅÏ¢£º{GameData}");
-                return await GameEntry.Save.SaveGameData(GameData, _curSaveIndex);
+                Debug.Log($"ï¿½ï¿½ï¿½ï¿½æµµï¿½ï¿½Ï¢ï¿½ï¿½{GameData}");
+                var saveService = SystemRepository.Instance.GetSystem<ISaveService>();
+                return await saveService.SaveGameData(GameData, _curSaveIndex);
             }
             catch (Exception e)
             {

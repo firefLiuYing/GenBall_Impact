@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Mover;
 using GenBall.BattleSystem.Weapons;
 using GenBall.Procedure.Game;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets.BulletController
 {
@@ -31,7 +32,7 @@ namespace GenBall.BattleSystem.Bullets.BulletController
         {
             if (_flyTime > 2f)
             {
-                GameEntry.Bullet.RecycleBullet(_bullet);
+                SystemRepository.Instance.GetSystem<IBulletSystem>().RecycleBullet(_bullet);
             }
             _logicMover.SetVelocity(_bullet.Model.Speed*_bullet.SpawnDirection);
             _logicMover.Tick(deltaTime);
@@ -39,15 +40,15 @@ namespace GenBall.BattleSystem.Bullets.BulletController
             Physics.Raycast(ray,out var hitInfo,_bullet.Model.Speed*deltaTime,targetLayer);
             if (hitInfo.collider == null) return;
             _flying = false;
-            DamageSystem.Instance.ApplyDamage(DamageInfo.Create(hitInfo.collider.gameObject,_bullet.Model.Damage,new List<string>()
+            SystemRepository.Instance.GetSystem<IDamageSystem>().ApplyDamage(DamageInfo.Create(hitInfo.collider.gameObject,_bullet.Model.Damage,new List<string>()
             {
                 "Bullet"
             },_bullet.SpawnDirection,0,_bullet.Source.GetComponent<WeaponState>().Player.gameObject));
-            
-            GameEntry.Bullet.RecycleBullet(_bullet);
+
+            SystemRepository.Instance.GetSystem<IBulletSystem>().RecycleBullet(_bullet);
         }
 
-        #region äÖÈ¾²ã
+        #region ï¿½ï¿½È¾ï¿½ï¿½
 
         private bool _flying = false;
         private float _predictTime;
@@ -86,7 +87,7 @@ namespace GenBall.BattleSystem.Bullets.BulletController
         private void Update()
         {
             if(!_flying) return;
-            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
             
             _flyTime += Time.deltaTime;
             if (_flyTime < _predictTime&&_needBezier)

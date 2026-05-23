@@ -1,6 +1,7 @@
 using System;
 using GenBall.Interact;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.UI
 {
@@ -36,17 +37,17 @@ namespace GenBall.UI
         {
             if(_args == null) return;
             _autoTxtDiscription.text = _args.OperationDescription;
-            _autoTxtDiscription.fontStyle=InteractSystem.Instance.CurrentSelectionIndex.Value==_index?FontStyle.Bold:FontStyle.Normal;
+            _autoTxtDiscription.fontStyle=SystemRepository.Instance.GetSystem<IInteractSystem>().CurrentSelectionIndex.Value==_index?FontStyle.Bold:FontStyle.Normal;
         }
 
         private void RegisterEvents()
         {
-            InteractSystem.Instance.CurrentSelectionIndex.Observe(OnSelectionChanged);
+            SystemRepository.Instance.GetSystem<IInteractSystem>().CurrentSelectionIndex.Observe(OnSelectionChanged);
         }
 
         private void UnRegisterEvents()
         {
-            InteractSystem.Instance.CurrentSelectionIndex.Unobserve(OnSelectionChanged);
+            SystemRepository.Instance.GetSystem<IInteractSystem>().CurrentSelectionIndex.Unobserve(OnSelectionChanged);
         }
         private void OnSelectionChanged(int index)
         {

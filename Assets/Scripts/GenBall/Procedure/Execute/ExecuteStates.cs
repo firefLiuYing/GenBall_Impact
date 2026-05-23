@@ -4,28 +4,29 @@ using GenBall.UI;
 using UnityEngine;
 using Yueyn.Base.Variable;
 using Yueyn.Fsm;
+using Yueyn.Main;
 
 namespace GenBall.Procedure.Execute
 {
-    public class ProcedureLoadState : FsmState<ExecuteComponent>
+    public class ProcedureLoadState : FsmState<ILaunchSystem>
     {
-        protected internal override void OnUpdate(Fsm<ExecuteComponent> fsm, float elapsedTime, float realElapseTime)
+        protected internal override void OnUpdate(Fsm<ILaunchSystem> fsm, float elapsedTime, float realElapseTime)
         {
             fsm.ChangeState<StartFormState>();
         }
     }
 
-    public class StartFormState : FsmState<ExecuteComponent>
+    public class StartFormState : FsmState<ILaunchSystem>
     {
-        private Fsm<ExecuteComponent> _fsm;
-        protected internal override void OnEnter(Fsm<ExecuteComponent> fsm)
+        private Fsm<ILaunchSystem> _fsm;
+        protected internal override void OnEnter(Fsm<ILaunchSystem> fsm)
         {
             _fsm = fsm;
             GameEntry.UI.OpenForm<StartForm>();
             _fsm.GetData<Variable<GameData>>("GameData")?.Observe(OnGameDataChanged);
         }
 
-        protected internal override void OnExit(Fsm<ExecuteComponent> fsm, bool isShutdown = false)
+        protected internal override void OnExit(Fsm<ILaunchSystem> fsm, bool isShutdown = false)
         {
             _fsm.GetData<Variable<GameData>>("GameData")?.Unobserve(OnGameDataChanged);
         }
@@ -36,21 +37,22 @@ namespace GenBall.Procedure.Execute
         }
     }
 
-    public class LoadSceneState : FsmState<ExecuteComponent>
+    public class LoadSceneState : FsmState<ILaunchSystem>
     {
-        protected internal override void OnEnter(Fsm<ExecuteComponent> fsm)
+        protected internal override void OnEnter(Fsm<ILaunchSystem> fsm)
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            SceneSystem.Instance.InitializeSceneStateObjs(fsm.GetData<Variable<GameData>>("GameData").Value.mapSaveData);
+            var sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
+            sceneSystem.InitializeSceneStateObjs(fsm.GetData<Variable<GameData>>("GameData").Value.mapSaveData);
             #if UNITY_EDITOR
-            SceneSystem.Instance.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
+            sceneSystem.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
             #else
-            SceneSystem.Instance.InitializeMapConfig(new MapModel());
+            sceneSystem.InitializeMapConfig(new MapModel());
             #endif
             if ((fsm.Owner.Mode&RunningMode.LoadData)==0)
             {
-                TeleportSystem.Instance.Teleport(new TeleportRequestInfo()
+                SystemRepository.Instance.GetSystem<ITeleportSystem>().Teleport(new TeleportRequestInfo()
                 {
                     SceneName = fsm.Owner.StartSceneName,
                     SavePointIndex = 0

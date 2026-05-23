@@ -1,12 +1,5 @@
-using System.Linq;
-using GenBall.BattleSystem.Character;
-using GenBall.Enemy;
-using GenBall.Map;
 using GenBall.Procedure.Game;
-using GenBall.UI;
-using GenBall.Utils.EntityCreator;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Yueyn.Main;
 
 namespace GenBall.Procedure.Execute
@@ -15,90 +8,38 @@ namespace GenBall.Procedure.Execute
     {
         public int Priority => 10000;
 
-        private void Execute()
-        {
-            var gameData = GameManager.Instance.GameData;
-            
-            // “˛≤ÿ Û±Í
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            // ≥ı ºªØµÿÕº¥Êµµ–≈œ¢
-            #if UNITY_EDITOR
-            SceneSystem.Instance.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
-            SceneSystem.Instance.InitializeSceneStateObjs(gameData.mapSaveData);
-            #else
-            SceneSystem.Instance.InitializeMapConfig(new MapModel());
-            SceneSystem.Instance.InitializeSceneStateObjs(new MapSaveData());
-            #endif
-            // º”‘ÿµÿÕº
-            // GameEntry.Map.LoadSavePointAround(loadInfo.SavePointIndex);
-            // º”‘ÿµ–»À
-            LoadEnemyUnit();
-            // º”‘ÿUI
-            GameEntry.UI.OpenForm<MainHud>();
-            // º”‘ÿPlayer
-            // var savePointInfo = SceneMapIndexProvider.GetMapConfig(loadInfo.SceneName).savePointInfos.FirstOrDefault(s=>s.index==loadInfo.SavePointIndex);
-            // if (savePointInfo != null)
-            // {
-            //     GameEntry.Player.CreatePlayer(savePointInfo.playerSpawnPosition, savePointInfo.playerSpawnRotation);
-            // }
-            if (TeleportSystem.Instance.IsTeleporting)
-            {
-                var targetSavePoint = TeleportSystem.Instance.CachedSavePointModel;
-                GameEntry.Player.CreatePlayer(targetSavePoint.spawnPosition,targetSavePoint.spawnRotation);
-                TeleportSystem.Instance.IsTeleporting=false;
-            }
-            else
-            {
-                GameEntry.Player.CreatePlayer();
-            }
-
-            // todo gzp ≤‚ ‘¥˙¬Î£¨º«µ√…æ
-            GameEntry.CharacterCreator.CreateEntity<CharacterState>(nameof(EnemyId.TestOrbis));
-        }
-        
         public void Init()
         {
-            if (GameManager.Instance.GameData== null)
+            var gameManager = SystemRepository.Instance.GetSystem<IGameManagerSystem>();
+            if (gameManager.GameData == null)
             {
-                Debug.LogWarning("gzp ºÏ≤‚µΩ≤ª «Launcher≥°æ∞∆Ù∂Ø£¨◊‘∂Ø…Ë÷√Œ™≤ª±£¥Ê≤ª∂¡»°");
-                GameManager.Instance.Mode =0;
-                GameManager.Instance.GameData = new();
-                GameManager.Instance.CurSaveIndex = 0;
+                Debug.LogWarning("gzp Ê£ÄÊµãÂà∞Êú™ÁªèËøáLauncherÔºåÂ∞ÜËá™Âä®ÂàùÂßãÂåñ‰∏∫‰∏çËØªÂèñÂ≠òÊ°£");
+                gameManager.Mode = 0;
+                gameManager.GameData = new();
+                gameManager.CurSaveIndex = 0;
             }
-            
-            Execute();
-        }
 
-        private void LoadEnemyUnit()
-        {
-            var enemyUnitModels = SceneSystem.Instance.GetAllUnKilledEnemyModel(SceneManager.GetActiveScene().name);
-            foreach (var enemyUnitModel in enemyUnitModels)
-            {
-                var enemy= GameEntry.GetModule<EntityCreator<IEnemy>>().CreateEntity<EnemyBase>(
-                    enemyUnitModel.enemyType,enemyUnitModel.spawnPosition,enemyUnitModel.spawnRotation);
-                enemy.Initialize();
-            }
+            SystemRepository.Instance.GetSystem<ISceneExecutorSystem>().ExecuteSceneSetup();
         }
 
         public void OnUnregister()
         {
-            
+
         }
 
         public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
         {
-            
+
         }
 
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            
+
         }
 
         public void Shutdown()
         {
-            
+
         }
     }
 }

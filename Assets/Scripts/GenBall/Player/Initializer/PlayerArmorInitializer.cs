@@ -1,5 +1,6 @@
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Character;
+using Yueyn.Main;
 
 namespace GenBall.Player.Initializer
 {
@@ -7,7 +8,7 @@ namespace GenBall.Player.Initializer
     {
         public override void Initialize(CharacterState characterState)
         {
-            GameEntry.Buff.AddBuff(AddBuffInfo.Create(BuffId.PlayerArmor,characterState.gameObject));
+            SystemRepository.Instance.GetSystem<IBuffRegistry>().AddBuff(AddBuffInfo.Create(BuffId.PlayerArmor,characterState.gameObject));
         }
     }
 }

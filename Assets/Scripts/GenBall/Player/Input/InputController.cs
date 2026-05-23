@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Event;
+using Yueyn.Main;
 
 namespace GenBall.Player
 {
@@ -114,12 +115,12 @@ namespace GenBall.Player
             {
                 if (_tempIsPaused)
                 {
-                    PauseManager.Instance.SetPauseState(PauseState.Unpaused);
+                    SystemRepository.Instance.GetSystem<IPauseSystem>().SetPause(false);
                     _tempIsPaused=false;
                 }
                 else
                 {
-                    PauseManager.Instance.SetPauseState(PauseState.PhysicsPaused|PauseState.LogicPaused);
+                    SystemRepository.Instance.GetSystem<IPauseSystem>().SetPause(true);
                     _tempIsPaused=true;
                 }
             }

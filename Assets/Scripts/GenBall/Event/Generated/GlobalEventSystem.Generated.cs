@@ -8,7 +8,6 @@ using GenBall.BattleSystem.Weapons;
 using GenBall.Enemy;
 using GenBall.Event;
 using GenBall.Player;
-using GenBall.Procedure.Game;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -96,7 +95,7 @@ namespace GenBall.Event.Generated
             Weapon_MagazineInfoChange = GetId<MagazineInfo>("Weapon.MagazineInfoChange");
             Weapon_Level = GetId<Int32>("Weapon.Level");
             Enemy_Death = GetId<DeathInfo>("Enemy.Death");
-            System_Pause = GetId<PauseState>("Framework.Pause");
+            System_Pause = GetId<bool>("Framework.Pause");
         }
 
         /// <summary>
@@ -195,9 +194,9 @@ namespace GenBall.Event.Generated
         }
 
         /// <summary>游戏暂停</summary>
-        public static ValueChangeEventArgs<PauseState> CreateSystemPause(PauseState value)
+        public static ValueChangeEventArgs<bool> CreateSystemPause(bool value)
         {
-            return ValueChangeEventArgs<PauseState>.Create(GlobalEventConstants.System_Pause, value);
+            return ValueChangeEventArgs<bool>.Create(GlobalEventConstants.System_Pause, value);
         }
 
     }
@@ -423,12 +422,12 @@ namespace GenBall.Event.Generated
         }
 
         /// <summary>订阅 游戏暂停 事件</summary>
-        public static void SubscribeSystemPause(this EventManager eventManager, Action<PauseState> handler)
+        public static void SubscribeSystemPause(this EventManager eventManager, Action<bool> handler)
         {
             int eventId = GlobalEventIds.System_Pause;
             EventHandler<GameEventArgs> eventHandler = (sender, args) =>
             {
-                if (args is ValueChangeEventArgs<PauseState> valueArgs)
+                if (args is ValueChangeEventArgs<bool> valueArgs)
                     handler?.Invoke(valueArgs.Value);
             };
             EventHandlerCache.AddWrapper(eventId, handler, eventHandler);
@@ -596,7 +595,7 @@ namespace GenBall.Event.Generated
         }
 
         /// <summary>取消订阅 游戏暂停 事件</summary>
-        public static void UnsubscribeSystemPause(this EventManager eventManager, Action<PauseState> handler)
+        public static void UnsubscribeSystemPause(this EventManager eventManager, Action<bool> handler)
         {
             int eventId = GlobalEventIds.System_Pause;
             var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);
@@ -710,7 +709,7 @@ namespace GenBall.Event.Generated
         }
 
         /// <summary>触发 游戏暂停 事件</summary>
-        public static void FireSystemPause(this EventManager eventManager, PauseState value, object sender = null)
+        public static void FireSystemPause(this EventManager eventManager, bool value, object sender = null)
         {
             var eventArgs = GlobalEventFactory.CreateSystemPause(value);
             eventManager.Fire(sender ?? eventManager, eventArgs);
@@ -810,7 +809,7 @@ namespace GenBall.Event.Generated
         }
 
         /// <summary>立即触发 游戏暂停 事件</summary>
-        public static void FireNowSystemPause(this EventManager eventManager, PauseState value, object sender = null)
+        public static void FireNowSystemPause(this EventManager eventManager, bool value, object sender = null)
         {
             var eventArgs = GlobalEventFactory.CreateSystemPause(value);
             eventManager.FireNow(sender ?? eventManager, eventArgs);
@@ -970,7 +969,7 @@ namespace GenBall.Event.Generated
         }
 
         /// <summary>检查是否已订阅 游戏暂停 事件</summary>
-        public static bool CheckSystemPause(this EventManager eventManager, Action<PauseState> handler)
+        public static bool CheckSystemPause(this EventManager eventManager, Action<bool> handler)
         {
             int eventId = GlobalEventIds.System_Pause;
             var eventHandler = EventHandlerCache.GetEventHandler(eventId, handler);
@@ -1248,19 +1247,19 @@ namespace GenBall.Event.Generated
         public const string PauseEventName = GlobalEventConstants.System_Pause;
         public static int PauseEventId => GlobalEventIds.System_Pause;
 
-        public static ValueChangeEventArgs<PauseState> CreatePause(PauseState value)
+        public static ValueChangeEventArgs<bool> CreatePause(bool value)
             => GlobalEventFactory.CreateSystemPause(value);
 
-        public static void SubscribePause(EventManager eventManager, Action<PauseState> handler)
+        public static void SubscribePause(EventManager eventManager, Action<bool> handler)
             => eventManager.SubscribeSystemPause(handler);
 
-        public static void UnsubscribePause(EventManager eventManager, Action<PauseState> handler)
+        public static void UnsubscribePause(EventManager eventManager, Action<bool> handler)
             => eventManager.UnsubscribeSystemPause(handler);
 
-        public static void FirePause(EventManager eventManager, PauseState value, object sender = null)
+        public static void FirePause(EventManager eventManager, bool value, object sender = null)
             => eventManager.FireSystemPause(value, sender);
 
-        public static void FireNowPause(EventManager eventManager, PauseState value, object sender = null)
+        public static void FireNowPause(EventManager eventManager, bool value, object sender = null)
             => eventManager.FireNowSystemPause(value, sender);
 
     }

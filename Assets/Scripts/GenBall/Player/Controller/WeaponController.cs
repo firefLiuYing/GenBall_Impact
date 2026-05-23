@@ -6,6 +6,7 @@ using GenBall.Utils.EntityCreator;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Yueyn.Base.ReferencePool;
+using Yueyn.Main;
 
 namespace GenBall.Player.Controller
 {
@@ -14,15 +15,17 @@ namespace GenBall.Player.Controller
         [SerializeField] private Transform weaponSpawnPoint;
         private CharacterState  _player;
         private WeaponState _currentWeapon;
+        private IEvolutionSystem _evolution;
         public override void Initialize(CharacterState characterState)
         {
             _player = characterState;
+            _evolution = SystemRepository.Instance.GetSystem<IEvolutionSystem>();
             Equip(1);
         }
 
         public void OnFireInputChange(InputAction.CallbackContext context)
         {
-            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
             var buttonState = context.phase switch
             {
                 InputActionPhase.Started=>ButtonState.Down,
@@ -35,7 +38,7 @@ namespace GenBall.Player.Controller
 
         public void OnReloadInputChange(InputAction.CallbackContext context)
         {
-            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
             var buttonState = context.phase switch
             {
                 InputActionPhase.Started=>ButtonState.Down,
@@ -48,17 +51,17 @@ namespace GenBall.Player.Controller
 
         public void OnEvolutionInputChange(InputAction.CallbackContext context)
         {
-            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
             if(context.phase!=InputActionPhase.Started) return;
-            if(!GameEntry.Evolution.CanEvolve) return;
-            Equip(GameEntry.Evolution.CurrentEvolutionLevel+1);
+            if(!_evolution.CanEvolve) return;
+            Equip(_evolution.CurrentEvolutionLevel+1);
         }
 
         private void Equip(int level)
         {
-            var equipInfo = GameEntry.Evolution.GetEquipInfo(level);
+            var equipInfo = _evolution.GetEquipInfo(level);
             if(equipInfo==null) return;
-            GameEntry.Evolution.CurrentEvolutionLevel = level;
+            _evolution.CurrentEvolutionLevel = level;
             Equip(equipInfo);
         }
         private void Equip(EquipInfo info)

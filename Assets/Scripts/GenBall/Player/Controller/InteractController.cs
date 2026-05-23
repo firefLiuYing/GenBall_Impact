@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GenBall.BattleSystem.Character;
 using GenBall.Interact;
 using GenBall.Player.Input;
+using Yueyn.Main;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -23,13 +24,13 @@ namespace GenBall.Player.Controller
 
         private void Interact()
         {
-            InteractSystem.Instance.TriggerInteractable();
+            SystemRepository.Instance.GetSystem<IInteractSystem>().TriggerInteractable();
         }
 
         private void ChangeSelection(float delta)
         {
-            if(delta<0) InteractSystem.Instance.NextSelection();
-            else InteractSystem.Instance.LastSelection();
+            if(delta<0) SystemRepository.Instance.GetSystem<IInteractSystem>().NextSelection();
+            else SystemRepository.Instance.GetSystem<IInteractSystem>().LastSelection();
         }
 
         public override void Tick(float deltaTime)
@@ -61,7 +62,7 @@ namespace GenBall.Player.Controller
             {
                 if (!_thisFrameInteractables.Contains(lastFrameInteractable))
                 {
-                    InteractSystem.Instance.RemoveInteractable(lastFrameInteractable);
+                    SystemRepository.Instance.GetSystem<IInteractSystem>().RemoveInteractable(lastFrameInteractable);
                 }
             }
 
@@ -69,7 +70,7 @@ namespace GenBall.Player.Controller
             {
                 if (!_lastFrameInteractables.Contains(thisFrameInteractable))
                 {
-                    InteractSystem.Instance.AddInteractable(thisFrameInteractable);
+                    SystemRepository.Instance.GetSystem<IInteractSystem>().AddInteractable(thisFrameInteractable);
                 }
             }
             _lastFrameInteractables.Clear();

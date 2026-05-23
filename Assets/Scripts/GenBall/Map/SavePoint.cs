@@ -1,5 +1,6 @@
 using GenBall.Interact;
 using GenBall.Utils.Trigger;
+using Yueyn.Main;
 using UnityEngine;
 
 namespace GenBall.Map
@@ -14,7 +15,7 @@ namespace GenBall.Map
             _savePointConfig = GetComponent<SavePointConfig>();
             if (_triggerObject == null)
             {
-                Debug.LogError("gzp ´æµµµãÃ»°ó¶¨´¥·¢Æ÷");
+                Debug.LogError("gzp ï¿½æµµï¿½ï¿½Ã»ï¿½ó¶¨´ï¿½ï¿½ï¿½ï¿½ï¿½");
             }
         }
         private void Start()
@@ -24,18 +25,18 @@ namespace GenBall.Map
         }
         private void OnEnter()
         {
-            InteractSystem.Instance.AddInteractable(this);
+            SystemRepository.Instance.GetSystem<IInteractSystem>().AddInteractable(this);
         }
 
         private void OnExit()
         {
-            InteractSystem.Instance.RemoveInteractable(this);
+            SystemRepository.Instance.GetSystem<IInteractSystem>().RemoveInteractable(this);
         }
 
         public string OperationDescription => _savePointConfig.DisplayName;
         public void Interact()
         {
-            Debug.Log($"´ËÊ±Ó¦¸Ã´ò¿ª´æµµµã:{_savePointConfig.DisplayName}½»»¥²Ëµ¥");
+            Debug.Log($"ï¿½ï¿½Ê±Ó¦ï¿½Ã´ò¿ª´æµµï¿½ï¿½:{_savePointConfig.DisplayName}ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½");
         }
     }
 }

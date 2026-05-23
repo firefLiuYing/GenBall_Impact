@@ -1,17 +1,14 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using GenBall.BattleSystem.Buff;
 using GenBall.Utils.EntityCreator;
 using JetBrains.Annotations;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
-using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets
 {
-    public class BulletSystem:MonoBehaviour,IComponent
+    public class BulletSystem : IBulletSystem
     {
-        public int Priority => 1000;
         // ��Ҫ�ɵ������У������ӵ��������ӵ��������ӵ���������
         
         /// <summary>
@@ -68,27 +65,12 @@ namespace GenBall.BattleSystem.Bullets
         }
         public void Init()
         {
-            
+
         }
 
-        public void OnUnregister()
+        public void UnInit()
         {
-            
-        }
 
-        public void ComponentUpdate(float elapsedSeconds, float realElapseSeconds)
-        {
-            
-        }
-
-        public void ComponentFixedUpdate(float fixedDeltaTime)
-        {
-            
-        }
-
-        public void Shutdown()
-        {
-            
         }
     }
     

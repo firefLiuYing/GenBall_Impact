@@ -6,6 +6,7 @@ using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem
 {
+    [System.Obsolete("Use IDeathSystem via SystemRepository.Instance.GetSystem<IDeathSystem>()")]
     public class DeathSystem : ISingleton
     {
         public static DeathSystem Instance => SingletonManager.GetSingleton<DeathSystem>();

@@ -8,6 +8,7 @@ using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem
 {
+    [System.Obsolete("Use IDamageSystem via SystemRepository.Instance.GetSystem<IDamageSystem>()")]
     public class DamageSystem : ISingleton
     {
         public static DamageSystem Instance=>SingletonManager.GetSingleton<DamageSystem>();

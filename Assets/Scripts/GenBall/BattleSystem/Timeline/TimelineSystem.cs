@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using GenBall.Procedure.Game;
-using GenBall.Utils.Singleton;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Main;
@@ -17,7 +16,7 @@ namespace GenBall.BattleSystem.Timeline
             var model=_config.GetModel(info.TimelineId);
             if (model == null)
             {
-                Debug.LogError($"gzp ÕÒ²»¶Ô{info.TimelineId}¶ÔÓ¦TimelineModelÅäÖÃ");
+                Debug.LogError($"gzp ï¿½Ò²ï¿½ï¿½ï¿½{info.TimelineId}ï¿½ï¿½Ó¦TimelineModelï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             var obj=TimelineObj.Create(model,info.Target,info.TimeScale);
@@ -33,7 +32,7 @@ namespace GenBall.BattleSystem.Timeline
         private readonly List<TimelineObj> _cachedTimelineObjs = new();
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            if((PauseManager.Instance.State&PauseState.LogicPaused)==PauseState.LogicPaused) return;
+            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
             _cachedTimelineObjs.Clear();
             _cachedTimelineObjs.AddRange(_timelineObjs);
             foreach (var timelineObj in _cachedTimelineObjs)

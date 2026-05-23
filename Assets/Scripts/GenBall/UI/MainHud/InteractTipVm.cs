@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GenBall.Interact;
 using Yueyn.Base.Variable;
+using Yueyn.Main;
 
 namespace GenBall.UI
 {
@@ -27,12 +28,12 @@ namespace GenBall.UI
 
         private void RegisterEvents()
         {
-            InteractSystem.Instance.Interactables.Observe(Interactables.PostValue);
+            SystemRepository.Instance.GetSystem<IInteractSystem>().Interactables.Observe(Interactables.PostValue);
         }
 
         private void UnRegisterEvents()
         {
-            InteractSystem.Instance.Interactables.Unobserve(Interactables.PostValue);
+            SystemRepository.Instance.GetSystem<IInteractSystem>().Interactables.Unobserve(Interactables.PostValue);
         }
     }
 }
