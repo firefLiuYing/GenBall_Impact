@@ -10,6 +10,7 @@ using GenBall.Player;
 using GenBall.Procedure;
 using GenBall.Procedure.Execute;
 using GenBall.Procedure.Game;
+using GenBall.UI;
 using Yueyn.Main;
 using UnityEngine;
 
@@ -54,6 +55,12 @@ namespace GenBall.Framework
             SystemRep.RegisterSystem<ISceneExecutorSystem>(new SceneExecutorSystemDefault());
 
             Debug.Log("[FrameworkDefault] Systems registered successfully");
+        }
+
+        protected override void DoStart()
+        {
+            base.DoStart();
+            MainHudFormLogic.Open();
         }
     }
 }

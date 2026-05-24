@@ -315,42 +315,61 @@ namespace Yueyn.UI
         private void CreateUIRoot()
         {
             var uiRoot = new GameObject("UIRoot");
-            // 为_uiRoot赋值
-            _uiRoot = uiRoot.transform;
-            Transform frameworkRoot= GameObject.Find("Framework").transform;
+
+            // UIRoot 也需要 RectTransform，否则子节点的 RectTransform 锚定会失效
+            var uiRootRect = uiRoot.AddComponent<RectTransform>();
+            uiRootRect.anchorMin = Vector2.zero;
+            uiRootRect.anchorMax = Vector2.one;
+            uiRootRect.sizeDelta = Vector2.zero;
+
+            Transform frameworkRoot = GameObject.Find("Framework")?.transform;
             if (frameworkRoot != null)
             {
-                uiRoot.transform.SetParent(frameworkRoot);
+                uiRoot.transform.SetParent(frameworkRoot, false);
             }
 
-            // 创建层级根节点
-            _persistentRoot = new GameObject("Persistent").transform;
-            _persistentRoot.SetParent(_uiRoot, false);
-            _persistentRoot.gameObject.AddComponent<RectTransform>();
-
-            _popupRoot = new GameObject("Popup").transform;
-            _popupRoot.SetParent(_uiRoot, false);
-            _popupRoot.gameObject.AddComponent<RectTransform>();
-
-            _transitionRoot = new GameObject("Transition").transform;
-            _transitionRoot.SetParent(_uiRoot, false);
-            _transitionRoot.gameObject.AddComponent<RectTransform>();
+            _uiRoot = uiRoot.transform;
+            // 创建层级根节点，锚点拉伸全屏
+            _persistentRoot = CreateLayerRoot("Persistent");
+            _popupRoot = CreateLayerRoot("Popup");
+            _transitionRoot = CreateLayerRoot("Transition");
 
             Debug.Log("[UIManager] UI Root created");
         }
 
+        private Transform CreateLayerRoot(string name)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(_uiRoot, false);
+            var rect = go.AddComponent<RectTransform>();
+            // 拉伸锚点填满整个父节点
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.sizeDelta = Vector2.zero;
+            return go.transform;
+        }
+
         private void CreateCamera()
         {
+            // 验证 UI Layer 是否存在
+            int uiLayer = LayerMask.NameToLayer("UI");
+            if (uiLayer < 0)
+            {
+                Debug.LogError("[UIManager] 'UI' layer not found in project settings! "
+                    + "Please add 'UI' layer in Edit > Project Settings > Tags and Layers. "
+                    + "UICamera will fall back to Default layer.");
+                uiLayer = 0; // fallback to Default
+            }
+
             var go = new GameObject("UICamera");
             go.transform.SetParent(_uiRoot, false);
-            Debug.Log($"[UIManager] UI UIRoot {_uiRoot}");
             _uiCamera = go.AddComponent<Camera>();
             _uiCamera.clearFlags = CameraClearFlags.Depth;
-            _uiCamera.cullingMask = 1 << LayerMask.NameToLayer("UI");
+            _uiCamera.cullingMask = 1 << uiLayer;
             _uiCamera.orthographic = true;
             _uiCamera.orthographicSize = 5;
             _uiCamera.depth = 100;
-            Debug.Log("[UIManager] UI Camera created");
+            Debug.Log($"[UIManager] UI Camera created (culling mask: {_uiCamera.cullingMask})");
         }
 
         private void CreateEventSystem()

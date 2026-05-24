@@ -446,13 +446,16 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             {
                 ActiveEditorTracker.sharedTracker.ForceRebuild();
 
+                // 1. Auto-fix prefab components
+                UiBindingCodeGenerator.EnsurePrefabComponents(binding.gameObject, formType);
+
                 // Select base classes based on view type
                 string viewBase, logicBase;
                 if (viewType == UiViewBinding.ViewType.Part)
                 {
                     viewBase = binding.bindingConfig != null && !string.IsNullOrEmpty(binding.bindingConfig.partViewBaseClass)
                         ? binding.bindingConfig.partViewBaseClass
-                        : "UnityEngine.MonoBehaviour";
+                        : "Yueyn.UI.PartViewBase";
                     logicBase = binding.bindingConfig != null
                         ? binding.bindingConfig.partLogicBaseClass
                         : "";
@@ -482,30 +485,53 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
                 var target = binding.generateTarget;
                 var sb = new StringBuilder();
 
+                if (!Directory.Exists(outputDir))
+                    Directory.CreateDirectory(outputDir);
+
                 if (target == UiViewBinding.GenerateTarget.Both || target == UiViewBinding.GenerateTarget.ViewOnly)
                 {
-                    var viewCode = UiBindingCodeGenerator.GenerateViewCode(
-                        formName, prefabPath, scannerBindings, ns, viewBase, viewType);
-                    Directory.CreateDirectory(outputDir);
+                    var viewBindingCode = UiBindingCodeGenerator.GenerateViewBindingCode(
+                        formName, scannerBindings, viewType);
                     var viewPath = Path.Combine(outputDir, UiBindingCodeGenerator.GetViewFileName(formName));
-                    File.WriteAllText(viewPath, viewCode, Encoding.UTF8);
+
+                    UiBindingCodeGenerator.InjectOrCreateFile(viewPath, viewBindingCode, path =>
+                    {
+                        var template = UiBindingCodeGenerator.CreateViewFileTemplate(
+                            formName, ns, scannerBindings, viewBase);
+                        File.WriteAllText(path, template, Encoding.UTF8);
+                        Debug.Log($"[UiCodeGenerator] Created View template: {path}");
+                    });
                     sb.AppendLine($"View:  {viewPath}");
+
+                    // ViewData template (once)
+                    var viewDataPath = Path.Combine(outputDir, UiBindingCodeGenerator.GetViewDataFileName(formName));
+                    if (!File.Exists(viewDataPath))
+                    {
+                        var vdTemplate = UiBindingCodeGenerator.CreateViewDataTemplate(formName, ns);
+                        File.WriteAllText(viewDataPath, vdTemplate, Encoding.UTF8);
+                        sb.AppendLine($"ViewData: {viewDataPath} (template)");
+                    }
                 }
 
                 if (target == UiViewBinding.GenerateTarget.Both || target == UiViewBinding.GenerateTarget.LogicOnly)
                 {
-                    // Skip Logic generation for Parts with no logic base class
                     if (viewType == UiViewBinding.ViewType.Part && string.IsNullOrEmpty(logicBase))
                     {
                         sb.AppendLine("Logic: (skipped — Part has no logic base class configured)");
                     }
                     else
                     {
-                        var logicCode = UiBindingCodeGenerator.GenerateLogicCode(
-                            formName, prefabPath, formType, ns, logicBase, viewType);
-                        Directory.CreateDirectory(outputDir);
+                        var logicBindingCode = UiBindingCodeGenerator.GenerateLogicBindingCode(
+                            formName, prefabPath, formType, viewType);
                         var logicPath = Path.Combine(outputDir, UiBindingCodeGenerator.GetLogicFileName(formName));
-                        File.WriteAllText(logicPath, logicCode, Encoding.UTF8);
+
+                        UiBindingCodeGenerator.InjectOrCreateFile(logicPath, logicBindingCode, path =>
+                        {
+                            var template = UiBindingCodeGenerator.CreateLogicFileTemplate(
+                                formName, ns, logicBase, viewType);
+                            File.WriteAllText(path, template, Encoding.UTF8);
+                            Debug.Log($"[UiCodeGenerator] Created Logic template: {path}");
+                        });
                         sb.AppendLine($"Logic: {logicPath}");
                     }
                 }

@@ -213,51 +213,43 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             try
             {
                 var outputDir = Path.Combine(_config.outputBasePath, _formName);
+                if (!Directory.Exists(outputDir))
+                    Directory.CreateDirectory(outputDir);
 
                 if (_generateView)
                 {
-                    var code = UiBindingCodeGenerator.GenerateViewCode(
-                        _formName,
-                        _scanResult.prefabPath,
-                        _scanResult.bindings,
-                        _namespaceName,
-                        _config.viewBaseClass);
-
-                    if (!Directory.Exists(outputDir))
-                        Directory.CreateDirectory(outputDir);
-
+                    var bindingCode = UiBindingCodeGenerator.GenerateViewBindingCode(
+                        _formName, _scanResult.bindings);
                     var path = Path.Combine(outputDir, UiBindingCodeGenerator.GetViewFileName(_formName));
-                    if (File.Exists(path) && !_forceOverwrite)
+
+                    UiBindingCodeGenerator.InjectOrCreateFile(path, bindingCode, p =>
                     {
-                        Debug.LogWarning($"[UiCodeGenerator] Skipped (exists): {path}");
-                    }
-                    else
+                        var template = UiBindingCodeGenerator.CreateViewFileTemplate(
+                            _formName, _namespaceName, _scanResult.bindings, _config.viewBaseClass);
+                        File.WriteAllText(p, template, System.Text.Encoding.UTF8);
+                    });
+
+                    // ViewData template (once)
+                    var viewDataPath = Path.Combine(outputDir, UiBindingCodeGenerator.GetViewDataFileName(_formName));
+                    if (!File.Exists(viewDataPath))
                     {
-                        File.WriteAllText(path, code, System.Text.Encoding.UTF8);
+                        var vdTemplate = UiBindingCodeGenerator.CreateViewDataTemplate(_formName, _namespaceName);
+                        File.WriteAllText(viewDataPath, vdTemplate, System.Text.Encoding.UTF8);
                     }
                 }
 
                 if (_generateLogic)
                 {
-                    var code = UiBindingCodeGenerator.GenerateLogicCode(
-                        _formName,
-                        _scanResult.prefabPath,
-                        _formType,
-                        _namespaceName,
-                        _config.logicBaseClass);
-
-                    if (!Directory.Exists(outputDir))
-                        Directory.CreateDirectory(outputDir);
-
+                    var bindingCode = UiBindingCodeGenerator.GenerateLogicBindingCode(
+                        _formName, _scanResult.prefabPath, _formType);
                     var path = Path.Combine(outputDir, UiBindingCodeGenerator.GetLogicFileName(_formName));
-                    if (File.Exists(path) && !_forceOverwrite)
+
+                    UiBindingCodeGenerator.InjectOrCreateFile(path, bindingCode, p =>
                     {
-                        Debug.LogWarning($"[UiCodeGenerator] Skipped (exists): {path}");
-                    }
-                    else
-                    {
-                        File.WriteAllText(path, code, System.Text.Encoding.UTF8);
-                    }
+                        var template = UiBindingCodeGenerator.CreateLogicFileTemplate(
+                            _formName, _namespaceName, _config.logicBaseClass);
+                        File.WriteAllText(p, template, System.Text.Encoding.UTF8);
+                    });
                 }
 
                 AssetDatabase.Refresh();

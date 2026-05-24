@@ -19,8 +19,8 @@ namespace GenBall.Utils.CodeGenerator.UI
         public string logicBaseClass = "Yueyn.UI.BusinessFormLogic";
 
         [Header("Generation Settings — Part")]
-        [Tooltip("Base class for Part View. Default: MonoBehaviour.")]
-        public string partViewBaseClass = "UnityEngine.MonoBehaviour";
+        [Tooltip("Base class for Part View. Default: PartViewBase.")]
+        public string partViewBaseClass = "Yueyn.UI.PartViewBase";
         [Tooltip("Base class for Part Logic. Leave empty if Part doesn't need Logic.")]
         public string partLogicBaseClass = "";
 

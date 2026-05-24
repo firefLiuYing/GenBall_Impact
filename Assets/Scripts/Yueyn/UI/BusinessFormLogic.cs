@@ -1,8 +1,13 @@
+using UnityEngine;
+
 namespace Yueyn.UI
 {
     /// <summary>
     /// 页面业务逻辑基类
-    /// 与 UIFormScript 绑定，管理页面的业务逻辑
+    /// 与 UIFormScript 绑定，管理页面的业务逻辑。
+    ///
+    /// OnCreate → 自动打开 Form → OnFormCreated()
+    /// OnDestroy → 自动关闭 Form → OnFormDestroying()
     /// </summary>
     public abstract class BusinessFormLogic : BusinessPartLogicContainer
     {
@@ -26,57 +31,67 @@ namespace Yueyn.UI
         /// </summary>
         public UIFormScript BoundForm { get; private set; }
 
-        // ===== 绑定 Form =====
+        // ===== 框架生命周期（sealed via base class） =====
 
-        /// <summary>
-        /// 绑定 UIFormScript（由 BusinessLogicManager 调用）
-        /// </summary>
-        internal void BindForm(UIFormScript form)
+        protected override void OnCreateInternal()
         {
+            base.OnCreateInternal();
+            var formId = UIManager.Instance.OpenForm(PrefabPath, FormType, InitParam);
+            if (formId != -1)
+            {
+                BindForm(UIManager.Instance.GetForm(formId));
+            }
+            OnFormCreated();
+            // 自动发现并初始化子 Part
+            if (BoundForm != null)
+                DiscoverChildPartLogics(BoundForm.transform);
+        }
+
+        protected override void OnDestroyInternal()
+        {
+            OnFormDestroying();
             if (BoundForm != null)
             {
+                var formId = BoundForm.FormId;
                 UnbindForm();
+                UIManager.Instance.CloseForm(formId);
             }
+            base.OnDestroyInternal();
+        }
+
+        // ===== 子类钩子（protected virtual） =====
+
+        /// <summary>
+        /// Form 创建并绑定后调用（供子类重写业务逻辑）
+        /// </summary>
+        protected virtual void OnFormCreated() { }
+
+        /// <summary>
+        /// Form 销毁前调用（供子类重写清理逻辑）
+        /// </summary>
+        protected virtual void OnFormDestroying() { }
+
+        // ===== Form 绑定 / 解绑 =====
+
+        private void BindForm(UIFormScript form)
+        {
+            if (BoundForm != null)
+                UnbindForm();
 
             BoundForm = form;
-
-            // 监听 Form 的生命周期
-            SubscribeFormEvents();
-
-            // 调用绑定回调
             OnFormBound(form);
         }
 
-        /// <summary>
-        /// 解绑 UIFormScript
-        /// </summary>
-        internal void UnbindForm()
+        private void UnbindForm()
         {
             if (BoundForm == null)
                 return;
 
-            // 取消监听
-            UnsubscribeFormEvents();
-
-            // 调用解绑回调
             OnFormUnbound(BoundForm);
-
             BoundForm = null;
         }
 
-        // ===== 监听 Form 事件 =====
-
-        private void SubscribeFormEvents()
-        {
-            // 这里可以监听 Form 的事件（如果需要）
-        }
-
-        private void UnsubscribeFormEvents()
-        {
-            // 取消监听
-        }
-
-        // ===== 生命周期回调（供子类重写） =====
+        // ===== Form 生命周期回调（供子类重写） =====
 
         /// <summary>
         /// Form 绑定时调用
@@ -91,14 +106,12 @@ namespace Yueyn.UI
         // ===== 便捷方法 =====
 
         /// <summary>
-        /// 关闭页面
+        /// 关闭页面（通过销毁自身 Logic）
         /// </summary>
         public void CloseForm()
         {
             if (BoundForm != null)
-            {
                 BusinessLogicManager.Instance.DestroyLogic(LogicId);
-            }
         }
     }
 }

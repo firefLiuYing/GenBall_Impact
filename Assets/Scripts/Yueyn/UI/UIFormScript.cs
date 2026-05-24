@@ -210,39 +210,73 @@ namespace Yueyn.UI
         /// </summary>
         private void InitializeCanvas()
         {
+            // 1. 设置 UI Layer（必须在 Canvas 配置之前，Camera culling 依赖此 layer）
+            SetUILayerRecursively();
+
+            // 2. 确保 Canvas 组件存在且参数正确
             Canvas = GetComponent<Canvas>();
             if (Canvas == null)
             {
                 Canvas = gameObject.AddComponent<Canvas>();
             }
-
             Canvas.renderMode = RenderMode.ScreenSpaceCamera;
             Canvas.worldCamera = UIManager.Instance.UICamera;
+            Canvas.planeDistance = 100f;
 
+            // 3. 确保 CanvasScaler 存在且参数正确
             _canvasScaler = GetComponent<CanvasScaler>();
             if (_canvasScaler == null)
             {
                 _canvasScaler = gameObject.AddComponent<CanvasScaler>();
             }
-
             _canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             _canvasScaler.referenceResolution = new Vector2(1920, 1080);
+            _canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             _canvasScaler.matchWidthOrHeight = 0.5f;
 
+            // 4. 确保 GraphicRaycaster 存在
             _raycaster = GetComponent<GraphicRaycaster>();
             if (_raycaster == null)
             {
                 _raycaster = gameObject.AddComponent<GraphicRaycaster>();
             }
 
+            // 5. 确保 CanvasGroup 存在（用于渐显渐隐），初始化参数
             _canvasGroup = GetComponent<CanvasGroup>();
             if (_canvasGroup == null)
             {
                 _canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
+            _canvasGroup.alpha = 1f;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
 
-            // 启动分辨率监听
+            // 6. 启动分辨率监听
             _resolutionMonitor = StartCoroutine(MonitorResolution());
+        }
+
+        /// <summary>
+        /// 递归设置自身及所有子节点到 UI Layer
+        /// </summary>
+        private void SetUILayerRecursively()
+        {
+            int uiLayer = LayerMask.NameToLayer("UI");
+            if (uiLayer < 0)
+            {
+                Debug.LogWarning($"[UIFormScript] 'UI' layer not found in project settings! "
+                    + $"Form '{PrefabPath ?? name}' will NOT be rendered by UICamera.");
+                return;
+            }
+            SetLayerRecursive(gameObject, uiLayer);
+        }
+
+        private static void SetLayerRecursive(GameObject go, int layer)
+        {
+            go.layer = layer;
+            foreach (Transform child in go.transform)
+            {
+                SetLayerRecursive(child.gameObject, layer);
+            }
         }
 
         /// <summary>
