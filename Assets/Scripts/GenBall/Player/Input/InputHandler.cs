@@ -9,13 +9,17 @@ namespace GenBall.Player.Input
     {
         [SerializeField] private float jumpBufferedTime = 0.01f;
         public Vector3 MoveDirection{get; private set;}
+        public Vector2 ViewDelta { get; private set; }
         public bool IsJumpPressed{get; private set;}
         public float JumpHoldTime{get; private set;}
+        public bool IsDashPressed { get; private set; }
+        public bool IsFirePressed { get; set; }
         
         private Vector2 _moveInput;
 
         public void OnDashInputChange(InputAction.CallbackContext context)
         {
+            IsDashPressed = (context.phase == InputActionPhase.Started);
             if (context.phase == InputActionPhase.Started)
             {
                 GameEntry.Timeline.AddTimeline(new AddTimelineInfo("PlayerDash",1f,transform.parent.gameObject));
@@ -68,9 +72,9 @@ namespace GenBall.Player.Input
             {
                 JumpHoldTime+=Time.fixedDeltaTime;
             }
-            // °ÑÊäÈë´Ólocal×ª»»µ½world
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½local×ªï¿½ï¿½ï¿½ï¿½world
             var forward=new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
-            // ÒòÎªforwardÒÑ¾­¹éÒ»»¯ÁË£¬ËùÒÔfx=sin,fz=cos
+            // ï¿½ï¿½Îªforwardï¿½Ñ¾ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½fx=sin,fz=cos
             MoveDirection=new Vector3(_moveInput.x*forward.z+_moveInput.y*forward.x,0,-_moveInput.x*forward.x+_moveInput.y*forward.z).normalized;
         }
 
@@ -88,6 +92,7 @@ namespace GenBall.Player.Input
         public void OnLookInputChange(InputAction.CallbackContext context)
         {
             var input = context.ReadValue<Vector2>();
+            ViewDelta = input;
             OnViewInputChange?.Invoke(input);
         }
     }

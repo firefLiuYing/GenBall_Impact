@@ -35,7 +35,7 @@ This file provides guidance to Claude Code (claude.ai/code). See `.claude/docs/`
 
 <!-- AI_MAINTAINED_START -->
 - **Self-constraint**: When asked to update this file, never add code examples, class lists, or tables >5 lines. Expand `.claude/docs/` instead and add only a one-line index link here.
-- **Current focus**: Phase A — completing BattleEntity framework (CommandDispatcher, DecisionLayer). See `.claude/docs/execution-plan.md`.
+- **Current focus**: Phase B 实体迁移 — B-1 Player (90%), B-2 Enemy (80%), 待编译验证。见 `.claude/docs/execution-plan.md`。
 - **Compilation**: Auto-compilation is NOT available. Remind user to manually press Ctrl+R in Unity after code changes; user compiles, then tests run automatically.
 - **Testing**: User compiles manually → auto-run tests. Test files go in `Editor/` folder (no asmdef), compiled into Assembly-CSharp-Editor.
 - **UI code gen**: Attach `UiViewBinding` to prefab root → set ViewType → Scan → Generate. Outputs `{Name}View.Generated.cs` / `{Name}Logic.Generated.cs`. Python CLI at `Tools/UiCodeGenerator/` (alternative).

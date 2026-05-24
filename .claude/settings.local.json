@@ -21,7 +21,10 @@
       "Bash(bash run_editmode_tests.sh --namespace GenBall.BattleSystem.Framework.Tests)",
       "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/Yueyn/' -type f -name *.cs -not -path */Demo/*)",
       "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/Event/' -type f -name *.cs)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(bash \".claude/skills/tests-run/run_editmode_tests.sh\" --class CommandDispatcherComponentTests)",
+      "Bash(bash run_editmode_tests.sh --class CommandDispatcherComponentTests)",
+      "Bash(ls:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

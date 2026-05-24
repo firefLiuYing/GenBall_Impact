@@ -97,7 +97,6 @@ namespace GenBall.UI
         public void Init()
         {
             RegisterForm<MainHud>("Assets/AssetBundles/UI/MainHud/Form/MainHud.prefab");
-            RegisterForm<AccessoryForm>("Assets/AssetBundles/UI/MainHud/Form/AccessoryForm.prefab");
             RegisterForm<UpgradeTip>("Assets/AssetBundles/UI/MainHud/Form/UpgradeTip.prefab");
         }
 

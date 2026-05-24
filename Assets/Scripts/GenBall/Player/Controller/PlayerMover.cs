@@ -8,10 +8,21 @@ namespace GenBall.Player.Controller
     public class PlayerMover : CharacterControllerBase, IMove
     {
         private RigidbodyMover _mover;
+        private Rigidbody _rigidbody;
 
         private MoveCommand _cachedCommand;
         private bool _commandConsumed;
         public Vector3 Velocity=>_cachedCommand.Velocity;
+
+        /// <summary>
+        /// When set, Tick() preserves the current Y velocity (used by JumpExecutor).
+        /// </summary>
+        public bool LockVertical { get; set; }
+
+        /// <summary>
+        /// When set, Tick() preserves the current X/Z velocity (used by DashExecutor).
+        /// </summary>
+        public bool LockHorizontal { get; set; }
         public void Move(MoveCommand moveCommand)
         {
             if (_commandConsumed)
@@ -19,7 +30,7 @@ namespace GenBall.Player.Controller
                 _cachedCommand=moveCommand;
                 _commandConsumed = false;
             }
-            // ÓÅÏÈ¼¶Öµ¸ü´óµÄ»á¸²¸ÇÐ¡µÄ£¬Èç¹ûÊÇÏàµÈµÄÓÅÏÈ¼¶£¬ÔòºóÀ´¸²¸ÇÏÈµ½
+            // ï¿½ï¿½ï¿½È¼ï¿½Öµï¿½ï¿½ï¿½ï¿½Ä»á¸²ï¿½ï¿½Ð¡ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½
             else if (moveCommand.Priority >= _cachedCommand.Priority)
             {
                 _cachedCommand = moveCommand;
@@ -29,20 +40,36 @@ namespace GenBall.Player.Controller
         public override void Initialize(CharacterState characterState)
         {
             _mover=characterState.GetComponent<RigidbodyMover>();
+            _rigidbody = _mover.GetComponent<Rigidbody>();
             _commandConsumed = true;
         }
 
         public override void Tick(float deltaTime)
         {
+            Vector3 velocity;
             if (_commandConsumed)
             {
-                _mover.SetVelocity(Vector3.zero);
+                velocity = Vector3.zero;
             }
             else
             {
-                _mover.SetVelocity(_cachedCommand.Velocity);
+                velocity = _cachedCommand.Velocity;
                 _commandConsumed = true;
             }
+
+            if (LockVertical || LockHorizontal)
+            {
+                var currentVel = _rigidbody.velocity;
+                if (LockVertical)
+                    velocity.y = currentVel.y;
+                if (LockHorizontal)
+                {
+                    velocity.x = currentVel.x;
+                    velocity.z = currentVel.z;
+                }
+            }
+
+            _mover.SetVelocity(velocity);
         }
     }
 }

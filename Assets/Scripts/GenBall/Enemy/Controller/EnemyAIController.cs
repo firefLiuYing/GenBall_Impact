@@ -8,6 +8,7 @@ namespace GenBall.Enemy.Controller
     public class EnemyAIController : CharacterControllerBase
     {
         [UnityEngine.SerializeField] private EnemyAIConfigSo aiConfig;
+        public EnemyAIConfigSo AiConfig => aiConfig;
 
         private CharacterState _characterState;
         private Fsm<EnemyAIController> _fsm;

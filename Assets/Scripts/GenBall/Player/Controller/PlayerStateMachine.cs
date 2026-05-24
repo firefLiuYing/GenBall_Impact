@@ -1,8 +1,10 @@
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
+using GenBall.Framework.Config;
 using GenBall.Player.Input;
 using UnityEngine;
 using Yueyn.Fsm;
+using Yueyn.Main;
 
 namespace GenBall.Player.Controller
 {
@@ -11,7 +13,7 @@ namespace GenBall.Player.Controller
         private InputHandler _input;
         private CharacterState _player;
         private Fsm<PlayerStateMachine> _fsm;
-        private PlayerConfigSo _config;
+        private AppSettingsConfig _config;
         private PhysicsController _physics;
         private PlayerMover _mover;
 
@@ -22,11 +24,7 @@ namespace GenBall.Player.Controller
         }
         public override void Initialize(CharacterState characterState)
         {
-            #if UNITY_EDITOR
-            _config = PlayerConfigProvider.GetOrCreatePlayerConfigSo();
-            #else
-            _config = null;
-            #endif
+            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
             _player=characterState;
             _mover=_player.GetComponent<PlayerMover>();
             _player = characterState;
@@ -48,7 +46,7 @@ namespace GenBall.Player.Controller
         private void OnViewInputChange(Vector2 input)
         {
             // var rotationEulerAngles = _player.transform.rotation.eulerAngles;
-            // // unity ¹µ²ÛÅ·À­½ÇÐ¡ÇÉË¼´¦Àí
+            // // unity ï¿½ï¿½ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Ë¼ï¿½ï¿½ï¿½ï¿½
             // if (rotationEulerAngles.x is > 180 and < 360)
             // {
             //     rotationEulerAngles.x -= 360;

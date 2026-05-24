@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Character;
 using GenBall.Enemy;
+using GenBall.Enemy.Controller;
 using GenBall.Framework.Config;
 using GenBall.Map;
 using GenBall.Player;
@@ -87,8 +88,17 @@ namespace GenBall.Procedure.Execute
                 var path = EnemyPrefabPaths[enemyUnitModel.enemyType];
                 var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
                 var go = Object.Instantiate(prefab, enemyUnitModel.spawnPosition, enemyUnitModel.spawnRotation);
+
+                // Legacy initialization
                 var enemy = go.GetComponent<EnemyBase>();
                 enemy.Initialize();
+
+                // BattleEntity assembly
+                var aiController = go.GetComponentInChildren<EnemyAIController>();
+                if (aiController != null)
+                {
+                    EnemyEntityFactory.AssembleEnemy(go, aiController.AiConfig);
+                }
             }
         }
     }

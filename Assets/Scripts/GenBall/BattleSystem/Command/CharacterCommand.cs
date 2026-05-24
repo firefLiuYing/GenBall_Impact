@@ -41,12 +41,22 @@ namespace GenBall.BattleSystem.Command
     }
     
     [StructLayout(LayoutKind.Auto)]
-    public struct AttackCommand: ICommand
+    public struct AttackCommand : IArbitratedCommand
     {
         public readonly int AttackId;
-        public AttackCommand(int attackId)
+        public int InterruptPriority { get; }
+        public int AntiInterruptPriority { get; }
+        public bool Bufferable => true;
+
+        /// <summary>
+        /// Default priorities (2/2) represent a normal attack.
+        /// Heavy attacks override, e.g. new AttackCommand(id, 3, 4).
+        /// </summary>
+        public AttackCommand(int attackId, int interruptPriority = 2, int antiInterruptPriority = 2)
         {
             AttackId = attackId;
+            InterruptPriority = interruptPriority;
+            AntiInterruptPriority = antiInterruptPriority;
         }
     }
 

@@ -1,7 +1,4 @@
-using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Timeline;
-using GenBall.BattleSystem.Weapons;
-using GenBall.Enemy;
 using GenBall.Map;
 using GenBall.UI;
 using GenBall.Procedure;
@@ -15,12 +12,6 @@ namespace GenBall
 {
     public partial class GameEntry
     {
-        private void RegisterEntityPrefabs()
-        {
-            EnemyRegister.Register();
-            BulletRegister.Register();
-            WeaponRegister.Register();
-        }
         private void RegisterModules()
         {
             foreach (var com in GetComponentsInChildren<IComponent>())

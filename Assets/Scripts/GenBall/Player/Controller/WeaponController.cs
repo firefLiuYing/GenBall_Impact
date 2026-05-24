@@ -35,6 +35,14 @@ namespace GenBall.Player.Controller
             _currentWeapon?.Trigger(buttonState);
         }
 
+        /// <summary>
+        /// Trigger fire without InputSystem context. Used by PlayerAttackExecutor.
+        /// </summary>
+        public void Fire(ButtonState state)
+        {
+            _currentWeapon?.Trigger(state);
+        }
+
         public void OnReloadInputChange(InputAction.CallbackContext context)
         {
             if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;

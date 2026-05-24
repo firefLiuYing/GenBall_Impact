@@ -7,6 +7,7 @@ namespace GenBall.Player
 {
     public partial class Player
     {
+        // Obsolete: playerConfigSo migrated to AppSettingsConfig
         [SerializeField]internal PlayerConfigSo playerConfigSo;
         private EventManager EventManager=>GameEntry.GetModule<EventManager>();
 

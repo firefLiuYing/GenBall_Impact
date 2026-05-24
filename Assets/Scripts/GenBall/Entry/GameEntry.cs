@@ -11,8 +11,6 @@ namespace GenBall
         {
             _entry = new Entry();
             RegisterModules();
-            
-            RegisterEntityPrefabs();
         }
 
         private void Start()

@@ -31,7 +31,7 @@ StatComponent, DamageReceiverComponent, BuffContainerComponent, AttackComponent
 
 ### 缺失的 BattleEntity 组件
 
-CommandDispatcher, DecisionLayer（PlayerDecision + EnemyDecision）, EventDispatcher（待讨论）
+EventDispatcher（待讨论）
 
 ---
 
@@ -43,52 +43,59 @@ CommandDispatcher, DecisionLayer（PlayerDecision + EnemyDecision）, EventDispa
 
 ### A-1：CommandDispatcher 组件
 
-**状态**：❌ 未开始
+**状态**：✅ 已完成（2026-05-24）
 
-**输入**：MoveCommand, RotateCommand, AttackCommand, FaceDirectionCommand 已定义（`BattleSystem/Command/CharacterCommand.cs`）
-**执行器接口**：IMove, IRotate, IAttack, IFaceDirection 已定义
-
-**需要做的**：
-- [ ] 创建 `CommandDispatcherComponent`（纯 C#，不继承 MB）
-  - 持有 `Dictionary<Type, object>` 映射命令类型 → 执行器
-  - `RegisterExecutor<TCommand>(IExecutor executor)` 注册
-  - `Dispatch(ICommand command)` 查找执行器并执行
-  - 可选的命令队列支持（批量执行）
-- [ ] 创建 `CommandDispatcherComponentTests` 测试
-- [ ] 更新 `battle-entity-architecture.md` 文档
+**已实现**：
+- `IArbitratedCommand` 接口：InterruptPriority / AntiInterruptPriority / Bufferable
+- `AttackCommand` 升级为 `IArbitratedCommand`（默认 2/2，可选参数向后兼容）
+- 新增 `JumpCommand`（3/3, Bufferable）、`DashCommand`（5/5, 不可缓冲）
+- 新增 `IJump`、`IDash` 执行器接口
+- `CommandDispatcherComponent`（纯 C#）：
+  - 指令三级分类：连续型（直通但有动作时阻断/清零）、瞬时（始终执行）、动作型（仲裁+缓冲）
+  - 仲裁：InterruptPriority >= AntiInterruptPriority 则打断
+  - 缓冲：0.2s 窗口 FIFO 环形队列，完成后 drain 一个
+  - 暂停：Issue() 入口检查 IPauseSystem.IsPaused
+  - 帧序：IEntityLogicUpdate，注册在 DecisionLayer 之前
+- `CommandDispatcherComponentTests`：45 个测试覆盖路由/阻断/仲裁/缓冲/暂停/完成检测/边界
 
 **文件清单**：
-- 新建 `Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs`
-- 新建 `Assets/Scripts/GenBall/BattleSystem/Framework/Editor/CommandDispatcherComponentTests.cs`
+- 新建 `Command/IArbitratedCommand.cs`、`Command/IJump.cs`、`Command/IDash.cs`
+- 新建 `Command/JumpCommand.cs`、`Command/DashCommand.cs`
+- 修改 `Command/CharacterCommand.cs`（AttackCommand 升级）
+- 新建 `Framework/CommandDispatcherComponent.cs`
+- 新建 `Framework/Editor/CommandDispatcherComponentTests.cs`
 
 ### A-2：DecisionLayer 组件
 
-**状态**：❌ 未开始
+**状态**：✅ 已完成（2026-05-24）
 
-**设计**：
-- `IDecisionLayer` 接口：`void MakeDecision()` — 每帧由 BattleEntity 或 FrameUpdate 调用
-- `PlayerDecisionLayer`：读取 Unity InputSystem → 生成命令 → Dispatch 到 CommandDispatcher
-- `EnemyDecisionLayer`：运行 AI FSM → 生成命令 → Dispatch 到 CommandDispatcher
-
-**需要做的**：
-- [ ] 定义 `IDecisionLayer` 接口
-  - `void MakeDecision(float deltaTime)` — 读取输入/AI状态，产出一组 ICommand
-- [ ] 创建 `PlayerDecisionLayer`（从旧 `Player.Control.cs` + `Player.Fsm.cs` 提取逻辑）
-  - 持有 CommandDispatcher 引用
-  - 读取 InputController 状态
-  - 将输入翻译为 MoveCommand / JumpCommand / DashCommand / FireCommand
-- [ ] 创建 `EnemyDecisionLayer`（从旧 `EnemyAIController` + `AI/*State.cs` 提取逻辑）
-  - 持有 CommandDispatcher 引用
-  - 运行 AI FSM（Wander → Chase → Attack → Back → Death）
-  - 每帧产出对应的命令
-- [ ] 创建测试
-- [ ] 更新架构文档
+**已实现**：
+- `IDecisionLayer` 接口：`CommandDispatcherComponent Dispatcher { get; set; }` + `void MakeDecision(float deltaTime)`
+- `IPlayerInputProvider` 接口：MoveDirection / ViewDelta / JumpPressed / DashPressed / FirePressed
+- `PlayerDecisionLayer`（纯 C#，`IEntityLogicUpdate`）：
+  - 通过 `IPlayerInputProvider` 读取输入
+  - Move/Rotate 每帧持续发出
+  - Jump（检查地面）、Dash（0.5s 冷却）、Attack（FirePressed 时）按条件发出
+  - 地面检测：`BattleEntity.Get<ICharacterGroundDetect>()` 优先，`GetComponentInChildren` 作为 fallback
+- `EnemyDecisionLayer`（纯 C#，`IEntityLogicUpdate`）：
+  - 管理 `Fsm<EnemyDecisionLayer>`，硬编码 4 状态（Idle/Chase/Attack/Wander）
+  - 从 BattleEntity 的 GameObject 查找 EnemyDetectController/EnemyAttackController
+  - `IssueCommand()` 通过 CommandDispatcherComponent 路由
+- `EnemyDecisionStateBase`（`FsmState<EnemyDecisionLayer>`）：Agent/Detect/AttackController/ChangeState/IssueCommand
+- AI 决策状态：AIDecisionIdleState、AIDecisionChaseState、AIDecisionAttackState、AIDecisionWanderState
+- `DecisionLayerTests`：37 个测试覆盖 Player 和 Enemy 决策层
+- TODO Phase B：AI 状态改为从 aiConfig 数据驱动
 
 **文件清单**：
-- 新建 `Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs`
-- 新建 `Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs`
-- 新建 `Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs`
-- 新建 `Assets/Scripts/GenBall/BattleSystem/Framework/Editor/DecisionLayerTests.cs`
+- 新建 `Framework/IDecisionLayer.cs`
+- 新建 `Framework/PlayerDecisionLayer.cs`（含 IPlayerInputProvider）
+- 新建 `Framework/EnemyDecisionLayer.cs`
+- 新建 `Framework/AI/EnemyDecisionStateBase.cs`
+- 新建 `Framework/AI/AIDecisionIdleState.cs`
+- 新建 `Framework/AI/AIDecisionChaseState.cs`
+- 新建 `Framework/AI/AIDecisionAttackState.cs`
+- 新建 `Framework/AI/AIDecisionWanderState.cs`
+- 新建 `Framework/Editor/DecisionLayerTests.cs`
 
 ### A-3：EventDispatcher（讨论 + 方案设计）
 
@@ -112,56 +119,60 @@ CommandDispatcher, DecisionLayer（PlayerDecision + EnemyDecision）, EventDispa
 
 ### B-1：Player 迁移
 
-**状态**：❌ 未开始
+**状态**：🔄 进行中（2026-05-24）
 
-**当前旧代码位置**：
-- `GenBall/Player/Player.cs` — 主入口，MonoBehaviour
-- `GenBall/Player/Player.Control.cs` — 输入路由
-- `GenBall/Player/Player.Fsm.cs` — 状态机（Move/Jump/Dash）
-- `GenBall/Player/Player.Health.cs` — 血量/护甲/IDamageable
-- `GenBall/Player/Player.Physics.cs` — 移动/地面检测
-- `GenBall/Player/Player.Weapon.cs` — 武器装备
-- `GenBall/Player/Player.Countdown.cs` — CD计时
-- `GenBall/Player/States/PlayerMoveState.cs` — 移动+视角
-- `GenBall/Player/States/PlayerJumpState.cs` — 变高跳跃
-- `GenBall/Player/States/PlayerDashState.cs` — 冲刺
+**已完成**：
+- [x] B-1a：BattleEntity 装配 — PlayerEntityFactory.AssemblePlayer() 注册 StatComponent/DamageReceiver/BuffContainer/AttackComponent/CommandDispatcher/PlayerDecisionLayer + 所有 executor
+- [x] B-1b（部分）：Executor 组件 — PlayerJumpExecutor (IJump+IEntityLogicUpdate, 变高跳跃物理), PlayerDashExecutor (IDash+IEntityLogicUpdate, 无敌帧+结束期), PlayerAttackExecutor (IAttack, 委托 WeaponController), PlayerInputAdapter (IPlayerInputProvider 包装 InputHandler)
+- [x] PlayerMover 增加 LockVertical/LockHorizontal 属性
+- [x] InputHandler 增加 ViewDelta/IsDashPressed/IsFirePressed 属性
+- [x] WeaponController 增加 public Fire(ButtonState) 方法
+- [x] PlayerSystemDefault.CreatePlayer() 接入工厂调用
 
-**迁移策略**：
-- [ ] B-1a：用 BattleEntity 装配 Player
-  - `BattleEntity` + `StatComponent(MaxHealth, Attack)` + `DamageReceiverComponent`
-  - `BuffContainerComponent` + `AttackComponent(WeaponDamageCalculator)`
-  - `CommandDispatcherComponent` + `PlayerDecisionLayer`
-- [ ] B-1b：将移动/跳跃/冲刺逻辑从 Player 分部类提取为 BattleEntity 组件
-  - `PlayerMoverComponent` → 实现 IMove
-  - `PlayerJumperComponent` → 变高跳跃逻辑（从 PlayerJumpState 提取）
-  - `PlayerDasherComponent` → 冲刺逻辑（从 PlayerDashState 提取）
-  - `PlayerGroundDetectComponent` → 地面检测
-  - `PlayerWeaponHolderComponent` → 武器管理
-- [ ] B-1c：PlayerDataConfig 对接（PlayerConfigSo → AppSettingsConfig）
-- [ ] B-1d：创建 Player 装配工厂（`PlayerEntityFactory` 或类似）
-- [ ] B-1e：验证：Launcher 场景启动 → 玩家正常移动/跳跃/冲刺/射击
-- [ ] B-1f：删除旧 `Player.cs` 及所有分部类
+**待完成**：
+- [x] B-1c：PlayerConfigSo → AppSettingsConfig（移除 Editor-only，#if UNITY_EDITOR 全部替换为 IConfigProvider）
+- [x] B-1d：IRotate 适配（PlayerRotater 已实现 IRotate，工厂自动发现）
+- [ ] B-1e：验证 Launcher 场景（用户编译测试）
+- [ ] B-1f：删除旧 Player.cs 及分部类
+
+**新建文件**：
+- `Player/Executor/PlayerJumpExecutor.cs`
+- `Player/Executor/PlayerDashExecutor.cs`
+- `Player/Executor/PlayerAttackExecutor.cs`
+- `Player/Executor/PlayerInputAdapter.cs`
+- `Player/PlayerEntityFactory.cs`
+
+**修改文件**：
+- `Player/Controller/PlayerMover.cs`（LockVertical/LockHorizontal）
+- `Player/Controller/WeaponController.cs`（Fire 方法）
+- `Player/Input/InputHandler.cs`（ViewDelta/IsDashPressed/IsFirePressed）
+- `Player/PlayerSystemDefault.cs`（工厂接入）
+
+**测试文件**：
+- `Player/Executor/Editor/PlayerExecutorTests.cs`（20 测试）
+- `Framework/Editor/DecisionLayerTests.cs`（37 测试，已修复 MultipleCommands 断言）
 
 ### B-2：Enemy 迁移
 
-**状态**：❌ 未开始
+**状态**：🔄 进行中（2026-05-24）
 
-**当前旧代码位置**：
-- `GenBall/Enemy/EnemyBase.cs` — 旧模块式敌人
-- `GenBall/Enemy/Controller/EnemyAIController.cs` — AI FSM
-- `GenBall/Enemy/AI/` — 各种 AI 状态
-- `GenBall/BattleSystem/Character/CharacterState.cs` — 旧角色基类
+**已完成**：
+- [x] B-2a：EnemyEntityFactory.AssembleEnemy() 注册 BattleEntity + StatComponent/DamageReceiver/BuffContainer/AttackComponent/CommandDispatcher/EnemyDecisionLayer
+- [x] B-2b：复用现有 EnemyMover (IMove) + EnemyAttackController (IAttack) + EnemyFaceController (IFaceDirection) + EnemyDetectController
+- [x] EnemyAIController 暴露 AiConfig 公共属性
+- [x] SceneExecutorSystemDefault.LoadEnemyUnit() 接入工厂调用
 
-**迁移策略**：
-- [ ] B-2a：用 BattleEntity 装配 Enemy
-  - `BattleEntity` + `StatComponent(MaxHealth)` + `DamageReceiverComponent`
-  - `BuffContainerComponent` + `CommandDispatcherComponent` + `EnemyDecisionLayer`
-- [ ] B-2b：创建 `EnemyMoverComponent` → 实现 IMove
-- [ ] B-2c：创建 `EnemyAttackComponent` → 实现 IAttack
-- [ ] B-2d：将 AI FSM 逻辑迁移到 EnemyDecisionLayer 内部
-- [ ] B-2e：创建 Enemy 装配工厂
-- [ ] B-2f：验证：敌人生成→巡逻→发现玩家→追击→攻击→死亡
-- [ ] B-2g：删除旧 `EnemyBase`、旧模块系统、`CharacterState`
+**待完成**：
+- [ ] B-2d：EnemyDecisionLayer 从 aiConfig 数据驱动（当前硬编码 FSM）
+- [ ] B-2e：验证敌人生成→巡逻→追击→攻击→死亡流程
+- [ ] B-2f：删除旧 EnemyBase、CharacterState
+
+**新建文件**：
+- `Enemy/EnemyEntityFactory.cs`
+
+**修改文件**：
+- `Enemy/Controller/EnemyAIController.cs`（AiConfig 属性）
+- `Procedure/Execute/SceneExecutorSystemDefault.cs`（工厂接入 + using）
 
 ### B-3：Weapon 迁移
 
@@ -322,8 +333,8 @@ CommandDispatcher, DecisionLayer（PlayerDecision + EnemyDecision）, EventDispa
 
 | Phase | 任务数 | 已完成 | 进度 |
 |-------|--------|--------|------|
-| A: BattleEntity 框架 | 3 | 0 | 0% |
-| B: 实体迁移 | 3 (含 17 子任务) | 0 | 0% |
+| A: BattleEntity 框架 | 3 | 2 | 67% |
+| B: 实体迁移 | 3 (含 17 子任务) | 0 (B-1 进行中) | 30% |
 | C: 基础系统 | 4 (含 20 子任务) | 0 | 0% |
 | D: 内容层 | 4 (含 16 子任务) | 0 | 0% |
 | E: 清理 | 1 (含 12 子任务) | 0 | 0% |

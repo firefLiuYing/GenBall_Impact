@@ -43,6 +43,9 @@ namespace GenBall.Player
             var prefab = CResourceManager.Instance.LoadSync<GameObject>(PlayerPrefabPath);
             var go = Object.Instantiate(prefab, position, rotation);
             Player = go;
+
+            var config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
+            PlayerEntityFactory.AssemblePlayer(go, config);
         }
     }
 }

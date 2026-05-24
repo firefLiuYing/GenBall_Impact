@@ -6,15 +6,16 @@ namespace GenBall.Player
 {
     [CreateAssetMenu(fileName = "PlayerConfig", menuName = "Player/PlayerConfig")]
     [Serializable]
+    [System.Obsolete("Migrated to AppSettingsConfig")]
     public partial class PlayerConfigSo : ScriptableObject
     {
-        [Header("ÒÆ¶¯ËÙ¶È")]
+        [Header("ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½")]
         public float speed;
-        [Header("ÊÓ½Ç×ª¶¯ÁéÃô¶È")]
+        [Header("ï¿½Ó½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
         public float verticalSensitivity;
         public float horizontalSensitivity;
 
-        [Header("ÌøÔ¾")] 
+        [Header("ï¿½ï¿½Ô¾")] 
         public float shortPressJumpHeight;
         public float longPressJumpMaxHeight;
         public float longPressMaxTime;
@@ -24,7 +25,7 @@ namespace GenBall.Player
         public float coyoteTime;
         public float jumpInputBufferTime;
         
-        [Header("³å´Ì")]
+        [Header("ï¿½ï¿½ï¿½")]
         public float invincibleTime;
         public float endingTime;
         public float dashSpeed;
@@ -44,7 +45,7 @@ namespace GenBall.Player
             var guids=AssetDatabase.FindAssets("t:PlayerConfigSO");
             if (guids.Length > 1)
             {
-                Debug.LogError("gzp ·¢ÏÖ¶à¸öPlayerConfigSO£¬ÇëÖ»±£ÁôÒ»¸ö");
+                Debug.LogError("gzp ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½PlayerConfigSOï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½");
                 return null;
             }
             if (guids.Length == 1)
@@ -56,7 +57,7 @@ namespace GenBall.Player
             var config=ScriptableObject.CreateInstance<PlayerConfigSo>();
             AssetDatabase.CreateAsset(config,PlayerConfigSoPath);
             AssetDatabase.SaveAssets();
-            Debug.Log("gzp ÒÑ×Ô¶¯´´½¨PlayerConfigSO");
+            Debug.Log("gzp ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½PlayerConfigSO");
             _cachedConfig = config;
             return _cachedConfig;
         }

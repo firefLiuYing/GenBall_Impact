@@ -1,6 +1,8 @@
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
+using GenBall.Framework.Config;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.Player.Controller
 {
@@ -12,17 +14,13 @@ namespace GenBall.Player.Controller
         public bool IsOnGround { get;private set; }
         public bool CanJump=>Time.time - _lastGroundedTime <= coyoteTime;
         private float _lastGroundedTime=-100f;
-        private PlayerConfigSo _config;
+        private AppSettingsConfig _config;
         private PlayerMover _mover;
         
         public override void Initialize(CharacterState characterState)
         {
             _player = characterState;
-            #if UNITY_EDITOR
-            _config = PlayerConfigProvider.GetOrCreatePlayerConfigSo();
-            #else
-            _config = null;
-            #endif
+            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
             InitArgs();
             _player.TryGetComponent(out _groundDetect);
             _mover = _player.GetComponent<PlayerMover>();
@@ -54,16 +52,16 @@ namespace GenBall.Player.Controller
         
         private void InitArgs()
         {
-            // ¼ÆËã³¤°´¶Ì°´ÌøÔ¾ËùÐèÒªµÄ²ÎÊý
-            // ³õËÙ¶È
+            // ï¿½ï¿½ï¿½ã³¤ï¿½ï¿½ï¿½Ì°ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½Òªï¿½Ä²ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½Ù¶ï¿½
             var initialVelocity = 2 * _config.longPressJumpMaxHeight / _config.longPressMaxTime;
-            // °´×¡Ê±Ë¥¼õËÙ¶È
+            // ï¿½ï¿½×¡Ê±Ë¥ï¿½ï¿½ï¿½Ù¶ï¿½
             var pressedAcceleration = initialVelocity / _config.longPressMaxTime;
-            // ¶Ì°´¹ý³ÌÖÐÉÏÉý¸ß¶È£¬ÖÐ¼ä±äÁ¿
+            // ï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¶È£ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½
             float shortPressPeriodHeight = initialVelocity * _config.shortPressJustifyTime -pressedAcceleration * _config.shortPressJustifyTime * _config.shortPressJustifyTime / 2;
-            // ¶Ì°´ËÉ¿ªÆÚ¼äÊ£ÓàÒªÉÏÉýµÄ¸ß¶È£¬ÖÐ¼ä±äÁ¿
+            // ï¿½Ì°ï¿½ï¿½É¿ï¿½ï¿½Ú¼ï¿½Ê£ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ß¶È£ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½
             float remainHeight=_config.shortPressJumpHeight-shortPressPeriodHeight;
-            // ËÉ¿ªºó¼õËÙÊ±¼ä
+            // ï¿½É¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
             float remainTime=2 * remainHeight / (initialVelocity - _config.shortPressJustifyTime * pressedAcceleration);
             
             _gravityAccelerationRising = -(initialVelocity - _config.shortPressJustifyTime * pressedAcceleration)/remainTime;
