@@ -42,6 +42,11 @@ namespace Yueyn.UI
 
         protected override void Init()
         {
+            // 清空可能残留的旧数据（静态单例持久化）
+            _allForms.Clear();
+            _pathToFormId.Clear();
+            _nextFormId = 1;
+
             UIEventRouter = new();
             CreateUIRoot();
             CreateCamera();
@@ -110,6 +115,13 @@ namespace Yueyn.UI
 
             // 打开
             formScript.InternalOpen();
+
+            // Popup 层更新排序，确保新开的表单在最上层
+            if (formType == UIFormType.Popup)
+            {
+                UpdatePopupSortOrder();
+            }
+
             formScript.InternalFocus();
 
             Debug.Log($"[UIManager] Opened form: {prefabPath} (ID: {formId})");
@@ -192,6 +204,13 @@ namespace Yueyn.UI
 
             // 打开
             formScript.InternalOpen();
+
+            // Popup 层更新排序
+            if (formType == UIFormType.Popup)
+            {
+                UpdatePopupSortOrder();
+            }
+
             formScript.InternalFocus();
 
             onComplete?.Invoke(formId, formScript);
@@ -224,6 +243,9 @@ namespace Yueyn.UI
             // 注销
             _allForms.Remove(formId);
             _pathToFormId.Remove(form.PrefabPath);
+
+            // Popup 层重新计算排序
+            UpdatePopupSortOrder();
 
             // 销毁
             if (immediate)
@@ -406,6 +428,21 @@ namespace Yueyn.UI
         private void AddToLayer(UIFormScript form, UIFormType formType)
         {
             _formsByType[formType].Add(form);
+        }
+
+        /// <summary>
+        /// 根据打开时间统一更新 Popup 层所有表单的 Canvas.sortingOrder，
+        /// 确保后打开的表单渲染在最上层，优先接收射线检测。
+        /// </summary>
+        private void UpdatePopupSortOrder()
+        {
+            var popups = _formsByType[UIFormType.Popup];
+            // 按打开时间升序排列（先开的排前面，排序值小）
+            popups.Sort((a, b) => a.OpenTime.CompareTo(b.OpenTime));
+            for (int i = 0; i < popups.Count; i++)
+            {
+                popups[i].Canvas.sortingOrder = i + 1; // 从 1 开始，避免与 Persistent(0) 冲突
+            }
         }
 
         private void RemoveFromLayer(UIFormScript form)

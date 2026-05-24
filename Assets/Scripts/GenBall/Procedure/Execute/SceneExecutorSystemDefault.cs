@@ -36,42 +36,39 @@ namespace GenBall.Procedure.Execute
         public void ExecuteSceneSetup()
         {
             var gameData = _gameManager.GameData;
+            if (gameData == null)
+            {
+                Debug.LogWarning("[SceneExecutorSystem] GameData is null, skipping scene setup.");
+                return;
+            }
 
             // 重置光标
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            // 初始化地图存档信息
-            #if UNITY_EDITOR
-            _sceneSystem.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
-            _sceneSystem.InitializeSceneStateObjs(gameData.mapSaveData);
-            #else
-            _sceneSystem.InitializeMapConfig(new MapModel());
-            _sceneSystem.InitializeSceneStateObjs(new MapSaveData());
-            #endif
             // 加载地图
             // GameEntry.Map.LoadSavePointAround(loadInfo.SavePointIndex);
             // 加载敌人
             LoadEnemyUnit();
-            // 初始化UI
-            // TODO: Replace GameEntry.UI with Yueyn.UI.UIManager.Instance.OpenForm() after
-            // MainHud is migrated from FormBase/IUserInterface to UIFormScript-based MVP.
-            GameEntry.UI.OpenForm<MainHud>();
+            // 初始化UI (新 MVP)
+            MainHudFormLogic.Open();
             // 加载Player
             // var savePointInfo = SceneMapIndexProvider.GetMapConfig(loadInfo.SceneName).savePointInfos.FirstOrDefault(s=>s.index==loadInfo.SavePointIndex);
             // if (savePointInfo != null)
             // {
             //     GameEntry.Player.CreatePlayer(savePointInfo.playerSpawnPosition, savePointInfo.playerSpawnRotation);
             // }
-            if (_teleportSystem.IsTeleporting)
+            // Spawn player at teleport target or default position
+            var loadSystem = SystemRepository.Instance.GetSystem<ISceneLoadSystem>();
+            var targetSavePoint = loadSystem.TargetSavePoint;
+            if (targetSavePoint != null)
             {
-                var targetSavePoint = _teleportSystem.CachedSavePointModel;
                 _playerSystem.CreatePlayer(targetSavePoint.spawnPosition, targetSavePoint.spawnRotation);
-                _teleportSystem.IsTeleporting = false;
             }
             else
             {
                 _playerSystem.CreatePlayer();
             }
+            _teleportSystem.IsTeleporting = false;
 
             // todo gzp 测试代码，记得删
             EnemyId.TestOrbis.Create();

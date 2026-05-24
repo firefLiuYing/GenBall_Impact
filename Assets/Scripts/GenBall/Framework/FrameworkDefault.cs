@@ -2,6 +2,7 @@ using GenBall.BattleSystem;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons.Accessory;
+using GenBall.GM;
 using GenBall.Framework.Config;
 using GenBall.Framework.Entity;
 using GenBall.Interact;
@@ -13,6 +14,7 @@ using GenBall.Procedure.Game;
 using GenBall.UI;
 using Yueyn.Main;
 using UnityEngine;
+using Yueyn.UI;
 
 namespace GenBall.Framework
 {
@@ -40,9 +42,15 @@ namespace GenBall.Framework
             // Phase 2A: 交互、场景、传送、暂停、游戏管理
             SystemRep.RegisterSystem<IInteractSystem>(new InteractSystem());
             SystemRep.RegisterSystem<ISceneStateSystem>(new SceneSystem());
+            SystemRep.RegisterSystem<ISceneLoadSystem>(new SceneLoadSystemDefault());
             SystemRep.RegisterSystem<ITeleportSystem>(new TeleportSystem());
             SystemRep.RegisterSystem<IPauseSystem>(new PauseManager());
             SystemRep.RegisterSystem<IGameManagerSystem>(new GameManager());
+
+            // 注册存档数据提供者到 GameManager
+            var gameManager = SystemRep.GetSystem<IGameManagerSystem>();
+            gameManager.RegisterSaveDataProvider(new MapSaveDataProvider());
+            gameManager.RegisterSaveDataProvider(new PlayerSaveDataProvider());
 
             // Phase 2B: 启动流程、场景执行
             SystemRep.RegisterSystem<ILaunchSystem>(new LaunchSystemDefault());
@@ -54,13 +62,19 @@ namespace GenBall.Framework
 
             SystemRep.RegisterSystem<ISceneExecutorSystem>(new SceneExecutorSystemDefault());
 
+            // GM 命令系统（调试工具）
+            SystemRep.RegisterSystem<IGMCommandSystem>(new GMCommandSystemDefault());
+
+            // SplashBusinessLogic：常驻 UI 业务逻辑，通过事件总线管理 Splash 流程
+            BusinessLogicManager.Instance.CreateLogic<SplashBusinessLogic>();
+
             Debug.Log("[FrameworkDefault] Systems registered successfully");
         }
 
         protected override void DoStart()
         {
             base.DoStart();
-            MainHudFormLogic.Open();
+            // 启动流程由 LaunchSystemDefault (IFrameUpdate) 驱动：Splash → StartForm → LoadScene
         }
     }
 }

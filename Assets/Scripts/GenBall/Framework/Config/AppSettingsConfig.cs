@@ -26,5 +26,8 @@ namespace GenBall.Framework.Config
         [Header("Player")]
         public Vector3 defaultPlayerSpawnPosition = Vector3.zero;
         public Vector3 defaultPlayerSpawnRotation = Vector3.zero;
+
+        [Header("Debug")]
+        public bool devMode = false;
     }
 }

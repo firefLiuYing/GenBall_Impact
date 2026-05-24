@@ -1,3 +1,4 @@
+using GenBall.Procedure.Execute;
 using NUnit.Framework;
 using UnityEngine;
 using Yueyn.Main;
@@ -12,7 +13,11 @@ namespace GenBall.Map.Tests
         [SetUp]
         public void SetUp()
         {
-            // Register ISceneStateSystem first (dependency of TeleportSystem)
+            // Register ISceneLoadSystem first (new dependency of TeleportSystem)
+            var loadSystem = new SceneLoadSystemDefault();
+            SystemRepository.Instance.RegisterSystem<ISceneLoadSystem>(loadSystem);
+
+            // Register ISceneStateSystem (dependency of TeleportSystem)
             var scene = new SceneSystem();
             SystemRepository.Instance.RegisterSystem<ISceneStateSystem>(scene);
 
@@ -26,6 +31,7 @@ namespace GenBall.Map.Tests
             // Unregister in reverse order
             SystemRepository.Instance.UnregisterSystem<ITeleportSystem>();
             SystemRepository.Instance.UnregisterSystem<ISceneStateSystem>();
+            SystemRepository.Instance.UnregisterSystem<ISceneLoadSystem>();
         }
 
         private static MapModel CreateTestMapModel()

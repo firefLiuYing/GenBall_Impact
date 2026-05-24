@@ -51,11 +51,14 @@ namespace GenBall.Framework.Tests
         {
             public RunningMode Mode => RunningMode.SaveData | RunningMode.LoadData;
             public string StartSceneName => "Test";
+            public float SceneLoadProgress => 0f;
+            public bool IsSceneLoading => false;
             public void Init() { }
             public void UnInit() { }
             public void StartNewGame() { }
             public void ContinueLastGame() { }
             public void LoadGame(int saveIndex) { }
+            public void SkipSplash() { }
         }
 
         private class TestSceneExecutorSystem : ISceneExecutorSystem

@@ -25,6 +25,19 @@ namespace Yueyn.UI
         [Tooltip("是否可复用（同一个预制体可以被多次打开）")]
         private bool _canReuse = false;
 
+        [SerializeField]
+        [Tooltip("渐显渐隐动画时长（秒），0 表示无动画")]
+        private float _fadeDuration = 0.3f;
+
+        /// <summary>
+        /// 渐显渐隐时长，运行时设置立即生效（对已开始的动画无效）
+        /// </summary>
+        public float FadeDuration
+        {
+            get => _fadeDuration;
+            set => _fadeDuration = Mathf.Max(0, value);
+        }
+
         // ===== 标识信息 =====
 
         /// <summary>
@@ -241,7 +254,10 @@ namespace Yueyn.UI
                 _raycaster = gameObject.AddComponent<GraphicRaycaster>();
             }
 
-            // 5. 确保 CanvasGroup 存在（用于渐显渐隐），初始化参数
+            // 5. 启用排序覆盖，由 UIManager 统一管理 Popup 层的渲染顺序
+            Canvas.overrideSorting = true;
+
+            // 6. 确保 CanvasGroup 存在（用于渐显渐隐），初始化参数
             _canvasGroup = GetComponent<CanvasGroup>();
             if (_canvasGroup == null)
             {
@@ -311,7 +327,7 @@ namespace Yueyn.UI
             if (_canvasGroup != null)
             {
                 StopAllCoroutines();
-                StartCoroutine(FadeCoroutine(0, 1, 0.3f));
+                StartCoroutine(FadeCoroutine(0, 1, _fadeDuration));
             }
         }
 
@@ -323,7 +339,7 @@ namespace Yueyn.UI
             if (_canvasGroup != null)
             {
                 StopAllCoroutines();
-                StartCoroutine(FadeCoroutine(1, 0, 0.3f, () => gameObject.SetActive(false)));
+                StartCoroutine(FadeCoroutine(1, 0, _fadeDuration, () => gameObject.SetActive(false)));
             }
             else
             {

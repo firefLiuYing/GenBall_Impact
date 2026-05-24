@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using GenBall.Procedure;
 using Yueyn.Main;
 
 namespace GenBall.Procedure.Game
@@ -9,5 +10,10 @@ namespace GenBall.Procedure.Game
         RunningMode Mode { get; set; }
         int CurSaveIndex { get; set; }
         Task<bool> SaveGame();
+
+        void RegisterSaveDataProvider(ISaveDataProvider provider);
+        void UnregisterSaveDataProvider(ISaveDataProvider provider);
+        ISaveDataProvider GetProvider(string key);
+        Task<bool> LoadGameData(int saveIndex);
     }
 }

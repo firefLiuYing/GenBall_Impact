@@ -2,29 +2,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GenBall.Framework.Config;
+using GenBall.Player;
+using GenBall.Procedure;
 using GenBall.Procedure.Game;
 using UnityEngine;
-using Yueyn.Base.Variable;
+using Yueyn.Event;
 using Yueyn.Fsm;
 using Yueyn.Main;
 
 namespace GenBall.Procedure.Execute
 {
-    public class LaunchSystemDefault : ILaunchSystem
+    public class LaunchSystemDefault : ILaunchSystem, IFrameUpdate
     {
         private IConfigProvider _configProvider;
         private IGameManagerSystem _gameManager;
         private ISaveService _saveService;
-        private Fsm<ILaunchSystem> _fsm;
-        private List<FsmState<ILaunchSystem>> _states;
-        private Variable<GameData> _gameData;
+        private SimpleFsm<ILaunchSystem> _fsm;
         private readonly List<SaveSlotData> _cachedSaveSlotData = new();
 
         private RunningMode _runningMode;
         private string _startSceneName;
+        private bool _devMode;
+        private float _sceneLoadProgress;
+        private bool _isSceneLoading;
 
         public RunningMode Mode => _runningMode;
         public string StartSceneName => _startSceneName;
+        public float SceneLoadProgress => _sceneLoadProgress;
+        public bool IsSceneLoading => _isSceneLoading;
+
+        public SystemScope FrameUpdateScope => SystemScope.Framework;
+
+        internal void SetSceneLoading(bool isLoading, float progress = 0f)
+        {
+            _isSceneLoading = isLoading;
+            _sceneLoadProgress = progress;
+        }
 
         public void Init()
         {
@@ -32,29 +45,41 @@ namespace GenBall.Procedure.Execute
             var config = _configProvider.GetConfig<AppSettingsConfig>();
             _startSceneName = config.startSceneName;
             _runningMode = config.runningMode;
+            _devMode = config.devMode;
 
             _gameManager = SystemRepository.Instance.GetSystem<IGameManagerSystem>();
             _saveService = SystemRepository.Instance.GetSystem<ISaveService>();
 
             _gameManager.Mode = _runningMode;
 
-            _states = new List<FsmState<ILaunchSystem>>
-            {
-                new ProcedureLoadState(),
+            _fsm = new SimpleFsm<ILaunchSystem>(this,
+                new SplashState(),
                 new StartFormState(),
                 new LoadSceneState()
-            };
+            );
 
-            _fsm = Fsm<ILaunchSystem>.Create("LauncherExecute", this, _states);
-            _fsm.Start<ProcedureLoadState>();
-
-            _gameData = Variable<GameData>.Create();
-            _fsm.SetData("GameData", _gameData);
+            _fsm.Start<SplashState>();
         }
 
         public void UnInit()
         {
             _fsm?.Shutdown();
+        }
+
+        public void FrameUpdate(float deltaTime)
+        {
+            if (_fsm == null || !_fsm.IsRunning)
+                return;
+
+            _fsm.Update(deltaTime);
+
+            // Splash 阶段最小展示时长，之后推进到主菜单（DevMode 下跳过等待）
+            float splashMinTime = _devMode ? 0f : 1.5f;
+            if (_fsm.CurrentStateType == typeof(SplashState) && _fsm.CurrentStateTime > splashMinTime)
+            {
+                CEventRouter.Instance.FireNow(LaunchEventKey.SplashComplete);
+                _fsm.ChangeState<StartFormState>();
+            }
         }
 
         public void StartNewGame()
@@ -93,18 +118,38 @@ namespace GenBall.Procedure.Execute
             }
         }
 
+        public void SkipSplash()
+        {
+            if (_fsm != null && _fsm.CurrentStateType == typeof(SplashState))
+            {
+                CEventRouter.Instance.FireNow(LaunchEventKey.SplashComplete);
+                _fsm.ChangeState<StartFormState>();
+            }
+        }
+
         private void StartWithoutLoad()
         {
             _gameManager.CurSaveIndex = 0;
+            SetProviderDefaults();
             var gameData = new GameData();
-            InternalStartGame(gameData);
+            FinalizeGameData(gameData);
         }
 
-        private void InternalStartGame(GameData gameData)
+        private void FinalizeGameData(GameData gameData)
         {
             Debug.Log("开始游戏");
             _gameManager.GameData = gameData;
-            _gameData.PostValue(gameData);
+            _fsm.ChangeState<LoadSceneState>();
+        }
+
+        private void SetProviderDefaults()
+        {
+            var playerProvider = _gameManager.GetProvider("Player") as PlayerSaveDataProvider;
+            if (playerProvider != null)
+            {
+                playerProvider.RuntimeData.lastSceneName = _startSceneName;
+                playerProvider.RuntimeData.lastSavePointIndex = 0;
+            }
         }
 
         private async void InternalStartNewGame()
@@ -112,7 +157,15 @@ namespace GenBall.Procedure.Execute
             try
             {
                 var saveIndex = await _saveService.CreateNewSave();
-                InternalStartGame(saveIndex);
+                _gameManager.CurSaveIndex = saveIndex;
+
+                // Populate providers with default initial state
+                SetProviderDefaults();
+
+                // Save the initial state to disk
+                await _gameManager.SaveGame();
+
+                FinalizeGameData(_gameManager.GameData);
             }
             catch (Exception e)
             {
@@ -140,9 +193,13 @@ namespace GenBall.Procedure.Execute
         {
             try
             {
-                var gameData = await _saveService.LoadGameData(saveIndex);
-                _gameManager.CurSaveIndex = saveIndex;
-                InternalStartGame(gameData);
+                var success = await _gameManager.LoadGameData(saveIndex);
+                if (!success)
+                {
+                    Debug.LogError($"[LaunchSystem] Failed to load save slot {saveIndex}");
+                    return;
+                }
+                FinalizeGameData(_gameManager.GameData);
             }
             catch (Exception e)
             {

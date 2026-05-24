@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using GenBall.Procedure.Execute;
 using Yueyn.Main;
 
 namespace GenBall.Map
@@ -20,7 +20,9 @@ namespace GenBall.Map
             if(savePointModel==null) return false;
             IsTeleporting=true;
             CachedSavePointModel = savePointModel;
-            SceneManager.LoadScene(teleportRequestInfo.SceneName);
+            var loadSystem = SystemRepository.Instance.GetSystem<ISceneLoadSystem>();
+            loadSystem.SetTargetSavePoint(CachedSavePointModel);
+            loadSystem.AsyncLoadScene(teleportRequestInfo.SceneName);
             return true;
         }
     }

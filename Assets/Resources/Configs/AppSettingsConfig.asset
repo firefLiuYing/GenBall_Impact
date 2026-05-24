@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: AppSettingsConfig
   m_EditorClassIdentifier: 
   maxSaveCount: 6
-  startSceneName: Prologue
+  startSceneName: YueynTestMap
   runningMode: 3
   orderInterval: 100
   loadLayerCount: 1
   defaultPlayerSpawnPosition: {x: 0, y: 0, z: 0}
   defaultPlayerSpawnRotation: {x: 0, y: 0, z: 0}
+  devMode: 1
