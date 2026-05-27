@@ -1,3 +1,4 @@
+using GenBall.BattleSystem;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
@@ -29,21 +30,30 @@ namespace GenBall.Player
             var weaponController = playerInstance.GetComponentInChildren<WeaponController>();
             var rotater = playerInstance.GetComponent<IRotate>();
 
-            // 3. Create framework components
-            var stats = new StatComponent();
+            // 3. Create StatComponent and set ALL initial stats (no EventDispatcher yet → no events)
+            var stats = new StatComponent(entity);
             stats.GetOrCreate("MaxHealth", 100f);
+            stats.GetOrCreate("CurrentHealth", 100f);
+            stats.GetOrCreate("Attack", 10f);
+            stats.GetOrCreate("MoveSpeed", 5f);
+            stats.GetOrCreate("MaxShield", 100f);
+            stats.GetOrCreate("Shield", 100f);
 
+            // 4. Create EventDispatcherComponent — events from this point onward
+            var eventDispatcher = new EventDispatcherComponent(entity);
+
+            // 5. Create framework components
             var damageReceiver = new DamageReceiverComponent(entity);
             var buffContainer = new BuffContainerComponent();
             var attackComp = new AttackComponent(entity, new WeaponDamageCalculator());
             var dispatcher = new CommandDispatcherComponent();
 
-            // 4. Create executors
+            // 6. Create executors
             var jumpExecutor = new PlayerJumpExecutor(rigidbody, playerMover, config, inputHandler, groundDetect);
             var dashExecutor = new PlayerDashExecutor(rigidbody, playerMover, config);
             var attackExecutor = new PlayerAttackExecutor(weaponController);
 
-            // 5. Register executors on dispatcher
+            // 7. Register executors on dispatcher
             dispatcher.RegisterExecutor<MoveCommand>(playerMover);
             dispatcher.RegisterExecutor<JumpCommand>(jumpExecutor);
             dispatcher.RegisterExecutor<DashCommand>(dashExecutor);
@@ -51,12 +61,16 @@ namespace GenBall.Player
             if (rotater != null)
                 dispatcher.RegisterExecutor<RotateCommand>(rotater);
 
-            // 6. Create input adapter and decision layer
+            // 8. Create input adapter and decision layer
             var inputAdapter = new PlayerInputAdapter(inputHandler);
             var decisionLayer = new PlayerDecisionLayer(entity, inputAdapter);
             decisionLayer.Dispatcher = dispatcher;
 
-            // 7. Register everything on BattleEntity
+            // 9. Create DeathComponent
+            var deathComponent = new DeathComponent(entity, new PlayerDeathHandler());
+
+            // 10. Register everything on BattleEntity
+            entity.RegisterComponent(eventDispatcher);
             entity.RegisterComponent(stats);
             entity.RegisterComponent(damageReceiver);
             entity.RegisterComponent(buffContainer);
@@ -66,6 +80,19 @@ namespace GenBall.Player
             entity.RegisterComponent(dashExecutor);
             entity.RegisterComponent(attackExecutor);
             entity.RegisterComponent(decisionLayer);
+            entity.RegisterComponent(deathComponent);
+        }
+    }
+
+    /// <summary>
+    /// Placeholder: player-specific death behavior (respawn, game-over flow).
+    /// </summary>
+    internal class PlayerDeathHandler : IDeathHandler
+    {
+        public void OnDeath(DeathInfo deathInfo)
+        {
+            Debug.Log($"[PlayerDeath] Player died. Killer: {deathInfo.Killer}");
+            // TODO Phase D: death animation → respawn flow → game-over UI
         }
     }
 }

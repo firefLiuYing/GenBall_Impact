@@ -14,22 +14,28 @@ namespace GenBall.BattleSystem.Framework
             FinalValue = baseValue;
         }
 
-        public void SetBaseValue(float value)
+        public float SetBaseValue(float value)
         {
+            var oldValue = FinalValue;
             BaseValue = value;
             Recalculate();
+            return oldValue;
         }
 
-        public void AddModifier(StatModifier modifier)
+        public float AddModifier(StatModifier modifier)
         {
+            var oldValue = FinalValue;
             _modifiers.Add(modifier);
             Recalculate();
+            return oldValue;
         }
 
-        public void RemoveModifier(StatModifier modifier)
+        public float RemoveModifier(StatModifier modifier)
         {
+            var oldValue = FinalValue;
             _modifiers.Remove(modifier);
             Recalculate();
+            return oldValue;
         }
 
         /// <summary>

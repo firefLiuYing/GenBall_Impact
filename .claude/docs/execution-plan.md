@@ -27,11 +27,13 @@ IBulletSystem, IEvolutionSystem, ISceneExecutorSystem, IGMCommandSystem
 
 ### 已完成的 BattleEntity 组件
 
-StatComponent, DamageReceiverComponent, BuffContainerComponent, AttackComponent
+StatComponent, DamageReceiverComponent, BuffContainerComponent, AttackComponent,
+CommandDispatcherComponent, DecisionLayer (Player/Enemy), EventDispatcherComponent,
+DeathComponent (IDeathHandler)
 
 ### 缺失的 BattleEntity 组件
 
-EventDispatcher（待讨论）
+ShieldRegenComponent（Phase C 实现自动回复）
 
 ---
 
@@ -97,18 +99,30 @@ EventDispatcher（待讨论）
 - 新建 `Framework/AI/AIDecisionWanderState.cs`
 - 新建 `Framework/Editor/DecisionLayerTests.cs`
 
-### A-3：EventDispatcher（讨论 + 方案设计）
+### A-3：EventDispatcher + 关联重构
 
-**状态**：❌ 待讨论
+**状态**：✅ 已完成（2026-05-27）
 
-**背景**：组件间通信（如 StatComponent 属性变化通知 DamageReceiverComponent 重新计算 MaxHealth）需要一个低耦合方案。复杂度高，已约定单独讨论。
+**决定**：
+- EventDispatcherComponent 作为独立可选组件，包装 `Yueyn.Event.EventDispatcher`
+- 所有 BattleEntity 共用单一 `EntityEventId` enum
+- 仅用 FireNow（立即触发），首批事件：StatChanged + HealthChanged
+- 不做全局 CEventRouter 自动桥接（订阅方手动转发）
+- CurrentHealth 迁移到 StatComponent 统一管理
+- 新增 DeathComponent（IDeathHandler 策略）处理差异化死亡
+- Shield 作为 Stat 纳入数值系统（DamageReceiverComponent.TakeDamage 优先扣盾）
 
-**需要讨论的问题**：
-1. BattleEntity 内部组件间通信用 EventDispatcher，还是直接通过 `entity.Get<T>()` 访问？
-2. 如果需要 EventDispatcher，放在 BattleEntity 上还是作为独立组件？
-3. 和全局 CEventRouter 的关系？（现有 BuffTickSystem 已经订阅全局伤害/死亡事件）
-
-**输出**：一份 `event-dispatcher-design.md` 文档（含方案对比 + 决定），如决定实现则加入 A-3 任务
+**文件清单**：
+- 新建 `Framework/EntityEventId.cs`
+- 新建 `Framework/EventDispatcherComponent.cs`
+- 新建 `Framework/DeathComponent.cs`（含 `IDeathHandler`、`HealthChangedEventData`）
+- 新建 `Framework/Editor/EventDispatcherComponentTests.cs`（17 测试）
+- 修改 `Framework/StatComponent.cs`（BattleEntity 引用 + 发射 StatChanged 事件）
+- 修改 `Framework/Stat.cs`（SetBaseValue/AddModifier/RemoveModifier 返回 oldValue）
+- 修改 `Framework/DamageReceiverComponent.cs`（CurrentHealth → StatComponent，Shield 优先，IHealable，HealthChanged 事件）
+- 修改 `Player/PlayerEntityFactory.cs`（装配 EventDispatcher + DeathComponent + Shield stats）
+- 修改 `Enemy/EnemyEntityFactory.cs`（装配 EventDispatcher + DeathComponent）
+- 修改 `Framework/Editor/BattleEntityIntegrationTests.cs`（适配新构造函数）
 
 ---
 
@@ -333,11 +347,21 @@ EventDispatcher（待讨论）
 
 | Phase | 任务数 | 已完成 | 进度 |
 |-------|--------|--------|------|
-| A: BattleEntity 框架 | 3 | 2 | 67% |
+| A: BattleEntity 框架 | 3 | 3 | 100% |
 | B: 实体迁移 | 3 (含 17 子任务) | 0 (B-1 进行中) | 30% |
 | C: 基础系统 | 4 (含 20 子任务) | 0 | 0% |
 | D: 内容层 | 4 (含 16 子任务) | 0 | 0% |
 | E: 清理 | 1 (含 12 子任务) | 0 | 0% |
+| F: 事件系统重构 | 2 | 0 | 0% |
+
+### Phase F：事件系统重构
+
+**目标**：将全局事件和 UI 事件的 ID 定义统一为 enum，替代分散的 const int / 字符串常量。
+
+**依赖**：A-3 完成
+
+- [ ] F-1：全局事件 enum — 将 `GlobalEventSystem.Generated.cs` 中的字符串常量改为 `GlobalEventId` enum
+- [ ] F-2：UI 事件 enum — 将 UI 相关的事件 ID 统一为 `UIEventId` enum
 
 ---
 

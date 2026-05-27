@@ -1,45 +1,102 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Framework
 {
-    public class DamageReceiverComponent : IHealth, IDamageable
+    public class DamageReceiverComponent : IHealth, IDamageable, IHealable
     {
         private readonly BattleEntity _entity;
-        private int _health;
 
-        public int Health => _health;
+        public int Health => (int)(_entity.Get<StatComponent>()?.GetValue("CurrentHealth") ?? 0);
         public int MaxHealth => (int)(_entity.Get<StatComponent>()?.GetValue("MaxHealth") ?? 0);
         public bool IsDead { get; private set; }
 
         public DamageReceiverComponent(BattleEntity entity)
         {
             _entity = entity;
-            _health = MaxHealth;
+            // Always reset CurrentHealth to MaxHealth on construction
+            var stats = _entity.Get<StatComponent>();
+            if (stats != null)
+            {
+                stats.SetBase("CurrentHealth", MaxHealth);
+            }
         }
 
         public void TakeDamage(DamageInfo damageInfo)
         {
             if (IsDead) return;
 
-            int damage = damageInfo.Damage.GetValue();
-            _health -= damage;
+            var stats = _entity.Get<StatComponent>();
+            if (stats == null) return;
 
-            if (_health <= 0)
+            int damage = damageInfo.Damage.GetValue();
+            var oldHealth = stats.GetValue("CurrentHealth");
+
+            // Shield absorbs damage first
+            if (stats.HasStat("Shield"))
             {
-                _health = 0;
-                var deathSystem = SystemRepository.Instance.GetSystem<IDeathSystem>();
-                deathSystem?.ApplyDeath(DeathInfo.Create(
-                    _entity.gameObject,
-                    new List<string> { DeathTag.HealthEmpty },
-                    damageInfo.Attacker));
+                var shield = stats.GetValue("Shield");
+                if (shield > 0f)
+                {
+                    if (shield >= damage)
+                    {
+                        stats.SetBase("Shield", shield - damage);
+                        // Health unchanged, but still fire HealthChanged (shield absorbed it)
+                        var newHealth = stats.GetValue("CurrentHealth");
+                        FireHealthChanged(oldHealth, newHealth, stats.GetValue("MaxHealth"), damageInfo.Attacker);
+                        return;
+                    }
+                    else
+                    {
+                        damage -= (int)shield;
+                        stats.SetBase("Shield", 0f);
+                    }
+                }
             }
+
+            // Deduct remaining damage from CurrentHealth
+            var newCurrentHealth = oldHealth - damage;
+            if (newCurrentHealth < 0f) newCurrentHealth = 0f;
+            stats.SetBase("CurrentHealth", newCurrentHealth);
+
+            FireHealthChanged(oldHealth, stats.GetValue("CurrentHealth"),
+                stats.GetValue("MaxHealth"), damageInfo.Attacker);
+        }
+
+        public void Heal(int healAmount)
+        {
+            if (IsDead) return;
+
+            var stats = _entity.Get<StatComponent>();
+            if (stats == null) return;
+
+            var oldHealth = stats.GetValue("CurrentHealth");
+            var maxHealth = stats.GetValue("MaxHealth");
+            var newHealth = Mathf.Min(oldHealth + healAmount, maxHealth);
+
+            stats.SetBase("CurrentHealth", newHealth);
+
+            FireHealthChanged(oldHealth, newHealth, maxHealth, null);
         }
 
         public void Die(DeathInfo deathInfo)
         {
             IsDead = true;
+        }
+
+        private void FireHealthChanged(float oldHealth, float newHealth, float maxHealth, GameObject damageSource)
+        {
+            var ed = _entity.Get<EventDispatcherComponent>();
+            if (ed == null) return;
+
+            ed.FireNow((int)EntityEventId.HealthChanged,
+                new HealthChangedEventData
+                {
+                    OldHealth = oldHealth,
+                    NewHealth = newHealth,
+                    MaxHealth = maxHealth,
+                    DamageSource = damageSource,
+                });
         }
     }
 }

@@ -3,12 +3,30 @@ using System.Collections.Generic;
 namespace GenBall.BattleSystem.Framework
 {
     /// <summary>
+    /// Event data for StatChanged entity event.
+    /// </summary>
+    public struct StatChangedEventData
+    {
+        public string StatName;
+        public float OldValue;
+        public float NewValue;
+    }
+
+    /// <summary>
     /// Flexible stat storage for BattleEntity. Stats are keyed by string name,
     /// allowing any entity to have any set of stats without code changes.
+    ///
+    /// Fires StatChanged events through EventDispatcherComponent when stats change.
     /// </summary>
     public class StatComponent
     {
+        private readonly BattleEntity _entity;
         private readonly Dictionary<string, Stat> _stats = new();
+
+        public StatComponent(BattleEntity entity = null)
+        {
+            _entity = entity;
+        }
 
         /// <summary>
         /// Get an existing stat or create a new one with the given base value.
@@ -32,7 +50,9 @@ namespace GenBall.BattleSystem.Framework
         /// <summary>Set the base value of a named stat. Creates it if it doesn't exist.</summary>
         public void SetBase(string name, float baseValue)
         {
-            GetOrCreate(name).SetBaseValue(baseValue);
+            var stat = GetOrCreate(name);
+            var oldValue = stat.SetBaseValue(baseValue);
+            FireStatChanged(name, oldValue, stat.FinalValue);
         }
 
         /// <summary>Get the final (calculated) value of a named stat. Returns 0 if not found.</summary>
@@ -44,7 +64,9 @@ namespace GenBall.BattleSystem.Framework
         /// <summary>Add a modifier to a named stat. Creates it if it doesn't exist.</summary>
         public void AddModifier(string name, StatModifier modifier)
         {
-            GetOrCreate(name).AddModifier(modifier);
+            var stat = GetOrCreate(name);
+            var oldValue = stat.AddModifier(modifier);
+            FireStatChanged(name, oldValue, stat.FinalValue);
         }
 
         /// <summary>Remove a modifier from a named stat. No-op if stat doesn't exist.</summary>
@@ -52,7 +74,8 @@ namespace GenBall.BattleSystem.Framework
         {
             if (_stats.TryGetValue(name, out var stat))
             {
-                stat.RemoveModifier(modifier);
+                var oldValue = stat.RemoveModifier(modifier);
+                FireStatChanged(name, oldValue, stat.FinalValue);
             }
         }
 
@@ -60,6 +83,20 @@ namespace GenBall.BattleSystem.Framework
         public bool HasStat(string name)
         {
             return _stats.ContainsKey(name);
+        }
+
+        private void FireStatChanged(string name, float oldValue, float newValue)
+        {
+            var ed = _entity?.Get<EventDispatcherComponent>();
+            if (ed == null) return;
+
+            ed.FireNow((int)EntityEventId.StatChanged,
+                new StatChangedEventData
+                {
+                    StatName = name,
+                    OldValue = oldValue,
+                    NewValue = newValue,
+                });
         }
     }
 }

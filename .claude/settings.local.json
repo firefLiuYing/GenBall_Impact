@@ -38,7 +38,15 @@
       "Read(//c/Users/16897/AppData/Local/Programs/Python//**)",
       "Read(//c/Program Files/**)",
       "Bash(/d/UserResource/Code/Python/Python39/python.exe --version)",
-      "Bash(/d/UserResource/Code/Python/Python39/python.exe \"Tools/UnityMcp/compile_cli.py\")"
+      "Bash(/d/UserResource/Code/Python/Python39/python.exe \"Tools/UnityMcp/compile_cli.py\")",
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --namespace GenBall.BattleSystem.Framework.Tests)",
+      "Bash(bash run_editmode_tests.sh --class GenBall.BattleSystem.Framework.Tests.EventDispatcherComponentTests,GenBall.BattleSystem.Framework.Tests.BattleEntityIntegrationTests)",
+      "Bash(bash run_editmode_tests.sh --class BattleEntityIntegrationTests --method TakeDamage_BelowZero_ClampsToZero)",
+      "Bash(bash run_editmode_tests.sh --class EventDispatcherComponentTests)",
+      "Bash(bash run_editmode_tests.sh --class GenBall.BattleSystem.Framework.Tests.BattleEntityIntegrationTests --method TakeDamage_BelowZero_ClampsToZero)",
+      "Bash(powershell -Command \"\\(Get-Item \\\\\"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\BattleSystem\\\\Framework\\\\Editor\\\\BattleEntityIntegrationTests.cs\\\\\"\\).LastWriteTime = Get-Date; \\(Get-Item \\\\\"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\BattleSystem\\\\Framework\\\\Editor\\\\BattleEntityIntegrationTests.cs.meta\\\\\"\\).LastWriteTime = Get-Date\")",
+      "Bash(powershell -Command \"Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Win32 { [DllImport\\(\\\\\"user32.dll\\\\\"\\)] public static extern IntPtr FindWindow\\(string lpClassName, string lpWindowName\\); [DllImport\\(\\\\\"user32.dll\\\\\"\\)] public static extern IntPtr PostMessage\\(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam\\); }'; \\\\$h = [Win32]::FindWindow\\(null, 'Unity'\\); if\\(\\\\$h -ne [IntPtr]::Zero\\) { echo \\\\\"Unity window found\\\\\"; \\(Get-Item \\\\\"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\BattleSystem\\\\Framework\\\\Editor\\\\BattleEntityIntegrationTests.cs\\\\\"\\).LastWriteTime = Get-Date } else { echo \\\\\"Unity not found\\\\\" }\")",
+      "mcp__unity__unity_list_prefab_hierarchy"
     ]
   },
   "enableAllProjectMcpServers": true,

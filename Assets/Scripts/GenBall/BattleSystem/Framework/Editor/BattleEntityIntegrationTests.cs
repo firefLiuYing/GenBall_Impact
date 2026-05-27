@@ -29,7 +29,7 @@ namespace GenBall.BattleSystem.Framework.Tests
             _entity = _gameObject.AddComponent<BattleEntity>();
 
             // Register all components for a typical "player" entity
-            _stats = new StatComponent();
+            _stats = new StatComponent(_entity);
             _entity.RegisterComponent(_stats);
 
             _buffs = new BuffContainerComponent();
@@ -92,7 +92,7 @@ namespace GenBall.BattleSystem.Framework.Tests
             var barrelObj = new GameObject("Barrel");
             var barrelEntity = barrelObj.AddComponent<BattleEntity>();
 
-            var barrelStats = new StatComponent();
+            var barrelStats = new StatComponent(barrelEntity);
             barrelStats.SetBase("MaxHealth", 30f);
             barrelEntity.RegisterComponent(barrelStats);
 
@@ -254,28 +254,8 @@ namespace GenBall.BattleSystem.Framework.Tests
             Assert.That(receiver.Health, Is.EqualTo(75));
         }
 
-        [Test]
-        public void TakeDamage_BelowZero_ClampsToZero()
-        {
-            // Register a mock IDeathSystem to avoid log errors
-            var mockDeath = new MockDeathSystem();
-            if (!SystemRepository.Instance.HasSystem<IDeathSystem>())
-                SystemRepository.Instance.RegisterSystem<IDeathSystem>(mockDeath);
-
-            _stats.SetBase("MaxHealth", 10f);
-            var receiver = new DamageReceiverComponent(_entity);
-
-            var damageInfo = DamageInfo.Create(_gameObject, 50, null);
-            receiver.TakeDamage(damageInfo);
-
-            // DamageReceiverComponent clamps health to 0 when depleted
-            Assert.That(receiver.Health, Is.EqualTo(0));
-            // Death was applied via IDeathSystem
-            Assert.That(mockDeath.LastDeathInfo, Is.Not.Null);
-
-            if (SystemRepository.Instance.HasSystem<IDeathSystem>())
-                SystemRepository.Instance.UnregisterSystem<IDeathSystem>();
-        }
+        // TakeDamage_BelowZero_ClampsToZero: migrated to EventDispatcherComponentTests
+        // as FullDamagePipeline_StatToDeath and TakeDamage_FiresHealthChanged
 
         [Test]
         public void DamageReceiver_TakeDamage_ThenDie_HealthPreserved()
@@ -337,6 +317,12 @@ namespace GenBall.BattleSystem.Framework.Tests
             public void Init() { }
             public void UnInit() { }
             public void ApplyDeath(DeathInfo deathInfo) => LastDeathInfo = deathInfo;
+        }
+
+        /// <summary>Minimal IDeathHandler mock for testing DeathComponent integration.</summary>
+        private class MockDeathHandler : IDeathHandler
+        {
+            public void OnDeath(DeathInfo deathInfo) { }
         }
     }
 }
