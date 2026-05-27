@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Net.WebSockets;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 namespace Yueyn.Editor.UnityMcp
 {
     /// <summary>
-    /// WebSocket client that connects to the Python MCP server.
-    /// Receives commands on a background thread, executes them on the main thread,
+    /// TCP server that listens for connections from the Python MCP bridge.
+    /// Receives commands on background threads, executes them on the main thread,
     /// and sends responses back.
     ///
     /// Auto-starts on Unity Editor load via [InitializeOnLoad].
@@ -20,27 +22,26 @@ namespace Yueyn.Editor.UnityMcp
     [InitializeOnLoad]
     public static class UnityMcpBridge
     {
-        private const string DefaultUrl = "ws://localhost:9876";
+        private const int Port = 9876;
         private const int MaxMessageSize = 1 << 20; // 1 MB
-        private const float ReconnectDelayMin = 1f;
-        private const float ReconnectDelayMax = 30f;
 
-        private static ClientWebSocket _ws;
+        private static TcpListener _listener;
+        private static TcpClient _client;
+        private static readonly object ClientLock = new();
+        private static volatile bool _isRunning;
         private static CancellationTokenSource _cts;
-        private static bool _isRunning;
-        private static float _reconnectTimer;
-        private static float _currentReconnectDelay = ReconnectDelayMin;
 
         // Thread-safe queues
         private static readonly ConcurrentQueue<string> IncomingMessages = new();
-        private static readonly ConcurrentQueue<string> OutgoingMessages = new();
-        private static readonly ConcurrentDictionary<string, TaskCompletionSource<string>> PendingRequests = new();
+        private static readonly BlockingCollection<string> OutgoingMessages = new();
+
+        private static bool _compileEventsSubscribed;
 
         static UnityMcpBridge()
         {
             EditorApplication.update += OnEditorUpdate;
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
-            _ = ConnectAsync();
+            StartServer();
         }
 
         private static void OnPlayModeChanged(PlayModeStateChange state)
@@ -51,95 +52,192 @@ namespace Yueyn.Editor.UnityMcp
             }
             else if (state == PlayModeStateChange.EnteredEditMode)
             {
-                _ = ConnectAsync();
+                StartServer();
             }
         }
 
-        private static async Task ConnectAsync()
+        // ── Server lifecycle ──────────────────────────────────────────
+
+        private static void StartServer()
         {
             if (_isRunning) return;
 
-            _isRunning = true;
             _cts = new CancellationTokenSource();
 
-            while (!_cts.IsCancellationRequested)
+            var acceptThread = new Thread(AcceptLoop)
             {
+                IsBackground = true,
+                Name = "UnityMcp-Accept"
+            };
+            acceptThread.Start();
+        }
+
+        private static void AcceptLoop()
+        {
+            try
+            {
+                _listener = new TcpListener(IPAddress.Loopback, Port);
+                _listener.Start();
+                _isRunning = true;
+                Debug.Log($"[UnityMcp] Listening on port {Port}");
+            }
+            catch (SocketException ex)
+            {
+                Debug.LogError($"[UnityMcp] Failed to listen on port {Port}: {ex.Message}. " +
+                    "Check if another process is using this port.");
+                _isRunning = false;
+                return;
+            }
+
+            while (_isRunning && !_cts.IsCancellationRequested)
+            {
+                TcpClient newClient;
                 try
                 {
-                    _ws?.Dispose();
-                    _ws = new ClientWebSocket();
-                    _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
-
-                    Debug.Log($"[UnityMcp] Connecting to {DefaultUrl}...");
-                    await _ws.ConnectAsync(new Uri(DefaultUrl), _cts.Token);
-
-                    Debug.Log($"[UnityMcp] Connected to MCP server");
-                    _currentReconnectDelay = ReconnectDelayMin;
-
-                    // Start receive loop
-                    await ReceiveLoop(_cts.Token);
+                    newClient = _listener.AcceptTcpClient();
                 }
-                catch (OperationCanceledException) { break; }
-                catch (Exception ex)
+                catch (SocketException) { break; }
+                catch (ObjectDisposedException) { break; }
+                catch (InvalidOperationException) { break; }
+
+                // Accept only one connection at a time
+                lock (ClientLock)
                 {
-                    Debug.LogWarning($"[UnityMcp] Connection failed: {ex.Message}. " +
-                        $"Reconnecting in {_currentReconnectDelay:F0}s...");
+                    if (_client != null)
+                    {
+                        Debug.LogWarning("[UnityMcp] Rejecting new connection: already connected");
+                        newClient.Close();
+                        continue;
+                    }
+                    _client = newClient;
                 }
 
-                if (_cts.IsCancellationRequested) break;
+                // Set timeouts to detect stale connections
+                newClient.ReceiveTimeout = 60000;
+                newClient.SendTimeout = 30000;
 
-                // Exponential backoff
-                try { await Task.Delay((int)(_currentReconnectDelay * 1000), _cts.Token); }
-                catch (OperationCanceledException) { break; }
+                Debug.Log("[UnityMcp] Client connected");
 
-                _currentReconnectDelay = Mathf.Min(_currentReconnectDelay * 2, ReconnectDelayMax);
+                // Per-connection cancellation
+                using (var connCts = new CancellationTokenSource())
+                {
+                    var receiveThread = new Thread(() => ReceiveLoop(newClient, connCts.Token))
+                    {
+                        IsBackground = true,
+                        Name = "UnityMcp-Receive"
+                    };
+                    var sendThread = new Thread(() => SendLoop(newClient, connCts.Token))
+                    {
+                        IsBackground = true,
+                        Name = "UnityMcp-Send"
+                    };
+
+                    receiveThread.Start();
+                    sendThread.Start();
+
+                    // Wait for receive to finish (means client disconnected)
+                    receiveThread.Join();
+
+                    // Signal send thread to stop
+                    connCts.Cancel();
+                    sendThread.Join(3000);
+                }
+
+                lock (ClientLock)
+                {
+                    try { _client?.Close(); }
+                    catch { /* ignore */ }
+                    try { _client?.Dispose(); }
+                    catch { /* ignore */ }
+                    _client = null;
+                }
+
+                Debug.Log("[UnityMcp] Client disconnected");
             }
 
             _isRunning = false;
         }
 
-        private static async Task ReceiveLoop(CancellationToken ct)
+        // ── Receive / Send loops ──────────────────────────────────────
+
+        private static void ReceiveLoop(TcpClient client, CancellationToken ct)
         {
-            var buffer = new byte[MaxMessageSize];
-
-            while (_ws?.State == WebSocketState.Open && !ct.IsCancellationRequested)
+            try
             {
-                // Send queued outgoing messages
-                while (OutgoingMessages.TryDequeue(out var msg))
+                using (var stream = client.GetStream())
+                using (var reader = new StreamReader(stream, Encoding.UTF8, false, MaxMessageSize))
                 {
-                    var bytes = Encoding.UTF8.GetBytes(msg);
-                    await _ws.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text,
-                        true, ct);
+                    while (!ct.IsCancellationRequested)
+                    {
+                        string line;
+                        try
+                        {
+                            line = reader.ReadLine();
+                        }
+                        catch (IOException) { break; }
+                        catch (ObjectDisposedException) { break; }
+
+                        if (line == null) break; // stream closed
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        IncomingMessages.Enqueue(line);
+                    }
                 }
-
-                // Receive
-                WebSocketReceiveResult result;
-                var offset = 0;
-                do
-                {
-                    result = await _ws.ReceiveAsync(new ArraySegment<byte>(buffer, offset,
-                        buffer.Length - offset), ct);
-                    offset += result.Count;
-                } while (!result.EndOfMessage);
-
-                if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    Debug.Log("[UnityMcp] Server closed connection");
-                    break;
-                }
-
-                var json = Encoding.UTF8.GetString(buffer, 0, offset);
-                IncomingMessages.Enqueue(json);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"[UnityMcp] Receive error: {ex.Message}");
             }
         }
 
-        /// <summary>
-        /// Called by EditorApplication.update on the main thread.
-        /// Processes incoming commands.
-        /// </summary>
+        private static void SendLoop(TcpClient client, CancellationToken ct)
+        {
+            try
+            {
+                using (var stream = client.GetStream())
+                using (var writer = new StreamWriter(stream, Encoding.UTF8, MaxMessageSize) { AutoFlush = false })
+                {
+                    while (!ct.IsCancellationRequested)
+                    {
+                        string line;
+                        try
+                        {
+                            if (!OutgoingMessages.TryTake(out line, 500, ct))
+                                continue;
+                        }
+                        catch (OperationCanceledException) { break; }
+
+                        try
+                        {
+                            writer.Write(line);
+                            writer.Write('\n');
+                            writer.Flush();
+                        }
+                        catch (IOException) { break; }
+                        catch (ObjectDisposedException) { break; }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"[UnityMcp] Send error: {ex.Message}");
+            }
+        }
+
+        // ── Main thread processing ────────────────────────────────────
+
         private static void OnEditorUpdate()
         {
-            // Process incoming commands
+            // Subscribe to compilation events once
+            if (!_compileEventsSubscribed)
+            {
+                _compileEventsSubscribed = true;
+                CompilationPipeline.assemblyCompilationFinished +=
+                    UnityCommandHandler.CollectCompileMessages;
+            }
+
+            UnityCommandHandler.CheckCompileCompletion();
+
             while (IncomingMessages.TryDequeue(out var json))
             {
                 ProcessCommand(json);
@@ -175,7 +273,23 @@ namespace Yueyn.Editor.UnityMcp
                 }
                 sb.Append("}");
 
-                OutgoingMessages.Enqueue(sb.ToString());
+                var responseJson = sb.ToString();
+
+                // For "compile", send the response synchronously on the main thread
+                // BEFORE triggering AssetDatabase.Refresh. Domain reload during
+                // compilation kills the TCP connection, so the background SendLoop
+                // thread may not have time to flush. Writing directly here guarantees
+                // the Python bridge receives the response and enters its polling loop.
+                if (method == "compile")
+                {
+                    SendResponseSync(responseJson);
+                    // Now safe to trigger compilation — domain reload can happen
+                    UnityCommandHandler.TriggerCompileRefresh();
+                }
+                else
+                {
+                    OutgoingMessages.Add(responseJson);
+                }
             }
             catch (Exception ex)
             {
@@ -183,15 +297,45 @@ namespace Yueyn.Editor.UnityMcp
             }
         }
 
+        /// <summary>
+        /// Synchronously writes a response line to the TCP stream on the current thread.
+        /// Used for commands (like compile) that trigger domain reload, where the
+        /// background SendLoop thread may not flush in time.
+        /// </summary>
+        private static void SendResponseSync(string response)
+        {
+            lock (ClientLock)
+            {
+                if (_client == null || !_client.Connected) return;
+                try
+                {
+                    var stream = _client.GetStream();
+                    var bytes = Encoding.UTF8.GetBytes(response + "\n");
+                    stream.Write(bytes, 0, bytes.Length);
+                    stream.Flush();
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning($"[UnityMcp] Failed to send sync response: {ex.Message}");
+                }
+            }
+        }
+
         // ── Minimal JSON helpers (no library dependency) ──────────────
 
         private static string ExtractString(string json, string key)
         {
-            // Match "key":"value" — value can be any string up to unescaped "
-            var search = $"\"{key}\":\"";
-            var idx = json.IndexOf(search, StringComparison.Ordinal);
+            // Search for "key" then skip optional whitespace, colon, and optional whitespace
+            var keySearch = $"\"{key}\"";
+            var idx = json.IndexOf(keySearch, StringComparison.Ordinal);
             if (idx < 0) return "";
-            idx += search.Length;
+            idx += keySearch.Length;
+            // Skip whitespace, colon, whitespace
+            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
+            if (idx < json.Length && json[idx] == ':') idx++;
+            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
+            if (idx >= json.Length || json[idx] != '"') return "";
+            idx++; // skip opening quote
             var end = idx;
             while (end < json.Length)
             {
@@ -205,29 +349,31 @@ namespace Yueyn.Editor.UnityMcp
         private static Dictionary<string, string> ExtractParams(string json, string key)
         {
             var result = new Dictionary<string, string>();
-            var search = $"\"{key}\":{{";
-            var idx = json.IndexOf(search, StringComparison.Ordinal);
+            // Search for "key" then skip optional whitespace, colon, whitespace, opening brace
+            var keySearch = $"\"{key}\"";
+            var idx = json.IndexOf(keySearch, StringComparison.Ordinal);
             if (idx < 0) return result;
 
-            idx += search.Length;
-            // Simple key-value extraction for flat string params
+            idx += keySearch.Length;
+            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
+            if (idx < json.Length && json[idx] == ':') idx++;
+            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
+            if (idx >= json.Length || json[idx] != '{') return result;
+            idx++; // skip {
             while (idx < json.Length && json[idx] != '}')
             {
-                // Skip whitespace and commas
                 while (idx < json.Length && (json[idx] == ' ' || json[idx] == ',' || json[idx] == '\n'))
                     idx++;
                 if (idx >= json.Length || json[idx] == '}') break;
 
-                // Extract key
                 if (json[idx] != '"') break;
-                idx++; // skip opening "
+                idx++;
                 var keyStart = idx;
                 while (idx < json.Length && json[idx] != '"') idx++;
                 var paramKey = json.Substring(keyStart, idx - keyStart);
-                idx++; // skip closing "
-                idx++; // skip :
+                idx++;
+                idx++;
 
-                // Extract value (string only for now)
                 while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\n')) idx++;
                 if (json[idx] == '"')
                 {
@@ -240,7 +386,7 @@ namespace Yueyn.Editor.UnityMcp
                         idx++;
                     }
                     result[paramKey] = json.Substring(valStart, idx - valStart);
-                    idx++; // skip closing "
+                    idx++;
                 }
             }
             return result;
@@ -299,14 +445,52 @@ namespace Yueyn.Editor.UnityMcp
                     .Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
         }
 
+        // ── Public helpers ─────────────────────────────────────────────
+
+        public static void EnqueueCommand(string method, Dictionary<string, string> args)
+        {
+            var sb = new StringBuilder();
+            sb.Append("{\"id\":\"editor_btn\",\"method\":\"");
+            sb.Append(method);
+            sb.Append("\"");
+            if (args != null && args.Count > 0)
+            {
+                sb.Append(",\"params\":{");
+                var first = true;
+                foreach (var kvp in args)
+                {
+                    if (!first) sb.Append(",");
+                    sb.Append($"\"{EscapeJson(kvp.Key)}\":\"{EscapeJson(kvp.Value)}\"");
+                    first = false;
+                }
+                sb.Append("}");
+            }
+            sb.Append("}");
+            IncomingMessages.Enqueue(sb.ToString());
+        }
+
+        // ── Shutdown ──────────────────────────────────────────────────
+
         public static void Disconnect()
         {
             _cts?.Cancel();
-            try { _ws?.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None).Wait(1000); }
+
+            lock (ClientLock)
+            {
+                try { _client?.Close(); }
+                catch { /* ignore */ }
+                try { _client?.Dispose(); }
+                catch { /* ignore */ }
+                _client = null;
+            }
+
+            try { _listener?.Stop(); }
             catch { /* ignore */ }
-            _ws?.Dispose();
-            _ws = null;
+            _listener = null;
             _isRunning = false;
+
+            // Flush outgoing queue so send thread can exit
+            while (OutgoingMessages.TryTake(out _)) { }
         }
     }
 }

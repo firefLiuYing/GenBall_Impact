@@ -18,8 +18,7 @@ Framework 脚手架（ISystem/SystemRepository/SystemUpdaterManager/FrameworkBas
 ### 当前已知问题（自动编译）
 
 Unity Editor 的 FileSystemWatcher 检测外部文件写入不可靠。解决方案：
-- 如果编译触发没反应 → `powershell` 聚焦 Unity 窗口并发送 Ctrl+R 快捷键强制刷新
-- 测试触发前自动调用 `AssetDatabase.Refresh()` 确保最新代码已编译
+- 使用 `mcp__unity__unity_compile` 触发编译（通过 ForceUpdate 绕过文件监视器）
 - 参见 `.claude/docs/testing-workflow.md`
 
 ## 设计决策

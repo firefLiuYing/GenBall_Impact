@@ -24,7 +24,21 @@
       "mcp__ide__getDiagnostics",
       "Bash(bash \".claude/skills/tests-run/run_editmode_tests.sh\" --class CommandDispatcherComponentTests)",
       "Bash(bash run_editmode_tests.sh --class CommandDispatcherComponentTests)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''Tools/UnityMcp/server.py''\\).read\\(\\)\\); print\\(''server.py OK''\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''Tools/UnityMcp/unity_bridge.py''\\).read\\(\\)\\); print\\(''unity_bridge.py OK''\\)\")",
+      "mcp__unity__unity_ping",
+      "Bash(tasklist)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''Tools/UnityMcp/unity_bridge.py''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "mcp__unity__unity_compile",
+      "Bash(python:*)",
+      "Bash(where python:*)",
+      "Read(//d/UserResource/Code/**)",
+      "Bash(/d/UserResource/Code/Python/python.exe --version)",
+      "Read(//c/Users/16897/AppData/Local/Programs/Python//**)",
+      "Read(//c/Program Files/**)",
+      "Bash(/d/UserResource/Code/Python/Python39/python.exe --version)",
+      "Bash(/d/UserResource/Code/Python/Python39/python.exe \"Tools/UnityMcp/compile_cli.py\")"
     ]
   },
   "enableAllProjectMcpServers": true,

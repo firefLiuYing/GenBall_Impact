@@ -2,9 +2,9 @@
 
 ## Key Constraint
 
-External `.cs` file writes (via Git Bash / MSYS2) do not trigger Windows filesystem watchers. Unity's `AssetDatabase.Refresh()` will NOT detect changes written this way.
+External `.cs` file writes (via Git Bash / MSYS2) do not trigger Windows filesystem watchers. The `unity_compile` MCP tool uses `ImportAssetOptions.ForceUpdate` to bypass this.
 
-- **Press Ctrl+R in Unity Editor** to trigger recompilation after external file edits.
+- **Use `mcp__unity__unity_compile`** to trigger recompilation and get results (errors/warnings with file/line).
 
 ## Running Tests
 

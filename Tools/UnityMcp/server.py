@@ -1,8 +1,4 @@
-"""Minimal MCP Server over stdio, bridging to Unity via WebSocket.
-
-Implements the Model Context Protocol (MCP) without external SDK dependencies.
-Just JSON-RPC 2.0 over stdin/stdout.
-"""
+"""Minimal MCP Server over stdio, bridging to Unity via TCP."""
 
 from __future__ import annotations
 
@@ -55,6 +51,19 @@ TOOLS = [
             "required": ["prefabPath"],
         },
     },
+    {
+        "name": "unity_compile",
+        "description": (
+            "Trigger script compilation in Unity and wait for the result. "
+            "Returns compilation status including all errors and warnings "
+            "(file, line, column, message). May take up to 120s."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+        },
+    },
 ]
 
 
@@ -68,7 +77,7 @@ class McpServer:
 
     async def run(self) -> None:
         """Run the MCP server on stdin/stdout."""
-        # Start the WebSocket bridge for Unity
+        # Connect to Unity Editor via TCP
         await self.bridge.start()
 
         logger.info("MCP server ready (stdio)")
@@ -175,7 +184,11 @@ class McpServer:
         if tool_name == "unity_ping":
             result = await self._tool_ping()
         elif tool_name == "unity_list_prefab_hierarchy":
-            result = await self._tool_list_hierarchy(**arguments)
+            # Convert camelCase JSON keys to snake_case Python params
+            prefab_path = arguments.get("prefabPath", "")
+            result = await self._tool_list_hierarchy(prefab_path)
+        elif tool_name == "unity_compile":
+            result = await self._tool_compile()
         else:
             return {
                 "jsonrpc": "2.0",
@@ -200,7 +213,7 @@ class McpServer:
 
     async def _tool_ping(self) -> Dict:
         """Check if Unity is connected."""
-        if not self.bridge.connected:
+        if not self.bridge.connected and not await self.bridge.connect():
             return {"status": "disconnected", "message": "Unity Editor is not connected"}
         try:
             response = await self.bridge.send_command("ping")
@@ -211,9 +224,103 @@ class McpServer:
         except RuntimeError as e:
             return {"status": "disconnected", "message": str(e)}
 
+    async def _tool_compile(self) -> Dict:
+        """Trigger Unity script compilation and wait for result."""
+        if not self.bridge.connected and not await self.bridge.connect():
+            return {"error": "Unity Editor is not connected"}
+
+        COMPILE_TIMEOUT = 120.0  # total wait for compilation
+        POLL_INTERVAL = 2.0      # between status checks
+
+        try:
+            # 1. Trigger compilation
+            response = await self.bridge.send_command("compile")
+            result = response.get("result", {})
+
+            if result.get("status") == "already_compiling":
+                # Wait for current compilation to finish, then retry
+                logger.debug("Unity already compiling, waiting for it to finish...")
+                await asyncio.sleep(1.0)
+                retry_elapsed = 1.0
+                while retry_elapsed < COMPILE_TIMEOUT:
+                    try:
+                        status_resp = await self.bridge.send_command("compile_status")
+                    except RuntimeError:
+                        # Unity disconnected (domain reload), wait and reconnect
+                        await asyncio.sleep(3.0)
+                        retry_elapsed += 3.0
+                        await self.bridge.connect()
+                        continue
+                    status = status_resp.get("result", {})
+                    if not status.get("isCompiling"):
+                        # Previous compile done, now trigger ours
+                        response = await self.bridge.send_command("compile")
+                        result = response.get("result", {})
+                        if result.get("status") == "compilation_started":
+                            break  # proceed to polling below
+                    await asyncio.sleep(POLL_INTERVAL)
+                    retry_elapsed += POLL_INTERVAL
+                else:
+                    return {"status": "compilation_timeout",
+                            "message": "Timed out waiting for in-progress compilation to finish"}
+                if result.get("status") != "compilation_started":
+                    return result
+            elif result.get("status") != "compilation_started":
+                return result
+
+            # 2. Wait briefly for compilation to actually start
+            await asyncio.sleep(1.0)
+
+            # 3. Poll until compilation finishes or timeout
+            elapsed = 1.0
+            while elapsed < COMPILE_TIMEOUT:
+                try:
+                    status_resp = await self.bridge.send_command("compile_status")
+                except RuntimeError as e:
+                    # Unity disconnected (likely domain reload during compilation).
+                    # Wait for it to come back, then reconnect and continue polling.
+                    logger.debug(f"Unity disconnected during compile poll: {e}")
+                    await asyncio.sleep(3.0)
+                    elapsed += 3.0
+                    if not await self.bridge.connect():
+                        logger.debug("Reconnect failed, retrying...")
+                        continue
+                    logger.debug("Reconnected, resuming compile poll")
+                    continue
+
+                status = status_resp.get("result", {})
+
+                if not status.get("isCompiling") and status.get("compileFinished"):
+                    return {
+                        "status": "compilation_complete",
+                        "errorCount": status.get("errorCount", 0),
+                        "warningCount": status.get("warningCount", 0),
+                        "errors": status.get("errors", []),
+                        "warnings": status.get("warnings", []),
+                    }
+
+                logger.debug(
+                    f"Compiling... errors={status.get('errorCount', 0)} "
+                    f"elapsed={elapsed:.0f}s"
+                )
+                await asyncio.sleep(POLL_INTERVAL)
+                elapsed += POLL_INTERVAL
+
+            # Timeout — return current state
+            return {
+                "status": "compilation_timeout",
+                "message": f"Compilation did not finish within {COMPILE_TIMEOUT}s",
+                "isCompiling": True,
+            }
+
+        except RuntimeError as e:
+            return {"error": str(e)}
+        except asyncio.TimeoutError:
+            return {"error": "Unity did not respond within timeout"}
+
     async def _tool_list_hierarchy(self, prefab_path: str) -> Dict:
         """Get prefab GameObject hierarchy from Unity."""
-        if not self.bridge.connected:
+        if not self.bridge.connected and not await self.bridge.connect():
             return {"error": "Unity Editor is not connected"}
 
         try:
@@ -237,8 +344,10 @@ class McpServer:
 
 
 async def main() -> None:
-    """Entry point."""
-    bridge = UnityBridge()
+    """Entry point. Reads UNITY_MCP_PORT env var for port override (tests)."""
+    import os
+    port = int(os.environ.get("UNITY_MCP_PORT", "9876"))
+    bridge = UnityBridge(port=port)
     server = McpServer(bridge)
     await server.run()
 
