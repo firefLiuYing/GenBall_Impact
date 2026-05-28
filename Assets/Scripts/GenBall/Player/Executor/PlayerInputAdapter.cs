@@ -31,6 +31,10 @@ namespace GenBall.Player.Executor
 
         public bool FirePressed => _inputHandler.IsFirePressed;
 
+        public bool ReloadPressed => _inputHandler.IsReloadPressed;
+
+        public bool SwitchWeaponPressed => _inputHandler.IsSwitchWeaponPressed;
+
         public PlayerInputAdapter(InputHandler inputHandler)
         {
             _inputHandler = inputHandler;

@@ -49,7 +49,8 @@ namespace GenBall.BattleSystem.Framework
         /// <summary>
         /// Register an executor to handle a specific command type.
         /// Auto-detects completion delegates for IAttack (IsAttacking),
-        /// IJump (IsJumping), IDash (IsDashing).
+        /// IJump (IsJumping), IDash (IsDashing),
+        /// IReload (IsReloading), ISwitchWeapon (IsSwitching).
         /// </summary>
         public void RegisterExecutor<TCommand>(object executor) where TCommand : ICommand
         {
@@ -63,6 +64,10 @@ namespace GenBall.BattleSystem.Framework
                 _completionChecks[cmdType] = () => jump.IsJumping;
             else if (executor is IDash dash)
                 _completionChecks[cmdType] = () => dash.IsDashing;
+            else if (executor is IReload reload)
+                _completionChecks[cmdType] = () => reload.IsReloading;
+            else if (executor is ISwitchWeapon switchWeapon)
+                _completionChecks[cmdType] = () => switchWeapon.IsSwitching;
         }
 
         /// <summary>
@@ -236,6 +241,14 @@ namespace GenBall.BattleSystem.Framework
                 case IDash dash when cmd is DashCommand dashCmd:
                     dash.Dash(dashCmd);
                     break;
+
+                case IReload reload when cmd is ReloadCommand reloadCmd:
+                    reload.Reload(reloadCmd);
+                    break;
+
+                case ISwitchWeapon switchWeapon when cmd is SwitchWeaponCommand switchCmd:
+                    switchWeapon.SwitchWeapon(switchCmd);
+                    break;
             }
         }
 
@@ -250,6 +263,8 @@ namespace GenBall.BattleSystem.Framework
                 AttackCommand => typeof(AttackCommand),
                 JumpCommand => typeof(JumpCommand),
                 DashCommand => typeof(DashCommand),
+                ReloadCommand => typeof(ReloadCommand),
+                SwitchWeaponCommand => typeof(SwitchWeaponCommand),
                 _ => cmd.GetType()
             };
         }
@@ -287,3 +302,4 @@ namespace GenBall.BattleSystem.Framework
         }
     }
 }
+// force recompile

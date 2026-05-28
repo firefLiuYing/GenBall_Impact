@@ -1,8 +1,8 @@
 using System.Reflection;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
+using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
-using GenBall.Framework.Config;
 using GenBall.Framework.Entity;
 using GenBall.Player.Controller;
 using GenBall.Player.Input;
@@ -42,7 +42,7 @@ namespace GenBall.Player.Executor.Tests
         private PlayerMover _playerMover;
         private InputHandler _inputHandler;
         private MockCharacterGroundDetect _groundDetect;
-        private AppSettingsConfig _config;
+        private PlayerConfig _config;
         private PlayerJumpExecutor _executor;
 
         [SetUp]
@@ -65,7 +65,7 @@ namespace GenBall.Player.Executor.Tests
 
             _groundDetect = new MockCharacterGroundDetect();
 
-            _config = ScriptableObject.CreateInstance<AppSettingsConfig>();
+            _config = ScriptableObject.CreateInstance<PlayerConfig>();
             _config.longPressMaxTime = 1.0f;
             _config.longPressJumpMaxHeight = 4.0f;
             _config.shortPressJumpHeight = 3.0f;
@@ -218,7 +218,7 @@ namespace GenBall.Player.Executor.Tests
         private GameObject _gameObject;
         private Rigidbody _rigidbody;
         private PlayerMover _playerMover;
-        private AppSettingsConfig _config;
+        private PlayerConfig _config;
         private PlayerDashExecutor _executor;
 
         private const float InvincibleTime = 0.15f;
@@ -239,12 +239,13 @@ namespace GenBall.Player.Executor.Tests
             _rigidbody = _gameObject.AddComponent<Rigidbody>();
             _playerMover = _gameObject.AddComponent<PlayerMover>();
 
-            _config = ScriptableObject.CreateInstance<AppSettingsConfig>();
+            _config = ScriptableObject.CreateInstance<PlayerConfig>();
             _config.invincibleTime = InvincibleTime;
             _config.endingTime = EndingTime;
             _config.dashSpeed = DashSpeed;
 
-            _executor = new PlayerDashExecutor(_rigidbody, _playerMover, _config);
+            var entity = _gameObject.AddComponent<BattleEntity>();
+            _executor = new PlayerDashExecutor(_rigidbody, _playerMover, _config, entity);
         }
 
         [TearDown]

@@ -1,6 +1,5 @@
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
-using GenBall.Framework.Config;
 using GenBall.Framework.Entity;
 using GenBall.Player.Controller;
 using GenBall.Player.Input;
@@ -23,7 +22,7 @@ namespace GenBall.Player.Executor
 
         public bool IsJumping { get; private set; }
 
-        public PlayerJumpExecutor(Rigidbody rigidbody, PlayerMover playerMover, AppSettingsConfig config, InputHandler input, ICharacterGroundDetect groundDetect)
+        public PlayerJumpExecutor(Rigidbody rigidbody, PlayerMover playerMover, PlayerConfig config, InputHandler input, ICharacterGroundDetect groundDetect)
         {
             _rigidbody = rigidbody;
             _playerMover = playerMover;
@@ -36,7 +35,7 @@ namespace GenBall.Player.Executor
             InitPhysics(config);
         }
 
-        private void InitPhysics(AppSettingsConfig config)
+        private void InitPhysics(PlayerConfig config)
         {
             _initialVelocity = 2 * config.longPressJumpMaxHeight / config.longPressMaxTime;
             var pressedAccel = _initialVelocity / config.longPressMaxTime;

@@ -1,11 +1,12 @@
 using System.Runtime.InteropServices;
+using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Command
 {
     public interface ICommand
     {
-        
+
     }
 
     /// <summary>
@@ -39,22 +40,25 @@ namespace GenBall.BattleSystem.Command
             VerticalAngle = verticalAngle;
         }
     }
-    
+
     [StructLayout(LayoutKind.Auto)]
     public struct AttackCommand : IArbitratedCommand
     {
         public readonly int AttackId;
+        public readonly ButtonState TriggerState;
         public int InterruptPriority { get; }
         public int AntiInterruptPriority { get; }
         public bool Bufferable => true;
 
         /// <summary>
         /// Default priorities (2/2) represent a normal attack.
-        /// Heavy attacks override, e.g. new AttackCommand(id, 3, 4).
+        /// Heavy attacks override, e.g. new AttackCommand(id, interruptPriority: 3, antiInterruptPriority: 4).
         /// </summary>
-        public AttackCommand(int attackId, int interruptPriority = 2, int antiInterruptPriority = 2)
+        public AttackCommand(int attackId, ButtonState triggerState = ButtonState.Down,
+            int interruptPriority = 2, int antiInterruptPriority = 2)
         {
             AttackId = attackId;
+            TriggerState = triggerState;
             InterruptPriority = interruptPriority;
             AntiInterruptPriority = antiInterruptPriority;
         }

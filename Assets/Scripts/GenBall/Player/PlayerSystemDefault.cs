@@ -44,8 +44,9 @@ namespace GenBall.Player
             var go = Object.Instantiate(prefab, position, rotation);
             Player = go;
 
-            var config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
-            PlayerEntityFactory.AssemblePlayer(go, config);
+            var configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
+            var playerConfig = configProvider.GetConfig<PlayerConfig>();
+            PlayerEntityFactory.AssemblePlayer(go, playerConfig);
         }
     }
 }

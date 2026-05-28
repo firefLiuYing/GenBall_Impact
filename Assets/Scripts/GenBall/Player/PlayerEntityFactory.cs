@@ -3,7 +3,6 @@ using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
-using GenBall.Framework.Config;
 using GenBall.Player.Controller;
 using GenBall.Player.Executor;
 using GenBall.Player.Input;
@@ -13,7 +12,7 @@ namespace GenBall.Player
 {
     public static class PlayerEntityFactory
     {
-        public static void AssemblePlayer(GameObject playerInstance, AppSettingsConfig config)
+        public static void AssemblePlayer(GameObject playerInstance, PlayerConfig config)
         {
             // 1. Get or add BattleEntity component
             var entity = playerInstance.GetComponent<BattleEntity>();
@@ -50,7 +49,7 @@ namespace GenBall.Player
 
             // 6. Create executors
             var jumpExecutor = new PlayerJumpExecutor(rigidbody, playerMover, config, inputHandler, groundDetect);
-            var dashExecutor = new PlayerDashExecutor(rigidbody, playerMover, config);
+            var dashExecutor = new PlayerDashExecutor(rigidbody, playerMover, config, entity);
             var attackExecutor = new PlayerAttackExecutor(weaponController);
 
             // 7. Register executors on dispatcher

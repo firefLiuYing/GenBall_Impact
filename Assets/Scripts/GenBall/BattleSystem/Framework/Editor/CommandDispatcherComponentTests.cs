@@ -302,9 +302,9 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void ActionCommand_EqualPriority_Interrupts()
         {
-            _dispatcher.Issue(new AttackCommand(1, 2, 2)); // Interrupt=2, Anti=2
+            _dispatcher.Issue(new AttackCommand(1, interruptPriority: 2, antiInterruptPriority: 2)); // Interrupt=2, Anti=2
 
-            _dispatcher.Issue(new AttackCommand(2, 2, 2)); // Interrupt=2 >= Anti=2
+            _dispatcher.Issue(new AttackCommand(2, interruptPriority: 2, antiInterruptPriority: 2)); // Interrupt=2 >= Anti=2
 
             Assert.That(_mockAttack.CallCount, Is.EqualTo(2));
             Assert.That(_mockAttack.LastCommand.AttackId, Is.EqualTo(2));
@@ -341,7 +341,7 @@ namespace GenBall.BattleSystem.Framework.Tests
             _dispatcher.Issue(new DashCommand(Vector3.forward, 10f)); // Interrupt=5 >= 3 → interrupts
             // Now Dash is active (Anti=5)
 
-            _dispatcher.Issue(new AttackCommand(1, 2, 2)); // Interrupt=2 < 5, Bufferable=true → buffered
+            _dispatcher.Issue(new AttackCommand(1, interruptPriority: 2, antiInterruptPriority: 2)); // Interrupt=2 < 5, Bufferable=true → buffered
 
             // Another dash — not bufferable
             _dispatcher.Issue(new DashCommand(Vector3.back, 5f)); // Interrupt=5 >= 5 → interrupts
@@ -352,7 +352,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void HeavyAttack_ResistsInterruption()
         {
-            _dispatcher.Issue(new AttackCommand(2, 3, 4)); // Heavy: Anti=4
+            _dispatcher.Issue(new AttackCommand(2, interruptPriority: 3, antiInterruptPriority: 4)); // Heavy: Anti=4
 
             _dispatcher.Issue(new JumpCommand(default)); // Interrupt=3 < 4
 
@@ -384,7 +384,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         {
             _dispatcher.Issue(new JumpCommand(default));   // Active
             _dispatcher.Issue(new AttackCommand(1));       // Buffered #1
-            _dispatcher.Issue(new AttackCommand(2, 2, 2)); // Buffered #2
+            _dispatcher.Issue(new AttackCommand(2, interruptPriority: 2, antiInterruptPriority: 2)); // Buffered #2
 
             _mockJump.IsJumping = false;
             _dispatcher.LogicUpdate(0.016f);
@@ -650,8 +650,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void TwoActionCommands_SameFrame_SecondWins()
         {
-            _dispatcher.Issue(new AttackCommand(1, 2, 2));
-            _dispatcher.Issue(new AttackCommand(2, 3, 2)); // Interrupt=3 >= Anti=2
+            _dispatcher.Issue(new AttackCommand(1, interruptPriority: 2, antiInterruptPriority: 2));
+            _dispatcher.Issue(new AttackCommand(2, interruptPriority: 3, antiInterruptPriority: 2)); // Interrupt=3 >= Anti=2
 
             Assert.That(_mockAttack.LastCommand.AttackId, Is.EqualTo(2));
         }
@@ -744,3 +744,4 @@ namespace GenBall.BattleSystem.Framework.Tests
         }
     }
 }
+

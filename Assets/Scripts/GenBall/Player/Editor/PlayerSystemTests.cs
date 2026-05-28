@@ -17,16 +17,24 @@ namespace GenBall.Player.Tests
     {
         private class FakeConfigProvider : IConfigProvider
         {
-            private readonly AppSettingsConfig _config;
+            private readonly AppSettingsConfig _appConfig;
+            private readonly PlayerConfig _playerConfig;
 
             public FakeConfigProvider()
             {
-                _config = ScriptableObject.CreateInstance<AppSettingsConfig>();
+                _appConfig = ScriptableObject.CreateInstance<AppSettingsConfig>();
+                _playerConfig = ScriptableObject.CreateInstance<PlayerConfig>();
             }
 
             public void Init() { }
             public void UnInit() { }
-            public T GetConfig<T>() where T : class => _config as T;
+
+            public T GetConfig<T>() where T : class
+            {
+                if (typeof(T) == typeof(AppSettingsConfig)) return _appConfig as T;
+                if (typeof(T) == typeof(PlayerConfig)) return _playerConfig as T;
+                return null;
+            }
         }
 
         private IConfigProvider _configProvider;

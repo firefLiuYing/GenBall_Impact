@@ -13,7 +13,7 @@ namespace GenBall.Player.Controller
         private InputHandler _input;
         private CharacterState _player;
         private Fsm<PlayerStateMachine> _fsm;
-        private AppSettingsConfig _config;
+        private PlayerConfig _config;
         private PhysicsController _physics;
         private PlayerMover _mover;
 
@@ -24,7 +24,7 @@ namespace GenBall.Player.Controller
         }
         public override void Initialize(CharacterState characterState)
         {
-            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
+            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<PlayerConfig>();
             _player=characterState;
             _mover=_player.GetComponent<PlayerMover>();
             _player = characterState;

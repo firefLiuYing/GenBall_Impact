@@ -20,6 +20,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         public bool JumpPressed { get; set; }
         public bool DashPressed { get; set; }
         public bool FirePressed { get; set; }
+        public bool ReloadPressed { get; set; }
+        public bool SwitchWeaponPressed { get; set; }
     }
 
     public class MockCharacterGroundDetect : ICharacterGroundDetect

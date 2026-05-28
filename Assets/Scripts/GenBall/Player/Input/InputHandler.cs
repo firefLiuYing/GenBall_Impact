@@ -14,6 +14,8 @@ namespace GenBall.Player.Input
         public float JumpHoldTime{get; private set;}
         public bool IsDashPressed { get; private set; }
         public bool IsFirePressed { get; set; }
+        public bool IsReloadPressed { get; set; }
+        public bool IsSwitchWeaponPressed { get; set; }
         
         private Vector2 _moveInput;
 

@@ -1,6 +1,7 @@
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Character;
 using GenBall.Framework.Entity;
+using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Framework
@@ -12,6 +13,8 @@ namespace GenBall.BattleSystem.Framework
         bool JumpPressed { get; }
         bool DashPressed { get; }
         bool FirePressed { get; }
+        bool ReloadPressed { get; }
+        bool SwitchWeaponPressed { get; }
     }
 
     /// <summary>
@@ -32,6 +35,7 @@ namespace GenBall.BattleSystem.Framework
         private const float DashSpeed = 10f;
         private const float JumpSpeed = 8f;
         private float _dashCooldownTimer;
+        private bool _prevFirePressed;
 
         public CommandDispatcherComponent Dispatcher { get; set; }
 
@@ -67,11 +71,14 @@ namespace GenBall.BattleSystem.Framework
                 _dashCooldownTimer = DashCooldown;
             }
 
-            // Attack
-            if (_input.FirePressed)
-            {
-                _dispatcher.Issue(new AttackCommand(0));
-            }
+            // Attack — detect Down/Held/Up transitions
+            IssueAttackCommands();
+            // Reload
+            if (_input.ReloadPressed)
+                _dispatcher.Issue(new ReloadCommand());
+            // Switch Weapon
+            if (_input.SwitchWeaponPressed)
+                _dispatcher.Issue(new SwitchWeaponCommand());
 
             // Tick cooldown
             if (_dashCooldownTimer > 0f)
@@ -95,6 +102,31 @@ namespace GenBall.BattleSystem.Framework
         {
             var dir = _input.MoveDirection.normalized;
             return dir != Vector3.zero ? dir : Vector3.forward;
+        }
+
+        private void IssueAttackCommands()
+        {
+            bool currFire = _input.FirePressed;
+
+            // Determine TriggerState from transition
+            if (currFire && !_prevFirePressed)
+            {
+                // false→true = Down
+                _dispatcher.Issue(new AttackCommand(0, ButtonState.Down));
+            }
+            else if (currFire && _prevFirePressed)
+            {
+                // true→true = Held
+                _dispatcher.Issue(new AttackCommand(0, ButtonState.Hold));
+            }
+            else if (!currFire && _prevFirePressed)
+            {
+                // true→false = Up
+                _dispatcher.Issue(new AttackCommand(0, ButtonState.Up));
+            }
+            // else: !currFire && !_prevFire = idle, no command
+
+            _prevFirePressed = currFire;
         }
     }
 }

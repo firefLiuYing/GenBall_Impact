@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Buff;
+using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.Framework.Config
@@ -16,6 +17,7 @@ namespace GenBall.Framework.Config
         public void Init()
         {
             LoadConfig<AppSettingsConfig>("Configs/AppSettingsConfig");
+            LoadConfig<PlayerConfig>("Configs/PlayerConfig");
             LoadConfig<BuffModelConfig>("Configs/BuffModelConfig");
             var buffConfig = GetConfig<BuffModelConfig>();
             buffConfig?.Init();

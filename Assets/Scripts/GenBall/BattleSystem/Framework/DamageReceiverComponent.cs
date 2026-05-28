@@ -10,6 +10,7 @@ namespace GenBall.BattleSystem.Framework
         public int Health => (int)(_entity.Get<StatComponent>()?.GetValue("CurrentHealth") ?? 0);
         public int MaxHealth => (int)(_entity.Get<StatComponent>()?.GetValue("MaxHealth") ?? 0);
         public bool IsDead { get; private set; }
+        public bool IsInvincible { get; set; }
 
         public DamageReceiverComponent(BattleEntity entity)
         {
@@ -24,7 +25,7 @@ namespace GenBall.BattleSystem.Framework
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            if (IsDead) return;
+            if (IsDead || IsInvincible) return;
 
             var stats = _entity.Get<StatComponent>();
             if (stats == null) return;

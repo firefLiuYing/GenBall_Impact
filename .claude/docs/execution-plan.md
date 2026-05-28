@@ -1,8 +1,8 @@
 # 长期执行计划
 
 > **用途**：跨会话持久化计划。每完成一个任务更新状态。新会话启动时先读此文档。
-> **最后更新**：2026-05-24
-> **当前阶段**：Phase A
+> **最后更新**：2026-05-28
+> **当前阶段**：Phase B
 
 ---
 
@@ -133,7 +133,7 @@ ShieldRegenComponent（Phase C 实现自动回复）
 
 ### B-1：Player 迁移
 
-**状态**：🔄 进行中（2026-05-24）
+**状态**：✅ 核心代码完成（2026-05-28），仅剩验证和旧代码删除
 
 **已完成**：
 - [x] B-1a：BattleEntity 装配 — PlayerEntityFactory.AssemblePlayer() 注册 StatComponent/DamageReceiver/BuffContainer/AttackComponent/CommandDispatcher/PlayerDecisionLayer + 所有 executor
@@ -146,8 +146,10 @@ ShieldRegenComponent（Phase C 实现自动回复）
 **待完成**：
 - [x] B-1c：PlayerConfigSo → AppSettingsConfig（移除 Editor-only，#if UNITY_EDITOR 全部替换为 IConfigProvider）
 - [x] B-1d：IRotate 适配（PlayerRotater 已实现 IRotate，工厂自动发现）
+- [x] B-1g：PlayerConfig 独立化（2026-05-28）— 创建 PlayerConfig ScriptableObject，Player 专属字段从 AppSettingsConfig 拆出。AppConfigManager 加载 PlayerConfig。PlayerEntityFactory/Executor 全链路使用 PlayerConfig。
+- [x] B-1h：指令系统升级 + 无敌帧（2026-05-28）— DamageReceiverComponent 加 IsInvincible，PlayerDashExecutor 设置无敌。AttackCommand 加 ButtonState 字段。新增瞬时指令：ReloadCommand/SwitchWeaponCommand + IReload/ISwitchWeapon 接口。CommandDispatcher 瞬时路由通道。PlayerDecisionLayer 跟踪 Fire Down/Held/Up 状态。IPlayerInputProvider 新增 ReloadPressed/SwitchWeaponPressed。
 - [ ] B-1e：验证 Launcher 场景（用户编译测试）
-- [ ] B-1f：删除旧 Player.cs 及分部类
+- [ ] B-1f：删除旧 Player.cs 及分部类（等 B-2/B-3 完成下游引用迁移）
 
 **新建文件**：
 - `Player/Executor/PlayerJumpExecutor.cs`
@@ -155,12 +157,30 @@ ShieldRegenComponent（Phase C 实现自动回复）
 - `Player/Executor/PlayerAttackExecutor.cs`
 - `Player/Executor/PlayerInputAdapter.cs`
 - `Player/PlayerEntityFactory.cs`
+- `Player/PlayerConfig.cs`（独立配置，从 AppSettingsConfig 拆出）
 
 **修改文件**：
 - `Player/Controller/PlayerMover.cs`（LockVertical/LockHorizontal）
 - `Player/Controller/WeaponController.cs`（Fire 方法）
 - `Player/Input/InputHandler.cs`（ViewDelta/IsDashPressed/IsFirePressed）
-- `Player/PlayerSystemDefault.cs`（工厂接入）
+- `Player/PlayerSystemDefault.cs`（工厂接入 + PlayerConfig）
+- `Player/Controller/PlayerStateMachine.cs`（PlayerConfig 引用）
+- `Player/Controller/PhysicsController.cs`（PlayerConfig 引用）
+- `Player/Controller/JumpController.cs`（PlayerConfig 引用）
+- `Framework/Config/AppSettingsConfig.cs`（移除 Player 字段）
+- `Framework/Config/AppConfigManager.cs`（加载 PlayerConfig）
+- `BattleSystem/Command/CharacterCommand.cs`（AttackCommand 加 ButtonState）
+- `BattleSystem/Command/ReloadCommand.cs`（新建瞬时指令）
+- `BattleSystem/Command/SwitchWeaponCommand.cs`（新建瞬时指令）
+- `BattleSystem/Command/IReload.cs`（新建 executor 接口）
+- `BattleSystem/Command/ISwitchWeapon.cs`（新建 executor 接口）
+- `BattleSystem/Framework/DamageReceiverComponent.cs`（IsInvincible 属性）
+- `BattleSystem/Framework/PlayerDecisionLayer.cs`（Fire 状态跟踪 + 新输入接口）
+- `BattleSystem/Framework/CommandDispatcherComponent.cs`（瞬时指令路由）
+- `Player/Executor/PlayerDashExecutor.cs`（BattleEntity 参数 + 无敌设置）
+- `Player/Executor/PlayerAttackExecutor.cs`（cmd.TriggerState 路由）
+- `Player/Executor/PlayerInputAdapter.cs`（ReloadPressed/SwitchWeaponPressed）
+- `Player/Input/InputHandler.cs`（IsReloadPressed/IsSwitchWeaponPressed）
 
 **测试文件**：
 - `Player/Executor/Editor/PlayerExecutorTests.cs`（20 测试）
@@ -348,7 +368,7 @@ ShieldRegenComponent（Phase C 实现自动回复）
 | Phase | 任务数 | 已完成 | 进度 |
 |-------|--------|--------|------|
 | A: BattleEntity 框架 | 3 | 3 | 100% |
-| B: 实体迁移 | 3 (含 17 子任务) | 0 (B-1 进行中) | 30% |
+| B: 实体迁移 | 3 (含 19 子任务) | B-1 95%, B-2 30%, B-3 0% | 45% |
 | C: 基础系统 | 4 (含 20 子任务) | 0 | 0% |
 | D: 内容层 | 4 (含 16 子任务) | 0 | 0% |
 | E: 清理 | 1 (含 12 子任务) | 0 | 0% |

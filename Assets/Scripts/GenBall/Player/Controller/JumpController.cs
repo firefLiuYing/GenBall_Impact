@@ -15,7 +15,7 @@ namespace GenBall.Player.Controller
         private PhysicsController _physics;
         private PlayerMover _mover;
         private bool _jumpCommandConsumed=true;
-        private AppSettingsConfig _config;
+        private PlayerConfig _config;
         
         public override void Initialize(CharacterState characterState)
         {
@@ -23,7 +23,7 @@ namespace GenBall.Player.Controller
             _input=characterState.GetComponentInChildren<InputHandler>();
             _physics=characterState.GetComponentInChildren<PhysicsController>();
             _mover=characterState.GetComponent<PlayerMover>();
-            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
+            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<PlayerConfig>();
             InitArgs();
         }
 

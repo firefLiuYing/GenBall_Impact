@@ -16,7 +16,7 @@ namespace GenBall.Player.Executor
         public void Attack(AttackCommand cmd)
         {
             // TODO: AttackId from cmd to map to different weapon modes
-            _weaponController.Fire(ButtonState.Down);
+            _weaponController.Fire(cmd.TriggerState);
         }
 
         /// <summary>

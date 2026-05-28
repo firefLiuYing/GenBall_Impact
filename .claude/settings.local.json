@@ -46,7 +46,16 @@
       "Bash(bash run_editmode_tests.sh --class GenBall.BattleSystem.Framework.Tests.BattleEntityIntegrationTests --method TakeDamage_BelowZero_ClampsToZero)",
       "Bash(powershell -Command \"\\(Get-Item \\\\\"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\BattleSystem\\\\Framework\\\\Editor\\\\BattleEntityIntegrationTests.cs\\\\\"\\).LastWriteTime = Get-Date; \\(Get-Item \\\\\"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\BattleSystem\\\\Framework\\\\Editor\\\\BattleEntityIntegrationTests.cs.meta\\\\\"\\).LastWriteTime = Get-Date\")",
       "Bash(powershell -Command \"Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Win32 { [DllImport\\(\\\\\"user32.dll\\\\\"\\)] public static extern IntPtr FindWindow\\(string lpClassName, string lpWindowName\\); [DllImport\\(\\\\\"user32.dll\\\\\"\\)] public static extern IntPtr PostMessage\\(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam\\); }'; \\\\$h = [Win32]::FindWindow\\(null, 'Unity'\\); if\\(\\\\$h -ne [IntPtr]::Zero\\) { echo \\\\\"Unity window found\\\\\"; \\(Get-Item \\\\\"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\BattleSystem\\\\Framework\\\\Editor\\\\BattleEntityIntegrationTests.cs\\\\\"\\).LastWriteTime = Get-Date } else { echo \\\\\"Unity not found\\\\\" }\")",
-      "mcp__unity__unity_list_prefab_hierarchy"
+      "mcp__unity__unity_list_prefab_hierarchy",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/Player/PlayerConfig.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/Player/Controller/PlayerStateMachine.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Legacy/IBuff.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Framework/Editor/CommandDispatcherComponentTests.cs\")",
+      "Bash(rm \"C:/Users/16897/.claude/projects/D--Apps-Unity-Unity-Project-GenBall-Impact/memory/feedback_auto_compile.md\")",
+      "Bash(rm \"C:/Users/16897/.claude/projects/D--Apps-Unity-Unity-Project-GenBall-Impact/memory/project_migration_plan.md\")"
     ]
   },
   "enableAllProjectMcpServers": true,

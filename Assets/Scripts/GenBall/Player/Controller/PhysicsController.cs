@@ -14,13 +14,13 @@ namespace GenBall.Player.Controller
         public bool IsOnGround { get;private set; }
         public bool CanJump=>Time.time - _lastGroundedTime <= coyoteTime;
         private float _lastGroundedTime=-100f;
-        private AppSettingsConfig _config;
+        private PlayerConfig _config;
         private PlayerMover _mover;
         
         public override void Initialize(CharacterState characterState)
         {
             _player = characterState;
-            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<AppSettingsConfig>();
+            _config = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<PlayerConfig>();
             InitArgs();
             _player.TryGetComponent(out _groundDetect);
             _mover = _player.GetComponent<PlayerMover>();

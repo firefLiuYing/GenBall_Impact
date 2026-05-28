@@ -1,5 +1,5 @@
 using GenBall.BattleSystem.Command;
-using GenBall.Framework.Config;
+using GenBall.BattleSystem.Framework;
 using GenBall.Framework.Entity;
 using GenBall.Player.Controller;
 using UnityEngine;
@@ -10,6 +10,7 @@ namespace GenBall.Player.Executor
     {
         private readonly Rigidbody _rigidbody;
         private readonly PlayerMover _playerMover;
+        private readonly BattleEntity _entity;
 
         private readonly float _invincibleTime;
         private readonly float _endingTime;
@@ -20,10 +21,11 @@ namespace GenBall.Player.Executor
 
         public bool IsDashing { get; private set; }
 
-        public PlayerDashExecutor(Rigidbody rigidbody, PlayerMover playerMover, AppSettingsConfig config)
+        public PlayerDashExecutor(Rigidbody rigidbody, PlayerMover playerMover, PlayerConfig config, BattleEntity entity)
         {
             _rigidbody = rigidbody;
             _playerMover = playerMover;
+            _entity = entity;
 
             _invincibleTime = config.invincibleTime;
             _endingTime = config.endingTime;
@@ -41,6 +43,11 @@ namespace GenBall.Player.Executor
             _dashSpeed = cmd.Speed;
 
             _rigidbody.velocity = _dashDirection.normalized * _dashSpeed;
+
+            // Enable invincibility during dash
+            var damageReceiver = _entity.Get<DamageReceiverComponent>();
+            if (damageReceiver != null)
+                damageReceiver.IsInvincible = true;
         }
 
         public void LogicUpdate(float deltaTime)
@@ -63,6 +70,11 @@ namespace GenBall.Player.Executor
                 IsDashing = false;
                 _playerMover.LockHorizontal = false;
                 _playerMover.LockVertical = false;
+
+                // Disable invincibility
+                var damageReceiver = _entity.Get<DamageReceiverComponent>();
+                if (damageReceiver != null)
+                    damageReceiver.IsInvincible = false;
 
                 var currentVel = _rigidbody.velocity;
                 currentVel.y = 0f;
