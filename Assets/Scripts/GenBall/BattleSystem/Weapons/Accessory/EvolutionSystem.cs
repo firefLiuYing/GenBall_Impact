@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GenBall.Event;
 using GenBall.Event.Generated;
 using Yueyn.Event;
 
@@ -66,6 +67,14 @@ namespace GenBall.BattleSystem.Weapons.Accessory
             #endif
             KillPoints = 0;
             CurrentEvolutionLevel = 0;
+        }
+
+        public void AddKillPoints(int points)
+        {
+            if (points <= 0) return;
+            KillPoints += points;
+            // Also fire the int-based event for MainHudFormLogic (new HUD)
+            CEventRouter.Instance.FireNow((int)GlobalEventId.KillPointsChanged, KillPoints);
         }
 
         public void UnInit()

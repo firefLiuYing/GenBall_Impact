@@ -20,6 +20,7 @@ namespace GenBall.BattleSystem.Weapons.Components
         private ButtonState _currentState = ButtonState.None;
         private ButtonState _previousState = ButtonState.None;
         private float _cooldownTimer;
+        private bool _ammoWasInsufficient;
 
         private const string StatFireInterval = "FireInterval";
         private const string StatAmmo = "AmmoCount";
@@ -70,6 +71,15 @@ namespace GenBall.BattleSystem.Weapons.Components
             ResolveAmmo();
 
             bool stateChanged = _currentState != _previousState;
+
+            // When ammo was insufficient but is now available (reload completed),
+            // force a state change so semi-auto weapons re-trigger while trigger is held
+            if (_ammoWasInsufficient && HasSufficientAmmo())
+            {
+                _ammoWasInsufficient = false;
+                stateChanged = true;
+            }
+
             var request = _behavior?.Evaluate(_currentState, stateChanged, deltaTime, _ammo);
 
             _previousState = _currentState;
@@ -93,7 +103,12 @@ namespace GenBall.BattleSystem.Weapons.Components
             {
                 // Magazine weapon: check AmmoCount
                 int ammo = (int)stats.GetValue(StatAmmo);
-                if (ammo < request.BulletCount) return;
+                if (ammo < request.BulletCount)
+                {
+                    _ammoWasInsufficient = true;
+                    return;
+                }
+                _ammoWasInsufficient = false;
                 stats.SetBase(StatAmmo, ammo - request.BulletCount);
             }
             else if (stats.HasStat(StatHeatPerShot))
@@ -114,6 +129,14 @@ namespace GenBall.BattleSystem.Weapons.Components
         {
             if (_ammo == null)
                 _weapon.TryGet<IAmmoSystem>(out _ammo);
+        }
+
+        private bool HasSufficientAmmo()
+        {
+            var stats = _weapon.Get<StatComponent>();
+            if (stats == null) return false;
+            if (!stats.HasStat(StatAmmo)) return true; // no magazine stat = infinite ammo
+            return (int)stats.GetValue(StatAmmo) > 0;
         }
     }
 }

@@ -57,18 +57,19 @@ namespace GenBall.BattleSystem.Framework
             var cmdType = typeof(TCommand);
             _executors[cmdType] = executor;
 
-            // Auto-detect completion check based on executor interface
-            if (executor is IAttack attack)
+            // Auto-detect completion check based on command type (not executor interface order,
+            // since a single executor may implement multiple interfaces).
+            if (cmdType == typeof(AttackCommand) && executor is IAttack attack)
                 _completionChecks[cmdType] = () => attack.IsAttacking;
-            else if (executor is IJump jump)
+            else if (cmdType == typeof(JumpCommand) && executor is IJump jump)
                 _completionChecks[cmdType] = () => jump.IsJumping;
-            else if (executor is IDash dash)
+            else if (cmdType == typeof(DashCommand) && executor is IDash dash)
                 _completionChecks[cmdType] = () => dash.IsDashing;
-            else if (executor is IReload reload)
+            else if (cmdType == typeof(ReloadCommand) && executor is IReload reload)
                 _completionChecks[cmdType] = () => reload.IsReloading;
-            else if (executor is ISwitchWeapon switchWeapon)
+            else if (cmdType == typeof(SwitchWeaponCommand) && executor is ISwitchWeapon switchWeapon)
                 _completionChecks[cmdType] = () => switchWeapon.IsSwitching;
-            else if (executor is IStun stun)
+            else if (cmdType == typeof(StunCommand) && executor is IStun stun)
                 _completionChecks[cmdType] = () => stun.IsStunned;
         }
 

@@ -1,5 +1,7 @@
 using GenBall.BattleSystem.Framework;
+using GenBall.Event;
 using GenBall.Framework.Entity;
+using Yueyn.Event;
 
 namespace GenBall.BattleSystem.Weapons.Components.Ammo
 {
@@ -34,6 +36,9 @@ namespace GenBall.BattleSystem.Weapons.Components.Ammo
             if (Ammo >= Capacity) return;
             _isReloading = true;
             _reloadTimer = 0f;
+
+            // Notify HUD immediately so the UI shows reload-in-progress state
+            CEventRouter.Instance.FireNow((int)GlobalEventId.MagazineInfoChange, GetDisplayInfo());
         }
 
         public bool IsReloading => _isReloading;

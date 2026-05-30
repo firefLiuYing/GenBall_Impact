@@ -4,12 +4,14 @@ using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
 using GenBall.BattleSystem.Navigation;
+using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Enemy.AI;
 using GenBall.Enemy.Attack;
 using GenBall.Enemy.Detect;
 using GenBall.Enemy.Executor;
 using GenBall.Enemy.Visual;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.Enemy
 {
@@ -147,6 +149,11 @@ namespace GenBall.Enemy
         public void OnDeath(BattleSystem.DeathInfo deathInfo)
         {
             Debug.Log($"[Enemy] {deathInfo.Victim.name} died, killPoints={_config.killPoints}");
+
+            // Award kill points to the player via the evolution system
+            var evoSystem = SystemRepository.Instance.GetSystem<IEvolutionSystem>();
+            evoSystem?.AddKillPoints(_config.killPoints);
+
             // TODO Phase E: integrate with CPoolManager for proper recycle
             deathInfo.Victim.SetActive(false);
         }

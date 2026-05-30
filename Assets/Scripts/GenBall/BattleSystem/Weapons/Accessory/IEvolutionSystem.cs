@@ -9,5 +9,8 @@ namespace GenBall.BattleSystem.Weapons.Accessory
         int KillPoints { get; }
         bool CanEvolve { get; }
         EquipInfo GetEquipInfo(int level);
+
+        /// <summary>Add kill points (called when an enemy is killed). Fires update events.</summary>
+        void AddKillPoints(int points);
     }
 }
