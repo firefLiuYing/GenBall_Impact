@@ -19,6 +19,9 @@ namespace GenBall.Player.Executor
     {
         [SerializeField] private Transform weaponSpawnPoint;
 
+        /// <summary>Exposed for PlayerEntityFactory to read without Find().</summary>
+        public Transform WeaponSpawnPoint => weaponSpawnPoint;
+
         private GameObject _playerGo;
         private WeaponState _currentWeapon;
         private IEvolutionSystem _evolution;

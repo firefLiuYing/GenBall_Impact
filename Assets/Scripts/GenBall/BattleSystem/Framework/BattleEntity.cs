@@ -11,21 +11,39 @@ namespace GenBall.BattleSystem.Framework
         private readonly Dictionary<Type, object> _components = new();
 
         /// <summary>
-        /// Register a component on this entity. If the component implements
-        /// IEntityFrameUpdate or IEntityLogicUpdate, it will be auto-registered
-        /// with EntityUpdateSystem.
+        /// Register a component by its concrete type. Auto-registers IEntityFrameUpdate/IEntityLogicUpdate.
         /// </summary>
         public void RegisterComponent<T>(T component) where T : class
         {
-            _components[typeof(T)] = component;
+            RegisterByType(typeof(T), component);
+        }
 
-            var updateSystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
-            if (updateSystem != null)
+        /// <summary>
+        /// Register the same component instance under an additional type key (interface or base class).
+        /// Use when a component needs to be retrieved by an interface via Get/Iinterface/ or TryGet.
+        /// Does not double-register IEntityFrameUpdate/IEntityLogicUpdate for the same instance.
+        /// </summary>
+        public void RegisterComponentAs<TInterface>(object component) where TInterface : class
+        {
+            RegisterByType(typeof(TInterface), component);
+        }
+
+        private readonly HashSet<object> _registeredUpdaters = new();
+        private void RegisterByType(Type type, object component)
+        {
+            _components[type] = component;
+
+            // Only register update interfaces once per component instance
+            if (_registeredUpdaters.Add(component))
             {
-                if (component is IEntityFrameUpdate frameUpd)
-                    updateSystem.AddFrameUpdate(frameUpd);
-                if (component is IEntityLogicUpdate logicUpd)
-                    updateSystem.AddLogicUpdate(logicUpd);
+                var updateSystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
+                if (updateSystem != null)
+                {
+                    if (component is IEntityFrameUpdate frameUpd)
+                        updateSystem.AddFrameUpdate(frameUpd);
+                    if (component is IEntityLogicUpdate logicUpd)
+                        updateSystem.AddLogicUpdate(logicUpd);
+                }
             }
         }
 

@@ -3,6 +3,7 @@ using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
+using GenBall.BattleSystem.Weapons.Factory;
 using GenBall.GameCamera;
 using GenBall.Interact;
 using GenBall.Player.Executor;
@@ -28,8 +29,15 @@ namespace GenBall.Player
             var inputHandler = playerInstance.GetComponentInChildren<InputHandler>();
             var groundDetect = playerInstance.GetComponent<ICharacterGroundDetect>()
                                ?? playerInstance.GetComponentInChildren<ICharacterGroundDetect>();
-            var weaponExecutor = playerInstance.GetComponentInChildren<WeaponExecutor>();
-            weaponExecutor.Init(playerInstance);
+
+            // WeaponAttackExecutor (pure C#) replaces WeaponExecutor MB.
+            // Read weaponSpawnPoint from the old WeaponExecutor's serialized field
+            // (carefully positioned on the prefab, cannot be found by path reliably).
+            var oldWeaponExecutor = playerInstance.GetComponentInChildren<WeaponExecutor>();
+            var weaponSpawnPoint = oldWeaponExecutor != null
+                ? oldWeaponExecutor.WeaponSpawnPoint
+                : playerInstance.transform;
+            var weaponAttackExecutor = new WeaponAttackExecutor(entity, weaponSpawnPoint);
             var rotater = playerInstance.GetComponent<PlayerRotateExecutor>();
             rotater.Init(config.horizontalSensitivity, config.verticalSensitivity);
             // MainCameraTransform/FirstPersonCamera is a structural guarantee on the prefab.
@@ -73,9 +81,9 @@ namespace GenBall.Player
             dispatcher.RegisterExecutor<MoveCommand>(playerMoveExecutor);
             dispatcher.RegisterExecutor<JumpCommand>(jumpExecutor);
             dispatcher.RegisterExecutor<DashCommand>(dashExecutor);
-            dispatcher.RegisterExecutor<AttackCommand>(weaponExecutor);
-            dispatcher.RegisterExecutor<ReloadCommand>(weaponExecutor);
-            dispatcher.RegisterExecutor<SwitchWeaponCommand>(weaponExecutor);
+            dispatcher.RegisterExecutor<AttackCommand>(weaponAttackExecutor);
+            dispatcher.RegisterExecutor<ReloadCommand>(weaponAttackExecutor);
+            dispatcher.RegisterExecutor<SwitchWeaponCommand>(weaponAttackExecutor);
             dispatcher.RegisterExecutor<InteractCommand>(interactExecutor);
             if (rotater != null)
                 dispatcher.RegisterExecutor<RotateCommand>(rotater);
@@ -107,6 +115,7 @@ namespace GenBall.Player
             entity.RegisterComponent(decisionLayer);
             entity.RegisterComponent(deathComponent);
             entity.RegisterComponent(hitReaction);
+            entity.RegisterComponent(weaponAttackExecutor);
 
             // 11. Register player camera with ICameraSystem
             var cameraSystem = SystemRepository.Instance.GetSystem<ICameraSystem>();
@@ -115,7 +124,20 @@ namespace GenBall.Player
                 cameraSystem.RegisterPlayerCamera(firstPersonCamera.transform);
             }
 
-
+            // 12. [临时] 装备默认手枪，方便场景测试验证 Player 组装+武器流程。
+            // 正式流程：首次进游戏装默认手枪、复活/进化时根据进化阶段装对应武器，
+            // 统一由武器生命周期管理方调用 WeaponAttackExecutor.EquipWeapon()。
+            // 详见 .claude/docs/execution-plan.md B-3 武器生命周期管理。
+            var defaultWeapon = WeaponEntityFactory.CreateDefault(weaponSpawnPoint);
+            if (defaultWeapon != null)
+            {
+                weaponAttackExecutor.EquipWeapon(defaultWeapon);
+            }
+            else
+            {
+                Debug.LogWarning("[PlayerEntityFactory] 默认手枪创建失败，" +
+                    "请确认手枪 prefab 已挂载 WeaponAssembly 组件且预制体路径正确。");
+            }
         }
     }
 

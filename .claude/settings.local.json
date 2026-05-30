@@ -65,7 +65,10 @@
       "Bash(cp \"Assets/Scripts/GenBall/BattleSystem/Character/CapsuleColliderGroundDetect.cs.meta\" \"Assets/Scripts/GenBall/BattleSystem/Character/GroundDetector.cs.meta\")",
       "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --mode EditMode --class PlayerExecutorTests)",
       "Bash(bash run_editmode_tests.sh --mode EditMode)",
-      "Bash(powershell -Command \"Get-ChildItem 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Logs' -Filter 'Editor*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }\")"
+      "Bash(powershell -Command \"Get-ChildItem 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Logs' -Filter 'Editor*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }\")",
+      "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact' -path */Library/Editor*Log* -o -name Editor.log)",
+      "Bash(touch:*)",
+      "Bash(grep \"\\\\.cs$\")"
     ]
   },
   "enableAllProjectMcpServers": true,
