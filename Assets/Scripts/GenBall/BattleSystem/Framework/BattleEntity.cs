@@ -74,6 +74,10 @@ namespace GenBall.BattleSystem.Framework
 
         private void OnDestroy()
         {
+            // Clean up any decision layer FSM before removing update registrations
+            if (_components.TryGetValue(typeof(EnemyDecisionLayer), out var layer) && layer is EnemyDecisionLayer decisionLayer)
+                decisionLayer.Cleanup();
+
             var updateSystem = SystemRepository.Instance.GetSystem<IEntityUpdateSystem>();
             if (updateSystem != null)
             {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using GenBall.BattleSystem.Character;
+using GenBall.Enemy.AI;
 using UnityEngine;
 using Yueyn.Resource;
 
@@ -29,12 +29,29 @@ namespace GenBall.Enemy
             _prefabPaths[enemyId] = Path + enemyName + ".prefab";
         }
 
-        public static CharacterState Create(this EnemyId enemyId, Vector3? position = null, Quaternion? rotation = null)
+        /// <summary>
+        /// Instantiate an enemy and assemble it using the BattleEntity framework.
+        /// Returns the spawned GameObject.
+        /// </summary>
+        public static GameObject Create(this EnemyId enemyId, Vector3? position = null, Quaternion? rotation = null)
         {
             var path = _prefabPaths[enemyId];
             var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
             var go = Object.Instantiate(prefab, position ?? Vector3.zero, rotation ?? Quaternion.identity);
-            return go.GetComponent<CharacterState>();
+
+            // Try to get configs from EnemyConfigReference on the prefab/instance
+            var configRef = go.GetComponent<EnemyConfigReference>();
+            EnemyConfigSo config = configRef?.Config;
+            EnemyAIConfigSo aiConfig = configRef?.AiConfig;
+
+            // Fallback: create default config. TODO: proper config loading from IConfigProvider
+            if (config == null)
+            {
+                config = ScriptableObject.CreateInstance<EnemyConfigSo>();
+            }
+
+            EnemyEntityFactory.AssembleEnemy(go, config, aiConfig);
+            return go;
         }
     }
 }

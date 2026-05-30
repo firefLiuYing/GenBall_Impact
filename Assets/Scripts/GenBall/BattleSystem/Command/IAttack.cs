@@ -2,7 +2,8 @@ namespace GenBall.BattleSystem.Command
 {
     public interface IAttack
     {
-        public void Attack(AttackCommand command);
-        public bool IsAttacking { get; }
+        void Attack(AttackCommand command);
+        void Cancel();
+        bool IsAttacking { get; }
     }
 }

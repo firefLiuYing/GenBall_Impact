@@ -13,7 +13,7 @@ namespace GenBall.BattleSystem.Framework.AI
                 return;
             }
 
-            if (Detect.InAttackRange && !AttackController.IsAttacking)
+            if (Detect.InAttackRange && !(AttackController?.IsAttacking ?? false))
             {
                 ChangeState<AIDecisionAttackState>();
                 return;

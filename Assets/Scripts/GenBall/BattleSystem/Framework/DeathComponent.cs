@@ -60,12 +60,12 @@ namespace GenBall.BattleSystem.Framework
                 new List<string> { DeathTag.HealthEmpty },
                 data.DamageSource);
 
-            // Run global death pipeline (buff events etc.)
+            // Entity-specific death behavior (before death system releases deathInfo)
+            _handler.OnDeath(deathInfo);
+
+            // Run global death pipeline (buff events etc.) — releases deathInfo
             var deathSystem = SystemRepository.Instance.GetSystem<IDeathSystem>();
             deathSystem?.ApplyDeath(deathInfo);
-
-            // Entity-specific death behavior
-            _handler.OnDeath(deathInfo);
         }
     }
 }

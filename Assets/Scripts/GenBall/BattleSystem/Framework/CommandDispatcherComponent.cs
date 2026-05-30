@@ -185,12 +185,26 @@ namespace GenBall.BattleSystem.Framework
 
         private void Activate(IArbitratedCommand cmd)
         {
+            CancelActive();
+
             _activeCommand = cmd;
             _activeCommandType = GetCommandType(cmd);
             _completionChecks.TryGetValue(_activeCommandType, out _activeCompletionCheck);
 
             // Route to executor
             RouteExecutor(_activeCommandType, cmd);
+        }
+
+        private void CancelActive()
+        {
+            if (_activeCommandType == null) return;
+            if (_executors.TryGetValue(_activeCommandType, out var executor))
+            {
+                if (executor is IAttack attack && attack.IsAttacking)
+                    attack.Cancel();
+                else if (executor is IDash dash && dash.IsDashing)
+                    dash.Dash(new DashCommand(Vector3.zero, 0f)); // zero dash = immediate end
+            }
         }
 
         // ================================================================

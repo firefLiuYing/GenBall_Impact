@@ -33,6 +33,8 @@ namespace GenBall.Enemy.Controller
             }
         }
 
+        public void Cancel() { }
+
         public override void Tick(float deltaTime)
         {
             _currentAttack?.Tick(deltaTime);

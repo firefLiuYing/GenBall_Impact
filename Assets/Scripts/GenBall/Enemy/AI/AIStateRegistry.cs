@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using GenBall.Enemy.Controller;
+using GenBall.BattleSystem.Framework;
+using GenBall.BattleSystem.Framework.AI;
 using Yueyn.Fsm;
 
 namespace GenBall.Enemy.AI
@@ -11,23 +12,23 @@ namespace GenBall.Enemy.AI
 
         static AIStateRegistry()
         {
-            Register<AIIdleState>("Idle");
-            Register<AIChaseState>("Chase");
-            Register<AIAttackState>("Attack");
-            Register<AIWanderState>("Wander");
+            Register<AIDecisionIdleState>("Idle");
+            Register<AIDecisionChaseState>("Chase");
+            Register<AIDecisionAttackState>("Attack");
+            Register<AIDecisionWanderState>("Wander");
         }
 
-        public static void Register<T>(string name) where T : EnemyAIStateBase, new()
+        public static void Register<T>(string name) where T : EnemyDecisionStateBase, new()
             => StateTypes[name] = typeof(T);
 
         public static Type GetStateType(string name)
             => StateTypes.GetValueOrDefault(name);
 
-        public static FsmState<EnemyAIController> CreateState(AIStateConfig config)
+        public static FsmState<EnemyDecisionLayer> CreateState(AIStateConfig config)
         {
             var type = GetStateType(config.stateName);
             if (type == null) throw new Exception($"Unknown AI state: {config.stateName}");
-            var state = (EnemyAIStateBase)Activator.CreateInstance(type);
+            var state = (EnemyDecisionStateBase)Activator.CreateInstance(type);
             state.SetConfig(config);
             return state;
         }

@@ -50,6 +50,11 @@ namespace GenBall.Player.Executor
             _trigger?.SetTriggerState(cmd.TriggerState);
         }
 
+        public void Cancel()
+        {
+            _trigger?.SetTriggerState(ButtonState.Up);
+        }
+
         // ============ IReload ============
 
         public bool IsReloading

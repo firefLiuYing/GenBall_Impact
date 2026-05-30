@@ -25,11 +25,12 @@ namespace GenBall.BattleSystem.Framework
 
         public void TakeDamage(DamageInfo damageInfo)
         {
+            // Debug.Log("gzp 1");
             if (IsDead || IsInvincible) return;
-
+            // Debug.Log("gzp 2");
             var stats = _entity.Get<StatComponent>();
             if (stats == null) return;
-
+            // Debug.Log("gzp 3");
             int damage = damageInfo.Damage.GetValue();
             var oldHealth = stats.GetValue("CurrentHealth");
 
@@ -62,6 +63,7 @@ namespace GenBall.BattleSystem.Framework
 
             FireHealthChanged(oldHealth, stats.GetValue("CurrentHealth"),
                 stats.GetValue("MaxHealth"), damageInfo.Attacker);
+            // Debug.Log($"gzp 4 {stats.GetValue("CurrentHealth")}");
         }
 
         public void Heal(int healAmount)

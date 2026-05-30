@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using GenBall.Enemy.Controller;
+using GenBall.BattleSystem.Framework;
 using UnityEngine;
 using Yueyn.Fsm;
 
@@ -14,15 +14,20 @@ namespace GenBall.Enemy.AI
 
         public Type StartStateType => AIStateRegistry.GetStateType(startStateName);
 
-        public List<FsmState<EnemyAIController>> CreateStates()
+        public List<FsmState<EnemyDecisionLayer>> CreateStates()
         {
-            var states = new List<FsmState<EnemyAIController>>();
+            var states = new List<FsmState<EnemyDecisionLayer>>();
             foreach (var config in stateConfigs)
             {
                 var state = AIStateRegistry.CreateState(config);
                 states.Add(state);
             }
             return states;
+        }
+
+        public List<FsmState<EnemyDecisionLayer>> CreateStatesForLayer()
+        {
+            return CreateStates();
         }
     }
 }

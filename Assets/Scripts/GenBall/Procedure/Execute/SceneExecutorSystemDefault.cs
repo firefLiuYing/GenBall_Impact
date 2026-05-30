@@ -1,27 +1,30 @@
+using System.Collections.Generic;
+using GenBall.Enemy;
+using GenBall.Enemy.AI;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
 using GenBall.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Yueyn.Main;
+using Yueyn.Resource;
+using Object = UnityEngine.Object;
 
 namespace GenBall.Procedure.Execute
 {
     public class SceneExecutorSystemDefault : ISceneExecutorSystem
     {
         private IGameManagerSystem _gameManager;
-        // TODO: Enemy 迁移后重新启用
-        // private ISceneStateSystem _sceneSystem;
+        private ISceneStateSystem _sceneSystem;
         private ITeleportSystem _teleportSystem;
-        // private IConfigProvider _configProvider;
         private IPlayerSystem _playerSystem;
 
         public void Init()
         {
             _gameManager = SystemRepository.Instance.GetSystem<IGameManagerSystem>();
-            // _sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
+            _sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
             _teleportSystem = SystemRepository.Instance.GetSystem<ITeleportSystem>();
-            // _configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
             _playerSystem = SystemRepository.Instance.GetSystem<IPlayerSystem>();
         }
 
@@ -36,22 +39,16 @@ namespace GenBall.Procedure.Execute
                 return;
             }
 
-            // 重置光标
+            // Reset cursor
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            // 加载地图
-            // GameEntry.Map.LoadSavePointAround(loadInfo.SavePointIndex);
-            // TODO: Enemy 尚未迁移到新框架，LoadEnemyUnit() 暂不启用
-            // 加载敌人
-            // LoadEnemyUnit();
-            // 初始化UI (新 MVP)
+
+            // Load enemies (BattleEntity framework)
+            LoadEnemyUnit();
+
+            // Initialize UI (new MVP)
             MainHudFormLogic.Open();
-            // 加载Player
-            // var savePointInfo = SceneMapIndexProvider.GetMapConfig(loadInfo.SceneName).savePointInfos.FirstOrDefault(s=>s.index==loadInfo.SavePointIndex);
-            // if (savePointInfo != null)
-            // {
-            //     GameEntry.Player.CreatePlayer(savePointInfo.playerSpawnPosition, savePointInfo.playerSpawnRotation);
-            // }
+
             // Spawn player at teleport target or default position
             var loadSystem = SystemRepository.Instance.GetSystem<ISceneLoadSystem>();
             var targetSavePoint = loadSystem.TargetSavePoint;
@@ -65,12 +62,47 @@ namespace GenBall.Procedure.Execute
             }
             _teleportSystem.IsTeleporting = false;
 
-            // TODO: Enemy 迁移后删除此测试代码
-            // EnemyId.TestOrbis.Create();
+            // ================================================================
+            // [TEMPORARY] Test spawn a Blue Orbis near the player for B-2 validation.
+            // Remove this block after runtime verification is complete.
+            // ================================================================
+            SpawnTestEnemy();
         }
 
-        // TODO: Enemy 迁移到新框架后重新启用
-        /*
+        /// <summary>
+        /// [TEMPORARY] Spawn a single NormalOrbis near the player for BattleEntity migration testing.
+        /// TODO: Remove after B-2 runtime verification.
+        /// </summary>
+        private void SpawnTestEnemy()
+        {
+            const string testPrefabPath = "Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab";
+
+            var prefab = CResourceManager.Instance.LoadSync<GameObject>(testPrefabPath);
+            if (prefab == null)
+            {
+                Debug.LogWarning("[SceneExecutorSystem] Test enemy prefab not found, skipping test spawn.");
+                return;
+            }
+
+            // Spawn in front of the player (or at origin if player doesn't exist)
+            var player = _playerSystem.Player;
+            var spawnPos = player != null
+                ? player.transform.position + player.transform.forward * 5f
+                : new Vector3(0, 0, 5);
+            var spawnRot = Quaternion.identity;
+
+            var go = Object.Instantiate(prefab, spawnPos, spawnRot);
+            go.name = "[TEST] NormalOrbis";
+
+            var configRef = go.GetComponent<EnemyConfigReference>();
+            var config = configRef?.Config ?? ScriptableObject.CreateInstance<EnemyConfigSo>();
+            var aiConfig = configRef?.AiConfig;
+
+            EnemyEntityFactory.AssembleEnemy(go, config, aiConfig);
+
+            Debug.Log($"[SceneExecutorSystem] Test enemy spawned at {spawnPos}");
+        }
+
         private static readonly Dictionary<string, string> EnemyPrefabPaths = new()
         {
             { "NormalOrbis", "Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab" },
@@ -78,25 +110,32 @@ namespace GenBall.Procedure.Execute
 
         private void LoadEnemyUnit()
         {
-            var enemyUnitModels = _sceneSystem.GetAllUnKilledEnemyModel(SceneManager.GetActiveScene().name);
+            var sceneName = SceneManager.GetActiveScene().name;
+            var enemyUnitModels = _sceneSystem.GetAllUnKilledEnemyModel(sceneName);
             foreach (var enemyUnitModel in enemyUnitModels)
             {
-                var path = EnemyPrefabPaths[enemyUnitModel.enemyType];
+                if (!EnemyPrefabPaths.TryGetValue(enemyUnitModel.enemyType, out var path))
+                {
+                    Debug.LogWarning($"[SceneExecutorSystem] No prefab path registered for enemy type: {enemyUnitModel.enemyType}");
+                    continue;
+                }
+
                 var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
                 var go = Object.Instantiate(prefab, enemyUnitModel.spawnPosition, enemyUnitModel.spawnRotation);
 
-                // Legacy initialization
-                var enemy = go.GetComponent<EnemyBase>();
-                enemy.Initialize();
+                // Try to get configs from EnemyConfigReference on the prefab
+                var configRef = go.GetComponent<EnemyConfigReference>();
+                EnemyConfigSo config = configRef?.Config;
+                EnemyAIConfigSo aiConfig = configRef?.AiConfig;
 
-                // BattleEntity assembly
-                var aiController = go.GetComponentInChildren<EnemyAIController>();
-                if (aiController != null)
+                // Fallback: create default config. TODO: proper config loading from IConfigProvider
+                if (config == null)
                 {
-                    EnemyEntityFactory.AssembleEnemy(go, aiController.AiConfig);
+                    config = ScriptableObject.CreateInstance<EnemyConfigSo>();
                 }
+
+                EnemyEntityFactory.AssembleEnemy(go, config, aiConfig);
             }
         }
-        */
     }
 }

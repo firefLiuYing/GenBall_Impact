@@ -1,4 +1,5 @@
 using GenBall.BattleSystem.Buff;
+using GenBall.BattleSystem.Framework;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Event;
@@ -23,15 +24,17 @@ namespace GenBall.BattleSystem
                 return;
             }
 
-            // 1. Find IDamageable on defender
+            // 1. Find IDamageable on defender — try BattleEntity components first (pure C#), then MB
             var defender = damageInfo.Defender;
-            var attackable = defender.GetComponentInChildren<IDamageable>()
-                          ?? defender.GetComponentInParent<IDamageable>();
+            var battleEntity = defender.GetComponentInParent<BattleEntity>();
+            var fromMb = defender.GetComponentInChildren<IDamageable>() ?? defender.GetComponentInParent<IDamageable>();
+            var attackable = battleEntity?.Get<IDamageable>() ?? fromMb;
             if (attackable == null)
             {
                 ReferencePool.Release(damageInfo);
                 return;
             }
+            Debug.Log($"[Damage] {defender.name} takes {damageInfo.Damage.GetValue()} dmg from {(damageInfo.Attacker ? damageInfo.Attacker.name : "?")}");
 
             // 2. Get IBuffContainer references
             var attackerBuffContainer = damageInfo.Attacker?.GetComponent<IBuffContainer>();

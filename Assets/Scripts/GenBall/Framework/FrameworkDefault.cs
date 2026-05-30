@@ -2,6 +2,7 @@ using GenBall.BattleSystem;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons.Accessory;
+using GenBall.Enemy;
 using GenBall.GameCamera;
 using GenBall.GM;
 using GenBall.Framework.Config;
@@ -27,6 +28,9 @@ namespace GenBall.Framework
     {
         protected override void DoInit()
         {
+            // 注册敌人 prefab 路径映射
+            EnemyRegister.Register();
+
             // 配置系统
             SystemRep.RegisterSystem<IConfigProvider>(new AppConfigManager());
 

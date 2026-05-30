@@ -52,9 +52,11 @@ namespace GenBall.Player
             stats.GetOrCreate("MoveSpeed", 5f);
             stats.GetOrCreate("MaxShield", 100f);
             stats.GetOrCreate("Shield", 100f);
+            entity.RegisterComponent(stats);
 
             // 4. Create EventDispatcherComponent
             var eventDispatcher = new EventDispatcherComponent(entity);
+            entity.RegisterComponent(eventDispatcher);
 
             // 5. Create framework components
             var damageReceiver = new DamageReceiverComponent(entity);
@@ -102,9 +104,9 @@ namespace GenBall.Player
             // 10. Register everything on BattleEntity.
             // Order no longer matters for velocity correctness — blocking is declarative
             // (IArbitratedCommand.BlocksMove/BlocksRotate/BlocksGravity).
-            entity.RegisterComponent(eventDispatcher);
-            entity.RegisterComponent(stats);
             entity.RegisterComponent(damageReceiver);
+            entity.RegisterComponentAs<IDamageable>(damageReceiver);
+            entity.RegisterComponentAs<IHealth>(damageReceiver);
             entity.RegisterComponent(buffContainer);
             entity.RegisterComponent(attackComp);
             entity.RegisterComponent(dispatcher);

@@ -357,7 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Archetype: 0
   AmmoType: 0
-  Damage: 10
+  Damage: 100
   FireInterval: 0.1
   ShotgunPelletCount: 8
   ShotgunSpreadAngle: 15
@@ -371,3 +371,6 @@ MonoBehaviour:
   HeatPerShot: 10
   HeatCoolRate: 20
   BulletSpawnPoint: {fileID: 5601568748458976589}
+  BulletConfigId: 1
+  BulletSpeed: 50
+  BulletRadius: 0.15

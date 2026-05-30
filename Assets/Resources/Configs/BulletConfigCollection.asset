@@ -16,11 +16,7 @@ MonoBehaviour:
   - Id: 1
     DetectionMode: 0
     VisualPrefab: {fileID: 6373512438311395407, guid: e7bf7c0fa2de8694fb920840086c3734, type: 3}
-    VisualBlendTime: 0
+    VisualBlendTime: 2
     MaxLifetime: 3
-    Speed: 0
-    Radius: 0
-    Damage: 0
-    Gravity: 0
     HitBehaviors: []
     MovementModifiers: []

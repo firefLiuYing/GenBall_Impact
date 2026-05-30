@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace GenBall.Enemy.AI
 {
+    public enum IdleBehavior
+    {
+        Stationary,
+        Wander,
+        Patrol
+    }
+
     [Serializable]
     public class AIStateConfig
     {
@@ -11,6 +18,7 @@ namespace GenBall.Enemy.AI
         public float moveSpeed;
         public int attackId;
         public float duration;
+        public IdleBehavior idleBehavior = IdleBehavior.Wander;
         public List<AITransitionConfig> transitions;
     }
 

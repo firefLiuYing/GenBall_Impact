@@ -1,4 +1,5 @@
 using GenBall.BattleSystem.Buff;
+using GenBall.BattleSystem.Framework;
 using UnityEngine;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Event;
@@ -24,7 +25,9 @@ namespace GenBall.BattleSystem
             }
 
             var victim = deathInfo.Victim;
-            var health = victim.GetComponentInChildren<IHealth>()
+            var entity = victim.GetComponent<BattleEntity>();
+            var health = entity?.Get<IHealth>()
+                      ?? victim.GetComponentInChildren<IHealth>()
                       ?? victim.GetComponentInParent<IHealth>();
             if (health == null)
             {

@@ -1,22 +1,17 @@
-using GenBall.BattleSystem.Character;
 using UnityEngine;
 
 namespace GenBall.Enemy
 {
     [RequireComponent(typeof(Collider))]
-    public class Barrier : CharacterControllerBase
+    public class Barrier : MonoBehaviour
     {
         private Collider _collider;
-        public void SetColliderEnable(bool enable)=>_collider.enabled=enable;
 
-        public override void Initialize(CharacterState characterState)
+        private void Awake()
         {
-            _collider=GetComponent<Collider>();
+            _collider = GetComponent<Collider>();
         }
 
-        public override void Tick(float deltaTime)
-        {
-            
-        }
+        public void SetColliderEnable(bool enable) => _collider.enabled = enable;
     }
 }

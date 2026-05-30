@@ -1,5 +1,4 @@
 using System;
-using GenBall.BattleSystem.Character;
 using UnityEngine;
 
 namespace GenBall.Enemy.Attack
@@ -12,11 +11,15 @@ namespace GenBall.Enemy.Attack
         private bool _triggered;
         public event Action<GameObject> OnHit;
 
-        public void Init(GameObject owner)
+        private void Awake()
         {
             _collider = GetComponent<Collider>();
             _collider.isTrigger = true;
             _collider.enabled = false;
+        }
+
+        public void Init(GameObject owner)
+        {
             _owner = owner;
         }
 
@@ -34,10 +37,11 @@ namespace GenBall.Enemy.Attack
         private void OnTriggerEnter(Collider other)
         {
             if (_triggered) return;
-            var target = other.GetComponentInParent<CharacterState>();
-            if (target == null || target.gameObject == _owner) return;
+            if (other.gameObject == _owner) return;
+            if (!other.CompareTag("Player")) return;
             _triggered = true;
-            OnHit?.Invoke(target.gameObject);
+            Debug.Log($"[AttackTrigger] HIT! target={other.gameObject.name}");
+            OnHit?.Invoke(other.gameObject);
         }
     }
 }

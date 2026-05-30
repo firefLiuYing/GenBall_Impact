@@ -14,3 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   killPoints: 10
+  moveSpeed: 3
+  patrolSpeed: 1.5
+  jumpForce: 8
+  jumpInterval: 0.5
+  jumpElevation: 45
+  attackDamage: 15
+  dashSpeed: 10
+  preparationTime: 0.3
+  chargingTime: 0.2
+  flyHeightOffset: 1.5
+  dashHeightOffset: 1
+  reboundForce: 5
+  detectRange: 10
+  hateRange: 15
+  attackRange: 2
+  weightLevel: 0
+  gravityAcceleration: 8
+  maxDropVelocity: 10
+  flyAccelTime: 0.3
+  reboundUpwardRatio: 0.8
+  wallBounceMultiplier: 0.4
+  squashRatio: 0.7
+  stretchRatio: 1.3
+  squashStretchRecoverySpeed: 6
+  jumpIntervalVariation: 0.15
+  jumpForceVariation: 0.1
+  jumpElevationVariation: 5

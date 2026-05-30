@@ -32,6 +32,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         public int CallCount;
         public bool IsAttacking { get; set; }
         public void Attack(AttackCommand command) { LastCommand = command; CallCount++; IsAttacking = true; }
+        public void Cancel() { IsAttacking = false; }
     }
 
     public class MockJump : IJump

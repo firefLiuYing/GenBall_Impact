@@ -24,7 +24,7 @@ namespace GenBall.BattleSystem.Framework.AI
         {
             if (!_attackIssued) return;
 
-            if (!AttackController.IsAttacking)
+            if (!(AttackController?.IsAttacking ?? false))
             {
                 if (Detect.HasTarget && Detect.InAttackRange)
                 {
@@ -38,6 +38,7 @@ namespace GenBall.BattleSystem.Framework.AI
             }
             else if (Detect.HasTarget)
             {
+                // Attack is committed — face target until complete
                 IssueCommand(new FaceDirectionCommand(Detect.DirectionToTarget));
             }
         }

@@ -15,22 +15,26 @@ MonoBehaviour:
   startStateName: Idle
   stateConfigs:
   - stateName: Idle
-    moveSpeed: 0
+    moveSpeed: 2
     attackId: 0
     duration: 0
+    idleBehavior: 1
     transitions: []
   - stateName: Chase
     moveSpeed: 2
     attackId: 0
     duration: 0
+    idleBehavior: 1
     transitions: []
   - stateName: Attack
     moveSpeed: 0
     attackId: 0
     duration: 0
+    idleBehavior: 1
     transitions: []
   - stateName: Wander
     moveSpeed: 2
     attackId: 0
     duration: 0
+    idleBehavior: 1
     transitions: []

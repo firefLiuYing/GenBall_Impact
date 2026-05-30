@@ -19,33 +19,23 @@ namespace GenBall.Enemy.Controller
 
         public override void Initialize(CharacterState characterState)
         {
-            _characterState = characterState;
-            Detect = characterState.GetComponentInChildren<EnemyDetectController>();
-            AttackController = characterState.GetComponentInChildren<EnemyAttackController>();
-
-            var states = aiConfig.CreateStates();
-            var startState = aiConfig.StartStateType;
-            _fsm = GameEntry.Fsm.CreateFsm($"EnemyAI_{GetHashCode()}", this, states);
-            
-            _fsm.PrintLog = true;
-            _fsm.Start(startState);
+            // [DEPRECATED] EnemyAIController will be removed in Phase E.
+            // BattleEntity-based enemies use EnemyDecisionLayer instead.
         }
 
         public override void Tick(float deltaTime)
         {
-            if (_characterState.IsDead) return;
-            _fsm.FixedUpdate(deltaTime);
+            // [DEPRECATED] EnemyAIController will be removed in Phase E.
         }
 
         public void IssueCommand(ICommand command)
         {
-            _characterState.HandleCommand(command);
+            // [DEPRECATED] EnemyAIController will be removed in Phase E.
         }
 
         private void OnDestroy()
         {
-            if (_fsm != null && !_fsm.IsDestroyed)
-                GameEntry.Fsm.DestroyFsm(_fsm);
+            // [DEPRECATED] EnemyAIController will be removed in Phase E.
         }
     }
 }

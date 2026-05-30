@@ -70,7 +70,10 @@
       "Bash(touch:*)",
       "Bash(grep \"\\\\.cs$\")",
       "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --class BulletSystemNewTests)",
-      "Bash(bash run_editmode_tests.sh --class BulletSystemNewTests)"
+      "Bash(bash run_editmode_tests.sh --class BulletSystemNewTests)",
+      "Bash(bash run_editmode_tests.sh --class DecisionLayerTests)",
+      "Bash(echo $LOCALAPPDATA)",
+      "Read(//d/Apps/Unity/Unity Project/GenBall_Impact/$LOCALAPPDATA/Unity/**)"
     ]
   },
   "enableAllProjectMcpServers": true,

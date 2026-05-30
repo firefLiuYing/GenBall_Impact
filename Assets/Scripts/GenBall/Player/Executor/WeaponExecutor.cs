@@ -44,6 +44,8 @@ namespace GenBall.Player.Executor
             _currentWeapon?.Trigger(cmd.TriggerState);
         }
 
+        public void Cancel() { }
+
         // ---- IReload ----
 
         public void Reload(ReloadCommand cmd)

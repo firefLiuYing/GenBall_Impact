@@ -1,6 +1,6 @@
 using GenBall.BattleSystem.Command;
 using GenBall.Enemy.AI;
-using GenBall.Enemy.Controller;
+using GenBall.Enemy.Detect;
 using Yueyn.Fsm;
 
 namespace GenBall.BattleSystem.Framework.AI
@@ -9,8 +9,8 @@ namespace GenBall.BattleSystem.Framework.AI
     {
         protected Fsm<EnemyDecisionLayer> Fsm;
         protected EnemyDecisionLayer Agent => Fsm.Owner;
-        protected EnemyDetectController Detect => Agent.Detect;
-        protected EnemyAttackController AttackController => Agent.AttackController;
+        protected EnemyDetector Detect => Agent.Detect;
+        protected IAttack AttackController => Agent.AttackController;
         public AIStateConfig StateConfig { get; private set; }
 
         public void SetConfig(AIStateConfig config) => StateConfig = config;

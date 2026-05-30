@@ -1,7 +1,7 @@
 using System;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
-using GenBall.Enemy.Controller;
+using GenBall.Enemy.Detect;
 using GenBall.Framework.Entity;
 using GenBall.Player;
 using GenBall.Procedure.Game;
@@ -615,9 +615,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void DetectController_FoundFromEntity()
         {
-            var child = new GameObject("DetectController");
-            child.transform.SetParent(_gameObject.transform);
-            var detect = child.AddComponent<EnemyDetectController>();
+            var detect = new EnemyDetector(_gameObject.transform, default, 10f, 8f, 3f);
+            _entity.RegisterComponent(detect);
 
             var enemy = new EnemyDecisionLayer(_entity, null);
 
@@ -628,9 +627,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void AttackController_FoundFromEntity()
         {
-            var child = new GameObject("AttackController");
-            child.transform.SetParent(_gameObject.transform);
-            var attackCtrl = child.AddComponent<EnemyAttackController>();
+            var attackCtrl = new MockAttack();
+            _entity.RegisterComponentAs<IAttack>(attackCtrl);
 
             var enemy = new EnemyDecisionLayer(_entity, null);
 
