@@ -32,7 +32,8 @@ namespace GenBall.BattleSystem.Weapons
 
         private void Update()
         {
-            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
+            var ps = SystemRepository.Instance.GetSystem<IPauseSystem>();
+            if(ps != null && ps.IsLogicPaused) return;
             _fireColdTime+=Time.deltaTime;
             if (CanFireCurFrame())
             {
@@ -47,7 +48,8 @@ namespace GenBall.BattleSystem.Weapons
         private ButtonState _fireButtonState;
         private bool CanFireCurFrame()
         {
-            if(!_weapon.Player.CanAttack)  return false;
+            // TODO B-3: replace with proper CanAttack check (e.g. HitReactionComponent.IsStunned)
+            // if(_weapon.PlayerGo...)
             if(_fireColdTime<FireInterval) return false;
             if (!_reload.HaveBullets)
             {

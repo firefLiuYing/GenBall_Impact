@@ -4,7 +4,6 @@ using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
 using GenBall.Framework.Entity;
-using GenBall.Player.Controller;
 using GenBall.Player.Input;
 using GenBall.Procedure.Game;
 using NUnit.Framework;
@@ -19,10 +18,26 @@ namespace GenBall.Player.Executor.Tests
 
     public class MockPauseSystem : IPauseSystem
     {
-        public bool IsPaused { get; set; }
+        public bool IsLogicPaused { get; set; }
+        public bool IsPhysicsPaused { get; set; }
+        public int StackDepth { get; private set; }
+        public event System.Action OnPauseChanged;
+
         public void Init() { }
         public void UnInit() { }
-        public void SetPause(bool paused) { IsPaused = paused; }
+        public void PushPause(bool pausePhysics)
+        {
+            StackDepth++;
+            IsLogicPaused = true;
+            IsPhysicsPaused = pausePhysics;
+            OnPauseChanged?.Invoke();
+        }
+        public void PopPause()
+        {
+            if (StackDepth > 0) StackDepth--;
+            IsLogicPaused = StackDepth > 0;
+            OnPauseChanged?.Invoke();
+        }
     }
 
     public class MockCharacterGroundDetect : ICharacterGroundDetect
@@ -39,7 +54,7 @@ namespace GenBall.Player.Executor.Tests
     {
         private GameObject _gameObject;
         private Rigidbody _rigidbody;
-        private PlayerMover _playerMover;
+        private RigidbodyMover _mover;
         private InputHandler _inputHandler;
         private MockCharacterGroundDetect _groundDetect;
         private PlayerConfig _config;
@@ -57,7 +72,7 @@ namespace GenBall.Player.Executor.Tests
 
             _gameObject = new GameObject("TestJump");
             _rigidbody = _gameObject.AddComponent<Rigidbody>();
-            _playerMover = _gameObject.AddComponent<PlayerMover>();
+            _mover = _gameObject.AddComponent<RigidbodyMover>();
 
             var inputGo = new GameObject("InputHandler");
             inputGo.transform.SetParent(_gameObject.transform);
@@ -70,8 +85,9 @@ namespace GenBall.Player.Executor.Tests
             _config.longPressJumpMaxHeight = 4.0f;
             _config.shortPressJumpHeight = 3.0f;
             _config.shortPressJustifyTime = 0.25f;
+            _config.speed = 5f;
 
-            _executor = new PlayerJumpExecutor(_rigidbody, _playerMover, _config, _inputHandler, _groundDetect);
+            _executor = new PlayerJumpExecutor(_rigidbody, _mover, _config, _groundDetect);
         }
 
         [TearDown]
@@ -93,19 +109,7 @@ namespace GenBall.Player.Executor.Tests
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
 
             Assert.That(_executor.IsJumping, Is.True);
-
-            // _initialVelocity = 2 * longPressJumpMaxHeight / longPressMaxTime = 2 * 4 / 1 = 8
             Assert.That(_rigidbody.velocity.y, Is.EqualTo(8f).Within(0.001f));
-        }
-
-        [Test]
-        public void Jump_LocksPlayerMoverVertical()
-        {
-            Assert.That(_playerMover.LockVertical, Is.False);
-
-            _executor.Jump(new JumpCommand(Vector3.up * 8f));
-
-            Assert.That(_playerMover.LockVertical, Is.True);
         }
 
         [Test]
@@ -114,13 +118,11 @@ namespace GenBall.Player.Executor.Tests
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
             float velocityBefore = _rigidbody.velocity.y;
 
-            // Simulate jump button still held within max time
             SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
-            SetPrivateProperty(_inputHandler, "JumpHoldTime", 0.3f); // < _longPressMaxTime (1.0f)
+            SetPrivateProperty(_inputHandler, "JumpHoldTime", 0.3f);
 
             _executor.LogicUpdate(0.016f);
 
-            // Velocity should have changed due to acceleration
             Assert.That(_rigidbody.velocity.y, Is.Not.EqualTo(velocityBefore));
         }
 
@@ -130,9 +132,8 @@ namespace GenBall.Player.Executor.Tests
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
             Assert.That(_executor.IsJumping, Is.True);
 
-            // Simulate hold time beyond max, but button still held
             SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
-            SetPrivateProperty(_inputHandler, "JumpHoldTime", 999f); // > _longPressMaxTime
+            SetPrivateProperty(_inputHandler, "JumpHoldTime", 999f);
 
             _executor.LogicUpdate(0.016f);
 
@@ -145,7 +146,6 @@ namespace GenBall.Player.Executor.Tests
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
             Assert.That(_executor.IsJumping, Is.True);
 
-            // Keep jump in valid hold range so the press condition doesn't stop it
             SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
             SetPrivateProperty(_inputHandler, "JumpHoldTime", 0.3f);
 
@@ -157,19 +157,15 @@ namespace GenBall.Player.Executor.Tests
         }
 
         [Test]
-        public void OnComplete_ReleasesLock_AndZerosVerticalVelocity()
+        public void OnComplete_ZerosVerticalVelocity()
         {
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
 
-            // Simulate the jump has completed by setting IsJumping to false,
-            // then call LogicUpdate to trigger the cleanup code.
-            // Use the "hold time exceeded" path to trigger completion.
             SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
             SetPrivateProperty(_inputHandler, "JumpHoldTime", 999f);
             _executor.LogicUpdate(0.016f);
 
             Assert.That(_executor.IsJumping, Is.False);
-            Assert.That(_playerMover.LockVertical, Is.False);
             Assert.That(_rigidbody.velocity.y, Is.EqualTo(0f).Within(0.001f));
         }
 
@@ -182,8 +178,6 @@ namespace GenBall.Player.Executor.Tests
         private static void SetPrivateProperty(object target, string name, object value)
         {
             var type = target.GetType();
-
-            // Prefer backing field for auto-properties (works regardless of setter accessibility)
             var backingField = type.GetField($"<{name}>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance);
             if (backingField != null)
@@ -191,8 +185,6 @@ namespace GenBall.Player.Executor.Tests
                 backingField.SetValue(target, value);
                 return;
             }
-
-            // Try property setter (may fail for private setters depending on runtime)
             var prop = type.GetProperty(name,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             if (prop != null)
@@ -200,8 +192,6 @@ namespace GenBall.Player.Executor.Tests
                 try { prop.SetValue(target, value); return; }
                 catch { }
             }
-
-            // Last fallback: try field with exact name
             var exactField = type.GetField(name,
                 BindingFlags.NonPublic | BindingFlags.Instance);
             exactField?.SetValue(target, value);
@@ -217,7 +207,7 @@ namespace GenBall.Player.Executor.Tests
     {
         private GameObject _gameObject;
         private Rigidbody _rigidbody;
-        private PlayerMover _playerMover;
+        private RigidbodyMover _mover;
         private PlayerConfig _config;
         private PlayerDashExecutor _executor;
 
@@ -237,7 +227,7 @@ namespace GenBall.Player.Executor.Tests
 
             _gameObject = new GameObject("TestDash");
             _rigidbody = _gameObject.AddComponent<Rigidbody>();
-            _playerMover = _gameObject.AddComponent<PlayerMover>();
+            _mover = _gameObject.AddComponent<RigidbodyMover>();
 
             _config = ScriptableObject.CreateInstance<PlayerConfig>();
             _config.invincibleTime = InvincibleTime;
@@ -245,7 +235,7 @@ namespace GenBall.Player.Executor.Tests
             _config.dashSpeed = DashSpeed;
 
             var entity = _gameObject.AddComponent<BattleEntity>();
-            _executor = new PlayerDashExecutor(_rigidbody, _playerMover, _config, entity);
+            _executor = new PlayerDashExecutor(_rigidbody, _mover, _config, entity);
         }
 
         [TearDown]
@@ -273,15 +263,12 @@ namespace GenBall.Player.Executor.Tests
         }
 
         [Test]
-        public void Dash_LocksPlayerMoverHorizontalAndVertical()
+        public void Dash_PreservesHorizontalVelocity_DuringDash()
         {
-            Assert.That(_playerMover.LockHorizontal, Is.False);
-            Assert.That(_playerMover.LockVertical, Is.False);
-
             _executor.Dash(new DashCommand(Vector3.forward, DashSpeed));
 
-            Assert.That(_playerMover.LockHorizontal, Is.True);
-            Assert.That(_playerMover.LockVertical, Is.True);
+            // Dash uses RigidbodyMover which handles pause — velocity set directly
+            Assert.That(_rigidbody.velocity.z, Is.EqualTo(DashSpeed).Within(0.001f));
         }
 
         [Test]
@@ -315,8 +302,6 @@ namespace GenBall.Player.Executor.Tests
             _executor.LogicUpdate(0.016f);
 
             Assert.That(_executor.IsDashing, Is.False);
-            Assert.That(_playerMover.LockHorizontal, Is.False);
-            Assert.That(_playerMover.LockVertical, Is.False);
             Assert.That(_rigidbody.velocity.y, Is.EqualTo(0f).Within(0.001f));
         }
 
@@ -331,20 +316,21 @@ namespace GenBall.Player.Executor.Tests
     // PLAYER ATTACK EXECUTOR TESTS
     // ================================================================
 
+    // ================================================================
+    // WEAPON EXECUTOR TESTS
+    // ================================================================
+
     [TestFixture]
-    public class PlayerAttackExecutorTests
+    public class WeaponExecutorTests
     {
         private GameObject _gameObject;
-        private WeaponController _weaponController;
-        private PlayerAttackExecutor _executor;
+        private WeaponExecutor _executor;
 
         [SetUp]
         public void SetUp()
         {
-            _gameObject = new GameObject("TestAttack");
-            _weaponController = _gameObject.AddComponent<WeaponController>();
-
-            _executor = new PlayerAttackExecutor(_weaponController);
+            _gameObject = new GameObject("TestWeapon");
+            _executor = _gameObject.AddComponent<WeaponExecutor>();
         }
 
         [TearDown]
@@ -355,23 +341,30 @@ namespace GenBall.Player.Executor.Tests
         }
 
         [Test]
-        public void Attack_CallsWeaponFire()
+        public void Attack_DoesNotThrow_WhenNoWeaponEquipped()
         {
-            // WeaponController.Fire calls _currentWeapon?.Trigger(state).
-            // Since _currentWeapon is null (Initialize is never called in this test),
-            // Fire is a no-op. This test verifies the code path executes without error.
+            // _currentWeapon is null (Init never called), Trigger is a no-op.
             Assert.DoesNotThrow(() => _executor.Attack(new AttackCommand(0)));
         }
 
         [Test]
-        public void IsAttacking_ReturnsFalse()
+        public void IsAttacking_AlwaysReturnsFalse()
         {
-            // Attack is fire-and-forget; IsAttacking always returns false.
             Assert.That(_executor.IsAttacking, Is.False);
-
             _executor.Attack(new AttackCommand(0));
-
             Assert.That(_executor.IsAttacking, Is.False);
+        }
+
+        [Test]
+        public void Reload_DoesNotThrow_WhenNoWeaponEquipped()
+        {
+            Assert.DoesNotThrow(() => _executor.Reload(new ReloadCommand()));
+        }
+
+        [Test]
+        public void SwitchWeapon_DoesNotThrow_WhenNoWeaponEquipped()
+        {
+            Assert.DoesNotThrow(() => _executor.SwitchWeapon(new SwitchWeaponCommand()));
         }
     }
 
@@ -418,44 +411,46 @@ namespace GenBall.Player.Executor.Tests
         }
 
         [Test]
-        public void JumpPressed_UsesConsumeBufferedJump()
+        public void OnJump_ForwardsFromInputHandler()
         {
-            // ConsumeBufferedJump returns true when Time.time - _lastJumpTime <= jumpBufferedTime.
-            // _lastJumpTime is initialized to -100f, so it normally returns false.
-            Assert.That(_adapter.JumpPressed, Is.False);
+            ButtonState? received = null;
+            _adapter.OnJump += s => received = s;
 
-            // Set _lastJumpTime to current time so ConsumeBufferedJump returns true
-            var field = typeof(InputHandler).GetField("_lastJumpTime",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            Assert.That(field, Is.Not.Null, "Field _lastJumpTime not found on InputHandler");
-            field.SetValue(_inputHandler, Time.time);
+            // Simulate jump started on InputHandler
+            var onJumpField = typeof(InputHandler).GetField("OnJump",
+                BindingFlags.Public | BindingFlags.Instance);
+            var onJump = (System.Action<ButtonState>)onJumpField.GetValue(_inputHandler);
+            onJump?.Invoke(ButtonState.Down);
 
-            Assert.That(_adapter.JumpPressed, Is.True);
+            Assert.That(received, Is.EqualTo(ButtonState.Down));
         }
 
         [Test]
-        public void DashPressed_MapsFromInputHandler()
+        public void OnDash_ForwardsFromInputHandler()
         {
-            SetPrivateProperty(_inputHandler, "IsDashPressed", true);
+            ButtonState? received = null;
+            _adapter.OnDash += s => received = s;
 
-            Assert.That(_adapter.DashPressed, Is.True);
+            var onDashField = typeof(InputHandler).GetField("OnDash",
+                BindingFlags.Public | BindingFlags.Instance);
+            var onDash = (System.Action<ButtonState>)onDashField.GetValue(_inputHandler);
+            onDash?.Invoke(ButtonState.Down);
 
-            SetPrivateProperty(_inputHandler, "IsDashPressed", false);
-
-            Assert.That(_adapter.DashPressed, Is.False);
+            Assert.That(received, Is.EqualTo(ButtonState.Down));
         }
 
         [Test]
-        public void FirePressed_MapsFromInputHandler()
+        public void OnFire_ForwardsFromInputHandler()
         {
-            // IsFirePressed has a public setter (declared as { get; set; })
-            _inputHandler.IsFirePressed = true;
+            ButtonState? received = null;
+            _adapter.OnFire += s => received = s;
 
-            Assert.That(_adapter.FirePressed, Is.True);
+            var onFireField = typeof(InputHandler).GetField("OnFire",
+                BindingFlags.Public | BindingFlags.Instance);
+            var onFire = (System.Action<ButtonState>)onFireField.GetValue(_inputHandler);
+            onFire?.Invoke(ButtonState.Hold);
 
-            _inputHandler.IsFirePressed = false;
-
-            Assert.That(_adapter.FirePressed, Is.False);
+            Assert.That(received, Is.EqualTo(ButtonState.Hold));
         }
 
         private static void SetPrivateProperty(object target, string name, object value)

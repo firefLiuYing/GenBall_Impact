@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GenBall.Event;
 using GenBall.Framework.Config;
 using GenBall.Player;
 using GenBall.Procedure;
@@ -77,7 +78,7 @@ namespace GenBall.Procedure.Execute
             float splashMinTime = _devMode ? 0f : 1.5f;
             if (_fsm.CurrentStateType == typeof(SplashState) && _fsm.CurrentStateTime > splashMinTime)
             {
-                CEventRouter.Instance.FireNow(LaunchEventKey.SplashComplete);
+                CEventRouter.Instance.FireNow((int)GlobalEventId.SplashComplete);
                 _fsm.ChangeState<StartFormState>();
             }
         }
@@ -122,7 +123,7 @@ namespace GenBall.Procedure.Execute
         {
             if (_fsm != null && _fsm.CurrentStateType == typeof(SplashState))
             {
-                CEventRouter.Instance.FireNow(LaunchEventKey.SplashComplete);
+                CEventRouter.Instance.FireNow((int)GlobalEventId.SplashComplete);
                 _fsm.ChangeState<StartFormState>();
             }
         }

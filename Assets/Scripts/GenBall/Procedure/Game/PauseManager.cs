@@ -1,23 +1,47 @@
-using UnityEngine;
+using System.Collections.Generic;
+using GenBall.Event;
+using Yueyn.Event;
 using Yueyn.Main;
 
 namespace GenBall.Procedure.Game
 {
     public class PauseManager : IPauseSystem
     {
-        public bool IsPaused { get; private set; } = false;
+        private readonly Stack<bool> _stack = new();
+
+        public bool IsLogicPaused => _stack.Count > 0;
+        public bool IsPhysicsPaused { get; private set; }
+        public int StackDepth => _stack.Count;
 
         public void Init() { }
         public void UnInit() { }
 
-        public void SetPause(bool paused)
+        public void PushPause(bool pausePhysics)
         {
-            IsPaused = paused;
-            Debug.Log($"gzp 游戏暂停状态修改：{paused}");
-            if (paused)
-                SystemUpdaterManager.Instance.Pause();
-            else
-                SystemUpdaterManager.Instance.Resume();
+            _stack.Push(pausePhysics);
+            ApplyState();
+            FirePauseChanged();
+        }
+
+        public void PopPause()
+        {
+            if (_stack.Count == 0)
+                return;
+
+            _stack.Pop();
+            ApplyState();
+            FirePauseChanged();
+        }
+
+        private void ApplyState()
+        {
+            IsPhysicsPaused = _stack.Count > 0 && _stack.Peek();
+            SystemUpdaterManager.Instance.SetPause(IsLogicPaused);
+        }
+
+        private static void FirePauseChanged()
+        {
+            CEventRouter.Instance.Fire((int)GlobalEventId.PauseChanged);
         }
     }
 }

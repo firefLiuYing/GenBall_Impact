@@ -59,10 +59,26 @@ namespace GenBall.BattleSystem.Framework.Tests
 
     public class MockPauseSystem : IPauseSystem
     {
-        public bool IsPaused { get; set; }
+        public bool IsLogicPaused { get; set; }
+        public bool IsPhysicsPaused { get; set; }
+        public int StackDepth { get; private set; }
+        public event System.Action OnPauseChanged;
+
         public void Init() { }
         public void UnInit() { }
-        public void SetPause(bool paused) { IsPaused = paused; }
+        public void PushPause(bool pausePhysics)
+        {
+            StackDepth++;
+            IsLogicPaused = true;
+            IsPhysicsPaused = pausePhysics;
+            OnPauseChanged?.Invoke();
+        }
+        public void PopPause()
+        {
+            if (StackDepth > 0) StackDepth--;
+            IsLogicPaused = StackDepth > 0;
+            OnPauseChanged?.Invoke();
+        }
     }
 
     // ================================================================
@@ -496,45 +512,6 @@ namespace GenBall.BattleSystem.Framework.Tests
         }
 
         // ================================================================
-        // PAUSE
-        // ================================================================
-
-        [Test]
-        public void Issue_WhenPaused_DoesNotDispatch()
-        {
-            _pauseSystem.IsPaused = true;
-
-            _dispatcher.Issue(new MoveCommand(new Vector3(1, 0, 0)));
-
-            Assert.That(_mockMove.CallCount, Is.EqualTo(0));
-        }
-
-        [Test]
-        public void Issue_WhenUnpaused_DispachesNormally()
-        {
-            _pauseSystem.IsPaused = true;
-            _dispatcher.Issue(new MoveCommand(new Vector3(1, 0, 0)));
-            Assert.That(_mockMove.CallCount, Is.EqualTo(0));
-
-            _pauseSystem.IsPaused = false;
-            _dispatcher.Issue(new MoveCommand(new Vector3(2, 0, 0)));
-
-            Assert.That(_mockMove.CallCount, Is.EqualTo(1));
-            Assert.That(_mockMove.LastCommand.Velocity.x, Is.EqualTo(2f));
-        }
-
-        [Test]
-        public void Issue_WhenPaused_DoesNotBufferActionCommands()
-        {
-            _pauseSystem.IsPaused = true;
-
-            _dispatcher.Issue(new AttackCommand(1));
-
-            Assert.That(_dispatcher.HasActiveAction, Is.False);
-            Assert.That(_dispatcher.BufferedCount, Is.EqualTo(0));
-        }
-
-        // ================================================================
         // REGISTRATION
         // ================================================================
 
@@ -741,6 +718,60 @@ namespace GenBall.BattleSystem.Framework.Tests
 
             Assert.That(_mockFace.CallCount, Is.EqualTo(1));
             Assert.That(_mockFace.LastCommand.Direction, Is.EqualTo(new Vector3(0, 1, 0)));
+        }
+
+        // ================================================================
+        // JUMP COMMAND PHASE TESTS
+        // ================================================================
+
+        [Test]
+        public void JumpCommand_Start_HasDefaultPriorities()
+        {
+            var cmd = new JumpCommand(new Vector3(0, 5, 0), JumpPhase.Start);
+
+            Assert.That(cmd.InterruptPriority, Is.EqualTo(3));
+            Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(3));
+            Assert.That(cmd.Bufferable, Is.True);
+        }
+
+        [Test]
+        public void JumpCommand_Cancel_HasMaxPriority()
+        {
+            var cmd = new JumpCommand(default, JumpPhase.Cancel);
+
+            Assert.That(cmd.InterruptPriority, Is.EqualTo(int.MaxValue));
+            Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(int.MaxValue));
+            Assert.That(cmd.Bufferable, Is.False);
+        }
+
+        [Test]
+        public void JumpCommand_DefaultConstructor_UsesStartPhase()
+        {
+            var cmd = new JumpCommand(new Vector3(0, 8, 0));
+
+            Assert.That(cmd.Phase, Is.EqualTo(JumpPhase.Start));
+            Assert.That(cmd.InterruptPriority, Is.EqualTo(3));
+            Assert.That(cmd.Bufferable, Is.True);
+        }
+
+        [Test]
+        public void JumpCancel_AlwaysInterrupts_ActiveAction()
+        {
+            // Start a jump
+            _dispatcher.Issue(new JumpCommand(new Vector3(0, 8, 0), JumpPhase.Start));
+            Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());
+
+            // Dash has AntiInterrupt=5, but Cancel has int.MaxValue Interrupt priority
+            _dispatcher.Issue(new DashCommand(Vector3.forward, 10f));
+            Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<DashCommand>());
+
+            // Cancel should interrupt anything
+            _dispatcher.Issue(new JumpCommand(default, JumpPhase.Cancel));
+
+            // The cancel should be the active command
+            Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());
+            var active = (JumpCommand)_dispatcher.ActiveCommand;
+            Assert.That(active.Phase, Is.EqualTo(JumpPhase.Cancel));
         }
     }
 }

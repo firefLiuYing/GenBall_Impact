@@ -68,6 +68,8 @@ namespace GenBall.BattleSystem.Framework
                 _completionChecks[cmdType] = () => reload.IsReloading;
             else if (executor is ISwitchWeapon switchWeapon)
                 _completionChecks[cmdType] = () => switchWeapon.IsSwitching;
+            else if (executor is IStun stun)
+                _completionChecks[cmdType] = () => stun.IsStunned;
         }
 
         /// <summary>
@@ -77,9 +79,6 @@ namespace GenBall.BattleSystem.Framework
         /// </summary>
         public void Issue(ICommand command)
         {
-            if (SystemRepository.Instance.GetSystem<IPauseSystem>()?.IsPaused == true)
-                return;
-
             switch (command)
             {
                 case MoveCommand moveCmd:
@@ -249,6 +248,14 @@ namespace GenBall.BattleSystem.Framework
                 case ISwitchWeapon switchWeapon when cmd is SwitchWeaponCommand switchCmd:
                     switchWeapon.SwitchWeapon(switchCmd);
                     break;
+
+                case IStun stun when cmd is StunCommand stunCmd:
+                    stun.Stun(stunCmd);
+                    break;
+
+                case IInteract interact when cmd is InteractCommand interactCmd:
+                    interact.Interact(interactCmd);
+                    break;
             }
         }
 
@@ -265,6 +272,8 @@ namespace GenBall.BattleSystem.Framework
                 DashCommand => typeof(DashCommand),
                 ReloadCommand => typeof(ReloadCommand),
                 SwitchWeaponCommand => typeof(SwitchWeaponCommand),
+                StunCommand => typeof(StunCommand),
+                InteractCommand => typeof(InteractCommand),
                 _ => cmd.GetType()
             };
         }

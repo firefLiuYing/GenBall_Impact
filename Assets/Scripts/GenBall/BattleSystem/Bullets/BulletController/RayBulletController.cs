@@ -43,7 +43,7 @@ namespace GenBall.BattleSystem.Bullets.BulletController
             SystemRepository.Instance.GetSystem<IDamageSystem>().ApplyDamage(DamageInfo.Create(hitInfo.collider.gameObject,_bullet.Model.Damage,new List<string>()
             {
                 "Bullet"
-            },_bullet.SpawnDirection,0,_bullet.Source.GetComponent<WeaponState>().Player.gameObject));
+            },_bullet.SpawnDirection,0,_bullet.Source.GetComponent<WeaponState>().PlayerGo));
 
             SystemRepository.Instance.GetSystem<IBulletSystem>().RecycleBullet(_bullet);
         }
@@ -87,7 +87,8 @@ namespace GenBall.BattleSystem.Bullets.BulletController
         private void Update()
         {
             if(!_flying) return;
-            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
+            var ps = SystemRepository.Instance.GetSystem<IPauseSystem>();
+            if(ps != null && ps.IsLogicPaused) return;
             
             _flyTime += Time.deltaTime;
             if (_flyTime < _predictTime&&_needBezier)

@@ -55,7 +55,16 @@
       "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs\")",
       "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/BattleSystem/Framework/Editor/CommandDispatcherComponentTests.cs\")",
       "Bash(rm \"C:/Users/16897/.claude/projects/D--Apps-Unity-Unity-Project-GenBall-Impact/memory/feedback_auto_compile.md\")",
-      "Bash(rm \"C:/Users/16897/.claude/projects/D--Apps-Unity-Unity-Project-GenBall-Impact/memory/project_migration_plan.md\")"
+      "Bash(rm \"C:/Users/16897/.claude/projects/D--Apps-Unity-Unity-Project-GenBall-Impact/memory/project_migration_plan.md\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/Player/PlayerEntityFactory.cs\")",
+      "Bash(\"D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/GameCamera/CameraSystemDefault.cs\")",
+      "Bash(find 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\Player' -type f -name *.cs)",
+      "Bash(cp \"Assets/Scripts/GenBall/BattleSystem/Character/DefaultRotater.cs\" \"Assets/Scripts/GenBall/Player/Executor/PlayerRotateExecutor.cs\")",
+      "Bash(cp \"Assets/Scripts/GenBall/BattleSystem/Character/DefaultRotater.cs.meta\" \"Assets/Scripts/GenBall/Player/Executor/PlayerRotateExecutor.cs.meta\")",
+      "Bash(cp \"Assets/Scripts/GenBall/BattleSystem/Character/CapsuleColliderGroundDetect.cs\" \"Assets/Scripts/GenBall/BattleSystem/Character/GroundDetector.cs\")",
+      "Bash(cp \"Assets/Scripts/GenBall/BattleSystem/Character/CapsuleColliderGroundDetect.cs.meta\" \"Assets/Scripts/GenBall/BattleSystem/Character/GroundDetector.cs.meta\")",
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --mode EditMode --class PlayerExecutorTests)",
+      "Bash(bash run_editmode_tests.sh --mode EditMode)"
     ]
   },
   "enableAllProjectMcpServers": true,

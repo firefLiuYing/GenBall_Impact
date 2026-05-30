@@ -115,12 +115,12 @@ namespace GenBall.Player
             {
                 if (_tempIsPaused)
                 {
-                    SystemRepository.Instance.GetSystem<IPauseSystem>().SetPause(false);
+                    SystemRepository.Instance.GetSystem<IPauseSystem>().PopPause();
                     _tempIsPaused=false;
                 }
                 else
                 {
-                    SystemRepository.Instance.GetSystem<IPauseSystem>().SetPause(true);
+                    SystemRepository.Instance.GetSystem<IPauseSystem>().PushPause(true);
                     _tempIsPaused=true;
                 }
             }

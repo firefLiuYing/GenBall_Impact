@@ -32,7 +32,8 @@ namespace GenBall.BattleSystem.Timeline
         private readonly List<TimelineObj> _cachedTimelineObjs = new();
         public void ComponentFixedUpdate(float fixedDeltaTime)
         {
-            if(SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused) return;
+            var ps = SystemRepository.Instance.GetSystem<IPauseSystem>();
+            if(ps != null && ps.IsPhysicsPaused) return;
             _cachedTimelineObjs.Clear();
             _cachedTimelineObjs.AddRange(_timelineObjs);
             foreach (var timelineObj in _cachedTimelineObjs)

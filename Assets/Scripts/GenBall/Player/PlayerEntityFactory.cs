@@ -3,10 +3,12 @@ using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
-using GenBall.Player.Controller;
+using GenBall.GameCamera;
+using GenBall.Interact;
 using GenBall.Player.Executor;
 using GenBall.Player.Input;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.Player
 {
@@ -22,14 +24,20 @@ namespace GenBall.Player
             // 2. Find MonoBehaviours on playerInstance
             var mover = playerInstance.GetComponent<RigidbodyMover>();
             var rigidbody = mover.GetComponent<Rigidbody>();
-            var playerMover = playerInstance.GetComponent<PlayerMover>();
+            var playerMoveExecutor = new PlayerMoveExecutor();
+            playerMoveExecutor.Init(mover, config.speed);
             var inputHandler = playerInstance.GetComponentInChildren<InputHandler>();
             var groundDetect = playerInstance.GetComponent<ICharacterGroundDetect>()
                                ?? playerInstance.GetComponentInChildren<ICharacterGroundDetect>();
-            var weaponController = playerInstance.GetComponentInChildren<WeaponController>();
-            var rotater = playerInstance.GetComponent<IRotate>();
+            var weaponExecutor = playerInstance.GetComponentInChildren<WeaponExecutor>();
+            weaponExecutor.Init(playerInstance);
+            var rotater = playerInstance.GetComponent<PlayerRotateExecutor>();
+            rotater.Init(config.horizontalSensitivity, config.verticalSensitivity);
+            // MainCameraTransform/FirstPersonCamera is a structural guarantee on the prefab.
+            var mainCameraArm = playerInstance.transform.Find("MainCameraTransform");
+            var firstPersonCamera = mainCameraArm != null ? mainCameraArm.GetComponentInChildren<Camera>() : null;
 
-            // 3. Create StatComponent and set ALL initial stats (no EventDispatcher yet → no events)
+            // 3. Create StatComponent and set ALL initial stats
             var stats = new StatComponent(entity);
             stats.GetOrCreate("MaxHealth", 100f);
             stats.GetOrCreate("CurrentHealth", 100f);
@@ -38,7 +46,7 @@ namespace GenBall.Player
             stats.GetOrCreate("MaxShield", 100f);
             stats.GetOrCreate("Shield", 100f);
 
-            // 4. Create EventDispatcherComponent — events from this point onward
+            // 4. Create EventDispatcherComponent
             var eventDispatcher = new EventDispatcherComponent(entity);
 
             // 5. Create framework components
@@ -48,25 +56,40 @@ namespace GenBall.Player
             var dispatcher = new CommandDispatcherComponent();
 
             // 6. Create executors
-            var jumpExecutor = new PlayerJumpExecutor(rigidbody, playerMover, config, inputHandler, groundDetect);
-            var dashExecutor = new PlayerDashExecutor(rigidbody, playerMover, config, entity);
-            var attackExecutor = new PlayerAttackExecutor(weaponController);
+            // Jump executor — no longer depends on InputHandler
+            var jumpExecutor = new PlayerJumpExecutor(rigidbody, mover, config, groundDetect);
+            var dashExecutor = new PlayerDashExecutor(rigidbody, mover, config, entity);
+
+            // Gravity executor — uses RigidbodyMover for pause-safe velocity writes
+            var gravityExecutor = new PlayerGravityExecutor(rigidbody, mover, groundDetect, config);
+
+            // Interact executor
+            var camera = firstPersonCamera;
+            var interactSystem = SystemRepository.Instance.GetSystem<IInteractSystem>();
+            var interactExecutor = new PlayerInteractExecutor(interactSystem, camera,
+                config.sightDetectRadius, config.sightDetectDistance, config.interactableLayer);
 
             // 7. Register executors on dispatcher
-            dispatcher.RegisterExecutor<MoveCommand>(playerMover);
+            dispatcher.RegisterExecutor<MoveCommand>(playerMoveExecutor);
             dispatcher.RegisterExecutor<JumpCommand>(jumpExecutor);
             dispatcher.RegisterExecutor<DashCommand>(dashExecutor);
-            dispatcher.RegisterExecutor<AttackCommand>(attackExecutor);
+            dispatcher.RegisterExecutor<AttackCommand>(weaponExecutor);
+            dispatcher.RegisterExecutor<ReloadCommand>(weaponExecutor);
+            dispatcher.RegisterExecutor<SwitchWeaponCommand>(weaponExecutor);
+            dispatcher.RegisterExecutor<InteractCommand>(interactExecutor);
             if (rotater != null)
                 dispatcher.RegisterExecutor<RotateCommand>(rotater);
 
-            // 8. Create input adapter and decision layer
+            // 8. Create input adapter and decision layer (event-driven)
             var inputAdapter = new PlayerInputAdapter(inputHandler);
             var decisionLayer = new PlayerDecisionLayer(entity, inputAdapter);
             decisionLayer.Dispatcher = dispatcher;
 
             // 9. Create DeathComponent
             var deathComponent = new DeathComponent(entity, new PlayerDeathHandler());
+
+            // 9.5. Create HitReactionComponent
+            var hitReaction = new HitReactionComponent(dispatcher, eventDispatcher, stunDuration: 0.3f);
 
             // 10. Register everything on BattleEntity
             entity.RegisterComponent(eventDispatcher);
@@ -77,9 +100,20 @@ namespace GenBall.Player
             entity.RegisterComponent(dispatcher);
             entity.RegisterComponent(jumpExecutor);
             entity.RegisterComponent(dashExecutor);
-            entity.RegisterComponent(attackExecutor);
+            entity.RegisterComponent(gravityExecutor);
+            entity.RegisterComponent(interactExecutor);
             entity.RegisterComponent(decisionLayer);
             entity.RegisterComponent(deathComponent);
+            entity.RegisterComponent(hitReaction);
+
+            // 11. Register player camera with ICameraSystem
+            var cameraSystem = SystemRepository.Instance.GetSystem<ICameraSystem>();
+            if (cameraSystem != null && firstPersonCamera != null)
+            {
+                cameraSystem.RegisterPlayerCamera(firstPersonCamera.transform);
+            }
+
+
         }
     }
 

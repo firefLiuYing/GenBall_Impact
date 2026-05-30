@@ -1,7 +1,9 @@
 using System;
-using GenBall.BattleSystem.Timeline;
+using GenBall.GameCamera;
+using GenBall.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Yueyn.Main;
 
 namespace GenBall.Player.Input
 {
@@ -16,16 +18,27 @@ namespace GenBall.Player.Input
         public bool IsFirePressed { get; set; }
         public bool IsReloadPressed { get; set; }
         public bool IsSwitchWeaponPressed { get; set; }
-        
+
+        public event Action<ButtonState> OnJump;
+        public event Action<ButtonState> OnDash;
+        public event Action<ButtonState> OnFire;
+        public event Action<ButtonState> OnReload;
+        public event Action<ButtonState> OnSwitchWeapon;
+
         private Vector2 _moveInput;
+        private ICameraSystem _cameraSystem;
 
         public void OnDashInputChange(InputAction.CallbackContext context)
         {
             IsDashPressed = (context.phase == InputActionPhase.Started);
-            if (context.phase == InputActionPhase.Started)
+            var state = context.phase switch
             {
-                GameEntry.Timeline.AddTimeline(new AddTimelineInfo("PlayerDash",1f,transform.parent.gameObject));
-            }
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                InputActionPhase.Performed => ButtonState.Hold,
+                _ => ButtonState.None
+            };
+            OnDash?.Invoke(state);
         }
         public void OnMoveInputChange(InputAction.CallbackContext context)
         {
@@ -50,6 +63,14 @@ namespace GenBall.Player.Input
                     break;
             }
             _jumpInputActionPhase=context.phase;
+            var state = context.phase switch
+            {
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                InputActionPhase.Performed => ButtonState.Hold,
+                _ => ButtonState.None
+            };
+            OnJump?.Invoke(state);
         }
         public Action OnInteract;
         public void OnInteractInputChange(InputAction.CallbackContext context)
@@ -60,6 +81,43 @@ namespace GenBall.Player.Input
             }
         }
 
+        public void OnFireInputChange(InputAction.CallbackContext context)
+        {
+            var state = context.phase switch
+            {
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                InputActionPhase.Performed => ButtonState.Hold,
+                _ => ButtonState.None
+            };
+            IsFirePressed = (state != ButtonState.None && state != ButtonState.Up);
+            OnFire?.Invoke(state);
+        }
+
+        public void OnReloadInputChange(InputAction.CallbackContext context)
+        {
+            var state = context.phase switch
+            {
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                _ => ButtonState.None
+            };
+            IsReloadPressed = (state == ButtonState.Down);
+            OnReload?.Invoke(state);
+        }
+
+        public void OnSwitchWeaponInputChange(InputAction.CallbackContext context)
+        {
+            var state = context.phase switch
+            {
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                _ => ButtonState.None
+            };
+            IsSwitchWeaponPressed = (state == ButtonState.Down);
+            OnSwitchWeapon?.Invoke(state);
+        }
+
         public Action<float> OnScrollChange; 
         public void OnScrollInputChange(InputAction.CallbackContext context)
         {
@@ -68,16 +126,22 @@ namespace GenBall.Player.Input
                 OnScrollChange?.Invoke(context.ReadValue<Vector2>().y);
             }
         }
+        private void Awake()
+        {
+            _cameraSystem = SystemRepository.Instance.GetSystem<ICameraSystem>();
+        }
+
         private void FixedUpdate()
         {
             if (IsJumpPressed)
             {
                 JumpHoldTime+=Time.fixedDeltaTime;
             }
-            // �������localת����world
-            var forward=new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
-            // ��Ϊforward�Ѿ���һ���ˣ�����fx=sin,fz=cos
-            MoveDirection=new Vector3(_moveInput.x*forward.z+_moveInput.y*forward.x,0,-_moveInput.x*forward.x+_moveInput.y*forward.z).normalized;
+            // Convert local input to world-space direction relative to camera facing
+            var mainCamera = _cameraSystem?.MainCamera;
+            var camForward = mainCamera != null ? mainCamera.transform.forward : Vector3.forward;
+            var forward = new Vector3(camForward.x, 0, camForward.z).normalized;
+            MoveDirection = new Vector3(_moveInput.x*forward.z+_moveInput.y*forward.x,0,-_moveInput.x*forward.x+_moveInput.y*forward.z).normalized;
         }
 
         public bool ConsumeBufferedJump()

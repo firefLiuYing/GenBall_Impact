@@ -9,21 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63f561c52680b408dae8d4bf679f19, type: 3}
+  m_Script: {fileID: 11500000, guid: 61dac2369f5db514f880ce9223565b91, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  speed: 0
-  verticalSensitivity: 0
-  horizontalSensitivity: 0
-  shortPressJumpHeight: 0
-  longPressJumpMaxHeight: 0
-  longPressMaxTime: 0
-  shortPressJustifyTime: 0
-  gravityAcceleration: 0
-  maxDropVelocity: 0
-  coyoteTime: 0
-  jumpInputBufferTime: 0
-  invincibleTime: 0
-  endingTime: 0
-  dashSpeed: 0
-  dashCountdownTime: 0
+  speed: 5
+  verticalSensitivity: 0.1
+  horizontalSensitivity: 0.1
+  shortPressJumpHeight: 2
+  longPressJumpMaxHeight: 4
+  longPressMaxTime: 1
+  shortPressJustifyTime: 0.25
+  gravityAcceleration: 9.8
+  maxDropVelocity: 20
+  coyoteTime: 0.1
+  jumpInputBufferTime: 0.1
+  invincibleTime: 0.15
+  endingTime: 0.1
+  dashSpeed: 10
+  dashCountdownTime: 0.5

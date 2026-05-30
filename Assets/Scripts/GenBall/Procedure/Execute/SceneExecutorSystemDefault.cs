@@ -1,34 +1,27 @@
-using System.Collections.Generic;
-using System.Linq;
-using GenBall.BattleSystem.Character;
-using GenBall.Enemy;
-using GenBall.Enemy.Controller;
-using GenBall.Framework.Config;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
 using GenBall.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Yueyn.Main;
-using Yueyn.Resource;
 
 namespace GenBall.Procedure.Execute
 {
     public class SceneExecutorSystemDefault : ISceneExecutorSystem
     {
         private IGameManagerSystem _gameManager;
-        private ISceneStateSystem _sceneSystem;
+        // TODO: Enemy 迁移后重新启用
+        // private ISceneStateSystem _sceneSystem;
         private ITeleportSystem _teleportSystem;
-        private IConfigProvider _configProvider;
+        // private IConfigProvider _configProvider;
         private IPlayerSystem _playerSystem;
 
         public void Init()
         {
             _gameManager = SystemRepository.Instance.GetSystem<IGameManagerSystem>();
-            _sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
+            // _sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
             _teleportSystem = SystemRepository.Instance.GetSystem<ITeleportSystem>();
-            _configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
+            // _configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
             _playerSystem = SystemRepository.Instance.GetSystem<IPlayerSystem>();
         }
 
@@ -48,8 +41,9 @@ namespace GenBall.Procedure.Execute
             Cursor.lockState = CursorLockMode.Locked;
             // 加载地图
             // GameEntry.Map.LoadSavePointAround(loadInfo.SavePointIndex);
+            // TODO: Enemy 尚未迁移到新框架，LoadEnemyUnit() 暂不启用
             // 加载敌人
-            LoadEnemyUnit();
+            // LoadEnemyUnit();
             // 初始化UI (新 MVP)
             MainHudFormLogic.Open();
             // 加载Player
@@ -71,10 +65,12 @@ namespace GenBall.Procedure.Execute
             }
             _teleportSystem.IsTeleporting = false;
 
-            // todo gzp 测试代码，记得删
-            EnemyId.TestOrbis.Create();
+            // TODO: Enemy 迁移后删除此测试代码
+            // EnemyId.TestOrbis.Create();
         }
 
+        // TODO: Enemy 迁移到新框架后重新启用
+        /*
         private static readonly Dictionary<string, string> EnemyPrefabPaths = new()
         {
             { "NormalOrbis", "Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab" },
@@ -101,5 +97,6 @@ namespace GenBall.Procedure.Execute
                 }
             }
         }
+        */
     }
 }

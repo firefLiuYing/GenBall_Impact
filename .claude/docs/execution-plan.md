@@ -148,6 +148,8 @@ ShieldRegenComponent（Phase C 实现自动回复）
 - [x] B-1d：IRotate 适配（PlayerRotater 已实现 IRotate，工厂自动发现）
 - [x] B-1g：PlayerConfig 独立化（2026-05-28）— 创建 PlayerConfig ScriptableObject，Player 专属字段从 AppSettingsConfig 拆出。AppConfigManager 加载 PlayerConfig。PlayerEntityFactory/Executor 全链路使用 PlayerConfig。
 - [x] B-1h：指令系统升级 + 无敌帧（2026-05-28）— DamageReceiverComponent 加 IsInvincible，PlayerDashExecutor 设置无敌。AttackCommand 加 ButtonState 字段。新增瞬时指令：ReloadCommand/SwitchWeaponCommand + IReload/ISwitchWeapon 接口。CommandDispatcher 瞬时路由通道。PlayerDecisionLayer 跟踪 Fire Down/Held/Up 状态。IPlayerInputProvider 新增 ReloadPressed/SwitchWeaponPressed。
+- [x] B-1i：工厂补齐 + HitReactionComponent 修复（2026-05-29）— PlayerReloadExecutor/PlayerSwitchWeaponExecutor 创建并注册到工厂。WeaponController 新增 Reload()/SwitchWeapon() 公开方法。HitReactionComponent 构造函数改为直接注入 CommandDispatcherComponent + EventDispatcherComponent（修复 entity.Get 在注册前为 null 的 bug）。
+- [x] B-1j：相机系统（2026-05-29）— 创建 ICameraSystem (IFrameUpdate) 全局相机管理：MainCamera 引用、FOV 平滑、屏幕震动、Override Target。PlayerEntityFactory 注册 FirstPersonCamera 到 ICameraSystem。InputHandler 替换 Camera.main 为 ICameraSystem.MainCamera。
 - [ ] B-1e：验证 Launcher 场景（用户编译测试）
 - [ ] B-1f：删除旧 Player.cs 及分部类（等 B-2/B-3 完成下游引用迁移）
 
@@ -156,13 +158,19 @@ ShieldRegenComponent（Phase C 实现自动回复）
 - `Player/Executor/PlayerDashExecutor.cs`
 - `Player/Executor/PlayerAttackExecutor.cs`
 - `Player/Executor/PlayerInputAdapter.cs`
+- `Player/Executor/PlayerReloadExecutor.cs`（ReloadCommand → WeaponController.Reload()）
+- `Player/Executor/PlayerSwitchWeaponExecutor.cs`（SwitchWeaponCommand → WeaponController.SwitchWeapon()）
 - `Player/PlayerEntityFactory.cs`
 - `Player/PlayerConfig.cs`（独立配置，从 AppSettingsConfig 拆出）
+- `BattleSystem/Framework/HitReactionComponent.cs`（受击硬直，IStun + IEntityLogicUpdate）
+- `GameCamera/ICameraSystem.cs`（全局相机 ISystem：MainCamera/FOV/Shake/Override）
+- `GameCamera/CameraSystemDefault.cs`（IFrameUpdate：FOV 平滑 + 屏幕震动 + Override 跟踪）
 
 **修改文件**：
 - `Player/Controller/PlayerMover.cs`（LockVertical/LockHorizontal）
-- `Player/Controller/WeaponController.cs`（Fire 方法）
-- `Player/Input/InputHandler.cs`（ViewDelta/IsDashPressed/IsFirePressed）
+- `Player/Controller/WeaponController.cs`（Fire + Reload + SwitchWeapon 方法）
+- `Player/Input/InputHandler.cs`（ViewDelta/IsDashPressed/IsFirePressed/IsReloadPressed/IsSwitchWeaponPressed）
+- `Player/PlayerSystemDefault.cs`（工厂接入 + PlayerConfig）
 - `Player/PlayerSystemDefault.cs`（工厂接入 + PlayerConfig）
 - `Player/Controller/PlayerStateMachine.cs`（PlayerConfig 引用）
 - `Player/Controller/PhysicsController.cs`（PlayerConfig 引用）
@@ -180,7 +188,8 @@ ShieldRegenComponent（Phase C 实现自动回复）
 - `Player/Executor/PlayerDashExecutor.cs`（BattleEntity 参数 + 无敌设置）
 - `Player/Executor/PlayerAttackExecutor.cs`（cmd.TriggerState 路由）
 - `Player/Executor/PlayerInputAdapter.cs`（ReloadPressed/SwitchWeaponPressed）
-- `Player/Input/InputHandler.cs`（IsReloadPressed/IsSwitchWeaponPressed）
+- `Player/Input/InputHandler.cs`（IsReloadPressed/IsSwitchWeaponPressed + ICameraSystem 替换 Camera.main）
+- `Framework/FrameworkDefault.cs`（注册 ICameraSystem）
 
 **测试文件**：
 - `Player/Executor/Editor/PlayerExecutorTests.cs`（20 测试）
@@ -368,7 +377,7 @@ ShieldRegenComponent（Phase C 实现自动回复）
 | Phase | 任务数 | 已完成 | 进度 |
 |-------|--------|--------|------|
 | A: BattleEntity 框架 | 3 | 3 | 100% |
-| B: 实体迁移 | 3 (含 19 子任务) | B-1 95%, B-2 30%, B-3 0% | 45% |
+| B: 实体迁移 | 3 (含 20 子任务) | B-1 95%, B-2 60%, B-3 0% | 48% |
 | C: 基础系统 | 4 (含 20 子任务) | 0 | 0% |
 | D: 内容层 | 4 (含 16 子任务) | 0 | 0% |
 | E: 清理 | 1 (含 12 子任务) | 0 | 0% |

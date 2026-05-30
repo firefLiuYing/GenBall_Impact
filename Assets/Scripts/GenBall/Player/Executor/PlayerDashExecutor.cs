@@ -1,15 +1,19 @@
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
+using GenBall.BattleSystem.Mover;
 using GenBall.Framework.Entity;
-using GenBall.Player.Controller;
 using UnityEngine;
 
 namespace GenBall.Player.Executor
 {
+    /// <summary>
+    /// Execute layer: handles dash via Rigidbody velocity.
+    /// Uses RigidbodyMover for pause-safe velocity writes.
+    /// </summary>
     public class PlayerDashExecutor : IDash, IEntityLogicUpdate
     {
         private readonly Rigidbody _rigidbody;
-        private readonly PlayerMover _playerMover;
+        private readonly RigidbodyMover _mover;
         private readonly BattleEntity _entity;
 
         private readonly float _invincibleTime;
@@ -21,10 +25,10 @@ namespace GenBall.Player.Executor
 
         public bool IsDashing { get; private set; }
 
-        public PlayerDashExecutor(Rigidbody rigidbody, PlayerMover playerMover, PlayerConfig config, BattleEntity entity)
+        public PlayerDashExecutor(Rigidbody rigidbody, RigidbodyMover mover, PlayerConfig config, BattleEntity entity)
         {
             _rigidbody = rigidbody;
-            _playerMover = playerMover;
+            _mover = mover;
             _entity = entity;
 
             _invincibleTime = config.invincibleTime;
@@ -35,16 +39,13 @@ namespace GenBall.Player.Executor
         public void Dash(DashCommand cmd)
         {
             IsDashing = true;
-            _playerMover.LockHorizontal = true;
-            _playerMover.LockVertical = true;
 
             _dashStartTime = Time.time;
             _dashDirection = cmd.Direction;
             _dashSpeed = cmd.Speed;
 
-            _rigidbody.velocity = _dashDirection.normalized * _dashSpeed;
+            _mover.SetVelocity(_dashDirection.normalized * _dashSpeed);
 
-            // Enable invincibility during dash
             var damageReceiver = _entity.Get<DamageReceiverComponent>();
             if (damageReceiver != null)
                 damageReceiver.IsInvincible = true;
@@ -57,28 +58,21 @@ namespace GenBall.Player.Executor
 
             float elapsed = Time.time - _dashStartTime;
 
-            if (elapsed < _invincibleTime)
+            if (elapsed < _invincibleTime + _endingTime)
             {
-                _rigidbody.velocity = _dashDirection.normalized * _dashSpeed;
-            }
-            else if (elapsed < _invincibleTime + _endingTime)
-            {
-                _rigidbody.velocity = _dashDirection.normalized * _dashSpeed;
+                _mover.SetVelocity(_dashDirection.normalized * _dashSpeed);
             }
             else
             {
                 IsDashing = false;
-                _playerMover.LockHorizontal = false;
-                _playerMover.LockVertical = false;
 
-                // Disable invincibility
                 var damageReceiver = _entity.Get<DamageReceiverComponent>();
                 if (damageReceiver != null)
                     damageReceiver.IsInvincible = false;
 
                 var currentVel = _rigidbody.velocity;
                 currentVel.y = 0f;
-                _rigidbody.velocity = currentVel;
+                _mover.SetVelocity(currentVel);
             }
         }
     }

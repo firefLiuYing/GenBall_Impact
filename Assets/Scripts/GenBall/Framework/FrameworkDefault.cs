@@ -2,6 +2,7 @@ using GenBall.BattleSystem;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons.Accessory;
+using GenBall.GameCamera;
 using GenBall.GM;
 using GenBall.Framework.Config;
 using GenBall.Framework.Entity;
@@ -39,8 +40,9 @@ namespace GenBall.Framework
             SystemRep.RegisterSystem<IDamageSystem>(new DamageSystemDefault());
             SystemRep.RegisterSystem<IDeathSystem>(new DeathSystemDefault());
 
-            // Phase 2A: 交互、场景、传送、暂停、游戏管理
+            // Phase 2A: 交互、场景、传送、暂停、游戏管理、相机
             SystemRep.RegisterSystem<IInteractSystem>(new InteractSystem());
+            SystemRep.RegisterSystem<ICameraSystem>(new CameraSystemDefault());
             SystemRep.RegisterSystem<ISceneStateSystem>(new SceneSystem());
             SystemRep.RegisterSystem<ISceneLoadSystem>(new SceneLoadSystemDefault());
             SystemRep.RegisterSystem<ITeleportSystem>(new TeleportSystem());

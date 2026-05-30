@@ -1,3 +1,4 @@
+using GenBall.Event;
 using GenBall.Map;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -86,14 +87,14 @@ namespace GenBall.Procedure.Execute
             if (Time.unscaledTime - _loadStartTime > LoadTimeout)
             {
                 Debug.LogError($"[SceneLoadSystem] Scene load timed out for \"{_targetSceneName}\" after {LoadTimeout} seconds.");
-                CEventRouter.Instance.FireNow(LaunchEventKey.LoadingComplete);
+                CEventRouter.Instance.FireNow((int)GlobalEventId.LoadingComplete);
                 return;
             }
 
             // Report normalized progress (0 → 0.9 → completed)
             float normalizedProgress = Mathf.Clamp01(_asyncOp.progress / 0.9f);
             _loadProgress = normalizedProgress;
-            CEventRouter.Instance.FireNow(LaunchEventKey.LoadingProgress, normalizedProgress);
+            CEventRouter.Instance.FireNow((int)GlobalEventId.LoadingProgress, normalizedProgress);
 
             // Check for completion
             if (_asyncOp.isDone)
@@ -101,7 +102,12 @@ namespace GenBall.Procedure.Execute
                 _isLoading = false;
                 _loadProgress = 1f;
                 Debug.Log($"[SceneLoadSystem] Scene load complete: {_targetSceneName}");
-                CEventRouter.Instance.FireNow(LaunchEventKey.LoadingComplete);
+
+                // Trigger scene setup (e.g. spawn player, enemies, HUD)
+                // Specific initialization logic is TBD — will be revised after design discussion
+                SystemRepository.Instance.GetSystem<ISceneExecutorSystem>().ExecuteSceneSetup();
+
+                CEventRouter.Instance.FireNow((int)GlobalEventId.LoadingComplete);
             }
         }
     }

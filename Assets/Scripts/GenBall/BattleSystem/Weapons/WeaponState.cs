@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GenBall.BattleSystem.Buff;
-using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Framework.Entity;
 using GenBall.Player;
@@ -14,7 +13,7 @@ namespace GenBall.BattleSystem.Weapons
 {
     public class WeaponState : MonoBehaviour,IBuffContainer,IEntityLogicUpdate
     {
-        public CharacterState Player { get;private set; }
+        public GameObject PlayerGo { get; private set; }
         private IWeaponTriggerController _trigger;
         private IWeaponReloadController _reload;
         
@@ -40,9 +39,9 @@ namespace GenBall.BattleSystem.Weapons
         {
             RemoveAllAccessories();    
         }
-        public void Init(CharacterState player)
+        public void Init(GameObject playerGo)
         {
-            Player = player;
+            PlayerGo = playerGo;
             Stats = new WeaponStats
             {
                 Damage = DamageValue.Create(model.damage),

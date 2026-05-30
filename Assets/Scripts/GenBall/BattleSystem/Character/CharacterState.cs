@@ -146,7 +146,7 @@ namespace GenBall.BattleSystem.Character
             }
         }
         
-        private bool IsPause=>SystemRepository.Instance.GetSystem<IPauseSystem>().IsPaused;
+        private bool IsPause=>SystemRepository.Instance.GetSystem<IPauseSystem>()?.IsLogicPaused == true;
     }
     
 }

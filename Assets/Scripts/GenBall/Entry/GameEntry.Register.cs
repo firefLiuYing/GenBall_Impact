@@ -2,7 +2,6 @@ using GenBall.BattleSystem.Timeline;
 using GenBall.Map;
 using GenBall.UI;
 using GenBall.Procedure;
-using GenBall.Procedure.Execute;
 using Yueyn.Event;
 using Yueyn.Fsm;
 using Yueyn.Main;
@@ -24,8 +23,8 @@ namespace GenBall
         public static UIManager UI => GetModule<UIManager>();
         public static SaveComponent Save => GetModule<SaveComponent>();
         public static MapModule Map => GetModule<MapModule>();
-        public static ExecuteComponent Execute => GetModule<ExecuteComponent>();
-        public static SceneModule Scene => GetModule<SceneModule>();
+        // ExecuteComponent / SceneModule migrated to new framework ISystems
+        // (ILaunchSystem / ISceneLoadSystem)
         public static FsmManager Fsm => GetModule<FsmManager>();
         public static TimelineSystem Timeline => GetModule<TimelineSystem>();
     }

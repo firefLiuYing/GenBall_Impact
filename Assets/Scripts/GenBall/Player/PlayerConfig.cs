@@ -25,6 +25,11 @@ namespace GenBall.Player
         public float endingTime = 0.1f;
         public float dashSpeed = 10f;
         public float dashCountdownTime = 0.5f;
+
+        [Header("Interact")]
+        public float sightDetectRadius = 0.5f;
+        public float sightDetectDistance = 5f;
+        public LayerMask interactableLayer;
     }
 }
 

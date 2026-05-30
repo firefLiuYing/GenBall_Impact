@@ -11,7 +11,6 @@ namespace GenBall.Procedure.Game.Tests
         [SetUp]
         public void SetUp()
         {
-            // Ensure SystemUpdaterManager is in a clean state
             SystemUpdaterManager.Instance.Resume();
 
             _pause = new PauseManager();
@@ -22,69 +21,83 @@ namespace GenBall.Procedure.Game.Tests
         public void TearDown()
         {
             SystemRepository.Instance.UnregisterSystem<IPauseSystem>();
-
-            // Leave SystemUpdaterManager in a clean state for other tests
             SystemUpdaterManager.Instance.Resume();
         }
 
         [Test]
         public void DefaultState_IsUnpaused()
         {
-            // Assert
-            Assert.That(_pause.IsPaused, Is.False);
+            Assert.That(_pause.IsLogicPaused, Is.False);
+            Assert.That(_pause.IsPhysicsPaused, Is.False);
+            Assert.That(_pause.StackDepth, Is.EqualTo(0));
         }
 
         [Test]
-        public void SetPause_UpdatesState()
+        public void PushPause_AllPause_UpdatesState()
         {
-            // Act
-            _pause.SetPause(true);
+            _pause.PushPause(true);
 
-            // Assert
-            Assert.That(_pause.IsPaused, Is.True);
+            Assert.That(_pause.IsLogicPaused, Is.True);
+            Assert.That(_pause.IsPhysicsPaused, Is.True);
         }
 
         [Test]
-        public void SetPause_False_ResumesSystemUpdater()
+        public void PushPause_LogicOnly_UpdatesState()
         {
-            // Arrange: first pause, then unpause to test resume
-            _pause.SetPause(true);
+            _pause.PushPause(false);
 
-            // Act
-            _pause.SetPause(false);
-
-            // Assert
-            Assert.That(_pause.IsPaused, Is.False);
-            Assert.That(SystemUpdaterManager.Instance.IsPaused, Is.False);
+            Assert.That(_pause.IsLogicPaused, Is.True);
+            Assert.That(_pause.IsPhysicsPaused, Is.False);
         }
 
         [Test]
-        public void SetPause_True_PausesSystemUpdater()
+        public void PopPause_RestoresState()
         {
-            // Act
-            _pause.SetPause(true);
+            _pause.PushPause(true);
+            _pause.PopPause();
 
-            // Assert
-            Assert.That(SystemUpdaterManager.Instance.IsPaused, Is.True);
+            Assert.That(_pause.IsLogicPaused, Is.False);
+            Assert.That(_pause.IsPhysicsPaused, Is.False);
         }
 
         [Test]
-        public void SetPause_Toggle()
+        public void Stack_NestedPauses()
         {
-            // Act: pause then unpause
-            _pause.SetPause(true);
-            Assert.That(_pause.IsPaused, Is.True);
-            Assert.That(SystemUpdaterManager.Instance.IsPaused, Is.True);
+            _pause.PushPause(false);
+            Assert.That(_pause.IsPhysicsPaused, Is.False);
 
-            _pause.SetPause(false);
-            Assert.That(_pause.IsPaused, Is.False);
-            Assert.That(SystemUpdaterManager.Instance.IsPaused, Is.False);
+            _pause.PushPause(true);
+            Assert.That(_pause.IsPhysicsPaused, Is.True);
+
+            _pause.PopPause();
+            Assert.That(_pause.IsPhysicsPaused, Is.False);
+
+            _pause.PopPause();
+            Assert.That(_pause.IsLogicPaused, Is.False);
+        }
+
+        [Test]
+        public void PopPause_EmptyStack_NoError()
+        {
+            Assert.DoesNotThrow(() => _pause.PopPause());
+            Assert.That(_pause.IsLogicPaused, Is.False);
+        }
+
+        [Test]
+        public void StackDepth_TracksCorrectly()
+        {
+            Assert.That(_pause.StackDepth, Is.EqualTo(0));
+            _pause.PushPause(true);
+            Assert.That(_pause.StackDepth, Is.EqualTo(1));
+            _pause.PushPause(false);
+            Assert.That(_pause.StackDepth, Is.EqualTo(2));
+            _pause.PopPause();
+            Assert.That(_pause.StackDepth, Is.EqualTo(1));
         }
 
         [Test]
         public void Init_UnInit_NoError()
         {
-            // Act & Assert
             Assert.DoesNotThrow(() => _pause.Init());
             Assert.DoesNotThrow(() => _pause.UnInit());
         }

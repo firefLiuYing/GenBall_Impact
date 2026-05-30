@@ -1,4 +1,4 @@
-using GenBall.Procedure.Execute;
+using GenBall.Event;
 using Yueyn.Event;
 using Yueyn.UI;
 
@@ -15,22 +15,22 @@ namespace GenBall.UI
 
         protected override void OnCreateInternal()
         {
-            CEventRouter.Instance.Subscribe(LaunchEventKey.SplashBegin, OnSplashBegin);
-            CEventRouter.Instance.Subscribe(LaunchEventKey.SplashComplete, OnSplashComplete);
-            CEventRouter.Instance.Subscribe(LaunchEventKey.StartFormBegin, OnStartFormBegin);
-            CEventRouter.Instance.Subscribe(LaunchEventKey.GameLaunch, OnGameLaunch);
-            CEventRouter.Instance.Subscribe<float>(LaunchEventKey.LoadingProgress, OnLoadingProgress);
-            CEventRouter.Instance.Subscribe(LaunchEventKey.LoadingComplete, OnLoadingComplete);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.SplashBegin, OnSplashBegin);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.SplashComplete, OnSplashComplete);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.StartFormBegin, OnStartFormBegin);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.GameLaunch, OnGameLaunch);
+            CEventRouter.Instance.Subscribe<float>((int)GlobalEventId.LoadingProgress, OnLoadingProgress);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.LoadingComplete, OnLoadingComplete);
         }
 
         protected override void OnDestroyInternal()
         {
-            CEventRouter.Instance.Unsubscribe(LaunchEventKey.SplashBegin, OnSplashBegin);
-            CEventRouter.Instance.Unsubscribe(LaunchEventKey.SplashComplete, OnSplashComplete);
-            CEventRouter.Instance.Unsubscribe(LaunchEventKey.StartFormBegin, OnStartFormBegin);
-            CEventRouter.Instance.Unsubscribe(LaunchEventKey.GameLaunch, OnGameLaunch);
-            CEventRouter.Instance.Unsubscribe<float>(LaunchEventKey.LoadingProgress, OnLoadingProgress);
-            CEventRouter.Instance.Unsubscribe(LaunchEventKey.LoadingComplete, OnLoadingComplete);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.SplashBegin, OnSplashBegin);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.SplashComplete, OnSplashComplete);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.StartFormBegin, OnStartFormBegin);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.GameLaunch, OnGameLaunch);
+            CEventRouter.Instance.Unsubscribe<float>((int)GlobalEventId.LoadingProgress, OnLoadingProgress);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.LoadingComplete, OnLoadingComplete);
         }
 
         private void OnSplashBegin()

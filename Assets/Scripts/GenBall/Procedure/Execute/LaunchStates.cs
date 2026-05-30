@@ -1,3 +1,4 @@
+using GenBall.Event;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
@@ -16,7 +17,7 @@ namespace GenBall.Procedure.Execute
     {
         public override void OnEnter(ILaunchSystem context)
         {
-            CEventRouter.Instance.FireNow(LaunchEventKey.SplashBegin);
+            CEventRouter.Instance.FireNow((int)GlobalEventId.SplashBegin);
         }
     }
 
@@ -27,7 +28,7 @@ namespace GenBall.Procedure.Execute
     {
         public override void OnEnter(ILaunchSystem context)
         {
-            CEventRouter.Instance.FireNow(LaunchEventKey.StartFormBegin);
+            CEventRouter.Instance.FireNow((int)GlobalEventId.StartFormBegin);
         }
     }
 
@@ -39,7 +40,7 @@ namespace GenBall.Procedure.Execute
         public override void OnEnter(ILaunchSystem context)
         {
             // 1. Fire GameLaunch event — tells UI to close StartForm and re-open SplashForm as loading screen
-            CEventRouter.Instance.FireNow(LaunchEventKey.GameLaunch);
+            CEventRouter.Instance.FireNow((int)GlobalEventId.GameLaunch);
 
             // 2. Hide and lock cursor for gameplay
             Cursor.visible = false;
