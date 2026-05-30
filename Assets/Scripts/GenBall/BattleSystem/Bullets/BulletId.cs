@@ -6,9 +6,16 @@ namespace GenBall.BattleSystem.Bullets
 {
     public enum BulletId
     {
-        RayBullet,
+        None = 0,
+        RayBullet = 1,
+        PenetrateBullet = 2,
+        BounceBullet = 3,
+        GravityBullet = 4,
+        ShotgunPellet = 5,
+        SphereAOEBullet = 6,
     }
 
+    [System.Obsolete]
     public static class BulletRegister
     {
         public static void Register()
@@ -17,6 +24,7 @@ namespace GenBall.BattleSystem.Bullets
         }
     }
 
+    [System.Obsolete]
     public static class BulletIdExtension
     {
         private static readonly Dictionary<BulletId, string> _prefabPaths = new();

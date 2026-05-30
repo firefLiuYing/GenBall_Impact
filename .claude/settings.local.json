@@ -68,7 +68,9 @@
       "Bash(powershell -Command \"Get-ChildItem 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Logs' -Filter 'Editor*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }\")",
       "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact' -path */Library/Editor*Log* -o -name Editor.log)",
       "Bash(touch:*)",
-      "Bash(grep \"\\\\.cs$\")"
+      "Bash(grep \"\\\\.cs$\")",
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --class BulletSystemNewTests)",
+      "Bash(bash run_editmode_tests.sh --class BulletSystemNewTests)"
     ]
   },
   "enableAllProjectMcpServers": true,

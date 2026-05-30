@@ -22,6 +22,10 @@ namespace GenBall.Framework.Config
             var buffConfig = GetConfig<BuffModelConfig>();
             buffConfig?.Init();
 
+            LoadConfig<BulletConfigCollection>("Configs/BulletConfigCollection");
+            var bulletConfig = GetConfig<BulletConfigCollection>();
+            bulletConfig?.Init();
+
             Debug.Log($"[AppConfigManager] Loaded {_configs.Count} configs");
         }
 

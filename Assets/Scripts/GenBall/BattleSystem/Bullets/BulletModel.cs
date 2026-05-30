@@ -3,36 +3,37 @@ using System.Runtime.InteropServices;
 
 namespace GenBall.BattleSystem.Bullets
 {
+    [System.Obsolete("Replaced by BulletConfigEntry. Will be removed in Phase E cleanup.")]
     [Serializable,StructLayout(LayoutKind.Auto)]
     public struct BulletModel
     {
         public BulletId Id;
         /// <summary>
-        /// 碰撞半径
+        /// 锟斤拷撞锟诫径
         /// </summary>
         public float Radius;
         /// <summary>
-        /// 子弹飞行过程中可以命中多少次再销毁
+        /// 锟接碉拷锟斤拷锟叫癸拷锟斤拷锟叫匡拷锟斤拷锟斤拷锟叫讹拷锟劫达拷锟斤拷锟斤拷锟斤拷
         /// </summary>
         public int HitTimes;
         /// <summary>
-        /// 如果可以多次命中同一个目标，两次命中判定之间的最小间隔     
+        /// 锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷同一锟斤拷目锟疥，锟斤拷锟斤拷锟斤拷锟斤拷锟叫讹拷之锟斤拷锟斤拷锟叫★拷锟斤拷     
         /// </summary>
         public float SameTargetDelay;
         /// <summary>
-        /// 可以命中敌人
+        /// 锟斤拷锟斤拷锟斤拷锟叫碉拷锟斤拷
         /// </summary>
         public bool HitFoe;
         /// <summary>
-        /// 可以命中友军
+        /// 锟斤拷锟斤拷锟斤拷锟斤拷锟窖撅拷
         /// </summary>
         public bool HitAlly;
         /// <summary>
-        /// 子弹飞行速度
+        /// 锟接碉拷锟斤拷锟斤拷锟劫讹拷
         /// </summary>
         public float Speed;
         /// <summary>
-        /// 子弹基础伤害
+        /// 锟接碉拷锟斤拷锟斤拷锟剿猴拷
         /// </summary>
         public int Damage;
     }

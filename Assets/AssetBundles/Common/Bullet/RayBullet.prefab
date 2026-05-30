@@ -92,9 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8327224639805585282}
-  - component: {fileID: 9138532472138585744}
-  - component: {fileID: 5975639427053148129}
-  - component: {fileID: 4261197714412234263}
+  - component: {fileID: -6520767630358563333}
   m_Layer: 11
   m_Name: RayBullet
   m_TagString: Untagged
@@ -118,7 +116,7 @@ Transform:
   - {fileID: 4736285342208876829}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9138532472138585744
+--- !u!114 &-6520767630358563333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,37 +125,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6373512438311395407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e7ff1bd15192ca49a301d401d2cc975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5975639427053148129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373512438311395407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bf75d2917fe6074488287b884bffa63, type: 3}
+  m_Script: {fileID: 11500000, guid: 0843e5f11673c644b91183394d0258eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   modelTransform: {fileID: 4736285342208876829}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 1281
---- !u!114 &4261197714412234263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373512438311395407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19ed0c29bc40ce4ea5677db7722e9e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  trailRenderer: {fileID: 0}
+  defaultPredictDistance: 1000
 --- !u!1 &8693808582937064873
 GameObject:
   m_ObjectHideFlags: 0

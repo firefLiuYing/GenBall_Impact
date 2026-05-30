@@ -1,3 +1,4 @@
+using GenBall.BattleSystem.Bullets;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
@@ -40,6 +41,11 @@ namespace GenBall.BattleSystem.Weapons
 
         [Header("References")]
         public Transform BulletSpawnPoint;
+
+        [Header("Bullet")]
+        public BulletId BulletConfigId = BulletId.RayBullet;
+        public float BulletSpeed = 50f;
+        public float BulletRadius = 0.15f;
     }
 
     public enum WeaponArchetype

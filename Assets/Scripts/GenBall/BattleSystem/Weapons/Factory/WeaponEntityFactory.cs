@@ -1,3 +1,4 @@
+using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Weapons.Components;
 using GenBall.BattleSystem.Weapons.Components.Ammo;
@@ -61,6 +62,13 @@ namespace GenBall.BattleSystem.Weapons.Factory
             stats.GetOrCreate("FireInterval", assembly.FireInterval);
             PopulateAmmoStats(stats, assembly);
             PopulateSpreadStats(stats, assembly);
+
+            // Bullet stats — base values from WeaponAssembly, modifiable by buffs at fire time
+            stats.GetOrCreate("BulletSpeed", assembly.BulletSpeed);
+            stats.GetOrCreate("BulletRadius", assembly.BulletRadius);
+            stats.GetOrCreate("BulletSpeedMultiplier", 1f);
+            stats.GetOrCreate("ExtraPenetrations", 0f);
+            stats.GetOrCreate("ExtraBounces", 0f);
             entity.RegisterComponent(stats);
 
             // ── BuffContainer (future accessory buffs) ──
@@ -106,7 +114,7 @@ namespace GenBall.BattleSystem.Weapons.Factory
             var spawnPoint = assembly.BulletSpawnPoint != null
                 ? assembly.BulletSpawnPoint
                 : go.transform;
-            entity.RegisterComponent(new WeaponFireExecutor(entity, spawnPoint));
+            entity.RegisterComponent(new WeaponFireExecutor(entity, spawnPoint, assembly.BulletConfigId));
 
             // ── Optional SpreadComponent ──
             if (assembly.SpreadBase > 0f || assembly.SpreadMoving > 0f)
@@ -142,5 +150,6 @@ namespace GenBall.BattleSystem.Weapons.Factory
                 stats.GetOrCreate("SpreadMoving", assembly.SpreadMoving);
             }
         }
+
     }
 }

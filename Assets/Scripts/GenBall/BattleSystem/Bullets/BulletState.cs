@@ -9,6 +9,7 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets
 {
+    [System.Obsolete("Replaced by BulletInstance + BulletVisual. Will be removed in Phase E cleanup.")]
     public class BulletState : MonoBehaviour, IBuffContainer,IEntityLogicUpdate
     {
         public BulletModel Model{get;private set;}

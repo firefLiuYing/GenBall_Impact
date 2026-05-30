@@ -7,6 +7,7 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets.BulletController
 {
+    [System.Obsolete("Replaced by RayDetection + DealDamageBehavior. Will be removed in Phase E cleanup.")]
     public class RayBulletController : MonoBehaviour, IBulletController
     {
         private BulletState _bullet;

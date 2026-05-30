@@ -6,6 +6,7 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets
 {
+    [System.Obsolete("Replaced by BulletInstance. Will be removed in Phase E cleanup.")]
     public class DefaultBullet : MonoBehaviour, IBullet, IEntityFrameUpdate, IEntityLogicUpdate
     {
         public IWeapon Source { get;private set; }
