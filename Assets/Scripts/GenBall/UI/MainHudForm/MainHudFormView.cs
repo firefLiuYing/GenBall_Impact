@@ -15,6 +15,7 @@ namespace GenBall.UI
         public Text TxtArmor { get; private set; }
         public Text TxtHealth { get; private set; }
         public Text TxtAmmo { get; private set; }
+        public Image ImgAim { get; private set; }
 
         private void BindControls()
         {
@@ -24,6 +25,7 @@ namespace GenBall.UI
             TxtArmor      = _binding.GetBinding<Text>("TxtArmor");
             TxtHealth     = _binding.GetBinding<Text>("TxtHealth");
             TxtAmmo       = _binding.GetBinding<Text>("TxtAmmo");
+            ImgAim        = _binding.GetBinding<Image>("ImgAim");
         }
 
         // ### GENERATED_BINDINGS_END ###
