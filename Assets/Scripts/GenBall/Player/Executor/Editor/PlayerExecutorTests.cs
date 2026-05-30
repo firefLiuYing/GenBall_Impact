@@ -132,12 +132,22 @@ namespace GenBall.Player.Executor.Tests
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
             Assert.That(_executor.IsJumping, Is.True);
 
-            SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
-            SetPrivateProperty(_inputHandler, "JumpHoldTime", 999f);
+            // PlayerJumpExecutor uses Time.time - _jumpStartTime, not InputHandler.
+            // Backdate _jumpStartTime so elapsed exceeds _longPressMaxTime (1.0f).
+            var startTimeField = typeof(PlayerJumpExecutor).GetField("_jumpStartTime",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            startTimeField.SetValue(_executor, Time.time - 1.1f);
 
+            // Player is airborne — landing would stop the jump, so keep IsOnGround=false
+            _groundDetect.IsOnGround = false;
+
+            float velocityBefore = _rigidbody.velocity.y;
             _executor.LogicUpdate(0.016f);
 
-            Assert.That(_executor.IsJumping, Is.False);
+            // Jump does NOT stop when hold time exceeds max — it only changes
+            // acceleration from hold to release. Phase stays Holding until landing.
+            Assert.That(_executor.IsJumping, Is.True);
+            Assert.That(_rigidbody.velocity.y, Is.Not.EqualTo(velocityBefore));
         }
 
         [Test]
@@ -146,8 +156,10 @@ namespace GenBall.Player.Executor.Tests
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
             Assert.That(_executor.IsJumping, Is.True);
 
-            SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
-            SetPrivateProperty(_inputHandler, "JumpHoldTime", 0.3f);
+            // Backdate _jumpStartTime so elapsed > 0.1f (minimum air time)
+            var startTimeField = typeof(PlayerJumpExecutor).GetField("_jumpStartTime",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            startTimeField.SetValue(_executor, Time.time - 0.2f);
 
             _groundDetect.IsOnGround = true;
 
@@ -161,8 +173,12 @@ namespace GenBall.Player.Executor.Tests
         {
             _executor.Jump(new JumpCommand(Vector3.up * 8f));
 
-            SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
-            SetPrivateProperty(_inputHandler, "JumpHoldTime", 999f);
+            // Trigger landing: backdate _jumpStartTime past 0.1s minimum, set on ground
+            var startTimeField = typeof(PlayerJumpExecutor).GetField("_jumpStartTime",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            startTimeField.SetValue(_executor, Time.time - 0.2f);
+            _groundDetect.IsOnGround = true;
+
             _executor.LogicUpdate(0.016f);
 
             Assert.That(_executor.IsJumping, Is.False);
@@ -418,7 +434,7 @@ namespace GenBall.Player.Executor.Tests
 
             // Simulate jump started on InputHandler
             var onJumpField = typeof(InputHandler).GetField("OnJump",
-                BindingFlags.Public | BindingFlags.Instance);
+                BindingFlags.NonPublic | BindingFlags.Instance);
             var onJump = (System.Action<ButtonState>)onJumpField.GetValue(_inputHandler);
             onJump?.Invoke(ButtonState.Down);
 
@@ -432,7 +448,7 @@ namespace GenBall.Player.Executor.Tests
             _adapter.OnDash += s => received = s;
 
             var onDashField = typeof(InputHandler).GetField("OnDash",
-                BindingFlags.Public | BindingFlags.Instance);
+                BindingFlags.NonPublic | BindingFlags.Instance);
             var onDash = (System.Action<ButtonState>)onDashField.GetValue(_inputHandler);
             onDash?.Invoke(ButtonState.Down);
 
@@ -446,7 +462,7 @@ namespace GenBall.Player.Executor.Tests
             _adapter.OnFire += s => received = s;
 
             var onFireField = typeof(InputHandler).GetField("OnFire",
-                BindingFlags.Public | BindingFlags.Instance);
+                BindingFlags.NonPublic | BindingFlags.Instance);
             var onFire = (System.Action<ButtonState>)onFireField.GetValue(_inputHandler);
             onFire?.Invoke(ButtonState.Hold);
             

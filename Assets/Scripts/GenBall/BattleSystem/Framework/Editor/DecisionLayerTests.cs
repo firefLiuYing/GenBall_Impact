@@ -396,7 +396,8 @@ namespace GenBall.BattleSystem.Framework.Tests
             _playerDecision.MakeDecision(0.016f);
 
             Assert.That(_move.CallCount, Is.EqualTo(1));
-            Assert.That(_rotate.CallCount, Is.EqualTo(1));
+            // Rotate is blocked when an action (Dash) is active
+            Assert.That(_rotate.CallCount, Is.EqualTo(0));
             Assert.That(_jump.CallCount, Is.EqualTo(1));
             Assert.That(_dash.CallCount, Is.EqualTo(1));
             // Attack gets buffered (InterruptPriority 2 < Dash AntiInterruptPriority 5)
