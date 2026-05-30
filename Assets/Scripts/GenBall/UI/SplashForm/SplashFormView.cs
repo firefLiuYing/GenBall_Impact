@@ -13,6 +13,15 @@ namespace GenBall.UI
         public Text TxtProgress { get; private set; }
         public Image ImgProgress { get; private set; }
 
+        private void BindControls()
+        {
+            _binding = GetComponent<UiViewBinding>();
+            TxtProgress = _binding.GetBinding<Text>("TxtProgress");
+            ImgProgress = _binding.GetBinding<Image>("ImgProgress");
+        }
+
+        // ### GENERATED_BINDINGS_END ###
+
         protected override void DoBusinessStart()
         {
             base.DoBusinessStart();
@@ -22,15 +31,6 @@ namespace GenBall.UI
             var formScript = GetComponentInParent<UIFormScript>();
             if (formScript != null) formScript.FadeDuration = 0f;
         }
-
-        private void BindControls()
-        {
-            _binding = GetComponent<UiViewBinding>();
-            TxtProgress = _binding.GetBinding<Text>("TxtProgress");
-            ImgProgress = _binding.GetBinding<Image>("ImgProgress");
-        }
-
-        // ### GENERATED_BINDINGS_END ###
 
         protected override void RefreshView()
         {

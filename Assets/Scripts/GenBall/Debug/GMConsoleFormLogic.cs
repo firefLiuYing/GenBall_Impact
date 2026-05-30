@@ -14,6 +14,8 @@ namespace GenBall.GM
 
         public GMConsoleFormView View { get; private set; }
 
+        // ### GENERATED_BINDINGS_END ###
+
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
@@ -43,8 +45,6 @@ namespace GenBall.GM
             // Sync state: notify the system that console has been closed
             _gmSystem?.NotifyConsoleClosed();
         }
-
-        // ### GENERATED_BINDINGS_END ###
 
         private IGMCommandSystem _gmSystem;
 

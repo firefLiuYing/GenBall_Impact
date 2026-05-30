@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 632540b98873ccc44ad3ef4759b10501, type: 3}
   m_Name: BulletConfigCollection
-  m_EditorClassIdentifier: Assembly-CSharp:GenBall.Framework.Config:BulletConfigCollection
+  m_EditorClassIdentifier: 
   Configs:
   - Id: 1
     DetectionMode: 0
     VisualPrefab: {fileID: 6373512438311395407, guid: e7bf7c0fa2de8694fb920840086c3734, type: 3}
-    VisualBlendTime: 2
+    VisualBlendTime: 0
     MaxLifetime: 3
     HitBehaviors: []
     MovementModifiers: []

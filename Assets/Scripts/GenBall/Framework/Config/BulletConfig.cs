@@ -6,6 +6,49 @@ using GenBall.BattleSystem.Bullets;
 namespace GenBall.Framework.Config
 {
     /// <summary>
+    /// Collection of all bullet configs. Loaded by AppConfigManager as a ScriptableObject from Resources/Configs/.
+    /// </summary>
+    [CreateAssetMenu(fileName = "BulletConfigCollection", menuName = "GenBall/BulletConfigCollection")]
+    public class BulletConfigCollection : ScriptableObject
+    {
+        public List<BulletConfigEntry> Configs = new List<BulletConfigEntry>();
+
+        private Dictionary<BulletId, BulletConfigEntry> _lookup;
+
+        public void Init()
+        {
+            _lookup = new Dictionary<BulletId, BulletConfigEntry>();
+            foreach (var config in Configs)
+            {
+                if (config.Id == BulletId.None)
+                {
+                    Debug.LogWarning("[BulletConfigCollection] Skipping entry with None Id");
+                    continue;
+                }
+                if (_lookup.ContainsKey(config.Id))
+                {
+                    Debug.LogWarning($"[BulletConfigCollection] Duplicate bullet config Id: {config.Id}");
+                    continue;
+                }
+                _lookup[config.Id] = config;
+            }
+            Debug.Log($"[BulletConfigCollection] Initialized with {_lookup.Count} bullet configs");
+        }
+
+        public BulletConfigEntry Get(BulletId id)
+        {
+            if (_lookup == null) Init();
+            _lookup.TryGetValue(id, out var entry);
+            return entry;
+        }
+
+        public bool TryGet(BulletId id, out BulletConfigEntry entry)
+        {
+            if (_lookup == null) Init();
+            return _lookup.TryGetValue(id, out entry);
+        }
+    }
+    /// <summary>
     /// Detection mode for bullet hit detection.
     /// </summary>
     public enum DetectionMode
@@ -93,47 +136,5 @@ namespace GenBall.Framework.Config
         public MovementModifierDef[] MovementModifiers = new MovementModifierDef[0];
     }
 
-    /// <summary>
-    /// Collection of all bullet configs. Loaded by AppConfigManager as a ScriptableObject from Resources/Configs/.
-    /// </summary>
-    [CreateAssetMenu(fileName = "BulletConfigCollection", menuName = "GenBall/BulletConfigCollection")]
-    public class BulletConfigCollection : ScriptableObject
-    {
-        public List<BulletConfigEntry> Configs = new List<BulletConfigEntry>();
-
-        private Dictionary<BulletId, BulletConfigEntry> _lookup;
-
-        public void Init()
-        {
-            _lookup = new Dictionary<BulletId, BulletConfigEntry>();
-            foreach (var config in Configs)
-            {
-                if (config.Id == BulletId.None)
-                {
-                    Debug.LogWarning("[BulletConfigCollection] Skipping entry with None Id");
-                    continue;
-                }
-                if (_lookup.ContainsKey(config.Id))
-                {
-                    Debug.LogWarning($"[BulletConfigCollection] Duplicate bullet config Id: {config.Id}");
-                    continue;
-                }
-                _lookup[config.Id] = config;
-            }
-            Debug.Log($"[BulletConfigCollection] Initialized with {_lookup.Count} bullet configs");
-        }
-
-        public BulletConfigEntry Get(BulletId id)
-        {
-            if (_lookup == null) Init();
-            _lookup.TryGetValue(id, out var entry);
-            return entry;
-        }
-
-        public bool TryGet(BulletId id, out BulletConfigEntry entry)
-        {
-            if (_lookup == null) Init();
-            return _lookup.TryGetValue(id, out entry);
-        }
-    }
+    
 }

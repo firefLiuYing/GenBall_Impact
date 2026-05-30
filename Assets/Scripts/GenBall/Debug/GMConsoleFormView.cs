@@ -15,12 +15,6 @@ namespace GenBall.GM
         public InputField InputCmd { get; private set; }
         public Button BtnSubmit { get; private set; }
 
-        protected override void DoBusinessStart()
-        {
-            base.DoBusinessStart();
-            BindControls();
-        }
-
         private void BindControls()
         {
             _binding = GetComponentInParent<UiViewBinding>();
@@ -29,6 +23,12 @@ namespace GenBall.GM
             BtnSubmit = _binding.GetBinding<Button>("BtnSubmit");
         }
         // ### GENERATED_BINDINGS_END ###
+
+        protected override void DoBusinessStart()
+        {
+            base.DoBusinessStart();
+            BindControls();
+        }
 
         protected override void DoBusinessOpen()
         {

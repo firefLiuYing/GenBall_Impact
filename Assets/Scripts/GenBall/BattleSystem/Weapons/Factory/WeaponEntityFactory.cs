@@ -4,7 +4,9 @@ using GenBall.BattleSystem.Weapons.Components;
 using GenBall.BattleSystem.Weapons.Components.Ammo;
 using GenBall.BattleSystem.Weapons.Components.Spread;
 using GenBall.BattleSystem.Weapons.Components.Trigger;
+using GenBall.Event;
 using UnityEngine;
+using Yueyn.Event;
 using Yueyn.Resource;
 
 namespace GenBall.BattleSystem.Weapons.Factory
@@ -119,6 +121,26 @@ namespace GenBall.BattleSystem.Weapons.Factory
             // ── Optional SpreadComponent ──
             if (assembly.SpreadBase > 0f || assembly.SpreadMoving > 0f)
                 entity.RegisterComponent(new SpreadComponent(stats));
+
+            // ── Bridge ammo stat changes to CEventRouter for HUD ──
+            var ed = entity.Get<EventDispatcherComponent>();
+            if (ed != null)
+            {
+                ed.Subscribe<StatChangedEventData>((int)EntityEventId.StatChanged, data =>
+                {
+                    if (data.StatName == "AmmoCount" || data.StatName == "MagazineCapacity")
+                    {
+                        var ammoSystem = entity.Get<IAmmoSystem>();
+                        if (ammoSystem != null)
+                            CEventRouter.Instance.FireNow((int)GlobalEventId.MagazineInfoChange, ammoSystem.GetDisplayInfo());
+                    }
+                });
+
+                // Fire initial ammo values
+                var ammoSystem = entity.Get<IAmmoSystem>();
+                if (ammoSystem != null)
+                    CEventRouter.Instance.FireNow((int)GlobalEventId.MagazineInfoChange, ammoSystem.GetDisplayInfo());
+            }
 
             go.SetActive(true);
             return entity;

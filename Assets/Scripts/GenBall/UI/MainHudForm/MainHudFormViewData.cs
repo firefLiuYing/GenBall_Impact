@@ -2,6 +2,12 @@ namespace GenBall.UI
 {
     public class MainHudFormViewData
     {
-        // TODO: 在此处定义 View 数据字段
+        public int Health;
+        public int MaxHealth;
+        public int Armor;
+        public int KillPoints;
+        public int WeaponLevel;
+        public int AmmoCount;
+        public int AmmoCapacity;
     }
 }

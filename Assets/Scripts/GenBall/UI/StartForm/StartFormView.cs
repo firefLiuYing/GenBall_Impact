@@ -15,13 +15,6 @@ namespace GenBall.UI
         public Button BtnContinue { get; private set; }
         public Button BtnLoadGame { get; private set; }
 
-        protected override void DoBusinessStart()
-        {
-            base.DoBusinessStart();
-            BindControls();
-            BindButtonEvents();
-        }
-
         private void BindControls()
         {
             _binding = GetComponent<UiViewBinding>();
@@ -32,6 +25,13 @@ namespace GenBall.UI
         }
 
         // ### GENERATED_BINDINGS_END ###
+
+        protected override void DoBusinessStart()
+        {
+            base.DoBusinessStart();
+            BindControls();
+            BindButtonEvents();
+        }
 
         /// <summary>
         /// 按钮绑定 UI 事件（View → UIEventBus → Logic）

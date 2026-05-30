@@ -12,6 +12,8 @@ namespace GenBall.UI
 
         public SplashFormView View { get; private set; }
 
+        // ### GENERATED_BINDINGS_END ###
+
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
@@ -56,8 +58,6 @@ namespace GenBall.UI
         {
             return BusinessLogicManager.Instance.CreateLogic<SplashFormLogic>();
         }
-
-        // ### GENERATED_BINDINGS_END ###
 
         /// <summary>
         /// 设置加载进度 (0-1)

@@ -1,3 +1,7 @@
+// [OBSOLETE] 旧武器系统 MagazineComponent (MonoBehaviour) — 已迁移到 BattleEntity (WeaponMagazineExecutor + IAmmoSystem)。
+// 弹药 UI 事件桥接在 WeaponEntityFactory.Assemble() 中处理。
+// 此文件将在 Phase E 清理时删除。
+
 using GenBall.Event.Generated;
 using GenBall.Player;
 using UnityEngine;
@@ -31,7 +35,7 @@ namespace GenBall.BattleSystem.Weapons
         {
             Capacity.SetBaseValue(baseCapacity);
             Reload();
-            
+
             RegisterEvents();
         }
 

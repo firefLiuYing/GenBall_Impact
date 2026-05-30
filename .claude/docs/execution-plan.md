@@ -51,6 +51,14 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 **目标**：第一章 DEMO 核心游戏功能
 **依赖**：Phase B 完成
 
+### C-0：HUD 迁移到新 UI 框架 🔄
+
+- [x] C-0a：事件桥接（Player.Health.cs + MagazineComponent → CEventRouter）
+- [x] C-0b：MainHudFormLogic 事件订阅 + ViewData 数据流
+- [x] C-0c：代码生成器修复（生命周期方法移到标记外）
+- [ ] C-0d：MainHudForm.prefab 更新（添加 TxtKillPoints/TxtLevel/TxtHealth/TxtArmor/TxtAmmo）→ **需 Unity Editor 手动操作**
+- [ ] C-0e：编译验证 + 场景测试
+
 ### C-1：能力枪械系统 ❌
 **设计文档**：`.claude/docs/design/weapon-system.md`
 
@@ -88,7 +96,7 @@ D-1~D-4：机关系统、战斗反馈、剧情对话、关卡搭建
 |-------|------|
 | A: BattleEntity 框架 | ✅ |
 | B: 实体迁移 (Player/Enemy/Weapon) | ✅ |
-| C: 基础系统 | ❌ |
+| C: 基础系统 | 🔄 C-0 进行中 |
 | D: 内容层 | ❌ |
 | E: 清理 | ❌ |
 

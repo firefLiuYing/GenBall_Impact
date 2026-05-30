@@ -14,6 +14,8 @@ namespace GenBall.UI
 
         public StartFormView View { get; private set; }
 
+        // ### GENERATED_BINDINGS_END ###
+
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
@@ -47,8 +49,6 @@ namespace GenBall.UI
         {
             return BusinessLogicManager.Instance.CreateLogic<StartFormLogic>();
         }
-
-        // ### GENERATED_BINDINGS_END ###
 
         private void OnNewGame()
         {

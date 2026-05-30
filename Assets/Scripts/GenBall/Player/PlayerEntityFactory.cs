@@ -4,11 +4,13 @@ using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
 using GenBall.BattleSystem.Weapons.Factory;
+using GenBall.Event;
 using GenBall.GameCamera;
 using GenBall.Interact;
 using GenBall.Player.Executor;
 using GenBall.Player.Input;
 using UnityEngine;
+using Yueyn.Event;
 using Yueyn.Main;
 
 namespace GenBall.Player
@@ -126,7 +128,27 @@ namespace GenBall.Player
                 cameraSystem.RegisterPlayerCamera(firstPersonCamera.transform);
             }
 
-            // 12. [临时] 装备默认手枪，方便场景测试验证 Player 组装+武器流程。
+            // 12. Bridge entity-local health events to global CEventRouter for HUD
+            eventDispatcher.Subscribe<HealthChangedEventData>((int)EntityEventId.HealthChanged,
+                data =>
+                {
+                    CEventRouter.Instance.FireNow((int)GlobalEventId.HealthChanged, (int)data.NewHealth);
+                    CEventRouter.Instance.FireNow((int)GlobalEventId.MaxHealthChanged, (int)data.MaxHealth);
+                });
+
+            eventDispatcher.Subscribe<StatChangedEventData>((int)EntityEventId.StatChanged,
+                data =>
+                {
+                    if (data.StatName == "Shield")
+                        CEventRouter.Instance.FireNow((int)GlobalEventId.ArmorChanged, (int)data.NewValue);
+                });
+
+            // Fire initial values so HUD shows correct state immediately
+            CEventRouter.Instance.FireNow((int)GlobalEventId.HealthChanged, (int)stats.GetValue("CurrentHealth"));
+            CEventRouter.Instance.FireNow((int)GlobalEventId.MaxHealthChanged, (int)stats.GetValue("MaxHealth"));
+            CEventRouter.Instance.FireNow((int)GlobalEventId.ArmorChanged, (int)stats.GetValue("Shield"));
+
+            // 13. [临时] 装备默认手枪，方便场景测试验证 Player 组装+武器流程。
             // 正式流程：首次进游戏装默认手枪、复活/进化时根据进化阶段装对应武器，
             // 统一由武器生命周期管理方调用 WeaponAttackExecutor.EquipWeapon()。
             // 详见 .claude/docs/execution-plan.md B-3 武器生命周期管理。

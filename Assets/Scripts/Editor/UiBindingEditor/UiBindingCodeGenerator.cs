@@ -45,26 +45,6 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             }
 
             sb.AppendLine();
-
-            // DoBusinessStart override (Form) or Awake (Part)
-            if (viewType == UiViewBinding.ViewType.Form)
-            {
-                sb.AppendLine("        protected override void DoBusinessStart()");
-                sb.AppendLine("        {");
-                sb.AppendLine("            base.DoBusinessStart();");
-                sb.AppendLine("            BindControls();");
-                sb.AppendLine("        }");
-            }
-            else
-            {
-                sb.AppendLine("        protected override void DoBusinessStart()");
-                sb.AppendLine("        {");
-                sb.AppendLine("            base.DoBusinessStart();");
-                sb.AppendLine("            BindControls();");
-                sb.AppendLine("        }");
-            }
-
-            sb.AppendLine();
             sb.AppendLine("        private void BindControls()");
             sb.AppendLine("        {");
 
@@ -107,28 +87,6 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
                 sb.AppendLine($"        public override UIFormType FormType => UIFormType.{formType};");
                 sb.AppendLine();
                 sb.AppendLine($"        public {formName}View View {{ get; private set; }}");
-                sb.AppendLine();
-                sb.AppendLine("        protected override void OnFormCreated()");
-                sb.AppendLine("        {");
-                sb.AppendLine("            base.OnFormCreated();");
-                sb.AppendLine("        }");
-                sb.AppendLine();
-                sb.AppendLine("        protected override void OnFormBound(UIFormScript form)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            base.OnFormBound(form);");
-                sb.AppendLine($"            View = form.GetComponentInChildren<{formName}View>();");
-                sb.AppendLine("        }");
-                sb.AppendLine();
-                sb.AppendLine("        protected override void OnFormUnbound(UIFormScript form)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            View = null;");
-                sb.AppendLine("            base.OnFormUnbound(form);");
-                sb.AppendLine("        }");
-                sb.AppendLine();
-                sb.AppendLine($"        public static {formName}Logic Open()");
-                sb.AppendLine("        {");
-                sb.AppendLine($"            return BusinessLogicManager.Instance.CreateLogic<{formName}Logic>();");
-                sb.AppendLine("        }");
             }
             else
             {
@@ -137,29 +95,6 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
                 sb.AppendLine($"            \"{prefabPath}\";");
                 sb.AppendLine();
                 sb.AppendLine($"        public {formName}View View {{ get; private set; }}");
-                sb.AppendLine();
-                sb.AppendLine("        protected override void OnPartCreated()");
-                sb.AppendLine("        {");
-                sb.AppendLine("            base.OnPartCreated();");
-                sb.AppendLine("        }");
-                sb.AppendLine();
-                sb.AppendLine("        protected override void OnViewBound(PartViewBase view)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            base.OnViewBound(view);");
-                sb.AppendLine($"            View = view.GetComponent<{formName}View>();");
-                sb.AppendLine("        }");
-                sb.AppendLine();
-                sb.AppendLine("        protected override void OnViewUnbound(PartViewBase view)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            View = null;");
-                sb.AppendLine("            base.OnViewUnbound(view);");
-                sb.AppendLine("        }");
-                sb.AppendLine();
-                sb.AppendLine($"        public static {formName}Logic Create({formName}View partView)");
-                sb.AppendLine("        {");
-                sb.AppendLine($"            return BusinessLogicManager.Instance.CreateLogic<{formName}Logic>(");
-                sb.AppendLine($"                p => p.ParentTransform = partView.transform);");
-                sb.AppendLine("        }");
             }
 
             return sb.ToString();
@@ -203,6 +138,12 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             sb.AppendLine($"        {START_MARKER}");
             sb.AppendLine($"        {END_MARKER}");
             sb.AppendLine();
+            sb.AppendLine("        protected override void DoBusinessStart()");
+            sb.AppendLine("        {");
+            sb.AppendLine("            base.DoBusinessStart();");
+            sb.AppendLine("            BindControls();");
+            sb.AppendLine("        }");
+            sb.AppendLine();
             sb.AppendLine("        protected override void RefreshView()");
             sb.AppendLine("        {");
             sb.AppendLine("            // TODO: 在此处实现 View 刷新逻辑");
@@ -237,6 +178,58 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             sb.AppendLine("    {");
             sb.AppendLine($"        {START_MARKER}");
             sb.AppendLine($"        {END_MARKER}");
+            sb.AppendLine();
+
+            if (viewType == UiViewBinding.ViewType.Form)
+            {
+                sb.AppendLine("        protected override void OnFormCreated()");
+                sb.AppendLine("        {");
+                sb.AppendLine("            base.OnFormCreated();");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        protected override void OnFormBound(UIFormScript form)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            base.OnFormBound(form);");
+                sb.AppendLine($"            View = form.GetComponentInChildren<{formName}View>();");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        protected override void OnFormUnbound(UIFormScript form)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            View = null;");
+                sb.AppendLine("            base.OnFormUnbound(form);");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine($"        public static {formName}Logic Open()");
+                sb.AppendLine("        {");
+                sb.AppendLine($"            return BusinessLogicManager.Instance.CreateLogic<{formName}Logic>();");
+                sb.AppendLine("        }");
+            }
+            else
+            {
+                sb.AppendLine("        protected override void OnPartCreated()");
+                sb.AppendLine("        {");
+                sb.AppendLine("            base.OnPartCreated();");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        protected override void OnViewBound(PartViewBase view)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            base.OnViewBound(view);");
+                sb.AppendLine($"            View = view.GetComponent<{formName}View>();");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine("        protected override void OnViewUnbound(PartViewBase view)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            View = null;");
+                sb.AppendLine("            base.OnViewUnbound(view);");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                sb.AppendLine($"        public static {formName}Logic Create({formName}View partView)");
+                sb.AppendLine("        {");
+                sb.AppendLine($"            return BusinessLogicManager.Instance.CreateLogic<{formName}Logic>(");
+                sb.AppendLine($"                p => p.ParentTransform = partView.transform);");
+                sb.AppendLine("        }");
+            }
+
             sb.AppendLine();
             sb.AppendLine("        // 在此处添加业务逻辑...");
             sb.AppendLine("    }");
