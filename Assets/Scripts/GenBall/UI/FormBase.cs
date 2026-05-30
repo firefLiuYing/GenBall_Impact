@@ -7,6 +7,7 @@ using Yueyn.Base.ReferencePool;
 
 namespace GenBall.UI
 {
+    [Obsolete]
     [RequireComponent(typeof(Canvas))]
     public abstract class FormBase : MonoBehaviour, IUserInterface,IBindable
     {

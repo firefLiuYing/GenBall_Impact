@@ -1,9 +1,12 @@
+using System;
 using GenBall.BattleSystem.Character;
 using GenBall.Event.Generated;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GenBall.Enemy.Initializer
 {
+    [Obsolete]
     public class EnemyDeathHandler : CharacterInitializerBase
     {
         [SerializeField] private int killPoints = 10;

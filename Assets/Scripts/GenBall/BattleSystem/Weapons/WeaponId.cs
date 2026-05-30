@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Yueyn.Resource;
+using Object = UnityEngine.Object;
 
 namespace GenBall.BattleSystem.Weapons
 {
@@ -9,6 +11,7 @@ namespace GenBall.BattleSystem.Weapons
         Pistol,
     }
 
+    [Obsolete]
     public static class WeaponRegister
     {
         public static void Register()
@@ -17,6 +20,7 @@ namespace GenBall.BattleSystem.Weapons
         }
     }
 
+    [Obsolete]
     public static class WeaponIdExtension
     {
         private static readonly Dictionary<WeaponId, string> _prefabPaths = new();

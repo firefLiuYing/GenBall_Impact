@@ -42,7 +42,7 @@ namespace GenBall.GM
             {
                 BtnSubmit.onClick.AddListener(() =>
                     {
-                        Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.GMConsole_Submit);
+                        Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.GMConsole_Submit);
                     }
                 );
             }
@@ -55,7 +55,7 @@ namespace GenBall.GM
         private void OnEndEdit()
         {
             if (InputCmd != null && !string.IsNullOrWhiteSpace(InputCmd.text))
-                Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.GMConsole_Submit);
+                Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.GMConsole_Submit);
         }
 
         protected override void RefreshView()

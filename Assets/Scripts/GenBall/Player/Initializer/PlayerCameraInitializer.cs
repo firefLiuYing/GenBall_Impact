@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace GenBall.Player.Initializer
 {
+    [Obsolete]
     public class PlayerCameraInitializer : CharacterInitializerBase
     {
         [SerializeField] private Transform mainCameraTransform;

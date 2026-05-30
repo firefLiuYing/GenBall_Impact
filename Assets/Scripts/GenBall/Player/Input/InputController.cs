@@ -10,6 +10,7 @@ using Yueyn.Main;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public class InputController : MonoBehaviour
     {
         private EventManager _eventManager;

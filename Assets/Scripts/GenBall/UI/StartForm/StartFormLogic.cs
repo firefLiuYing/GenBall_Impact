@@ -27,19 +27,19 @@ namespace GenBall.UI
             View = form.GetComponentInChildren<StartFormView>();
 
             // 订阅 UI 事件（View 按钮点击 → UIEventBus → Logic）
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(UIEventKey.StartForm_NewGame, OnNewGame);
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(UIEventKey.StartForm_Continue, OnContinue);
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(UIEventKey.StartForm_LoadGame, OnLoadGame);
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(UIEventKey.StartForm_CloseRequest, OnCloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_NewGame, OnNewGame);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_Continue, OnContinue);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_LoadGame, OnLoadGame);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_CloseRequest, OnCloseRequest);
         }
 
         protected override void OnFormUnbound(UIFormScript form)
         {
             // 取消 UI 事件订阅
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(UIEventKey.StartForm_NewGame, OnNewGame);
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(UIEventKey.StartForm_Continue, OnContinue);
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(UIEventKey.StartForm_LoadGame, OnLoadGame);
-            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(UIEventKey.StartForm_CloseRequest, OnCloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_NewGame, OnNewGame);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_Continue, OnContinue);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_LoadGame, OnLoadGame);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_CloseRequest, OnCloseRequest);
 
             View = null;
             base.OnFormUnbound(form);

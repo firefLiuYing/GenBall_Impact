@@ -1,9 +1,11 @@
+using System;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Character;
 using Yueyn.Main;
 
 namespace GenBall.Player.Initializer
 {
+    [Obsolete]
     public class PlayerArmorInitializer : CharacterInitializerBase
     {
         public override void Initialize(CharacterState characterState)

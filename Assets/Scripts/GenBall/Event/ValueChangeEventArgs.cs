@@ -1,9 +1,11 @@
+using System;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Event;
 using Yueyn.Utils;
 
 namespace GenBall.Event
 {
+    [Obsolete]
     public class ValueChangeEventArgs<T> : GameEventArgs
     {
         public override int Id => GetId(Name);

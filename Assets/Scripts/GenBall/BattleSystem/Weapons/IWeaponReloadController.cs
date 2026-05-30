@@ -1,7 +1,9 @@
+using System;
 using GenBall.Player;
 
 namespace GenBall.BattleSystem.Weapons
 {
+    [Obsolete]
     public interface IWeaponReloadController
     {
         public void Init(WeaponState weapon);

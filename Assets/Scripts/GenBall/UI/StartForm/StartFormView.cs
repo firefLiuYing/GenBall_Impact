@@ -40,15 +40,15 @@ namespace GenBall.UI
         {
             if (BtnNewGame != null)
                 BtnNewGame.onClick.AddListener(() =>
-                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.StartForm_NewGame));
+                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.StartForm_NewGame));
 
             if (BtnContinue != null)
                 BtnContinue.onClick.AddListener(() =>
-                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.StartForm_Continue));
+                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.StartForm_Continue));
 
             if (BtnLoadGame != null)
                 BtnLoadGame.onClick.AddListener(() =>
-                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.StartForm_LoadGame));
+                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.StartForm_LoadGame));
         }
 
         protected override void RefreshView()

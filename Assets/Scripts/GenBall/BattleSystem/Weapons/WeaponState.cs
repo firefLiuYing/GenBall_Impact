@@ -11,6 +11,7 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Weapons
 {
+    [Obsolete]
     public class WeaponState : MonoBehaviour,IBuffContainer,IEntityLogicUpdate
     {
         public GameObject PlayerGo { get; private set; }

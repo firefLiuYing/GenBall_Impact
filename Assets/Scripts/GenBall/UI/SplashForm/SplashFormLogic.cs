@@ -26,12 +26,12 @@ namespace GenBall.UI
 
             // 订阅 UI 事件
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe<float>(
-                UIEventKey.SplashForm_ProgressUpdate, OnProgressUpdate);
+                (int)UIEventKey.SplashForm_ProgressUpdate, OnProgressUpdate);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(
-                UIEventKey.SplashForm_CloseRequest, OnCloseRequest);
+                (int)UIEventKey.SplashForm_CloseRequest, OnCloseRequest);
 
             // 通知 UI 事件总线：SplashForm 已打开
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.SplashForm_Opened);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_Opened);
         }
 
         protected override void OnFormUnbound(UIFormScript form)
@@ -44,12 +44,12 @@ namespace GenBall.UI
         {
             // 取消所有订阅
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe<float>(
-                UIEventKey.SplashForm_ProgressUpdate, OnProgressUpdate);
+                (int)UIEventKey.SplashForm_ProgressUpdate, OnProgressUpdate);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
-                UIEventKey.SplashForm_CloseRequest, OnCloseRequest);
+                (int)UIEventKey.SplashForm_CloseRequest, OnCloseRequest);
 
             // 通知 UI 事件总线：SplashForm 即将关闭
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.SplashForm_Closed);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_Closed);
 
             base.OnFormDestroying();
         }

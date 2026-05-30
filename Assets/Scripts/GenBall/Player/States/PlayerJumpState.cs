@@ -7,6 +7,7 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public class PlayerJumpState : PlayerStateBase
     {
         private float _shortPressJumpHeight = 1f;

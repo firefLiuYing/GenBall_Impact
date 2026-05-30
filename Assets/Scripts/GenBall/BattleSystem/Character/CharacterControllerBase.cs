@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Character
 {
+    [Obsolete]
     public abstract class CharacterControllerBase : MonoBehaviour, ICharacterController
     {
         [SerializeField] private int priority;

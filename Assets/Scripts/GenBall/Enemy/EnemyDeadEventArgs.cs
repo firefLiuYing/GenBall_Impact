@@ -1,8 +1,10 @@
+using System;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Event;
 
 namespace GenBall.Enemy
 {
+    [Obsolete]
     public class EnemyDeadEventArgs : GameEventArgs
     {
         public override int Id => Index;

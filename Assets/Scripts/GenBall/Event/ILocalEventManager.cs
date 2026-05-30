@@ -4,6 +4,7 @@ using Yueyn.Event;
 
 namespace GenBall.Event
 {
+    [Obsolete]
     public interface ILocalEventManager
     {
         public void Subscribe(int id, EventHandler<GameEventArgs> handler);

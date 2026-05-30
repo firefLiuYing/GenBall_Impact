@@ -7,6 +7,7 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public class PlayerDashState : PlayerStateBase
     {
         private Fsm<Player> _fsm;

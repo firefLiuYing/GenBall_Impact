@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using Yueyn.Main;
 using Yueyn.Main.Entry;
 
 namespace GenBall
 {
+    [Obsolete]
     public partial class GameEntry : MonoBehaviour
     {
         private static Entry _entry;

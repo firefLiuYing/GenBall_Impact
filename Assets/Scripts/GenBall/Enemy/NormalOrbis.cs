@@ -1,9 +1,11 @@
+using System;
 using GenBall.BattleSystem;
 using GenBall.Enemy.Hurt;
 using UnityEngine;
 
 namespace GenBall.Enemy
 {
+    [Obsolete]
     [RequireComponent(typeof(NormalHurtModule))]
     public class NormalOrbis : EnemyBase
     {

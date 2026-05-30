@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Accessory;
@@ -8,6 +9,7 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public class PlayerInitState : PlayerStateBase
     {
         private Variable<bool> _onGround;

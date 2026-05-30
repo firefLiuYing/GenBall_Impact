@@ -10,6 +10,7 @@ using Yueyn.Event;
 
 namespace GenBall.BattleSystem.Weapons
 {
+    [Obsolete]
     public abstract class WeaponBase : MonoBehaviour,IWeapon
     {
         private readonly EventPool<GameEventArgs> _eventPool = new(EventPoolMode.AllowNoHandler|EventPoolMode.AllowMultiHandler);

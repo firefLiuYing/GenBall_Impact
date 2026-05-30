@@ -1,8 +1,10 @@
+using System;
 using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
 {
+    [Obsolete]
     public interface IWeapon:IEffectable
     {
         public IAttacker Owner { get; }

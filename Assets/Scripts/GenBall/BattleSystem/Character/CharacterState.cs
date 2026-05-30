@@ -11,6 +11,7 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Character
 {
+    [Obsolete]
     public class CharacterState : MonoBehaviour,IDamageable,IBuffContainer,IEntityLogicUpdate
     {
         private readonly List<ICharacterInitializer> _initializers=new();

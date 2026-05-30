@@ -27,17 +27,17 @@ namespace GenBall.GM
             View = form.GetComponentInChildren<GMConsoleFormView>();
 
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(
-                UIEventKey.GMConsole_Submit, OnSubmit);
+                (int)UIEventKey.GMConsole_Submit, OnSubmit);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(
-                UIEventKey.GMConsole_Close, OnClose);
+                (int)UIEventKey.GMConsole_Close, OnClose);
         }
 
         protected override void OnFormUnbound(UIFormScript form)
         {
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
-                UIEventKey.GMConsole_Submit, OnSubmit);
+                (int)UIEventKey.GMConsole_Submit, OnSubmit);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
-                UIEventKey.GMConsole_Close, OnClose);
+                (int)UIEventKey.GMConsole_Close, OnClose);
 
             View = null;
             base.OnFormUnbound(form);

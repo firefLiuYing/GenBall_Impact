@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Buff.Player;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 namespace GenBall.Player.Initializer
 {
+    [Obsolete]
     public class PlayerUiInitializer : CharacterInitializerBase
     {
         

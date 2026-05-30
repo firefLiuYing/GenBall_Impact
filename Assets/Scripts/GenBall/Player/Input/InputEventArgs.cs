@@ -1,8 +1,10 @@
+using System;
 using Yueyn.Event;
 using Yueyn.Utils;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public class InputEventArgs<T> : GameEventArgs
     {
         public string Name;
@@ -16,6 +18,7 @@ namespace GenBall.Player
         public static int GetHashCode(string name)=>new TypeNamePair(typeof(InputEventArgs<T>),name).GetHashCode();
     }
 
+    [Obsolete]
     public class InputEventArgs : GameEventArgs
     {
         public override int Id=>GetHashCode(Name);

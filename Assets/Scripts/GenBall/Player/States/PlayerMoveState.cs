@@ -7,6 +7,7 @@ using Yueyn.Fsm;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public class PlayerMoveState : PlayerStateBase
     {
         private float _speed;

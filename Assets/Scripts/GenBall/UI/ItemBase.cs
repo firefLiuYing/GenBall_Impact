@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GenBall.Utils.CodeGenerator.UI;
 using JetBrains.Annotations;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 namespace GenBall.UI
 {
+    [Obsolete]
     public abstract class ItemBase:MonoBehaviour,IBindable
     {
         private readonly List<ItemBase> _childrenItems = new();

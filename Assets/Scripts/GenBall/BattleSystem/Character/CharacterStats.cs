@@ -4,6 +4,7 @@ using Yueyn.Base.ReferencePool;
 
 namespace GenBall.BattleSystem.Character
 {
+    [Obsolete]
     public class CharacterStats:IReference
     {
         public IntStat MaxHealth;
@@ -19,6 +20,7 @@ namespace GenBall.BattleSystem.Character
         }
     }
 
+    [Obsolete]
     [Serializable]
     public struct CharacterStatsModel
     {

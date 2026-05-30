@@ -1,9 +1,11 @@
+using System;
 using GenBall.Event.Generated;
 using GenBall.Player;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
 {
+    [Obsolete]
     public class NormalReloadController : MonoBehaviour,IWeaponReloadController
     {
         [SerializeField] private int baseCapacity;

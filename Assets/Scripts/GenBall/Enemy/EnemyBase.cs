@@ -14,6 +14,7 @@ using Object = UnityEngine.Object;
 
 namespace GenBall.Enemy
 {
+    [Obsolete]
     public abstract class EnemyBase : MonoBehaviour,IEnemy,IAttacker,IEntityFrameUpdate,IEntityLogicUpdate
     {
         private readonly List<Module> _moduleMap = new();

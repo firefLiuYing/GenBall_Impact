@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace GenBall.UI
 {
+    [Obsolete]
     public interface IUserInterface
     {
         public void Init(object args=null);

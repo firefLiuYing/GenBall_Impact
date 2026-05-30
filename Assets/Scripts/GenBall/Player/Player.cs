@@ -12,6 +12,7 @@ using Yueyn.Main;
 
 namespace GenBall.Player
 {
+    [Obsolete]
     public partial class Player:MonoBehaviour,IEntityFrameUpdate,IEntityLogicUpdate
     {
         [SerializeField]private Transform mainCameraTransform;

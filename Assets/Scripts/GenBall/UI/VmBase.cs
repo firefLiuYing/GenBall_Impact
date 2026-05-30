@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Yueyn.Base.ReferencePool;
 using Yueyn.Base.Variable;
 
 namespace GenBall.UI
 {
+    [Obsolete]
     public abstract class VmBase:IReference
     {
         private readonly List<Variable> _variables = new();

@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 namespace GenBall.BattleSystem.Weapons
 {
     public abstract class WeaponComponentBase : MonoBehaviour, IWeaponComponent
     {
+        [Obsolete]
         public IWeapon Owner { get;private set; }
         public void Equip(IWeapon owner)
         {

@@ -7,6 +7,7 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Weapons
 {
+    [Obsolete]
     [RequireComponent(typeof(NormalReloadController))]
     public class NormalTriggerController : MonoBehaviour, IWeaponTriggerController
     {

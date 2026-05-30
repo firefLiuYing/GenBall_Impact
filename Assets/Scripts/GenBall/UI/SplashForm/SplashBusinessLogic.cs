@@ -42,7 +42,7 @@ namespace GenBall.UI
 
         private void OnSplashComplete()
         {
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.SplashForm_CloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_CloseRequest);
         }
 
         private void OnStartFormBegin()
@@ -55,7 +55,7 @@ namespace GenBall.UI
         private void OnGameLaunch()
         {
             // 关闭主菜单
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.StartForm_CloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.StartForm_CloseRequest);
 
             // 重新打开 SplashForm 作为加载画面
             CloseExistingLogic(_splashFormLogicId);
@@ -65,12 +65,12 @@ namespace GenBall.UI
 
         private void OnLoadingProgress(float progress)
         {
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.SplashForm_ProgressUpdate, progress);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_ProgressUpdate, progress);
         }
 
         private void OnLoadingComplete()
         {
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow(UIEventKey.SplashForm_CloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_CloseRequest);
         }
 
         private static void CloseExistingLogic(int logicId)

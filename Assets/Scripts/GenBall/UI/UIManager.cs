@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace GenBall.UI
 {
+    [Obsolete]
     public partial class UIManager : MonoBehaviour,IComponent
     {
         public int Priority => 1000;
