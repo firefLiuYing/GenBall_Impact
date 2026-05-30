@@ -87,7 +87,7 @@ namespace GenBall.Player.Executor.Tests
             _config.shortPressJustifyTime = 0.25f;
             _config.speed = 5f;
 
-            _executor = new PlayerJumpExecutor(_rigidbody, _mover, _config, _groundDetect);
+            _executor = new PlayerJumpExecutor(_mover, _config, _groundDetect);
         }
 
         [TearDown]
@@ -106,30 +106,30 @@ namespace GenBall.Player.Executor.Tests
         [Test]
         public void Jump_SetsIsJumpingAndAppliesInitialVelocity()
         {
-            _executor.Jump(new JumpCommand(Vector3.up * 8f));
+            _executor.Jump(new JumpCommand());
 
             Assert.That(_executor.IsJumping, Is.True);
-            Assert.That(_rigidbody.velocity.y, Is.EqualTo(8f).Within(0.001f));
+            Assert.That(_mover.Velocity.y, Is.EqualTo(8f).Within(0.001f));
         }
 
         [Test]
         public void LogicUpdate_AppliesPressedAcceleration_WhenHolding()
         {
-            _executor.Jump(new JumpCommand(Vector3.up * 8f));
-            float velocityBefore = _rigidbody.velocity.y;
+            _executor.Jump(new JumpCommand());
+            float velocityBefore = _mover.Velocity.y;
 
             SetPrivateProperty(_inputHandler, "IsJumpPressed", true);
             SetPrivateProperty(_inputHandler, "JumpHoldTime", 0.3f);
 
             _executor.LogicUpdate(0.016f);
 
-            Assert.That(_rigidbody.velocity.y, Is.Not.EqualTo(velocityBefore));
+            Assert.That(_mover.Velocity.y, Is.Not.EqualTo(velocityBefore));
         }
 
         [Test]
         public void LogicUpdate_StopsJumping_WhenHoldTimeExceedsMax()
         {
-            _executor.Jump(new JumpCommand(Vector3.up * 8f));
+            _executor.Jump(new JumpCommand());
             Assert.That(_executor.IsJumping, Is.True);
 
             // PlayerJumpExecutor uses Time.time - _jumpStartTime, not InputHandler.
@@ -141,19 +141,19 @@ namespace GenBall.Player.Executor.Tests
             // Player is airborne — landing would stop the jump, so keep IsOnGround=false
             _groundDetect.IsOnGround = false;
 
-            float velocityBefore = _rigidbody.velocity.y;
+            float velocityBefore = _mover.Velocity.y;
             _executor.LogicUpdate(0.016f);
 
             // Jump does NOT stop when hold time exceeds max — it only changes
             // acceleration from hold to release. Phase stays Holding until landing.
             Assert.That(_executor.IsJumping, Is.True);
-            Assert.That(_rigidbody.velocity.y, Is.Not.EqualTo(velocityBefore));
+            Assert.That(_mover.Velocity.y, Is.Not.EqualTo(velocityBefore));
         }
 
         [Test]
         public void LogicUpdate_StopsJumping_WhenLanded()
         {
-            _executor.Jump(new JumpCommand(Vector3.up * 8f));
+            _executor.Jump(new JumpCommand());
             Assert.That(_executor.IsJumping, Is.True);
 
             // Backdate _jumpStartTime so elapsed > 0.1f (minimum air time)
@@ -171,7 +171,7 @@ namespace GenBall.Player.Executor.Tests
         [Test]
         public void OnComplete_ZerosVerticalVelocity()
         {
-            _executor.Jump(new JumpCommand(Vector3.up * 8f));
+            _executor.Jump(new JumpCommand());
 
             // Trigger landing: backdate _jumpStartTime past 0.1s minimum, set on ground
             var startTimeField = typeof(PlayerJumpExecutor).GetField("_jumpStartTime",
@@ -182,7 +182,7 @@ namespace GenBall.Player.Executor.Tests
             _executor.LogicUpdate(0.016f);
 
             Assert.That(_executor.IsJumping, Is.False);
-            Assert.That(_rigidbody.velocity.y, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(_mover.Velocity.y, Is.EqualTo(0f).Within(0.001f));
         }
 
         [Test]
@@ -225,6 +225,7 @@ namespace GenBall.Player.Executor.Tests
         private Rigidbody _rigidbody;
         private RigidbodyMover _mover;
         private PlayerConfig _config;
+        private PlayerJumpExecutor _jumpExecutor;
         private PlayerDashExecutor _executor;
 
         private const float InvincibleTime = 0.15f;
@@ -250,8 +251,11 @@ namespace GenBall.Player.Executor.Tests
             _config.endingTime = EndingTime;
             _config.dashSpeed = DashSpeed;
 
+            var groundDetect = new MockCharacterGroundDetect { IsOnGround = false };
+            _jumpExecutor = new PlayerJumpExecutor(_mover, _config, groundDetect);
+
             var entity = _gameObject.AddComponent<BattleEntity>();
-            _executor = new PlayerDashExecutor(_rigidbody, _mover, _config, entity);
+            _executor = new PlayerDashExecutor(_mover, _config, entity, _jumpExecutor);
         }
 
         [TearDown]
@@ -274,8 +278,8 @@ namespace GenBall.Player.Executor.Tests
             _executor.Dash(cmd);
 
             Assert.That(_executor.IsDashing, Is.True);
-            Assert.That(_rigidbody.velocity.z, Is.EqualTo(DashSpeed).Within(0.001f));
-            Assert.That(_rigidbody.velocity.x, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(_mover.Velocity.z, Is.EqualTo(DashSpeed).Within(0.001f));
+            Assert.That(_mover.Velocity.x, Is.EqualTo(0f).Within(0.001f));
         }
 
         [Test]
@@ -284,14 +288,14 @@ namespace GenBall.Player.Executor.Tests
             _executor.Dash(new DashCommand(Vector3.forward, DashSpeed));
 
             // Dash uses RigidbodyMover which handles pause — velocity set directly
-            Assert.That(_rigidbody.velocity.z, Is.EqualTo(DashSpeed).Within(0.001f));
+            Assert.That(_mover.Velocity.z, Is.EqualTo(DashSpeed).Within(0.001f));
         }
 
         [Test]
         public void LogicUpdate_MaintainsVelocity_DuringInvincibleTime()
         {
             _executor.Dash(new DashCommand(Vector3.right, DashSpeed));
-            float velBefore = _rigidbody.velocity.magnitude;
+            float velBefore = _mover.Velocity.magnitude;
 
             // LogicUpdate during invincible phase (elapsed < invincibleTime)
             // Since dash was just started, Time.time - _dashStartTime ≈ 0
@@ -299,7 +303,7 @@ namespace GenBall.Player.Executor.Tests
 
             Assert.That(_executor.IsDashing, Is.True);
             // Velocity should be maintained (re-set to direction * speed)
-            Assert.That(_rigidbody.velocity.magnitude, Is.EqualTo(DashSpeed).Within(0.001f));
+            Assert.That(_mover.Velocity.magnitude, Is.EqualTo(DashSpeed).Within(0.001f));
         }
 
         [Test]
@@ -318,7 +322,7 @@ namespace GenBall.Player.Executor.Tests
             _executor.LogicUpdate(0.016f);
 
             Assert.That(_executor.IsDashing, Is.False);
-            Assert.That(_rigidbody.velocity.y, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(_mover.Velocity.y, Is.EqualTo(0f).Within(0.001f));
         }
 
         [Test]

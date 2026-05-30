@@ -23,7 +23,6 @@ namespace GenBall.Player
 
             // 2. Find MonoBehaviours on playerInstance
             var mover = playerInstance.GetComponent<RigidbodyMover>();
-            var rigidbody = mover.GetComponent<Rigidbody>();
             var playerMoveExecutor = new PlayerMoveExecutor();
             playerMoveExecutor.Init(mover, config.speed);
             var inputHandler = playerInstance.GetComponentInChildren<InputHandler>();
@@ -56,12 +55,13 @@ namespace GenBall.Player
             var dispatcher = new CommandDispatcherComponent();
 
             // 6. Create executors
-            // Jump executor — no longer depends on InputHandler
-            var jumpExecutor = new PlayerJumpExecutor(rigidbody, mover, config, groundDetect);
-            var dashExecutor = new PlayerDashExecutor(rigidbody, mover, config, entity);
+            // Jump executor — provides extra force beyond gravity during jump
+            var jumpExecutor = new PlayerJumpExecutor(mover, config, groundDetect);
+            // Dash executor — cancels jump on activation; registered LAST to overwrite all other velocity
+            var dashExecutor = new PlayerDashExecutor(mover, config, entity, jumpExecutor);
 
-            // Gravity executor — uses RigidbodyMover for pause-safe velocity writes
-            var gravityExecutor = new PlayerGravityExecutor(rigidbody, mover, groundDetect, config);
+            // Gravity executor — checks dispatcher for BlocksGravity (e.g., dash)
+            var gravityExecutor = new PlayerGravityExecutor(mover, groundDetect, config, dispatcher);
 
             // Interact executor
             var camera = firstPersonCamera;
@@ -91,16 +91,18 @@ namespace GenBall.Player
             // 9.5. Create HitReactionComponent
             var hitReaction = new HitReactionComponent(dispatcher, eventDispatcher, stunDuration: 0.3f);
 
-            // 10. Register everything on BattleEntity
+            // 10. Register everything on BattleEntity.
+            // Order no longer matters for velocity correctness — blocking is declarative
+            // (IArbitratedCommand.BlocksMove/BlocksRotate/BlocksGravity).
             entity.RegisterComponent(eventDispatcher);
             entity.RegisterComponent(stats);
             entity.RegisterComponent(damageReceiver);
             entity.RegisterComponent(buffContainer);
             entity.RegisterComponent(attackComp);
             entity.RegisterComponent(dispatcher);
+            entity.RegisterComponent(gravityExecutor);
             entity.RegisterComponent(jumpExecutor);
             entity.RegisterComponent(dashExecutor);
-            entity.RegisterComponent(gravityExecutor);
             entity.RegisterComponent(interactExecutor);
             entity.RegisterComponent(decisionLayer);
             entity.RegisterComponent(deathComponent);

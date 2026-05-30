@@ -223,7 +223,6 @@ namespace GenBall.BattleSystem.Framework.Tests
             _input.SimulateJump(ButtonState.Down);
 
             Assert.That(_jump.CallCount, Is.EqualTo(1));
-            Assert.That(_jump.LastCommand.Velocity.y, Is.EqualTo(8f));
             Assert.That(_jump.LastCommand.Phase, Is.EqualTo(JumpPhase.Start));
         }
 
@@ -395,8 +394,8 @@ namespace GenBall.BattleSystem.Framework.Tests
             // Then continuous inputs polled
             _playerDecision.MakeDecision(0.016f);
 
-            Assert.That(_move.CallCount, Is.EqualTo(1));
-            // Rotate is blocked when an action (Dash) is active
+            Assert.That(_move.CallCount, Is.EqualTo(0));
+            // Dash active: blocks both Move and Rotate
             Assert.That(_rotate.CallCount, Is.EqualTo(0));
             Assert.That(_jump.CallCount, Is.EqualTo(1));
             Assert.That(_dash.CallCount, Is.EqualTo(1));

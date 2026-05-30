@@ -12,6 +12,8 @@ namespace GenBall.BattleSystem.Command
         public int InterruptPriority => 5;
         public int AntiInterruptPriority => 5;
         public bool Bufferable => false;
+        public bool BlocksRotate => true;
+        public bool BlocksGravity => true;
 
         public DashCommand(Vector3 direction, float speed)
         {

@@ -6,11 +6,23 @@ using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Mover
 {
+    /// <summary>
+    /// Single source of truth for Rigidbody velocity.
+    /// All movement executors read Velocity and write via SetVelocity().
+    /// SetVelocity immediately updates both the cached Velocity and Rigidbody.velocity,
+    /// so reads within the same frame are always consistent.
+    /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public class RigidbodyMover : MonoBehaviour
     {
         private Rigidbody _rigidbody;
         private bool _isPhysicsPaused;
+
+        /// <summary>
+        /// Current velocity. Always up-to-date — reads the value set by the last
+        /// SetVelocity call (or the Rigidbody initial velocity before any calls).
+        /// </summary>
+        public Vector3 Velocity { get; private set; }
 
         private Rigidbody Rigidbody
         {
@@ -28,6 +40,7 @@ namespace GenBall.BattleSystem.Mover
         public void SetVelocity(Vector3 velocity)
         {
             if (_isPhysicsPaused) return;
+            Velocity = velocity;
             Rigidbody.velocity = velocity;
         }
 
@@ -81,6 +94,7 @@ namespace GenBall.BattleSystem.Mover
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            Velocity = _rigidbody.velocity;
         }
 
         private void OnEnable()

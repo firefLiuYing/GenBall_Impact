@@ -6,13 +6,12 @@ namespace GenBall.Player.Executor
 {
     /// <summary>
     /// Execute layer: handles horizontal movement (XZ) from MoveCommand.
-    /// Only touches XZ velocity — Y is managed by Jump and Gravity executors via Rigidbody directly.
-    /// All velocity writes go through RigidbodyMover (which intercepts pause/stop).
+    /// Only touches XZ velocity — Y is managed by Jump and Gravity executors.
+    /// All velocity reads/writes go through RigidbodyMover.
     /// </summary>
     public class PlayerMoveExecutor : IMove
     {
         private RigidbodyMover _mover;
-        private Rigidbody _rigidbody;
         private float _speed;
 
         private MoveCommand _cachedCommand;
@@ -23,7 +22,6 @@ namespace GenBall.Player.Executor
         public void Init(RigidbodyMover mover, float speed)
         {
             _mover = mover;
-            _rigidbody = _mover.GetComponent<Rigidbody>();
             _speed = speed;
         }
 
@@ -40,7 +38,7 @@ namespace GenBall.Player.Executor
             }
 
             // Preserve current Y (managed by jump/gravity executors)
-            Vector3 velocity = _rigidbody.velocity;
+            Vector3 velocity = _mover.Velocity;
 
             if (!_commandConsumed)
             {

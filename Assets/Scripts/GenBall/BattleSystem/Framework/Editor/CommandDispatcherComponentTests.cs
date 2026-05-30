@@ -40,6 +40,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         public int CallCount;
         public bool IsJumping { get; set; }
         public void Jump(JumpCommand command) { LastCommand = command; CallCount++; IsJumping = true; }
+        public void Cancel() { IsJumping = false; }
     }
 
     public class MockDash : IDash
@@ -175,11 +176,11 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void Issue_JumpCommand_RoutesToJumpExecutor()
         {
-            var cmd = new JumpCommand(new Vector3(0, 5, 0));
+            var cmd = new JumpCommand();
             _dispatcher.Issue(cmd);
 
             Assert.That(_mockJump.CallCount, Is.EqualTo(1));
-            Assert.That(_mockJump.LastCommand.Velocity.y, Is.EqualTo(5f));
+            Assert.That(_mockJump.LastCommand.Phase, Is.EqualTo(JumpPhase.Start));
         }
 
         [Test]
@@ -217,26 +218,27 @@ namespace GenBall.BattleSystem.Framework.Tests
         // ================================================================
 
         [Test]
-        public void MoveCommand_Zeroed_WhenActionActive()
+        public void MoveCommand_Blocked_WhenActionActive()
         {
             _mockAttack.IsAttacking = true;
             _dispatcher.Issue(new AttackCommand(1));
 
             _dispatcher.Issue(new MoveCommand(new Vector3(1, 0, 0)));
 
-            Assert.That(_mockMove.CallCount, Is.EqualTo(1));
-            Assert.That(_mockMove.LastCommand.Velocity, Is.EqualTo(Vector3.zero));
+            // Attack blocks Move (BlocksMove=true by default)
+            Assert.That(_mockMove.CallCount, Is.EqualTo(0));
         }
 
         [Test]
-        public void RotateCommand_Blocked_WhenActionActive()
+        public void RotateCommand_Allowed_WhenActionActive()
         {
             _mockAttack.IsAttacking = true;
             _dispatcher.Issue(new AttackCommand(1));
 
             _dispatcher.Issue(new RotateCommand(1f, 0f));
 
-            Assert.That(_mockRotate.CallCount, Is.EqualTo(0));
+            // Rotation is always allowed — player can look around during any action.
+            Assert.That(_mockRotate.CallCount, Is.EqualTo(1));
         }
 
         [Test]
@@ -297,7 +299,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         {
             _dispatcher.Issue(new AttackCommand(1)); // Interrupt=2, Anti=2
 
-            _dispatcher.Issue(new JumpCommand(default)); // Interrupt=3 >= Anti=2
+            _dispatcher.Issue(new JumpCommand()); // Interrupt=3 >= Anti=2
 
             Assert.That(_mockJump.CallCount, Is.EqualTo(1));
             Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());
@@ -306,7 +308,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void ActionCommand_Buffered_WhenLowerPriority()
         {
-            _dispatcher.Issue(new JumpCommand(default)); // Interrupt=3, Anti=3
+            _dispatcher.Issue(new JumpCommand()); // Interrupt=3, Anti=3
 
             _dispatcher.Issue(new AttackCommand(1)); // Interrupt=2 < Anti=3
 
@@ -329,7 +331,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void DashCommand_InterruptsEverything()
         {
-            _dispatcher.Issue(new JumpCommand(default)); // Anti=3
+            _dispatcher.Issue(new JumpCommand()); // Anti=3
 
             _dispatcher.Issue(new DashCommand(Vector3.forward, 10f)); // Interrupt=5 >= 3
 
@@ -342,7 +344,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         {
             _dispatcher.Issue(new DashCommand(Vector3.forward, 10f)); // Anti=5
 
-            _dispatcher.Issue(new JumpCommand(default)); // Interrupt=3 < 5
+            _dispatcher.Issue(new JumpCommand()); // Interrupt=3 < 5
 
             Assert.That(_mockJump.CallCount, Is.EqualTo(0));
             Assert.That(_dispatcher.BufferedCount, Is.EqualTo(1));
@@ -352,7 +354,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void NonBufferableCommand_Dropped()
         {
-            _dispatcher.Issue(new JumpCommand(default)); // Anti=3, active
+            _dispatcher.Issue(new JumpCommand()); // Anti=3, active
 
             _dispatcher.Issue(new DashCommand(Vector3.forward, 10f)); // Interrupt=5 >= 3 → interrupts
             // Now Dash is active (Anti=5)
@@ -370,7 +372,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         {
             _dispatcher.Issue(new AttackCommand(2, interruptPriority: 3, antiInterruptPriority: 4)); // Heavy: Anti=4
 
-            _dispatcher.Issue(new JumpCommand(default)); // Interrupt=3 < 4
+            _dispatcher.Issue(new JumpCommand()); // Interrupt=3 < 4
 
             Assert.That(_mockJump.CallCount, Is.EqualTo(0));
             Assert.That(_dispatcher.BufferedCount, Is.EqualTo(1));
@@ -383,7 +385,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void Buffer_Drains_AfterActiveActionCompletes()
         {
-            _dispatcher.Issue(new JumpCommand(default)); // Active: Jump (Anti=3)
+            _dispatcher.Issue(new JumpCommand()); // Active: Jump (Anti=3)
             _dispatcher.Issue(new AttackCommand(1));      // Buffered
 
             // Jump completes
@@ -398,7 +400,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void Buffer_MultipleCommands_FifoOrder()
         {
-            _dispatcher.Issue(new JumpCommand(default));   // Active
+            _dispatcher.Issue(new JumpCommand());   // Active
             _dispatcher.Issue(new AttackCommand(1));       // Buffered #1
             _dispatcher.Issue(new AttackCommand(2, interruptPriority: 2, antiInterruptPriority: 2)); // Buffered #2
 
@@ -412,7 +414,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void Buffer_OnlyActivatesOnePerDrain()
         {
-            _dispatcher.Issue(new JumpCommand(default));   // Active
+            _dispatcher.Issue(new JumpCommand());   // Active
             _dispatcher.Issue(new AttackCommand(1));       // Buffered
             _dispatcher.Issue(new AttackCommand(2));       // Buffered
 
@@ -427,7 +429,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void Buffer_ExpiredCommands_DiscardedOnDrain()
         {
-            _dispatcher.Issue(new JumpCommand(default)); // Active
+            _dispatcher.Issue(new JumpCommand()); // Active
             _dispatcher.Issue(new AttackCommand(1));     // Buffered
 
             // Simulate time passing beyond buffer window
@@ -448,7 +450,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void Buffer_ClearedByExplicitCall()
         {
-            _dispatcher.Issue(new JumpCommand(default)); // Active
+            _dispatcher.Issue(new JumpCommand()); // Active
             _dispatcher.Issue(new AttackCommand(1));     // Buffered
             _dispatcher.Issue(new AttackCommand(2));     // Buffered
 
@@ -486,7 +488,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void LogicUpdate_ClearsActive_WhenJumpCompletes()
         {
-            _dispatcher.Issue(new JumpCommand(default));
+            _dispatcher.Issue(new JumpCommand());
             _mockJump.IsJumping = false;
 
             _dispatcher.LogicUpdate(0.016f);
@@ -537,7 +539,7 @@ namespace GenBall.BattleSystem.Framework.Tests
             var jump = new MockJump();
             dispatcher.RegisterExecutor<JumpCommand>(jump);
 
-            dispatcher.Issue(new JumpCommand(default));
+            dispatcher.Issue(new JumpCommand());
             Assert.That(dispatcher.HasActiveAction, Is.True);
 
             jump.IsJumping = false;
@@ -646,7 +648,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void JumpCommand_FixedPriorities_AreThree()
         {
-            var cmd = new JumpCommand(default);
+            var cmd = new JumpCommand();
 
             Assert.That(cmd.InterruptPriority, Is.EqualTo(3));
             Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(3));
@@ -689,15 +691,15 @@ namespace GenBall.BattleSystem.Framework.Tests
         }
 
         [Test]
-        public void MoveCommand_Zeroed_WhenActionActive_RetainsPriority()
+        public void MoveCommand_Blocked_WhenActionActive_WithPriority()
         {
             _mockAttack.IsAttacking = true;
             _dispatcher.Issue(new AttackCommand(1));
 
             _dispatcher.Issue(new MoveCommand(new Vector3(1, 0, 0), priority: 10));
 
-            Assert.That(_mockMove.LastCommand.Velocity, Is.EqualTo(Vector3.zero));
-            Assert.That(_mockMove.LastCommand.Priority, Is.EqualTo(10));
+            // Move is blocked when action is active (BlocksMove=true by default)
+            Assert.That(_mockMove.CallCount, Is.EqualTo(0));
         }
 
         [Test]
@@ -727,7 +729,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void JumpCommand_Start_HasDefaultPriorities()
         {
-            var cmd = new JumpCommand(new Vector3(0, 5, 0), JumpPhase.Start);
+            var cmd = new JumpCommand(JumpPhase.Start);
 
             Assert.That(cmd.InterruptPriority, Is.EqualTo(3));
             Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(3));
@@ -737,7 +739,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void JumpCommand_Cancel_HasMaxPriority()
         {
-            var cmd = new JumpCommand(default, JumpPhase.Cancel);
+            var cmd = new JumpCommand(JumpPhase.Cancel);
 
             Assert.That(cmd.InterruptPriority, Is.EqualTo(int.MaxValue));
             Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(int.MaxValue));
@@ -747,7 +749,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         [Test]
         public void JumpCommand_DefaultConstructor_UsesStartPhase()
         {
-            var cmd = new JumpCommand(new Vector3(0, 8, 0));
+            var cmd = new JumpCommand();
 
             Assert.That(cmd.Phase, Is.EqualTo(JumpPhase.Start));
             Assert.That(cmd.InterruptPriority, Is.EqualTo(3));
@@ -758,7 +760,7 @@ namespace GenBall.BattleSystem.Framework.Tests
         public void JumpCancel_AlwaysInterrupts_ActiveAction()
         {
             // Start a jump
-            _dispatcher.Issue(new JumpCommand(new Vector3(0, 8, 0), JumpPhase.Start));
+            _dispatcher.Issue(new JumpCommand(JumpPhase.Start));
             Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());
 
             // Dash has AntiInterrupt=5, but Cancel has int.MaxValue Interrupt priority
@@ -766,7 +768,7 @@ namespace GenBall.BattleSystem.Framework.Tests
             Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<DashCommand>());
 
             // Cancel should interrupt anything
-            _dispatcher.Issue(new JumpCommand(default, JumpPhase.Cancel));
+            _dispatcher.Issue(new JumpCommand(JumpPhase.Cancel));
 
             // The cancel should be the active command
             Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());

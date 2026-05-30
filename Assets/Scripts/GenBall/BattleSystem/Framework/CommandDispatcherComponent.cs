@@ -130,15 +130,17 @@ namespace GenBall.BattleSystem.Framework
             if (!_executors.TryGetValue(typeof(MoveCommand), out var executor) || executor is not IMove move)
                 return;
 
-            if (_activeCommand != null)
-                cmd = new MoveCommand(Vector3.zero, priority: cmd.Priority);
+            // Action declares whether it blocks movement
+            if (_activeCommand is { BlocksMove: true })
+                return;
 
             move.Move(cmd);
         }
 
         private void RouteRotate(RotateCommand cmd)
         {
-            if (_activeCommand != null)
+            // Action declares whether it blocks rotation
+            if (_activeCommand is { BlocksRotate: true })
                 return;
 
             if (_executors.TryGetValue(typeof(RotateCommand), out var executor) && executor is IRotate rotate)
@@ -284,6 +286,7 @@ namespace GenBall.BattleSystem.Framework
 
         public bool HasActiveAction => _activeCommand != null;
         public IArbitratedCommand ActiveCommand => _activeCommand;
+        public Type ActiveCommandType => _activeCommandType;
         public int BufferedCount => _buffer.Count;
         public int ExecutorCount => _executors.Count;
 

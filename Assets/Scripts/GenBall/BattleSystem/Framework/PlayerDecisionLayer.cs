@@ -23,7 +23,6 @@ namespace GenBall.BattleSystem.Framework
 
         private const float DashCooldown = 0.5f;
         private const float DashSpeed = 10f;
-        private const float JumpSpeed = 8f;
         private float _dashCooldownTimer;
 
         public CommandDispatcherComponent Dispatcher { get; set; }
@@ -88,14 +87,13 @@ namespace GenBall.BattleSystem.Framework
                 case ButtonState.Down:
                     if (IsOnGround())
                     {
-                        _dispatcher.Issue(new JumpCommand(
-                            Vector3.up * JumpSpeed, JumpPhase.Start));
+                        _dispatcher.Issue(new JumpCommand(JumpPhase.Start));
                     }
                     break;
 
                 case ButtonState.Up:
                     // Issue cancel to cut jump short (variable height)
-                    _dispatcher.Issue(new JumpCommand(default, JumpPhase.Cancel));
+                    _dispatcher.Issue(new JumpCommand(JumpPhase.Cancel));
                     break;
             }
         }

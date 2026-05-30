@@ -1,4 +1,6 @@
 using GenBall.BattleSystem.Character;
+using GenBall.BattleSystem.Command;
+using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
 using GenBall.Framework.Entity;
 using UnityEngine;
@@ -6,66 +8,56 @@ using UnityEngine;
 namespace GenBall.Player.Executor
 {
     /// <summary>
-    /// Execute layer: applies gravity and enforces ground constraint.
-    /// All velocity writes go through RigidbodyMover for pause safety.
+    /// Execute layer: always applies gravity and enforces ground constraint.
+    /// Skips when the active action declares <see cref="IArbitratedCommand.BlocksGravity"/>.
+    /// All velocity reads/writes go through RigidbodyMover.
     /// </summary>
     public class PlayerGravityExecutor : IEntityLogicUpdate
     {
-        private readonly Rigidbody _rigidbody;
         private readonly RigidbodyMover _mover;
         private readonly ICharacterGroundDetect _groundDetect;
         private readonly PlayerConfig _config;
+        private readonly CommandDispatcherComponent _dispatcher;
 
-        private float _gravityAccelerationRising;
-        private float _gravityAccelerationFalling;
+        private float _gravityAcceleration;
         private float _lastGroundedTime = -100f;
 
         public bool IsOnGround { get; private set; }
         public bool CanJump => Time.time - _lastGroundedTime <= _config.coyoteTime;
 
-        public PlayerGravityExecutor(Rigidbody rigidbody, RigidbodyMover mover,
-            ICharacterGroundDetect groundDetect, PlayerConfig config)
+        public PlayerGravityExecutor(RigidbodyMover mover,
+            ICharacterGroundDetect groundDetect, PlayerConfig config,
+            CommandDispatcherComponent dispatcher)
         {
-            _rigidbody = rigidbody;
             _mover = mover;
             _groundDetect = groundDetect;
             _config = config;
+            _dispatcher = dispatcher;
 
-            InitPhysics();
-        }
-
-        private void InitPhysics()
-        {
-            var initialVelocity = 2 * _config.longPressJumpMaxHeight / _config.longPressMaxTime;
-            var pressedAcceleration = initialVelocity / _config.longPressMaxTime;
-
-            float shortPressPeriodHeight = initialVelocity * _config.shortPressJustifyTime
-                - pressedAcceleration * _config.shortPressJustifyTime * _config.shortPressJustifyTime / 2;
-            float remainHeight = _config.shortPressJumpHeight - shortPressPeriodHeight;
-            float remainTime = 2 * remainHeight / (initialVelocity - _config.shortPressJustifyTime * pressedAcceleration);
-
-            _gravityAccelerationRising = -(initialVelocity - _config.shortPressJustifyTime * pressedAcceleration) / remainTime;
-            _gravityAccelerationFalling = -_config.gravityAcceleration;
+            _gravityAcceleration = -config.gravityAcceleration;
         }
 
         public void LogicUpdate(float deltaTime)
         {
+            // Active action declares whether gravity should be blocked (e.g., dash)
+            if (_dispatcher.ActiveCommand is { BlocksGravity: true })
+                return;
+
             IsOnGround = _groundDetect?.IsOnGround ?? false;
 
-            var velocity = _rigidbody.velocity;
+            var velocity = _mover.Velocity;
 
             if (IsOnGround)
             {
                 _lastGroundedTime = Time.time;
-                velocity.y = 0;
-            }
-            else if (velocity.y > 0)
-            {
-                velocity.y += _gravityAccelerationRising * deltaTime;
+                // Only cushion downward velocity on landing.
+                // Don't zero upward velocity — jump may have just started.
+                if (velocity.y < 0)
+                    velocity.y = 0;
             }
             else
             {
-                velocity.y += _gravityAccelerationFalling * deltaTime;
+                velocity.y += _gravityAcceleration * deltaTime;
             }
 
             velocity.y = Mathf.Max(-_config.maxDropVelocity, velocity.y);
