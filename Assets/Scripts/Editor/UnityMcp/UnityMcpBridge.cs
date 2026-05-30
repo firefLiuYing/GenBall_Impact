@@ -62,6 +62,36 @@ namespace Yueyn.Editor.UnityMcp
         {
             if (_isRunning) return;
 
+            // Clean up any stale listener reference from this domain
+            if (_listener != null)
+            {
+                try { _listener.Stop(); }
+                catch { /* ignore */ }
+                _listener = null;
+            }
+
+            // After domain reload, the old AppDomain's background thread may still
+            // hold port 9876 in a blocking Accept. Connect to it briefly to unblock
+            // the old thread, causing it to crash (its user-code methods are gone)
+            // and release the port.
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    using (var knock = new TcpClient("127.0.0.1", Port))
+                    {
+                        // Connected — old thread's AcceptTcpClient returned, and it
+                        // will crash when trying to call ReceiveLoop (unloaded assembly).
+                    }
+                }
+                catch
+                {
+                    // Port is not connectable → old listener is already gone
+                    break;
+                }
+                Thread.Sleep(500);
+            }
+
             _cts = new CancellationTokenSource();
 
             var acceptThread = new Thread(AcceptLoop)
@@ -74,88 +104,133 @@ namespace Yueyn.Editor.UnityMcp
 
         private static void AcceptLoop()
         {
-            try
+            TcpListener listener = null;
+
+            // Retry binding — stale socket may take a moment to release
+            for (int retry = 0; retry < 5; retry++)
             {
-                _listener = new TcpListener(IPAddress.Loopback, Port);
-                _listener.Start();
-                _isRunning = true;
-                Debug.Log($"[UnityMcp] Listening on port {Port}");
+                try
+                {
+                    listener = new TcpListener(IPAddress.Loopback, Port);
+                    listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    listener.Start();
+                    _listener = listener;
+                    _isRunning = true;
+                    Debug.Log($"[UnityMcp] Listening on port {Port}");
+                    break;
+                }
+                catch (SocketException ex)
+                {
+                    Debug.LogWarning($"[UnityMcp] Bind attempt {retry + 1}/5: {ex.Message}");
+                    try { listener?.Server?.Close(); } catch { }
+                    listener = null;
+                    if (retry < 4)
+                    {
+                        // Try to knock the old listener and wait for port release
+                        try { using (var _ = new TcpClient("127.0.0.1", Port)) { } } catch { }
+                        Thread.Sleep(1000);
+                    }
+                }
             }
-            catch (SocketException ex)
+
+            if (listener == null)
             {
-                Debug.LogError($"[UnityMcp] Failed to listen on port {Port}: {ex.Message}. " +
-                    "Check if another process is using this port.");
+                Debug.LogError($"[UnityMcp] Failed to listen on port {Port} after 5 attempts.");
                 _isRunning = false;
                 return;
             }
 
-            while (_isRunning && !_cts.IsCancellationRequested)
+            try
             {
-                TcpClient newClient;
-                try
+                while (_isRunning && !_cts.IsCancellationRequested)
                 {
-                    newClient = _listener.AcceptTcpClient();
-                }
-                catch (SocketException) { break; }
-                catch (ObjectDisposedException) { break; }
-                catch (InvalidOperationException) { break; }
-
-                // Accept only one connection at a time
-                lock (ClientLock)
-                {
-                    if (_client != null)
+                    TcpClient newClient = null;
+                    try
                     {
-                        Debug.LogWarning("[UnityMcp] Rejecting new connection: already connected");
-                        newClient.Close();
-                        continue;
+                        // Non-blocking poll — avoids permanent block in native accept(),
+                        // allowing shutdown signals and domain reloads to be noticed.
+                        if (_listener.Pending())
+                            newClient = _listener.AcceptTcpClient();
                     }
-                    _client = newClient;
-                }
+                    catch (SocketException) { break; }
+                    catch (ObjectDisposedException) { break; }
+                    catch (InvalidOperationException) { break; }
 
-                // Set timeouts to detect stale connections
-                newClient.ReceiveTimeout = 60000;
-                newClient.SendTimeout = 30000;
-
-                Debug.Log("[UnityMcp] Client connected");
-
-                // Per-connection cancellation
-                using (var connCts = new CancellationTokenSource())
-                {
-                    var receiveThread = new Thread(() => ReceiveLoop(newClient, connCts.Token))
+                    if (newClient != null)
                     {
-                        IsBackground = true,
-                        Name = "UnityMcp-Receive"
-                    };
-                    var sendThread = new Thread(() => SendLoop(newClient, connCts.Token))
+                        // Accept only one connection at a time
+                        lock (ClientLock)
+                        {
+                            if (_client != null)
+                            {
+                                Debug.LogWarning("[UnityMcp] Rejecting new connection: already connected");
+                                newClient.Close();
+                                continue;
+                            }
+                            _client = newClient;
+                        }
+
+                        // Set timeouts to detect stale connections
+                        newClient.ReceiveTimeout = 60000;
+                        newClient.SendTimeout = 30000;
+
+                        Debug.Log("[UnityMcp] Client connected");
+
+                        // Per-connection cancellation
+                        using (var connCts = new CancellationTokenSource())
+                        {
+                            var receiveThread = new Thread(() => ReceiveLoop(newClient, connCts.Token))
+                            {
+                                IsBackground = true,
+                                Name = "UnityMcp-Receive"
+                            };
+                            var sendThread = new Thread(() => SendLoop(newClient, connCts.Token))
+                            {
+                                IsBackground = true,
+                                Name = "UnityMcp-Send"
+                            };
+
+                            receiveThread.Start();
+                            sendThread.Start();
+
+                            // Wait for receive to finish (means client disconnected)
+                            receiveThread.Join();
+
+                            // Signal send thread to stop
+                            connCts.Cancel();
+                            sendThread.Join(3000);
+                        }
+
+                        lock (ClientLock)
+                        {
+                            try { _client?.Close(); }
+                            catch { /* ignore */ }
+                            try { _client?.Dispose(); }
+                            catch { /* ignore */ }
+                            _client = null;
+                        }
+
+                        Debug.Log("[UnityMcp] Client disconnected");
+                    }
+                    else
                     {
-                        IsBackground = true,
-                        Name = "UnityMcp-Send"
-                    };
-
-                    receiveThread.Start();
-                    sendThread.Start();
-
-                    // Wait for receive to finish (means client disconnected)
-                    receiveThread.Join();
-
-                    // Signal send thread to stop
-                    connCts.Cancel();
-                    sendThread.Join(3000);
+                        // No pending connection — brief sleep to avoid busy-waiting
+                        Thread.Sleep(100);
+                    }
                 }
-
-                lock (ClientLock)
-                {
-                    try { _client?.Close(); }
-                    catch { /* ignore */ }
-                    try { _client?.Dispose(); }
-                    catch { /* ignore */ }
-                    _client = null;
-                }
-
-                Debug.Log("[UnityMcp] Client disconnected");
             }
-
-            _isRunning = false;
+            finally
+            {
+                // Only clean up our own listener — StartServer may have been called
+                // again (e.g. after domain reload) with a new listener already.
+                if (ReferenceEquals(_listener, listener))
+                {
+                    _isRunning = false;
+                    _listener = null;
+                }
+                try { listener.Stop(); }
+                catch { /* ignore */ }
+            }
         }
 
         // ── Receive / Send loops ──────────────────────────────────────
@@ -275,20 +350,17 @@ namespace Yueyn.Editor.UnityMcp
 
                 var responseJson = sb.ToString();
 
-                // For "compile", send the response synchronously on the main thread
-                // BEFORE triggering AssetDatabase.Refresh. Domain reload during
-                // compilation kills the TCP connection, so the background SendLoop
-                // thread may not have time to flush. Writing directly here guarantees
-                // the Python bridge receives the response and enters its polling loop.
+                // Queue the response on the background send thread first.
+                // For compile: add response, give the send thread a moment
+                // to flush, then trigger AssetDatabase.Refresh.
+                OutgoingMessages.Add(responseJson);
+
                 if (method == "compile")
                 {
-                    SendResponseSync(responseJson);
-                    // Now safe to trigger compilation — domain reload can happen
+                    // Give the background SendLoop thread time to flush before
+                    // the domain reload (triggered by AssetDatabase.Refresh) kills it.
+                    Thread.Sleep(100);
                     UnityCommandHandler.TriggerCompileRefresh();
-                }
-                else
-                {
-                    OutgoingMessages.Add(responseJson);
                 }
             }
             catch (Exception ex)

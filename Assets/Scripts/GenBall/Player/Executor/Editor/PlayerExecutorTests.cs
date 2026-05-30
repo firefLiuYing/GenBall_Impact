@@ -449,6 +449,8 @@ namespace GenBall.Player.Executor.Tests
                 BindingFlags.Public | BindingFlags.Instance);
             var onFire = (System.Action<ButtonState>)onFireField.GetValue(_inputHandler);
             onFire?.Invoke(ButtonState.Hold);
+            
+            
 
             Assert.That(received, Is.EqualTo(ButtonState.Hold));
         }

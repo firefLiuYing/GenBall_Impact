@@ -6,20 +6,38 @@ Usage:
     py compile_cli.py --timeout 60 # custom timeout
 
 Bypasses MCP entirely — connects directly to Unity's TCP server on port 9876.
+Reads Temp/UnityMcpCompileState.json directly for results across domain reloads.
 Exit code 0 = success (0 errors), 1 = errors found, 2 = connection failed.
 """
 
 import argparse
 import json
+import os
 import socket
 import sys
 import time
+from pathlib import Path
 from typing import Optional
 
 HOST = "localhost"
 PORT = 9876
-READ_TIMEOUT = 5.0
+READ_TIMEOUT = 30.0  # generous timeout — Unity main thread may be busy
 RECONNECT_DELAY = 4.0  # wait after domain reload before reconnecting
+
+# Paths relative to project root
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+STATE_FILE = PROJECT_ROOT / "Temp" / "UnityMcpCompileState.json"
+
+
+def read_state_file() -> Optional[dict]:
+    """Read the compile state file directly. Returns parsed dict or None."""
+    try:
+        if not STATE_FILE.exists():
+            return None
+        with open(STATE_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
 
 
 def send_recv(sock: socket.socket, method: str, params: Optional[dict] = None) -> dict:
@@ -76,11 +94,22 @@ def connect(quiet: bool = False) -> socket.socket:
 
 
 def safe_send_recv(sock: socket.socket, method: str, params: Optional[dict] = None):
-    """send_recv with reconnection on failure. Returns (sock, response)."""
+    """send_recv with reconnection on failure. Returns (sock, response).
+
+    Before reconnecting, checks the state file — if compilation finished during
+    the disconnection, returns the file-based result directly.
+    """
     try:
         return sock, send_recv(sock, method, params)
     except (ConnectionError, socket.timeout, json.JSONDecodeError) as e:
         print(f"  (connection lost: {e})")
+
+        # Check state file before reconnecting — compilation may have finished
+        state = read_state_file()
+        if state and state.get("state") == "done":
+            print("  (state file reports compile done)")
+            return None, {"result": build_status_from_file(state)}
+
         try:
             sock.close()
         except Exception:
@@ -89,6 +118,29 @@ def safe_send_recv(sock: socket.socket, method: str, params: Optional[dict] = No
         time.sleep(RECONNECT_DELAY)
         new_sock = connect(quiet=True)
         return new_sock, send_recv(new_sock, method, params)
+
+
+def build_status_from_file(state: dict) -> dict:
+    """Convert a state file dict to a compile_status response dict."""
+    errors = state.get("errors", [])
+    warnings = state.get("warnings", [])
+    return {
+        "isCompiling": False,
+        "compileRequested": True,
+        "compileFinished": True,
+        "errorCount": len(errors),
+        "warningCount": len(warnings),
+        "errors": errors,
+        "warnings": warnings,
+    }
+
+
+def cleanup_state(sock: socket.socket) -> None:
+    """Tell Unity to clean up the compile state file."""
+    try:
+        send_recv(sock, "cleanup_compile_state")
+    except Exception:
+        pass  # best-effort
 
 
 def main():
@@ -118,6 +170,18 @@ def main():
             while elapsed < args.timeout:
                 time.sleep(2.0)
                 elapsed += 2.0
+
+                # Check state file first
+                state = read_state_file()
+                if state and state.get("state") == "done":
+                    cs = build_status_from_file(state)
+                    if not cs.get("isCompiling") and cs.get("compileFinished"):
+                        sock, resp = safe_send_recv(sock, "compile")
+                        result = resp.get("result", {})
+                        if result.get("status") == "compilation_started":
+                            break
+                        continue
+
                 sock, resp = safe_send_recv(sock, "compile_status")
                 cs = resp.get("result", {})
                 if not cs.get("isCompiling"):
@@ -140,31 +204,48 @@ def main():
             time.sleep(1.0)
             elapsed = 1.0
             while elapsed < args.timeout:
+                # Check state file first — may have results even if TCP is down
+                state = read_state_file()
+                if state and state.get("state") == "done":
+                    cs = build_status_from_file(state)
+                    if not cs.get("isCompiling") and cs.get("compileFinished"):
+                        break  # got results from file
+
                 sock, resp = safe_send_recv(sock, "compile_status")
                 cs = resp.get("result", {})
 
                 if not cs.get("isCompiling") and cs.get("compileFinished"):
-                    error_count = cs.get("errorCount", 0)
-                    warning_count = cs.get("warningCount", 0)
-                    errors = cs.get("errors", [])
-                    warnings = cs.get("warnings", [])
-
-                    print(f"\nCompilation complete -- {error_count} errors, {warning_count} warnings\n")
-                    for e in errors:
-                        print(f"  {e.get('file','')}({e.get('line','')},{e.get('column','')}): {e.get('message','')}")
-
-                    if error_count > 0:
-                        sys.exit(1)
-                    else:
-                        print("OK")
-                        sys.exit(0)
+                    break  # got results from TCP
 
                 print(f"  Compiling... errors={cs.get('errorCount',0)} warnings={cs.get('warningCount',0)} ({elapsed:.0f}s)")
                 time.sleep(2.0)
                 elapsed += 2.0
+            else:
+                # Final check of state file on timeout
+                state = read_state_file()
+                if state and state.get("state") == "done":
+                    cs = build_status_from_file(state)
+                else:
+                    print("\nERROR: Compilation timed out")
+                    sys.exit(2)
 
-            print("\nERROR: Compilation timed out")
-            sys.exit(2)
+            error_count = cs.get("errorCount", 0)
+            warning_count = cs.get("warningCount", 0)
+            errors = cs.get("errors", [])
+            warnings = cs.get("warnings", [])
+
+            print(f"\nCompilation complete -- {error_count} errors, {warning_count} warnings\n")
+            for e in errors:
+                print(f"  {e.get('file','')}({e.get('line','')},{e.get('column','')}): {e.get('message','')}")
+
+            # Clean up state file on Unity side
+            cleanup_state(sock)
+
+            if error_count > 0:
+                sys.exit(1)
+            else:
+                print("OK")
+                sys.exit(0)
         elif status not in ("already_compiling", "compilation_started"):
             print(f"Unexpected status: {status}")
             print(json.dumps(resp, indent=2))

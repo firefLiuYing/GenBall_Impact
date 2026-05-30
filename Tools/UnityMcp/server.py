@@ -225,7 +225,11 @@ class McpServer:
             return {"status": "disconnected", "message": str(e)}
 
     async def _tool_compile(self) -> Dict:
-        """Trigger Unity script compilation and wait for result."""
+        """Trigger Unity script compilation and wait for result.
+
+        Reads Temp/UnityMcpCompileState.json directly to detect compilation
+        completion across domain reloads (when TCP is disconnected).
+        """
         if not self.bridge.connected and not await self.bridge.connect():
             return {"error": "Unity Editor is not connected"}
 
@@ -243,21 +247,28 @@ class McpServer:
                 await asyncio.sleep(1.0)
                 retry_elapsed = 1.0
                 while retry_elapsed < COMPILE_TIMEOUT:
+                    state = self._read_compile_state()
+                    if state and state.get("state") == "done":
+                        logger.debug("State file reports compile done, triggering ours")
+                        response = await self.bridge.send_command("compile")
+                        result = response.get("result", {})
+                        if result.get("status") == "compilation_started":
+                            break
+                        continue
+
                     try:
                         status_resp = await self.bridge.send_command("compile_status")
                     except RuntimeError:
-                        # Unity disconnected (domain reload), wait and reconnect
                         await asyncio.sleep(3.0)
                         retry_elapsed += 3.0
                         await self.bridge.connect()
                         continue
                     status = status_resp.get("result", {})
                     if not status.get("isCompiling"):
-                        # Previous compile done, now trigger ours
                         response = await self.bridge.send_command("compile")
                         result = response.get("result", {})
                         if result.get("status") == "compilation_started":
-                            break  # proceed to polling below
+                            break
                     await asyncio.sleep(POLL_INTERVAL)
                     retry_elapsed += POLL_INTERVAL
                 else:
@@ -274,11 +285,15 @@ class McpServer:
             # 3. Poll until compilation finishes or timeout
             elapsed = 1.0
             while elapsed < COMPILE_TIMEOUT:
+                # Check state file first — works across domain reloads
+                state = self._read_compile_state()
+                if state and state.get("state") == "done":
+                    logger.debug("State file reports compile done")
+                    break
+
                 try:
                     status_resp = await self.bridge.send_command("compile_status")
                 except RuntimeError as e:
-                    # Unity disconnected (likely domain reload during compilation).
-                    # Wait for it to come back, then reconnect and continue polling.
                     logger.debug(f"Unity disconnected during compile poll: {e}")
                     await asyncio.sleep(3.0)
                     elapsed += 3.0
@@ -291,13 +306,7 @@ class McpServer:
                 status = status_resp.get("result", {})
 
                 if not status.get("isCompiling") and status.get("compileFinished"):
-                    return {
-                        "status": "compilation_complete",
-                        "errorCount": status.get("errorCount", 0),
-                        "warningCount": status.get("warningCount", 0),
-                        "errors": status.get("errors", []),
-                        "warnings": status.get("warnings", []),
-                    }
+                    break
 
                 logger.debug(
                     f"Compiling... errors={status.get('errorCount', 0)} "
@@ -305,18 +314,63 @@ class McpServer:
                 )
                 await asyncio.sleep(POLL_INTERVAL)
                 elapsed += POLL_INTERVAL
+            else:
+                # Final file check on timeout
+                state = self._read_compile_state()
+                if not state or state.get("state") != "done":
+                    return {
+                        "status": "compilation_timeout",
+                        "message": f"Compilation did not finish within {COMPILE_TIMEOUT}s",
+                        "isCompiling": True,
+                    }
 
-            # Timeout — return current state
+            # Collect final results — state file is authoritative
+            state = self._read_compile_state()
+            if state and state.get("state") == "done":
+                errors = state.get("errors", [])
+                warnings = state.get("warnings", [])
+                error_count = len(errors)
+                warning_count = len(warnings)
+            else:
+                error_count = 0
+                warning_count = 0
+                errors = []
+                warnings = []
+
+            # Clean up state file
+            try:
+                await self.bridge.send_command("cleanup_compile_state")
+            except Exception:
+                pass  # best-effort
+
             return {
-                "status": "compilation_timeout",
-                "message": f"Compilation did not finish within {COMPILE_TIMEOUT}s",
-                "isCompiling": True,
+                "status": "compilation_complete",
+                "errorCount": error_count,
+                "warningCount": warning_count,
+                "errors": errors,
+                "warnings": warnings,
             }
 
         except RuntimeError as e:
             return {"error": str(e)}
         except asyncio.TimeoutError:
             return {"error": "Unity did not respond within timeout"}
+
+    @staticmethod
+    def _read_compile_state() -> Optional[Dict]:
+        """Read Unity compile state file directly from the project Temp folder."""
+        import os
+        try:
+            # Project root is 3 levels up from Tools/UnityMcp/server.py
+            project_root = os.path.normpath(
+                os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+            state_path = os.path.join(project_root, "Temp", "UnityMcpCompileState.json")
+            if not os.path.exists(state_path):
+                return None
+            with open(state_path, "r", encoding="utf-8") as f:
+                return json.loads(f)
+        except (json.JSONDecodeError, OSError):
+            return None
 
     async def _tool_list_hierarchy(self, prefab_path: str) -> Dict:
         """Get prefab GameObject hierarchy from Unity."""

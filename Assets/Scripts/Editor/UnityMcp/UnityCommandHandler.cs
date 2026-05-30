@@ -18,6 +18,10 @@ namespace Yueyn.Editor.UnityMcp
         private static bool _compileFinished;
         private static double _compileRequestTime;
 
+        // Sentinel file path — touched before each compile to ensure Unity detects changes
+        private const string SentinelPath =
+            "Assets/Scripts/Editor/UnityMcp/_CompileSentinel.cs";
+
         // File-based persistence (survives domain reload)
         private static string StateFilePath =>
             Path.Combine(Path.GetDirectoryName(Application.dataPath), "Temp", "UnityMcpCompileState.json");
@@ -31,6 +35,7 @@ namespace Yueyn.Editor.UnityMcp
                 "list_hierarchy" => ListHierarchy(args),
                 "compile" => Compile(),
                 "compile_status" => CompileStatus(),
+                "cleanup_compile_state" => CleanupCompileState(),
                 _ => CmdResult.Err($"Unknown method: {method}"),
             };
         }
@@ -57,6 +62,12 @@ namespace Yueyn.Editor.UnityMcp
                     ["message"] = "A compilation is already in progress. Retry compile once it finishes.",
                 });
             }
+
+            // Touch sentinel file to ensure Unity always detects a change
+            TouchSentinel();
+
+            // Clean up any stale state file from a previous run
+            DeleteCompileState();
 
             _compileErrors.Clear();
             _compileWarnings.Clear();
@@ -102,7 +113,7 @@ namespace Yueyn.Editor.UnityMcp
                 {
                     if (recovered.Value.state == "done")
                     {
-                        DeleteCompileState();
+                        _compileFinished = true; // cache in memory
                         return CmdResult.Ok(new Dictionary<string, object>
                         {
                             ["isCompiling"] = false,
@@ -119,6 +130,7 @@ namespace Yueyn.Editor.UnityMcp
                         // Was "in_progress" but isCompiling is false now —
                         // compilation completed via domain reload (0 errors)
                         WriteCompileState("done", recovered.Value.startTime);
+                        _compileFinished = true;
                         return CmdResult.Ok(new Dictionary<string, object>
                         {
                             ["isCompiling"] = false,
@@ -343,6 +355,50 @@ namespace Yueyn.Editor.UnityMcp
             }
             catch { /* ignore */ }
         }
+
+        /// <summary>
+        /// Called by client after reading compile results from the state file.
+        /// Cleans up both the state file and the in-memory compile tracking.
+        /// </summary>
+        private static CmdResult CleanupCompileState()
+        {
+            DeleteCompileState();
+            _compileRequested = false;
+            _compileFinished = false;
+            _hasStartedCompiling = false;
+            _compileErrors.Clear();
+            _compileWarnings.Clear();
+            return CmdResult.Ok(new Dictionary<string, object>
+            {
+                ["status"] = "cleaned",
+            });
+        }
+
+        /// <summary>
+        /// Writes a new timestamp to the sentinel file to force Unity to detect
+        /// a script change and trigger actual compilation on AssetDatabase.Refresh.
+        /// </summary>
+        private static void TouchSentinel()
+        {
+            try
+            {
+                var path = Path.Combine(Path.GetDirectoryName(Application.dataPath), SentinelPath);
+                var dir = Path.GetDirectoryName(path);
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                File.WriteAllText(path,
+                    $"// Auto-generated compile sentinel — touched to force Unity recompilation.\n" +
+                    $"// DO NOT EDIT MANUALLY.\n" +
+                    $"// Last trigger: {DateTime.Now:O}\n");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[UnityMcp] Failed to touch sentinel file: {ex.Message}");
+            }
+        }
+
+        /// <summary>Public path to compile state file, for clients to read.</summary>
+        public static string CompileStateFilePath =>
+            Path.Combine(Path.GetDirectoryName(Application.dataPath), "Temp", "UnityMcpCompileState.json");
 
         private static CompileMsgEntry FromCompilerMessage(CompilerMessage m) =>
             new() { file = m.file, line = m.line, column = m.column, message = m.message };
