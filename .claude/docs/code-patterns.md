@@ -155,83 +155,110 @@ GameEntry.CharacterCreator.RecycleEntity(entity.gameObject);
 
 ## UI Patterns
 
-### Creating a New UI Form
+### Creating a New UI Form (Full Workflow)
 
-1. Create prefab with Canvas component
-2. Add `UiBindTool` component and configure bindings
-3. Create form class inheriting from `FormBase`
-4. Generate `.Bind.cs` using UiBindTool inspector
-5. Override OnInit/OnOpen/OnClose/OnFocus/OnUnfocus as needed
-6. (Optional) Create VmBase子类管理UI数据
-7. Open via `GameEntry.UI.OpenForm<TForm>()`
+Use the `/create-ui` skill for step-by-step guidance. Quick reference:
 
-**Example Form Class**:
+1. Create prefab at `Assets/AssetBundles/UI/{Name}/{Name}.prefab` with Canvas
+2. Add `UIFormScript` + `UiViewBinding` components to prefab root
+3. Configure UiViewBinding: ViewType (Form/Part), FormType, FormName
+4. Scan → Generate → outputs `{Name}View.cs` + `{Name}Logic.cs` + `{Name}ViewData.cs`
+5. Write business logic outside `### GENERATED_BINDINGS ###` markers
+6. Open via `BusinessLogicManager.Instance.CreateLogic<T>()`
+
+**Example View**:
 ```csharp
-public partial class MyForm : FormBase
+public class ShopFormView : UIBusinessFormBase<ShopFormViewData>
 {
-    protected override void OnInit()
+    // ### GENERATED_BINDINGS_START ###
+    // (controls + BindControls — generated, do NOT edit)
+    // ### GENERATED_BINDINGS_END ###
+
+    protected override void DoBusinessStart()
     {
-        base.OnInit();
-        // Initialize UI elements
-        _closeButton.onClick.AddListener(OnCloseClicked);
+        base.DoBusinessStart();
+        BindControls();
+        BtnConfirm.onClick.AddListener(() =>
+            UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.ShopForm_Confirm));
     }
 
-    protected override void OnOpen()
+    protected override void RefreshView()
     {
-        base.OnOpen();
-        // Form opened
-    }
-
-    protected override void OnClose()
-    {
-        base.OnClose();
-        // Form closed
-    }
-
-    private void OnCloseClicked()
-    {
-        GameEntry.UI.CloseForm(this);
+        if (ViewData == null) return;
+        TxtTitle.text = ViewData.Title;
     }
 }
 ```
 
-**Example with ViewModel**:
+**Example Logic**:
 ```csharp
-public class MyFormVm : VmBase
+public class ShopFormLogic : BusinessFormLogic
 {
-    public Variable<int> Score { get; private set; }
+    // ### GENERATED_BINDINGS_START ###
+    // (PrefabPath, FormType, View — generated, do NOT edit)
+    // ### GENERATED_BINDINGS_END ###
 
-    public override void Init()
+    private readonly ShopFormViewData _viewData = new();
+
+    protected override void OnFormBound(UIFormScript form)
     {
-        Score = new Variable<int>(0);
+        base.OnFormBound(form);
+        View = form.GetComponentInChildren<ShopFormView>();
+        UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.ShopForm_Confirm, OnConfirm);
     }
 
-    public override void Clear()
+    protected override void OnFormUnbound(UIFormScript form)
     {
-        Score = null;
+        UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.ShopForm_Confirm, OnConfirm);
+        View = null;
+        base.OnFormUnbound(form);
     }
+
+    public static ShopFormLogic Open()
+    {
+        return BusinessLogicManager.Instance.CreateLogic<ShopFormLogic>();
+    }
+
+    private void OnConfirm() { /* business logic */ }
 }
+```
 
-public partial class MyForm : FormBase
+**Example ViewData**:
+```csharp
+public class ShopFormViewData
 {
-    private MyFormVm _vm;
-
-    protected override void OnInit()
-    {
-        base.OnInit();
-        _vm = ReferencePool.Acquire<MyFormVm>();
-        _vm.Init();
-        
-        // Bind to ViewModel
-        _vm.Score.Observe(score => _scoreText.text = score.ToString());
-    }
-
-    protected override void OnClose()
-    {
-        ReferencePool.Release(_vm);
-        base.OnClose();
-    }
+    public string Title;
+    public int Gold;
 }
+```
+
+### Creating a UI Part (Reusable Sub-Component)
+
+Part prefab also gets `UiViewBinding` (ViewType=Part). Framework auto-discovers PartViewBase in the Form hierarchy and creates matching PartLogic via `PartLogicTypeRegistry`.
+
+```csharp
+// View
+public class HpBarPartView : PartViewBase<HpBarPartViewData> { /* ... */ }
+
+// Logic
+public class HpBarPartLogic : BusinessPartLogic<HpBarPartView>
+{
+    // ### GENERATED_BINDINGS_START ###
+    // ### GENERATED_BINDINGS_END ###
+
+    protected override void OnViewBound(PartViewBase view) { /* subscribe */ }
+    protected override void OnViewUnbound(PartViewBase view) { /* unsubscribe */ }
+}
+```
+
+### UI Communication Patterns
+
+```
+View → Logic:  UIManager.Instance.UIEventRouter.FireNow(UIEventKey)
+Logic → View:  View.SetViewData(viewData)        // full refresh
+               View.SpecificRefresh(data)          // targeted refresh
+Global → Logic: CEventRouter.Instance.Subscribe<T>(GlobalEventId)
+Logic → Global: SystemRepository.Instance.GetSystem<T>()
 ```
 
 ## Event Patterns

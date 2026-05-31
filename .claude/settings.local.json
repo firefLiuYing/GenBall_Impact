@@ -73,7 +73,9 @@
       "Bash(bash run_editmode_tests.sh --class BulletSystemNewTests)",
       "Bash(bash run_editmode_tests.sh --class DecisionLayerTests)",
       "Bash(echo $LOCALAPPDATA)",
-      "Read(//d/Apps/Unity/Unity Project/GenBall_Impact/$LOCALAPPDATA/Unity/**)"
+      "Read(//d/Apps/Unity/Unity Project/GenBall_Impact/$LOCALAPPDATA/Unity/**)",
+      "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/UI' -type f -name *.cs)",
+      "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/Yueyn/UI' -type f -name *.cs)"
     ]
   },
   "enableAllProjectMcpServers": true,

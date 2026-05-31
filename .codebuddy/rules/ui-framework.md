@@ -2,114 +2,163 @@
 description: GenBall_Impact 项目中 UI 开发的强制规范，包括框架选择、文本组件、命名约定等。
 alwaysApply: false
 enabled: true
-updatedAt: 2026-05-13T14:32:00.000Z
+updatedAt: 2026-05-31T12:00:00.000Z
 provider: ""
 ---
 
 # UI 框架开发规范
 
 ## 目标
-确保所有新 UI 使用新框架（MVP 架构），避免使用已废弃的 TextMeshPro 组件，保持命名一致性。
+确保所有新 UI 使用新框架（Yueyn.UI MVP 架构），避免使用已废弃的 TextMeshPro 组件和旧 MVVM 框架。
 
 ## 触发条件
 - 文件路径匹配 `**/UI/**/*.cs` 或 `**/GenBall/UI/**/*.cs`
 - 用户提到"UI"、"界面"、"页面"、"弹窗"
 - 创建或修改 UI 相关代码
 
+## 框架类层次
+
+### Logic 层
+```
+BusinessLogicBase
+└── BusinessPartLogicContainer   (子 Part 管理)
+    ├── BusinessFormLogic         (页面 Logic)
+    └── BusinessPartLogic         (子组件 Logic)
+        └── BusinessPartLogic<TView>  (强类型)
+```
+
+### View 层
+```
+UIComponent (MonoBehaviour)
+├── UIBusinessFormBase<T>         (页面 View, 数据驱动)
+└── PartViewBase<T>               (子组件 View, 数据驱动)
+```
+
+### Unity 层
+```
+UIManager (Singleton)             (页面管理, UICamera, EventSystem)
+UIFormScript (MonoBehaviour)      (挂 prefab 根, Canvas, 生命周期分发)
+```
+
 ## 行为约束
 
-### 1. 新 UI 必须使用新框架（必须）
-- **必须**使用 `UISystemDefault`（MVP 架构）
-- **禁止**使用旧 `UIManager`（MVVM 架构）
-- **必须**Logic 层继承 `UIFormLogic` 或 `UILogicBase`
-- **必须**View 层继承 `UIFormView` 或 `UIComponent`
+### 1. 新 UI 必须使用 Yueyn.UI 框架（必须）
+- **必须** Logic 层继承 `BusinessFormLogic` (Form) 或 `BusinessPartLogic<TView>` (Part)
+- **必须** View 层继承 `UIBusinessFormBase<T>` (Form) 或 `PartViewBase<T>` (Part)
+- **禁止** 使用旧 `FormBase` / `VmBase` (MVVM 架构)
 
 ### 2. 禁用 TextMeshPro（必须）
-- **必须**所有 UI 文本组件使用 `UnityEngine.UI.Text`（Legacy Text）
-- **禁止**使用 `TMP_Text` / `TextMeshProUGUI` / `TMPro` 相关类型
-- **禁止**在代码中引用 `TMPro` 命名空间
+- **必须** 所有 UI 文本组件使用 `UnityEngine.UI.Text`
+- **禁止** 使用 `TMP_Text` / `TextMeshProUGUI` / `TMPro` 相关类型
 
 ### 3. 命名约定（必须）
-- **必须**Logic 层文件命名：`XxxLogic.cs`（如 `TestFormLogic.cs`）
-- **必须**View 层文件命名：`XxxView.cs`（如 `TestFormView.cs`）
-- **禁止**使用旧命名方式（`FormName.cs` + `FormNameVm.cs`）
+- **必须** Logic: `{Name}Logic.cs` → class `{Name}Logic`
+- **必须** View: `{Name}View.cs` → class `{Name}View`
+- **必须** ViewData: `{Name}ViewData.cs` → class `{Name}ViewData`
+- **必须** 控件按前缀命名: `Btn*`/`Txt*`/`Img*`/`RawImg*`/`Input*`/`Slider*`/`Toggle*`/`Scroll*`/`Dropdown*`/`Scrollbar*`/`CanvasGroup*`/`LayoutElem*`/`Fitter*`/`HLayout*`/`VLayout*`/`Grid*`/`Rect*`
 
-### 4. 页面类型选择（建议）
-- **建议**常驻 UI（血条、HUD）使用 `UIFormType.Persistent`
-- **建议**弹窗（背包、设置）使用 `UIFormType.Popup`
-- **建议**过场界面（加载）使用 `UIFormType.Transition`
+### 4. 代码生成（必须）
+- **必须** 使用 `UiViewBinding` 组件进行 Scan → Generate
+- **必须** 手写代码放在 `### GENERATED_BINDINGS_START ###` / `END` 标记之外
+- **禁止** 手动写 BindControls / 控件属性声明
+
+### 5. 页面类型（建议）
+- **建议** 常驻 UI（HUD）使用 `UIFormType.Persistent`
+- **建议** 弹窗使用 `UIFormType.Popup`
+- **建议** 过场界面使用 `UIFormType.Transition`
+
+### 6. ViewData 策略（必须）
+- **必须** Logic 中统一管理一个 ViewData 实例
+- **建议** 大部分不变的数据在 OnFormBound 时全量刷新
+- **建议** 频繁变化的个别数据在 View 提供专用刷新方法
+
+## 通信模式
+
+| 方向 | 方式 |
+|------|------|
+| View → Logic | `UIManager.Instance.UIEventRouter.FireNow(UIEventKey)` |
+| Logic → View | `View.SetViewData(viewData)` 全量 / `View.SpecificMethod()` 局部 |
+| 全局 → Logic | `CEventRouter.Instance.Subscribe<GlobalEventId>()` |
+| Logic → 全局 | `SystemRepository.Instance.GetSystem<T>()` |
+| 打开 Form | `BusinessLogicManager.Instance.CreateLogic<T>()` |
 
 ## 示例
 
-### ✅ 正确示例：新框架 UI
+### 正确示例：Form View
 ```csharp
-// TestFormLogic.cs
-namespace GenBall.UI {
-    public class TestFormLogic : UIFormLogic {
-        protected override string PrefabPath => "Assets/Prefabs/UI/TestForm.prefab";
+public class ShopFormView : UIBusinessFormBase<ShopFormViewData>
+{
+    // ### GENERATED_BINDINGS_START ###
+    // (控件属性和 BindControls 由代码生成器管理)
+    // ### GENERATED_BINDINGS_END ###
 
-        internal override void BindView(UIFormScript form) {
-            base.BindView(form);
-            if (View is TestFormView testView) {
-                testView.SetLogic(this);
-            }
-        }
+    protected override void DoBusinessStart()
+    {
+        base.DoBusinessStart();
+        BindControls(); // 调用生成的绑定方法
+        BtnConfirm.onClick.AddListener(() =>
+            UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.ShopForm_Confirm));
+    }
 
-        public override void SetViewData(object param) {
-            if (View is TestFormView testView) {
-                testView.SetTitle($"Title - {param}");
-            }
-        }
-
-        public void OnCloseButtonClicked() {
-            CloseForm();
-        }
+    protected override void RefreshView()
+    {
+        if (ViewData == null) return;
+        TxtTitle.text = ViewData.Title;
     }
 }
-
-// TestFormView.cs
-using UnityEngine.UI; // ✅ 使用 Legacy Text
-
-namespace GenBall.UI {
-    public class TestFormView : UIFormView {
-        [SerializeField] private Text titleText; // ✅ UnityEngine.UI.Text
-        [SerializeField] private Button closeButton;
-
-        private TestFormLogic _logic;
-
-        public void SetLogic(TestFormLogic logic) => _logic = logic;
-
-        public void SetTitle(string title) {
-            titleText.text = title;
-        }
-
-        private void Awake() {
-            closeButton.onClick.AddListener(() => _logic?.OnCloseButtonClicked());
-        }
-    }
-}
-
-// 使用方式
-var logic = UILogicManager.Instance.CreateLogic<TestFormLogic>();
-logic.OpenFormAsync("Hello World");
 ```
 
-### ❌ 错误示例
+### 正确示例：Form Logic
 ```csharp
-// ❌ 错误 1：使用旧框架
-public class TestForm : FormBase { /* 旧 MVVM 架构 */ }
+public class ShopFormLogic : BusinessFormLogic
+{
+    // ### GENERATED_BINDINGS_START ###
+    // (PrefabPath, FormType, View 由代码生成器管理)
+    // ### GENERATED_BINDINGS_END ###
 
-// ❌ 错误 2：使用 TextMeshPro
-using TMPro; // ❌ 禁止
-public class TestFormView : UIFormView {
-    [SerializeField] private TMP_Text titleText; // ❌ 禁止
+    private readonly ShopFormViewData _viewData = new();
+
+    protected override void OnFormBound(UIFormScript form)
+    {
+        base.OnFormBound(form);
+        View = form.GetComponentInChildren<ShopFormView>();
+        UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.ShopForm_Confirm, OnConfirm);
+        RefreshAll();
+    }
+
+    protected override void OnFormUnbound(UIFormScript form)
+    {
+        UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.ShopForm_Confirm, OnConfirm);
+        View = null;
+        base.OnFormUnbound(form);
+    }
+
+    public static ShopFormLogic Open()
+    {
+        return BusinessLogicManager.Instance.CreateLogic<ShopFormLogic>();
+    }
+
+    private void OnConfirm() { /* 业务逻辑 */ }
+    private void RefreshAll() { View?.SetViewData(_viewData); }
 }
+```
 
-// ❌ 错误 3：命名不规范
-public class TestFormVm : VmBase { /* 旧命名方式 */ }
+### 错误示例
+```csharp
+// 错误 1：使用旧框架
+public class ShopForm : FormBase { }
+public class ShopFormVm : VmBase { }
 
-// ❌ 错误 4：直接使用 UIManager
-UIManager.Instance.OpenForm("TestForm"); // ❌ 旧 API
+// 错误 2：使用 TextMeshPro
+using TMPro;
+[SerializeField] private TMP_Text titleText;
+
+// 错误 3：自己写绑定代码
+private void BindControls() { BtnConfirm = transform.Find("...").GetComponent<Button>(); }
+// ↑ 这应该由代码生成器生成
+
+// 错误 4：每次刷新都 new ViewData
+private void OnDataChanged() { View.SetViewData(new ShopFormViewData { ... }); }
 ```
 
 ## 例外情况

@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code). See `.claude/docs/`
 - **New systems**: implement `ISystem`, never `MonoBehaviour`. Frame update via `IFrameUpdate`/`ILogicUpdate`/`ILateFrameUpdate`.
 - **Never edit**: `**/Generated/*.Generated.cs`, `**/*.Bind.cs`, `**/*View.Generated.cs`, `**/*Logic.Generated.cs` (auto-generated)
 - **Resource loading**: `#if UNITY_EDITOR` compile macros, never `Application.isEditor` at runtime
-- **UI code generation**: `UiViewBinding` component on prefab root → Inspector: Scan → Generate. Outputs `XxxView.Generated.cs` + `XxxLogic.Generated.cs` (partial classes). Hand-written partial goes in `XxxView.cs` / `XxxLogic.cs`. Set `ViewType=Part` for reusable sub-components. Naming prefixes: `Btn*`→Button, `Txt*`→Text, `Img*`→Image, `Rect*`→RectTransform (16 types, see UiBindingConfig).
+- **UI code generation**: `UiViewBinding` component on prefab root → Inspector: Scan → Generate. Outputs `{Name}View.cs` + `{Name}Logic.cs` + `{Name}ViewData.cs`. Generated bindings inside `### GENERATED_BINDINGS ###` markers; hand-written code goes outside. Set `ViewType=Part` for reusable sub-components. Use `/create-ui` skill for the full workflow.
 
 ## Primary Reference (read first each session)
 
@@ -28,6 +28,7 @@ This file provides guidance to Claude Code (claude.ai/code). See `.claude/docs/`
 | `.claude/docs/systems-overview.md` | Player, Enemy, UI, Map, Procedure, Events overview |
 | `.claude/docs/migration-guide.md` | Old vs new system migration path |
 | `.claude/docs/code-patterns.md` | Implementation recipes |
+| `.claude/docs/ui-architecture.md` | BusinessFormLogic/PartLogic/UIComponent class hierarchy and lifecycle |
 | `.claude/docs/conventions.md` | Naming, best practices, partial class patterns |
 | `.claude/docs/design/` | Game design docs (world, 3C, weapons, enemies, levels, economy) |
 | `.claude/rules/code-modification-rules.md` | Rules for modifying code |
@@ -38,5 +39,5 @@ This file provides guidance to Claude Code (claude.ai/code). See `.claude/docs/`
 - **Current focus**: Phase B 实体迁移 — B-1 Player (90%), B-2 Enemy (80%), 待编译验证。见 `.claude/docs/execution-plan.md`。
 - **Compilation**: Use `mcp__unity__unity_compile` to trigger compilation and get results (errors/warnings with file/line). Waits up to 120s.
 - **Testing**: User compiles manually → auto-run tests. Test files go in `Editor/` folder (no asmdef), compiled into Assembly-CSharp-Editor.
-- **UI code gen**: Attach `UiViewBinding` to prefab root → set ViewType → Scan → Generate. Outputs `{Name}View.Generated.cs` / `{Name}Logic.Generated.cs`. Python CLI at `Tools/UiCodeGenerator/` (alternative).
+- **UI code gen**: Attach `UiViewBinding` to prefab root → set ViewType → Scan → Generate. Outputs `{Name}View.cs` / `{Name}Logic.cs`. Use `/create-ui` skill for full workflow. Python CLI at `Tools/UiCodeGenerator/` (alternative).
 <!-- AI_MAINTAINED_END -->
