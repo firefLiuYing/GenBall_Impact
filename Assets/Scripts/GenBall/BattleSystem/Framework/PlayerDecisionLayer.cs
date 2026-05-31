@@ -61,7 +61,13 @@ namespace GenBall.BattleSystem.Framework
             if (_input != null)
             {
                 _dispatcher.Issue(new MoveCommand(_input.MoveDirection));
-                _dispatcher.Issue(new RotateCommand(_input.ViewDelta.x, _input.ViewDelta.y));
+
+                // Suppress Rotate when ability wheel is open
+                var wheel = _entity?.Get<IWheel>();
+                if (wheel == null || !wheel.IsWheeling)
+                {
+                    _dispatcher.Issue(new RotateCommand(_input.ViewDelta.x, _input.ViewDelta.y));
+                }
             }
 
             // Tick cooldown

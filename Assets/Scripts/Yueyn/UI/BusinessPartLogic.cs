@@ -142,6 +142,7 @@ namespace Yueyn.UI
             BoundView = ParentTransform.GetComponent<PartViewBase>();
             if (BoundView != null)
             {
+                CompensateLifecycle(BoundView);
                 BindView(BoundView);
                 return;
             }
@@ -164,9 +165,25 @@ namespace Yueyn.UI
             BoundView = PartGameObject.GetComponent<PartViewBase>();
 
             if (BoundView != null)
+            {
+                CompensateLifecycle(BoundView);
                 BindView(BoundView);
+            }
             else
                 Debug.LogWarning($"[BusinessPartLogic] Prefab '{PrefabPath}' has no PartViewBase component.");
+        }
+
+        /// <summary>
+        /// 生命周期补偿：如果 PartView 是动态实例化的（尚未初始化），
+        /// 将其注册到 UIFormScript 以触发 DoStart → DoBusinessStart → BindControls
+        /// </summary>
+        private static void CompensateLifecycle(PartViewBase view)
+        {
+            if (view.IsInitialized) return;
+
+            var formScript = view.GetComponentInParent<UIFormScript>();
+            if (formScript != null)
+                formScript.AddComponent(view);
         }
 
         // ===== View 绑定 =====

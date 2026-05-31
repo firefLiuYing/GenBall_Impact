@@ -148,8 +148,8 @@ namespace GenBall.BattleSystem.Framework
             if (!_executors.TryGetValue(typeof(MoveCommand), out var executor) || executor is not IMove move)
                 return;
 
-            // Action declares whether it blocks movement
-            if (_activeCommand is { BlocksMove: true })
+            // Action blocks movement, but zero-velocity (stop) always passes through
+            if (_activeCommand is { BlocksMove: true } && cmd.Velocity != Vector3.zero)
                 return;
 
             move.Move(cmd);
@@ -208,6 +208,10 @@ namespace GenBall.BattleSystem.Framework
             _activeCommand = cmd;
             _activeCommandType = GetCommandType(cmd);
             _completionChecks.TryGetValue(_activeCommandType, out _activeCompletionCheck);
+
+            // Immediately stop movement if this command blocks move
+            if (cmd.BlocksMove)
+                RouteMove(new MoveCommand(Vector3.zero));
 
             // Route to executor
             RouteExecutor(_activeCommandType, cmd);

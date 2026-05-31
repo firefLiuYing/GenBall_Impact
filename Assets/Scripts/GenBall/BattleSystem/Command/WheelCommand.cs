@@ -16,10 +16,13 @@ namespace GenBall.BattleSystem.Command
         public bool BlocksMove => true;
         public bool BlocksRotate => true;
         public bool BlocksGravity => false;
+        // Open stays active (blocking rotation). Confirm/Cancel clear immediately.
+        public System.Func<bool> CompletionCheck { get; }
 
         public WheelCommand(WheelAction action)
         {
             Action = action;
+            CompletionCheck = action == WheelAction.Open ? null : () => false;
         }
     }
 }

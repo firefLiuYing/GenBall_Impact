@@ -132,6 +132,7 @@ namespace GenBall.Player
             entity.RegisterComponent(weaponAttackExecutor);
             entity.RegisterComponent(visibilityExecutor);
             entity.RegisterComponent(wheelExecutor);
+            entity.RegisterComponentAs<IWheel>(wheelExecutor);
 
             // 11. Register player camera with ICameraSystem
             var cameraSystem = SystemRepository.Instance.GetSystem<ICameraSystem>();

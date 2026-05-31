@@ -82,6 +82,9 @@ namespace GenBall.Framework
             // SplashBusinessLogic：常驻 UI 业务逻辑，通过事件总线管理 Splash 流程
             BusinessLogicManager.Instance.CreateLogic<SplashBusinessLogic>();
 
+            // InGameUIBusinessLogic：局内常驻 UI 业务逻辑，管理武器轮盘/背包等局内 UI 开闭
+            BusinessLogicManager.Instance.CreateLogic<InGameUIBusinessLogic>();
+
             Debug.Log("[FrameworkDefault] Systems registered successfully");
         }
 
