@@ -11,5 +11,8 @@ namespace GenBall.BattleSystem.Framework
 
         /// <summary>DamageReceiverComponent: TakeDamage / Heal</summary>
         HealthChanged = 20002,
+
+        /// <summary>StackGun ability: orb state changed</summary>
+        StackGunStateChanged = 20003,
     }
 }

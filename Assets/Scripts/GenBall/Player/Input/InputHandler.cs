@@ -24,6 +24,10 @@ namespace GenBall.Player.Input
         public event Action<ButtonState> OnFire;
         public event Action<ButtonState> OnReload;
         public event Action<ButtonState> OnSwitchWeapon;
+        public event Action<ButtonState> OnAbilitySecondary;
+        public event Action<ButtonState> OnAbilityWheel;
+        public bool IsAbilitySecondaryPressed { get; set; }
+        public bool IsAbilityWheelPressed { get; set; }
 
         private Vector2 _moveInput;
         private ICameraSystem _cameraSystem;
@@ -118,7 +122,32 @@ namespace GenBall.Player.Input
             OnSwitchWeapon?.Invoke(state);
         }
 
-        public Action<float> OnScrollChange; 
+        public void OnAbilitySecondaryInputChange(InputAction.CallbackContext context)
+        {
+            var state = context.phase switch
+            {
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                InputActionPhase.Performed => ButtonState.Hold,
+                _ => ButtonState.None
+            };
+            IsAbilitySecondaryPressed = (state != ButtonState.None && state != ButtonState.Up);
+            OnAbilitySecondary?.Invoke(state);
+        }
+
+        public void OnAbilityWheelInputChange(InputAction.CallbackContext context)
+        {
+            var state = context.phase switch
+            {
+                InputActionPhase.Started => ButtonState.Down,
+                InputActionPhase.Canceled => ButtonState.Up,
+                _ => ButtonState.None
+            };
+            IsAbilityWheelPressed = (state == ButtonState.Down);
+            OnAbilityWheel?.Invoke(state);
+        }
+
+        public Action<float> OnScrollChange;
         public void OnScrollInputChange(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Started)

@@ -36,6 +36,14 @@ namespace GenBall.Event
         UnlockLevel = 3000,
         MagazineInfoChange = 3001,
         LevelChanged = 3002,
+        AbilityCooldownChanged = 3010,
+        AbilityWeaponActivated = 3011,
+        AbilityWeaponDeactivated = 3012,
+
+        // === Wheel (3013-3019) ===
+        WheelOpened = 3013,
+        WheelConfirmed = 3014,
+        WheelCancelled = 3015,
 
         // === Enemy (4000-4999) ===
         EnemyDeath = 4000,
@@ -48,5 +56,6 @@ namespace GenBall.Event
         GameOver = 5003,
         /// <summary>Fired when pause state changes (menu/cutscene/resume). Args: none (read IPauseSystem).</summary>
         PauseChanged = 5004,
+        CombatStateChanged = 5005,
     }
 }

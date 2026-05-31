@@ -71,6 +71,23 @@ namespace GenBall.BattleSystem.Framework
                 _completionChecks[cmdType] = () => switchWeapon.IsSwitching;
             else if (cmdType == typeof(StunCommand) && executor is IStun stun)
                 _completionChecks[cmdType] = () => stun.IsStunned;
+            else if (cmdType == typeof(AbilitySecondaryCommand) && executor is IAbilitySecondary abilitySec)
+                _completionChecks[cmdType] = () => false; // AbilitySecondary is instant, no completion check
+            else if (cmdType == typeof(WeaponVisibilityCommand) && executor is IWeaponVisibility visibility)
+                _completionChecks[cmdType] = () => visibility.IsTransitioning;
+            else if (cmdType == typeof(WheelCommand) && executor is IWheel wheel)
+                _completionChecks[cmdType] = () => wheel.IsWheeling;
+        }
+
+        /// <summary>
+        /// Unregister an executor for a specific command type.
+        /// Used by systems that swap executors at runtime (e.g., ability weapons).
+        /// </summary>
+        public void UnregisterExecutor<TCommand>() where TCommand : ICommand
+        {
+            var cmdType = typeof(TCommand);
+            _executors.Remove(cmdType);
+            _completionChecks.Remove(cmdType);
         }
 
         /// <summary>
@@ -205,6 +222,10 @@ namespace GenBall.BattleSystem.Framework
                     attack.Cancel();
                 else if (executor is IDash dash && dash.IsDashing)
                     dash.Dash(new DashCommand(Vector3.zero, 0f)); // zero dash = immediate end
+                else if (executor is IAbilitySecondary abilitySec)
+                    abilitySec.CancelAbilitySecondary();
+                else if (executor is IWheel wheel && wheel.IsWheeling)
+                    wheel.Execute(new WheelCommand(WheelAction.Cancel));
             }
         }
 
@@ -273,6 +294,18 @@ namespace GenBall.BattleSystem.Framework
                 case IInteract interact when cmd is InteractCommand interactCmd:
                     interact.Interact(interactCmd);
                     break;
+
+                case IAbilitySecondary abilitySec when cmd is AbilitySecondaryCommand abilitySecCmd:
+                    abilitySec.AbilitySecondary(abilitySecCmd);
+                    break;
+
+                case IWeaponVisibility visibility when cmd is WeaponVisibilityCommand visibilityCmd:
+                    visibility.Execute(visibilityCmd);
+                    break;
+
+                case IWheel wheel when cmd is WheelCommand wheelCmd:
+                    wheel.Execute(wheelCmd);
+                    break;
             }
         }
 
@@ -291,6 +324,9 @@ namespace GenBall.BattleSystem.Framework
                 SwitchWeaponCommand => typeof(SwitchWeaponCommand),
                 StunCommand => typeof(StunCommand),
                 InteractCommand => typeof(InteractCommand),
+                AbilitySecondaryCommand => typeof(AbilitySecondaryCommand),
+                WeaponVisibilityCommand => typeof(WeaponVisibilityCommand),
+                WheelCommand => typeof(WheelCommand),
                 _ => cmd.GetType()
             };
         }

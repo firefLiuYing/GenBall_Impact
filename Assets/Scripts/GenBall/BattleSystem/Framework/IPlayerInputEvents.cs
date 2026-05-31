@@ -13,6 +13,8 @@ namespace GenBall.BattleSystem.Framework
         event Action<ButtonState> OnSwitchWeapon;
         event Action OnInteract;
         event Action<float> OnScroll;
+        event Action<ButtonState> OnAbilitySecondary;
+        event Action<ButtonState> OnAbilityWheel;
         Vector3 MoveDirection { get; }
         Vector2 ViewDelta { get; }
     }

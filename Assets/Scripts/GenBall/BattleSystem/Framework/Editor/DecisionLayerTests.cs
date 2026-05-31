@@ -24,6 +24,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         public event Action<ButtonState> OnSwitchWeapon;
         public event Action OnInteract;
         public event Action<float> OnScroll;
+        public event Action<ButtonState> OnAbilitySecondary;
+        public event Action<ButtonState> OnAbilityWheel;
 
         public Vector3 MoveDirection { get; set; }
         public Vector2 ViewDelta { get; set; }
@@ -62,6 +64,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         /// Fire a scroll event.
         /// </summary>
         public void SimulateScroll(float delta) => OnScroll?.Invoke(delta);
+        public void SimulateAbilitySecondary(ButtonState state) => OnAbilitySecondary?.Invoke(state);
+        public void SimulateAbilityWheel(ButtonState state) => OnAbilityWheel?.Invoke(state);
     }
 
     public class MockCharacterGroundDetect : ICharacterGroundDetect

@@ -1,9 +1,11 @@
+using GenBall.AbilityWeapon;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Command;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
 using GenBall.BattleSystem.Weapons.Factory;
+using GenBall.CombatState;
 using GenBall.Event;
 using GenBall.GameCamera;
 using GenBall.Interact;
@@ -40,6 +42,10 @@ namespace GenBall.Player
                 ? oldWeaponExecutor.WeaponSpawnPoint
                 : playerInstance.transform;
             var weaponAttackExecutor = new WeaponAttackExecutor(entity, weaponSpawnPoint);
+
+            // Create weapon visibility executor for ability weapon transitions
+            var visibilityExecutor = new WeaponVisibilityExecutor(null);
+
             var rotater = playerInstance.GetComponent<PlayerRotateExecutor>();
             rotater.Init(config.horizontalSensitivity, config.verticalSensitivity);
             // MainCameraTransform/FirstPersonCamera is a structural guarantee on the prefab.
@@ -91,6 +97,10 @@ namespace GenBall.Player
             dispatcher.RegisterExecutor<InteractCommand>(interactExecutor);
             if (rotater != null)
                 dispatcher.RegisterExecutor<RotateCommand>(rotater);
+            dispatcher.RegisterExecutor<WeaponVisibilityCommand>(visibilityExecutor);
+
+            var wheelExecutor = new WheelExecutor();
+            dispatcher.RegisterExecutor<WheelCommand>(wheelExecutor);
 
             // 8. Create input adapter and decision layer (event-driven)
             var inputAdapter = new PlayerInputAdapter(inputHandler);
@@ -120,6 +130,8 @@ namespace GenBall.Player
             entity.RegisterComponent(deathComponent);
             entity.RegisterComponent(hitReaction);
             entity.RegisterComponent(weaponAttackExecutor);
+            entity.RegisterComponent(visibilityExecutor);
+            entity.RegisterComponent(wheelExecutor);
 
             // 11. Register player camera with ICameraSystem
             var cameraSystem = SystemRepository.Instance.GetSystem<ICameraSystem>();
@@ -156,12 +168,18 @@ namespace GenBall.Player
             if (defaultWeapon != null)
             {
                 weaponAttackExecutor.EquipWeapon(defaultWeapon);
+                visibilityExecutor.SetWeapon(defaultWeapon.gameObject);
             }
             else
             {
                 Debug.LogWarning("[PlayerEntityFactory] 默认手枪创建失败，" +
                     "请确认手枪 prefab 已挂载 WeaponAssembly 组件且预制体路径正确。");
             }
+
+            // Bind combat state and ability weapon systems to player
+            SystemRepository.Instance.GetSystem<ICombatStateSystem>()?.BindPlayer(entity);
+            var abilitySys = SystemRepository.Instance.GetSystem<IAbilityWeaponSystem>();
+            abilitySys?.BindPlayer(entity, weaponAttackExecutor, visibilityExecutor);
         }
     }
 

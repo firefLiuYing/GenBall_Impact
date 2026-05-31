@@ -4,6 +4,7 @@ using GenBall.BattleSystem.Command;
 using GenBall.Framework.Entity;
 using GenBall.Player;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Framework
 {
@@ -42,6 +43,8 @@ namespace GenBall.BattleSystem.Framework
                 _input.OnSwitchWeapon += HandleSwitchWeapon;
                 _input.OnInteract += HandleInteract;
                 _input.OnScroll += HandleScroll;
+                _input.OnAbilitySecondary += HandleAbilitySecondary;
+                _input.OnAbilityWheel += HandleAbilityWheel;
             }
         }
 
@@ -145,6 +148,28 @@ namespace GenBall.BattleSystem.Framework
             if (_dispatcher == null || delta == 0) return;
             _dispatcher.Issue(new InteractCommand(
                 delta > 0 ? InteractAction.Next : InteractAction.Previous));
+        }
+
+        private void HandleAbilitySecondary(ButtonState state)
+        {
+            ResolveDispatcher();
+            if (_dispatcher == null) return;
+            _dispatcher.Issue(new AbilitySecondaryCommand(state));
+        }
+
+        private void HandleAbilityWheel(ButtonState state)
+        {
+            ResolveDispatcher();
+            if (_dispatcher == null) return;
+
+            if (state == ButtonState.Down)
+            {
+                _dispatcher.Issue(new WheelCommand(WheelAction.Open));
+            }
+            else if (state == ButtonState.Up)
+            {
+                _dispatcher.Issue(new WheelCommand(WheelAction.Confirm));
+            }
         }
 
         // ================================================================

@@ -1,8 +1,11 @@
+using GenBall.AbilityWeapon;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;
 using GenBall.BattleSystem.Weapons.Accessory;
+using GenBall.CombatState;
 using GenBall.Enemy;
+using GenBall.Framework.TimeScale;
 using GenBall.GameCamera;
 using GenBall.GM;
 using GenBall.Framework.Config;
@@ -65,6 +68,11 @@ namespace GenBall.Framework
             SystemRep.RegisterSystem<IPlayerSystem>(new PlayerSystemDefault());
             SystemRep.RegisterSystem<IBulletSystem>(new BulletSystem());
             SystemRep.RegisterSystem<IEvolutionSystem>(new EvolutionSystem());
+
+            // Combat state + ability weapon system
+            SystemRep.RegisterSystem<ICombatStateSystem>(new CombatStateSystem());
+            SystemRep.RegisterSystem<IAbilityWeaponSystem>(new AbilityWeaponSystem());
+            SystemRep.RegisterSystem<ITimeScaleSystem>(new TimeScaleSystemDefault());
 
             SystemRep.RegisterSystem<ISceneExecutorSystem>(new SceneExecutorSystemDefault());
 

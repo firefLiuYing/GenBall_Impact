@@ -2,7 +2,7 @@
 
 > **用途**：跨会话持久化计划。每完成一个任务更新状态。新会话启动时先读此文档。
 > **最后更新**：2026-05-31
-> **当前阶段**：Phase C 准备
+> **当前阶段**：Phase C-1 能力枪械系统
 
 ---
 
@@ -51,18 +51,26 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 **目标**：第一章 DEMO 核心游戏功能
 **依赖**：Phase B 完成
 
-### C-0：HUD 迁移到新 UI 框架 🔄
+### C-0：HUD 迁移到新 UI 框架 ✓
 
 - [x] C-0a：事件桥接（Player.Health.cs + MagazineComponent → CEventRouter）
 - [x] C-0b：MainHudFormLogic 事件订阅 + ViewData 数据流
 - [x] C-0c：代码生成器修复（生命周期方法移到标记外）
-- [ ] C-0d：MainHudForm.prefab 更新（添加 TxtKillPoints/TxtLevel/TxtHealth/TxtArmor/TxtAmmo）→ **需 Unity Editor 手动操作**
-- [ ] C-0e：编译验证 + 场景测试
+- [x] C-0d：MainHudForm.prefab 更新（添加 TxtKillPoints/TxtLevel/TxtHealth/TxtArmor/TxtAmmo）→ **需 Unity Editor 手动操作**
+- [x] C-0e：编译验证 + 场景测试
 
-### C-1：能力枪械系统 ❌
+### C-1：能力枪械系统 🔄
 **设计文档**：`.claude/docs/design/weapon-system.md`
+**架构**：IAbilityWeaponSystem (ISystem) + IAbilityWeapon 策略接口 + Command 管道切 Executor
 
-- [ ] C-1a~f：IAbilityWeaponSystem + 武器轮盘 UI + 匣纳之枪/连理之枪/裁径之枪
+- [x] C-1a：Command 层（AbilitySecondaryCommand / WeaponVisibilityCommand / 接口 + CommandDispatcher 扩展）
+- [x] C-1b：输入管道（IPlayerInputEvents 扩展 + InputHandler + PlayerInputAdapter + PlayerDecisionLayer）
+- [x] C-1c：ICombatStateSystem（伤害计时器判定 + CombatStateChanged 事件）
+- [x] C-1d：IAbilityWeapon + IAbilityWeaponSystem + AbilityWeaponExecutor + WeaponVisibilityExecutor
+- [x] C-1e：武器轮盘 UI（AbilityWheelFormLogic + View，程序化扇形分割）→ **需 Unity Editor 创建 prefab**
+- [ ] C-1f：匣纳之枪（StackGunAbility 已建，待完成核心逻辑：吸收/射出奥比斯）
+- [ ] C-1g：连理之枪
+- [ ] C-1h：裁径之枪
 
 ### C-2：奥比斯种类补齐 ❌
 
@@ -96,7 +104,7 @@ D-1~D-4：机关系统、战斗反馈、剧情对话、关卡搭建
 |-------|------|
 | A: BattleEntity 框架 | ✅ |
 | B: 实体迁移 (Player/Enemy/Weapon) | ✅ |
-| C: 基础系统 | 🔄 C-0 进行中 |
+| C: 基础系统 | 🔄 C-1 能力枪械 |
 | D: 内容层 | ❌ |
 | E: 清理 | ❌ |
 

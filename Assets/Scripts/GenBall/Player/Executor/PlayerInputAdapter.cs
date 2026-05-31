@@ -22,6 +22,8 @@ namespace GenBall.Player.Executor
         public event Action<ButtonState> OnSwitchWeapon;
         public event Action OnInteract;
         public event Action<float> OnScroll;
+        public event Action<ButtonState> OnAbilitySecondary;
+        public event Action<ButtonState> OnAbilityWheel;
 
         public Vector3 MoveDirection => _inputHandler.MoveDirection;
         public Vector2 ViewDelta => _inputHandler.ViewDelta;
@@ -38,6 +40,8 @@ namespace GenBall.Player.Executor
             _inputHandler.OnSwitchWeapon += state => OnSwitchWeapon?.Invoke(state);
             _inputHandler.OnInteract += () => OnInteract?.Invoke();
             _inputHandler.OnScrollChange += delta => OnScroll?.Invoke(delta);
+            _inputHandler.OnAbilitySecondary += state => OnAbilitySecondary?.Invoke(state);
+            _inputHandler.OnAbilityWheel += state => OnAbilityWheel?.Invoke(state);
         }
     }
 }
