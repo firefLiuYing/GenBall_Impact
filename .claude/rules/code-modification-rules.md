@@ -13,11 +13,11 @@
 - `ISystem` - 最小系统接口（Init/UnInit）
 - `IFrameUpdate/ILogicUpdate/ILateFrameUpdate` - 可选更新接口
 
-**基建模块**（由 FrameworkBase 直接管理）：
-- `IEventSystem` (CEventSystem) - 事件系统
-- `IResourceSystem` (ResourceSystemEditor/AssetBundle) - 资源管理
-- `IUISystem` (UISystemDefault) - UI 系统
-- `IPoolSystem` (PoolSystemDefault) - 对象池
+**基建模块**（由 FrameworkBase 直接管理，通过 Singleton.Instance 访问）：
+- `CEventRouter` — 全局事件总线（Singleton）
+- `CResourceManager` — 资源管理，通过 `IResourceHelper` 接口切换 Editor/AssetBundle 实现
+- `UIManager` — UI Form 生命周期管理（Singleton）
+- `CPoolManager` — GameObject 对象池（Singleton）
 
 **访问方式**：
 ```csharp
@@ -32,18 +32,9 @@ SystemRepository.Instance.GetSystem<IConfigProvider>()
 SystemRepository.Instance.GetSystem<IBuffSystem>()
 ```
 
-### 旧框架体系（IComponent - 保持运行）
+### 旧框架体系（IComponent — 已废弃）
 
-**访问方式**：
-```csharp
-GameEntry.Event      // 旧事件系统（代码生成）
-GameEntry.UI         // 旧 UI 系统（MVVM）
-GameEntry.Buff       // Buff 系统
-GameEntry.Player     // 玩家管理
-// ... 等等
-```
-
-**状态**：保持运行，不再新增功能，逐步迁移到新体系
+**状态**：完全废弃，新代码禁止使用。现存旧代码保持运行，逐步迁移到新体系。
 
 ---
 
