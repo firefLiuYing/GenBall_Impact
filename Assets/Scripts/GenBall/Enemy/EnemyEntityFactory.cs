@@ -8,7 +8,7 @@ using GenBall.BattleSystem.Weapons.Accessory;
 using GenBall.Enemy.AI;
 using GenBall.Enemy.Attack;
 using GenBall.Enemy.Detect;
-using GenBall.Enemy.Executor;
+using GenBall.BattleSystem.Executors;
 using GenBall.Enemy.Visual;
 using UnityEngine;
 using Yueyn.Main;

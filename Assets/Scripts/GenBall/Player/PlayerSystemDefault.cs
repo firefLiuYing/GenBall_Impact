@@ -1,5 +1,6 @@
 using System;
 using GenBall.BattleSystem.Character;
+using GenBall.BattleSystem.EntityAssembly;
 using GenBall.Framework.Config;
 using UnityEngine;
 using Yueyn.Main;

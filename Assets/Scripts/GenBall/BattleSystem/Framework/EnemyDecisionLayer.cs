@@ -3,7 +3,7 @@ using GenBall.BattleSystem.Framework.AI;
 using UnityEngine;
 using GenBall.Enemy.AI;
 using GenBall.Enemy.Detect;
-using GenBall.Enemy.Executor;
+using GenBall.BattleSystem.Executors;
 using GenBall.Framework.Entity;
 using Yueyn.Fsm;
 

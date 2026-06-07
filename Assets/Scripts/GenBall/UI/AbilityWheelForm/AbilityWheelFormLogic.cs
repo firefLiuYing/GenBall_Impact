@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using GenBall.AbilityWeapon;
+using GenBall.BattleSystem.AbilityWeapon;
 using GenBall.Event;
 using UnityEngine;
 using Yueyn.Event;

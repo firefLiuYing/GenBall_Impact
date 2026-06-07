@@ -1,7 +1,7 @@
 using GenBall.BattleSystem.Character;
 using GenBall.BattleSystem.Framework;
 using GenBall.BattleSystem.Mover;
-using GenBall.Enemy.Executor;
+using GenBall.BattleSystem.Executors;
 using GenBall.Framework.Entity;
 using UnityEngine;
 

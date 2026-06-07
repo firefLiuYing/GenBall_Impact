@@ -1,4 +1,4 @@
-using GenBall.AbilityWeapon;
+using GenBall.BattleSystem.AbilityWeapon;
 using GenBall.BattleSystem;
 using GenBall.BattleSystem.Buff;
 using GenBall.BattleSystem.Bullets;

@@ -75,7 +75,22 @@
       "Bash(echo $LOCALAPPDATA)",
       "Read(//d/Apps/Unity/Unity Project/GenBall_Impact/$LOCALAPPDATA/Unity/**)",
       "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/GenBall/UI' -type f -name *.cs)",
-      "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/Yueyn/UI' -type f -name *.cs)"
+      "Bash(find 'D:/Apps/Unity/Unity Project/GenBall_Impact/Assets/Scripts/Yueyn/UI' -type f -name *.cs)",
+      "Bash(mkdir -p \"Assets/Scripts/GenBall/BattleSystem/AbilityWeapon/StackGun\")",
+      "Bash(mkdir -p \"Assets/Scripts/GenBall/BattleSystem/Executors/Editor\")",
+      "Bash(mkdir -p \"Assets/Scripts/GenBall/BattleSystem/EntityAssembly\")",
+      "Bash(mv \"Assets/Scripts/GenBall/Player/PlayerEntityFactory.cs.meta\" \"Assets/Scripts/GenBall/BattleSystem/EntityAssembly/\")",
+      "Bash(rm -rf \"Assets/Scripts/GenBall/AbilityWeapon\" \"Assets/Scripts/GenBall/Player/Executor\" \"Assets/Scripts/GenBall/Enemy/Executor\")",
+      "Bash(grep \"^namespace\" \"Assets/Scripts/GenBall/BattleSystem/AbilityWeapon/AbilityWeaponSystem.cs\" \"Assets/Scripts/GenBall/BattleSystem/Executors/\"*.cs \"Assets/Scripts/GenBall/BattleSystem/EntityAssembly/PlayerEntityFactory.cs\" \"Assets/Scripts/GenBall/BattleSystem/AbilityWeapon/StackGun/\"*.cs)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's/^using GenBall.Player.Input;/using GenBall.Player;\\\\nusing GenBall.Player.Input;/' \"$f\")",
+      "Bash(if ! grep -q \"using GenBall.Player;\" \"$f\")",
+      "Bash(then)",
+      "Bash(if ! grep -q \"using GenBall.Enemy;\" \"$f\")",
+      "Bash(sed -i '1s/^/using GenBall.Enemy;\\\\n/' \"$f\")",
+      "Bash(fi)",
+      "Bash(done)"
     ]
   },
   "enableAllProjectMcpServers": true,

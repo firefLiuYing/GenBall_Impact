@@ -66,15 +66,20 @@ AI 状态：Idle → Chase → Attack → Wander，全部在 `Framework/AI/` 下
 
 | 执行器 | 接口 | 位置 |
 |--------|------|------|
-| PlayerMoveExecutor | IMove | Player/Executor/ |
+| PlayerMoveExecutor | IMove | Executors/ |
 | PlayerJumpExecutor | IJump, IEntityLogicUpdate | 同上 |
 | PlayerDashExecutor | IDash, IEntityLogicUpdate | 同上 |
 | PlayerGravityExecutor | IEntityLogicUpdate | 同上 |
 | PlayerRotateExecutor | IRotate | 同上 |
 | PlayerInteractExecutor | IInteract | 同上 |
 | WeaponAttackExecutor | IAttack, IReload, ISwitchWeapon | 同上 |
-| WheelExecutor | IWheel | 同上 |
 | WeaponVisibilityExecutor | IWeaponVisibility | 同上 |
+| WheelExecutor | IWheel | 同上 |
+| EnemyDashExecutor | IAttack, IEntityLogicUpdate | 同上 |
+| EnemyJumpMoveExecutor | IMove, IEntityLogicUpdate | 同上 |
+| EnemyGravityExecutor | IEntityLogicUpdate | 同上 |
+| EnemyFaceExecutor | IFaceDirection | 同上 |
+| EnemyJumpExecutor | IJump, IEntityLogicUpdate | 同上 |
 
 ## 实体装配
 
@@ -104,4 +109,4 @@ AI 状态：Idle → Chase → Attack → Wander，全部在 `Framework/AI/` 下
 ## 子模块
 
 - **武器系统** — `Weapons/`，武器自身是独立的 BattleEntity，有弹药系统（Magazine/Heat/Infinite）和扳机行为（SemiAuto/FullAuto/Shotgun/Charge），通过 WeaponAttackExecutor 与 Player 桥接。见 `Weapons/CLAUDE.md`（待创建）
-- **能力武器** — 技能体系，非武器。激活时替换普通武器执行器，有自己的状态机（Idle→Hiding→Active→Showing）。待迁入 BattleSystem 下并创建独立 CLAUDE.md
+- **能力武器** — `AbilityWeapon/`，技能体系。激活时替换普通武器执行器，有自己的状态机（Idle→Hiding→Active→Showing）

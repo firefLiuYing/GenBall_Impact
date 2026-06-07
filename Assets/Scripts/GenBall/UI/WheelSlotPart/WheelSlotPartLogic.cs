@@ -1,4 +1,4 @@
-using GenBall.AbilityWeapon;
+using GenBall.BattleSystem.AbilityWeapon;
 using Yueyn.Main;
 using Yueyn.UI;
 
