@@ -38,6 +38,10 @@ namespace GenBall.Procedure.Execute
             // TODO: 敌人出生列表应从 SceneInitContext 获取，待场景配置系统设计
             LoadEnemyUnit();
 
+            // Notify UI to open HUD before spawning entities, so HUD subscribes
+            // to stat change events before initial values are fired.
+            CEventRouter.Instance.FireNow((int)GlobalEventId.InGameUIReady);
+
             // Spawn player at specified position
             if (context.SpawnPosition != default || context.SpawnRotation != default)
             {
@@ -54,7 +58,7 @@ namespace GenBall.Procedure.Execute
             // ================================================================
             SpawnTestEnemy();
 
-            // Notify: scene is ready — UI layer listens and opens HUD
+            // Notify: scene is fully ready, player can start playing.
             CEventRouter.Instance.FireNow((int)GlobalEventId.SceneReady);
             Debug.Log("[SceneExecutorSystem] Scene setup complete, SceneReady fired.");
         }

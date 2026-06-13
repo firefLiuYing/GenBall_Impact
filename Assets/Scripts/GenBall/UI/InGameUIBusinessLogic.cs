@@ -15,13 +15,13 @@ namespace GenBall.UI
         protected override void OnCreateInternal()
         {
             CEventRouter.Instance.Subscribe((int)GlobalEventId.WheelOpened, OnWheelOpened);
-            CEventRouter.Instance.Subscribe((int)GlobalEventId.SceneReady, OnSceneReady);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.InGameUIReady, OnInGameUIReady);
         }
 
         protected override void OnDestroyInternal()
         {
             CEventRouter.Instance.Unsubscribe((int)GlobalEventId.WheelOpened, OnWheelOpened);
-            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.SceneReady, OnSceneReady);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.InGameUIReady, OnInGameUIReady);
             _mainHudOpened = false;
             base.OnDestroyInternal();
         }
@@ -31,7 +31,7 @@ namespace GenBall.UI
             AbilityWheelFormLogic.Open();
         }
 
-        private void OnSceneReady()
+        private void OnInGameUIReady()
         {
             if (!_mainHudOpened)
             {

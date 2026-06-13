@@ -15,6 +15,7 @@ namespace GenBall.Event
         LoadingProgress = 5,
         LoadingComplete = 6,
         SceneReady = 7,
+        InGameUIReady = 8,
 
         // === Player (1000-1999) ===
         HealthChanged = 1000,
