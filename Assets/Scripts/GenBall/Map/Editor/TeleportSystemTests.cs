@@ -1,6 +1,7 @@
 using GenBall.Procedure.Execute;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 using Yueyn.Main;
 
 namespace GenBall.Map.Tests
@@ -60,11 +61,9 @@ namespace GenBall.Map.Tests
 
             var request = new TeleportRequestInfo { SceneName = "TestScene", SavePointIndex = 0 };
 
-            // Act: GameEntry.Scene.LoadScene will fail in EditMode, but the flag is set
-            // before that call, so we catch the NullReferenceException and verify the flag
-            bool result;
-            try { result = _teleport.Teleport(request); }
-            catch (System.NullReferenceException) { result = true; /* flag was set, GameEntry.Scene is null */ }
+            // Act: Teleport sets IsTeleporting before calling LoadScene.
+            // In EditMode, LoadScene returns early (no async op), but the flag is set.
+            var result = _teleport.Teleport(request);
 
             // Assert
             Assert.That(result, Is.True);
@@ -81,6 +80,7 @@ namespace GenBall.Map.Tests
             var request = new TeleportRequestInfo { SceneName = "NonExistentScene", SavePointIndex = 0 };
 
             // Act
+            LogAssert.Expect(LogType.Error, "[TeleportSystem] SavePoint not found: scene=NonExistentScene, index=0");
             var result = _teleport.Teleport(request);
 
             // Assert
@@ -98,8 +98,7 @@ namespace GenBall.Map.Tests
             var request = new TeleportRequestInfo { SceneName = "TestScene", SavePointIndex = 0 };
 
             // Act: first call
-            try { _teleport.Teleport(request); }
-            catch (System.NullReferenceException) { /* GameEntry.Scene unavailable */ }
+            _teleport.Teleport(request);
 
             // Act: second call should fail due to re-entrancy guard
             var result = _teleport.Teleport(request);
@@ -118,6 +117,7 @@ namespace GenBall.Map.Tests
             var request = new TeleportRequestInfo { SceneName = null, SavePointIndex = 0 };
 
             // Act
+            LogAssert.Expect(LogType.Error, "[TeleportSystem] SceneName is null or empty.");
             var result = _teleport.Teleport(request);
 
             // Assert
@@ -135,6 +135,7 @@ namespace GenBall.Map.Tests
             var request = new TeleportRequestInfo { SceneName = "", SavePointIndex = 0 };
 
             // Act
+            LogAssert.Expect(LogType.Error, "[TeleportSystem] SceneName is null or empty.");
             var result = _teleport.Teleport(request);
 
             // Assert
@@ -154,7 +155,8 @@ namespace GenBall.Map.Tests
         {
             // Assert
             Assert.That(_teleport.IsTeleporting, Is.False);
-            Assert.That(_teleport.CachedSavePointModel, Is.Null);
+            // CachedSavePointModel removed from interface — save point info is
+            // passed via SceneInitContext to ISceneExecutorSystem instead.
         }
     }
 }

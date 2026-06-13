@@ -10,14 +10,14 @@ using UnityEngine;
 namespace GenBall.Procedure.Execute
 {
     /// <summary>
-    /// Splash / Loading 阶段。通过 CEventRouter 发射全局事件通知 UI 层。
+    /// 启动加载阶段。通过 CEventRouter 发射全局事件通知 UI 层。
     /// Procedure 层不引用任何 UI 类型。
     /// </summary>
-    public class SplashState : SimpleFsmState<ILaunchSystem>
+    public class StartupLoadingState : SimpleFsmState<ILaunchSystem>
     {
         public override void OnEnter(ILaunchSystem context)
         {
-            CEventRouter.Instance.FireNow((int)GlobalEventId.SplashBegin);
+            CEventRouter.Instance.FireNow((int)GlobalEventId.StartupLoadingBegin);
         }
     }
 
@@ -33,20 +33,28 @@ namespace GenBall.Procedure.Execute
     }
 
     /// <summary>
-    /// 场景加载阶段。发射 GameLaunch 事件 → 初始化场景状态 → 异步加载场景。
+    /// 场景加载阶段。编排：初始化场景状态 → 加载场景 → 等待完成 → 执行场景初始化。
     /// </summary>
     public class LoadSceneState : SimpleFsmState<ILaunchSystem>
     {
         public override void OnEnter(ILaunchSystem context)
         {
-            // 1. Fire GameLaunch event — tells UI to close StartForm and re-open SplashForm as loading screen
+            var launchSystem = context as LaunchSystemDefault;
+            var startContext = launchSystem?.PendingGameStartContext;
+            if (startContext == null)
+            {
+                Debug.LogError("[LoadSceneState] No pending GameStartContext. Cannot proceed.");
+                return;
+            }
+
+            // 1. Fire GameLaunch event — tells UI to close StartForm and re-open LoadingForm as loading screen
             CEventRouter.Instance.FireNow((int)GlobalEventId.GameLaunch);
 
             // 2. Hide and lock cursor for gameplay
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
 
-            // 3. Initialize scene state and map config (single source of truth)
+            // 3. Initialize scene state and map config
             var gameManager = SystemRepository.Instance.GetSystem<IGameManagerSystem>();
             var sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
 
@@ -60,47 +68,38 @@ namespace GenBall.Procedure.Execute
             sceneSystem.InitializeMapConfig(new MapModel());
 #endif
 
-            // 4. Determine target scene name and save point index
-            string targetSceneName;
-            int savePointIndex;
+            // 4. Look up save point for spawn position
+            var savePoint = sceneSystem.GetSavePointModel(startContext.TargetSceneName, startContext.TargetSavePointIndex);
+            var spawnPosition = savePoint?.spawnPosition ?? Vector3.zero;
+            var spawnRotation = savePoint?.spawnRotation ?? Quaternion.identity;
 
-            var playerProvider = gameManager.GetProvider("Player") as PlayerSaveDataProvider;
-            if ((context.Mode & RunningMode.LoadData) != 0
-                && playerProvider != null
-                && !string.IsNullOrEmpty(playerProvider.RuntimeData.lastSceneName))
-            {
-                // Loading saved game: use saved scene and save point
-                targetSceneName = playerProvider.RuntimeData.lastSceneName;
-                savePointIndex = playerProvider.RuntimeData.lastSavePointIndex;
-            }
-            else
-            {
-                // New game or no-load mode: use config defaults
-                targetSceneName = context.StartSceneName;
-                savePointIndex = 0;
-            }
+            // 5. Subscribe to LoadingComplete to chain into scene initialization
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.LoadingComplete, OnLoadingComplete);
 
-            // 5. Validate scene name
-            if (string.IsNullOrEmpty(targetSceneName))
-            {
-                Debug.LogError("[LoadSceneState] Target scene name is null or empty. Cannot load scene.");
-                return;
-            }
-
-            // 6. Look up save point and set on scene load system
+            // 6. Begin async scene loading
             var loadSystem = SystemRepository.Instance.GetSystem<ISceneLoadSystem>();
-            var savePoint = sceneSystem.GetSavePointModel(targetSceneName, savePointIndex);
-            if (savePoint != null)
-            {
-                loadSystem.SetTargetSavePoint(savePoint);
-            }
-            else
-            {
-                Debug.LogWarning($"[LoadSceneState] Save point not found for scene={targetSceneName} index={savePointIndex}, using default spawn");
-            }
+            loadSystem.LoadScene(startContext.TargetSceneName);
+        }
 
-            // 7. Begin async scene loading
-            loadSystem.AsyncLoadScene(targetSceneName);
+        private void OnLoadingComplete()
+        {
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.LoadingComplete, OnLoadingComplete);
+
+            var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>() as LaunchSystemDefault;
+            var startContext = launchSystem?.PendingGameStartContext;
+            if (startContext == null) return;
+
+            var sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
+            var savePoint = sceneSystem.GetSavePointModel(startContext.TargetSceneName, startContext.TargetSavePointIndex);
+
+            var initContext = new SceneInitContext
+            {
+                SpawnPosition = savePoint?.spawnPosition ?? Vector3.zero,
+                SpawnRotation = savePoint?.spawnRotation ?? Quaternion.identity,
+            };
+
+            var executor = SystemRepository.Instance.GetSystem<ISceneExecutorSystem>();
+            executor.ExecuteSceneSetup(initContext);
         }
     }
 }

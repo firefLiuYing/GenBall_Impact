@@ -81,21 +81,11 @@ namespace GenBall.GM
                     return;
                 }
 
-                if (args.Length > 1 && int.TryParse(args[1], out var savePointIndex))
-                {
-                    var sceneStateSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
-                    var savePoint = sceneStateSystem?.GetSavePointModel(sceneName, savePointIndex);
-                    if (savePoint != null)
-                    {
-                        sceneLoadSystem.SetTargetSavePoint(savePoint);
-                    }
-                }
-
-                sceneLoadSystem.AsyncLoadScene(sceneName);
+                sceneLoadSystem.LoadScene(sceneName);
                 _lastCommandOutput = $"Loading {sceneName}...";
             }, "Load a scene by name. Usage: load_scene <sceneName> [savePointIndex]");
 
-            RegisterCommand("skip_splash", args =>
+            RegisterCommand("skip_loading", args =>
             {
                 var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>();
                 if (launchSystem == null)
@@ -104,9 +94,9 @@ namespace GenBall.GM
                     return;
                 }
 
-                launchSystem.SkipSplash();
-                _lastCommandOutput = "Splash skipped.";
-            }, "Skip the splash/loading screen");
+                launchSystem.SkipStartupLoading();
+                _lastCommandOutput = "Startup loading skipped.";
+            }, "Skip the startup loading screen");
 
             RegisterCommand("list_scenes", args =>
             {

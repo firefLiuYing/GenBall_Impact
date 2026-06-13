@@ -90,7 +90,13 @@
       "Bash(if ! grep -q \"using GenBall.Enemy;\" \"$f\")",
       "Bash(sed -i '1s/^/using GenBall.Enemy;\\\\n/' \"$f\")",
       "Bash(fi)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(mkdir -p \"Assets/Scripts/GenBall/UI/LoadingForm\")",
+      "Bash(mkdir -p \"Assets/AssetBundles/UI/LoadingForm\")",
+      "Bash(rmdir \"Assets/Scripts/GenBall/UI/SplashForm\")",
+      "Bash(rmdir \"Assets/AssetBundles/UI/SplashForm\")",
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --mode EditMode)",
+      "Bash(bash run_editmode_tests.sh --mode EditMode --class TeleportSystemTests)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -1,11 +1,11 @@
-﻿using GenBall.Utils.CodeGenerator.UI;
+using GenBall.Utils.CodeGenerator.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Yueyn.UI;
 
 namespace GenBall.UI
 {
-    public class SplashFormView : UIBusinessFormBase<SplashFormViewData>
+    public class LoadingFormView : UIBusinessFormBase<LoadingFormViewData>
     {
         // ### GENERATED_BINDINGS_START ###
         private UiViewBinding _binding;
@@ -27,7 +27,7 @@ namespace GenBall.UI
             base.DoBusinessStart();
             BindControls();
 
-            // Splash 页面短暂显示，禁用渐显渐隐动画
+            // Loading 页面短暂显示，禁用渐显渐隐动画
             var formScript = GetComponentInParent<UIFormScript>();
             if (formScript != null) formScript.FadeDuration = 0f;
         }

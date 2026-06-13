@@ -2,15 +2,15 @@ using Yueyn.UI;
 
 namespace GenBall.UI
 {
-    public class SplashFormLogic : BusinessFormLogic
+    public class LoadingFormLogic : BusinessFormLogic
     {
         // ### GENERATED_BINDINGS_START ###
         public override string PrefabPath =>
-            "Assets/AssetBundles/UI/SplashForm/SplashForm.prefab";
+            "Assets/AssetBundles/UI/LoadingForm/LoadingForm.prefab";
 
         public override UIFormType FormType => UIFormType.Popup;
 
-        public SplashFormView View { get; private set; }
+        public LoadingFormView View { get; private set; }
 
         // ### GENERATED_BINDINGS_END ###
 
@@ -22,16 +22,16 @@ namespace GenBall.UI
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<SplashFormView>();
+            View = form.GetComponentInChildren<LoadingFormView>();
 
             // 订阅 UI 事件
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe<float>(
-                (int)UIEventKey.SplashForm_ProgressUpdate, OnProgressUpdate);
+                (int)UIEventKey.LoadingForm_ProgressUpdate, OnProgressUpdate);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(
-                (int)UIEventKey.SplashForm_CloseRequest, OnCloseRequest);
+                (int)UIEventKey.LoadingForm_CloseRequest, OnCloseRequest);
 
-            // 通知 UI 事件总线：SplashForm 已打开
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_Opened);
+            // 通知 UI 事件总线：LoadingForm 已打开
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.LoadingForm_Opened);
         }
 
         protected override void OnFormUnbound(UIFormScript form)
@@ -44,19 +44,19 @@ namespace GenBall.UI
         {
             // 取消所有订阅
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe<float>(
-                (int)UIEventKey.SplashForm_ProgressUpdate, OnProgressUpdate);
+                (int)UIEventKey.LoadingForm_ProgressUpdate, OnProgressUpdate);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
-                (int)UIEventKey.SplashForm_CloseRequest, OnCloseRequest);
+                (int)UIEventKey.LoadingForm_CloseRequest, OnCloseRequest);
 
-            // 通知 UI 事件总线：SplashForm 即将关闭
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_Closed);
+            // 通知 UI 事件总线：LoadingForm 即将关闭
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.LoadingForm_Closed);
 
             base.OnFormDestroying();
         }
 
-        public static SplashFormLogic Open()
+        public static LoadingFormLogic Open()
         {
-            return BusinessLogicManager.Instance.CreateLogic<SplashFormLogic>();
+            return BusinessLogicManager.Instance.CreateLogic<LoadingFormLogic>();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace GenBall.UI
         {
             if (View != null)
             {
-                View.SetViewData(new SplashFormViewData { Progress = progress });
+                View.SetViewData(new LoadingFormViewData { Progress = progress });
             }
         }
 

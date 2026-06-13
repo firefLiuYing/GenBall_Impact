@@ -1,4 +1,5 @@
 using GenBall.Procedure.Execute;
+using GenBall.Procedure.Game;
 using Yueyn.Main;
 using Yueyn.UI;
 
@@ -50,23 +51,35 @@ namespace GenBall.UI
             return BusinessLogicManager.Instance.CreateLogic<StartFormLogic>();
         }
 
-        private void OnNewGame()
+        private async void OnNewGame()
         {
+            var gameStartSystem = SystemRepository.Instance.GetSystem<IGameStartSystem>();
+            var context = await gameStartSystem.PrepareStartAsync(
+                new GameStartRequest { Type = GameStartType.NewGame });
+
             var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>();
-            launchSystem.StartNewGame();
+            launchSystem.StartGameWithContext(context);
         }
 
-        private void OnContinue()
+        private async void OnContinue()
         {
+            var gameStartSystem = SystemRepository.Instance.GetSystem<IGameStartSystem>();
+            var context = await gameStartSystem.PrepareStartAsync(
+                new GameStartRequest { Type = GameStartType.Continue });
+
             var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>();
-            launchSystem.ContinueLastGame();
+            launchSystem.StartGameWithContext(context);
         }
 
-        private void OnLoadGame()
+        private async void OnLoadGame()
         {
-            var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>();
+            var gameStartSystem = SystemRepository.Instance.GetSystem<IGameStartSystem>();
             // TODO: 存档选择 UI 完成后传入实际 index
-            launchSystem.LoadGame(0);
+            var context = await gameStartSystem.PrepareStartAsync(
+                new GameStartRequest { Type = GameStartType.LoadGame, SaveIndex = 0 });
+
+            var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>();
+            launchSystem.StartGameWithContext(context);
         }
 
         private void OnCloseRequest()

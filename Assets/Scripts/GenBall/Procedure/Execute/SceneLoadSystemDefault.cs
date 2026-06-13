@@ -1,5 +1,4 @@
 using GenBall.Event;
-using GenBall.Map;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yueyn.Event;
@@ -15,13 +14,11 @@ namespace GenBall.Procedure.Execute
         private float _loadProgress;
         private bool _isLoading;
         private string _targetSceneName;
-        private SavePointModel _targetSavePoint;
         private float _loadStartTime;
 
         public float LoadProgress => _loadProgress;
         public bool IsLoading => _isLoading;
         public string TargetSceneName => _targetSceneName;
-        public SavePointModel TargetSavePoint => _targetSavePoint;
 
         public SystemScope FrameUpdateScope => SystemScope.Framework;
 
@@ -35,16 +32,10 @@ namespace GenBall.Procedure.Execute
             _loadProgress = 0f;
             _isLoading = false;
             _targetSceneName = null;
-            _targetSavePoint = null;
             _loadStartTime = 0f;
         }
 
-        public void SetTargetSavePoint(SavePointModel savePoint)
-        {
-            _targetSavePoint = savePoint;
-        }
-
-        public void AsyncLoadScene(string sceneName)
+        public void LoadScene(string sceneName, SceneLoadMode mode = SceneLoadMode.Single)
         {
             if (_isLoading)
             {
@@ -63,18 +54,20 @@ namespace GenBall.Procedure.Execute
             _loadProgress = 0f;
             _loadStartTime = Time.unscaledTime;
 
-            Debug.Log($"[SceneLoadSystem] Starting async load of scene: {sceneName}");
+            Debug.Log($"[SceneLoadSystem] Starting async load of scene: {sceneName} (mode={mode})");
 
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                // SceneManager.LoadSceneAsync throws in EditMode. Set state for test verification only.
                 Debug.Log($"[SceneLoadSystem] EditMode: state set for scene '{sceneName}' (load skipped)");
                 return;
             }
 #endif
 
-            _asyncOp = SceneManager.LoadSceneAsync(sceneName);
+            var unityMode = mode == SceneLoadMode.Additive
+                ? LoadSceneMode.Additive
+                : LoadSceneMode.Single;
+            _asyncOp = SceneManager.LoadSceneAsync(sceneName, unityMode);
             _asyncOp.allowSceneActivation = true;
         }
 
@@ -102,10 +95,6 @@ namespace GenBall.Procedure.Execute
                 _isLoading = false;
                 _loadProgress = 1f;
                 Debug.Log($"[SceneLoadSystem] Scene load complete: {_targetSceneName}");
-
-                // Trigger scene setup (e.g. spawn player, enemies, HUD)
-                // Specific initialization logic is TBD — will be revised after design discussion
-                SystemRepository.Instance.GetSystem<ISceneExecutorSystem>().ExecuteSceneSetup();
 
                 CEventRouter.Instance.FireNow((int)GlobalEventId.LoadingComplete);
             }

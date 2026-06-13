@@ -137,15 +137,15 @@ namespace GenBall.Procedure.Tests
         }
 
         [Test]
-        public void SceneLoadSystem_AsyncLoadScene_SetsLoadingState()
+        public void SceneLoadSystem_LoadScene_SetsLoadingState()
         {
             // Arrange
             var loadSystem = new SceneLoadSystemDefault();
             SystemRepository.Instance.RegisterSystem<ISceneLoadSystem>(loadSystem);
 
-            // Act: calling AsyncLoadScene sets state. Actual scene loading may fail
+            // Act: calling LoadScene sets state. Actual scene loading may fail
             // in edit-mode tests, but the state flags should be set correctly.
-            Assert.DoesNotThrow(() => loadSystem.AsyncLoadScene("Prologue"));
+            Assert.DoesNotThrow(() => loadSystem.LoadScene("Prologue"));
 
             // Assert
             Assert.That(loadSystem.IsLoading, Is.True);
@@ -159,10 +159,10 @@ namespace GenBall.Procedure.Tests
             // Arrange
             var loadSystem = new SceneLoadSystemDefault();
             SystemRepository.Instance.RegisterSystem<ISceneLoadSystem>(loadSystem);
-            loadSystem.AsyncLoadScene("Prologue");
+            loadSystem.LoadScene("Prologue");
 
             // Act: second call should be rejected (IsLoading is true)
-            Assert.DoesNotThrow(() => loadSystem.AsyncLoadScene("Episode1"));
+            Assert.DoesNotThrow(() => loadSystem.LoadScene("Episode1"));
 
             // Assert: state should still reflect the FIRST scene
             Assert.That(loadSystem.IsLoading, Is.True);
@@ -172,26 +172,16 @@ namespace GenBall.Procedure.Tests
         [Test]
         public void SceneLoadSystem_SetTargetSavePoint_Preserved()
         {
-            // Arrange
+            // After refactoring, save points are passed via SceneInitContext,
+            // not stored on ISceneLoadSystem. This test verifies the new interface
+            // doesn't expose save point storage.
             var loadSystem = new SceneLoadSystemDefault();
             SystemRepository.Instance.RegisterSystem<ISceneLoadSystem>(loadSystem);
 
-            var savePoint = new SavePointModel
-            {
-                id = 1,
-                displayName = "TestSavePoint",
-                spawnPosition = Vector3.one,
-                spawnRotation = Quaternion.identity
-            };
-
-            // Act
-            loadSystem.SetTargetSavePoint(savePoint);
-
-            // Assert
-            Assert.That(loadSystem.TargetSavePoint, Is.Not.Null);
-            Assert.That(loadSystem.TargetSavePoint.id, Is.EqualTo(1));
-            Assert.That(loadSystem.TargetSavePoint.displayName, Is.EqualTo("TestSavePoint"));
-            Assert.That(loadSystem.TargetSavePoint.spawnPosition, Is.EqualTo(Vector3.one));
+            // ISceneLoadSystem no longer has SetTargetSavePoint or TargetSavePoint.
+            // Save points are now part of SceneInitContext passed to ISceneExecutorSystem.
+            Assert.That(loadSystem.TargetSceneName, Is.Null,
+                "Save point info is no longer stored on SceneLoadSystem.");
         }
 
         [Test]
@@ -201,9 +191,7 @@ namespace GenBall.Procedure.Tests
             var loadSystem = new SceneLoadSystemDefault();
             SystemRepository.Instance.RegisterSystem<ISceneLoadSystem>(loadSystem);
 
-            var savePoint = new SavePointModel { id = 1 };
-            loadSystem.SetTargetSavePoint(savePoint);
-            loadSystem.AsyncLoadScene("Prologue");
+            loadSystem.LoadScene("Prologue");
 
             // Act
             loadSystem.UnInit();
@@ -211,7 +199,6 @@ namespace GenBall.Procedure.Tests
             // Assert: all state should be cleared
             Assert.That(loadSystem.IsLoading, Is.False);
             Assert.That(loadSystem.TargetSceneName, Is.Null);
-            Assert.That(loadSystem.TargetSavePoint, Is.Null);
             Assert.That(loadSystem.LoadProgress, Is.EqualTo(0f));
         }
 
@@ -237,7 +224,7 @@ namespace GenBall.Procedure.Tests
             // Assert
             Assert.That(commandNames, Contains.Item("help"));
             Assert.That(commandNames, Contains.Item("load_scene"));
-            Assert.That(commandNames, Contains.Item("skip_splash"));
+            Assert.That(commandNames, Contains.Item("skip_loading"));
             Assert.That(commandNames, Contains.Item("list_scenes"));
         }
 
@@ -259,7 +246,7 @@ namespace GenBall.Procedure.Tests
             Assert.That(result, Is.Not.Null.And.Not.Empty);
             Assert.That(result, Does.Contain("help"));
             Assert.That(result, Does.Contain("load_scene"));
-            Assert.That(result, Does.Contain("skip_splash"));
+            Assert.That(result, Does.Contain("skip_loading"));
             Assert.That(result, Does.Contain("list_scenes"));
         }
 
@@ -336,7 +323,7 @@ namespace GenBall.Procedure.Tests
         // =====================================================================
 
         [Test]
-        public void LaunchSystem_DevMode_SkipsSplash()
+        public void LaunchSystem_DevMode_SkipsStartupLoading()
         {
             // Arrange: register dependencies that LaunchSystemDefault.Init() needs
             var config = new FakeConfigProvider { DevMode = true };
@@ -354,16 +341,16 @@ namespace GenBall.Procedure.Tests
             var launchSystem = new LaunchSystemDefault();
             SystemRepository.Instance.RegisterSystem<ILaunchSystem>(launchSystem);
 
-            // Act: initialize (FSM starts in SplashState)
+            // Act: initialize (FSM starts in StartupLoadingState)
             Assert.DoesNotThrow(() => launchSystem.Init());
 
-            // SkipSplash transitions SplashState -> StartFormState
-            Assert.DoesNotThrow(() => launchSystem.SkipSplash());
+            // SkipStartupLoading transitions StartupLoadingState -> StartFormState
+            Assert.DoesNotThrow(() => launchSystem.SkipStartupLoading());
 
-            // Second call to SkipSplash should be a no-op (not in SplashState anymore)
+            // Second call to SkipStartupLoading should be a no-op (not in StartupLoadingState anymore)
             // If it throws, the FSM state assumption is wrong
-            Assert.DoesNotThrow(() => launchSystem.SkipSplash(),
-                "Calling SkipSplash again should be a no-op when already past SplashState.");
+            Assert.DoesNotThrow(() => launchSystem.SkipStartupLoading(),
+                "Calling SkipStartupLoading again should be a no-op when already past StartupLoadingState.");
 
             // Cleanup: UnInit shuts down the FSM
             Assert.DoesNotThrow(() => launchSystem.UnInit());

@@ -6,19 +6,19 @@ namespace GenBall.UI
     /// </summary>
     public enum UIEventKey : int
     {
-        // ===== SplashForm 事件 =====
+        // ===== LoadingForm 事件 =====
 
-        /// <summary>SplashForm 已打开并绑定完成</summary>
-        SplashForm_Opened = 1,
+        /// <summary>LoadingForm 已打开并绑定完成</summary>
+        LoadingForm_Opened = 1,
 
-        /// <summary>SplashForm 进度更新，参数 float progress (0-1)</summary>
-        SplashForm_ProgressUpdate = 2,
+        /// <summary>LoadingForm 进度更新，参数 float progress (0-1)</summary>
+        LoadingForm_ProgressUpdate = 2,
 
-        /// <summary>请求关闭 SplashForm</summary>
-        SplashForm_CloseRequest = 3,
+        /// <summary>请求关闭 LoadingForm</summary>
+        LoadingForm_CloseRequest = 3,
 
-        /// <summary>SplashForm 已关闭</summary>
-        SplashForm_Closed = 4,
+        /// <summary>LoadingForm 已关闭</summary>
+        LoadingForm_Closed = 4,
 
         // ===== StartForm 事件 =====
 

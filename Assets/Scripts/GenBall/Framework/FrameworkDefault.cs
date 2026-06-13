@@ -61,8 +61,9 @@ namespace GenBall.Framework
             gameManager.RegisterSaveDataProvider(new MapSaveDataProvider());
             gameManager.RegisterSaveDataProvider(new PlayerSaveDataProvider());
 
-            // Phase 2B: 启动流程、场景执行
+            // Phase 2B: 启动流程、场景执行、游戏开始
             SystemRep.RegisterSystem<ILaunchSystem>(new LaunchSystemDefault());
+            SystemRep.RegisterSystem<IGameStartSystem>(new GameStartSystemDefault());
 
             // Phase 3: 玩家、子弹、进化
             SystemRep.RegisterSystem<IPlayerSystem>(new PlayerSystemDefault());
@@ -79,11 +80,10 @@ namespace GenBall.Framework
             // GM 命令系统（调试工具）
             SystemRep.RegisterSystem<IGMCommandSystem>(new GMCommandSystemDefault());
 
-            // SplashBusinessLogic：常驻 UI 业务逻辑，通过事件总线管理 Splash 流程
-            BusinessLogicManager.Instance.CreateLogic<SplashBusinessLogic>();
+            // LoadingBusinessLogic：常驻 UI 业务逻辑，通过事件总线管理启动 Loading 流程
+            BusinessLogicManager.Instance.CreateLogic<LoadingBusinessLogic>();
 
-            // InGameUIBusinessLogic：局内常驻 UI 业务逻辑，管理武器轮盘/背包等局内 UI 开闭
-            BusinessLogicManager.Instance.CreateLogic<InGameUIBusinessLogic>();
+            // InGameUIBusinessLogic 不再在启动时创建，由编排层在 SceneReady 事件后显式创建
 
             Debug.Log("[FrameworkDefault] Systems registered successfully");
         }
@@ -91,7 +91,7 @@ namespace GenBall.Framework
         protected override void DoStart()
         {
             base.DoStart();
-            // 启动流程由 LaunchSystemDefault (IFrameUpdate) 驱动：Splash → StartForm → LoadScene
+            // 启动流程由 LaunchSystemDefault (IFrameUpdate) 驱动：StartupLoading → StartForm → LoadScene
         }
     }
 }

@@ -8,12 +8,13 @@ namespace GenBall.Event
     public enum GlobalEventId
     {
         // === Launch / Procedure (1-99) ===
-        SplashBegin = 1,
-        SplashComplete = 2,
+        StartupLoadingBegin = 1,
+        StartupLoadingComplete = 2,
         StartFormBegin = 3,
         GameLaunch = 4,
         LoadingProgress = 5,
         LoadingComplete = 6,
+        SceneReady = 7,
 
         // === Player (1000-1999) ===
         HealthChanged = 1000,

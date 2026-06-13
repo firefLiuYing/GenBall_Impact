@@ -1,9 +1,9 @@
 namespace GenBall.UI
 {
     /// <summary>
-    /// SplashForm 的 View 数据
+    /// LoadingForm 的 View 数据
     /// </summary>
-    public class SplashFormViewData
+    public class LoadingFormViewData
     {
         /// <summary>
         /// 加载进度 (0-1)

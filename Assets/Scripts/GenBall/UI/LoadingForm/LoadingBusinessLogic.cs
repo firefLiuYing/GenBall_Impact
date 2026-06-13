@@ -6,17 +6,18 @@ namespace GenBall.UI
 {
     /// <summary>
     /// 常驻业务逻辑，将启动流程全局事件映射为 UI 表单操作。
-    /// SplashForm 身兼二职：启动画面 + 加载画面。
+    /// LoadingForm 身兼二职：启动加载画面 + 场景加载画面。
     /// </summary>
-    public class SplashBusinessLogic : BusinessLogicBase
+    public class LoadingBusinessLogic : BusinessLogicBase
     {
-        private int _splashFormLogicId = -1;
+        private int _loadingFormLogicId = -1;
         private int _startFormLogicId = -1;
+        private bool _inGameUICreated;
 
         protected override void OnCreateInternal()
         {
-            CEventRouter.Instance.Subscribe((int)GlobalEventId.SplashBegin, OnSplashBegin);
-            CEventRouter.Instance.Subscribe((int)GlobalEventId.SplashComplete, OnSplashComplete);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.StartupLoadingBegin, OnStartupLoadingBegin);
+            CEventRouter.Instance.Subscribe((int)GlobalEventId.StartupLoadingComplete, OnStartupLoadingComplete);
             CEventRouter.Instance.Subscribe((int)GlobalEventId.StartFormBegin, OnStartFormBegin);
             CEventRouter.Instance.Subscribe((int)GlobalEventId.GameLaunch, OnGameLaunch);
             CEventRouter.Instance.Subscribe<float>((int)GlobalEventId.LoadingProgress, OnLoadingProgress);
@@ -25,24 +26,24 @@ namespace GenBall.UI
 
         protected override void OnDestroyInternal()
         {
-            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.SplashBegin, OnSplashBegin);
-            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.SplashComplete, OnSplashComplete);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.StartupLoadingBegin, OnStartupLoadingBegin);
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.StartupLoadingComplete, OnStartupLoadingComplete);
             CEventRouter.Instance.Unsubscribe((int)GlobalEventId.StartFormBegin, OnStartFormBegin);
             CEventRouter.Instance.Unsubscribe((int)GlobalEventId.GameLaunch, OnGameLaunch);
             CEventRouter.Instance.Unsubscribe<float>((int)GlobalEventId.LoadingProgress, OnLoadingProgress);
             CEventRouter.Instance.Unsubscribe((int)GlobalEventId.LoadingComplete, OnLoadingComplete);
         }
 
-        private void OnSplashBegin()
+        private void OnStartupLoadingBegin()
         {
-            CloseExistingLogic(_splashFormLogicId);
-            var logic = BusinessLogicManager.Instance.CreateLogic<SplashFormLogic>();
-            _splashFormLogicId = logic.LogicId;
+            CloseExistingLogic(_loadingFormLogicId);
+            var logic = BusinessLogicManager.Instance.CreateLogic<LoadingFormLogic>();
+            _loadingFormLogicId = logic.LogicId;
         }
 
-        private void OnSplashComplete()
+        private void OnStartupLoadingComplete()
         {
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_CloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.LoadingForm_CloseRequest);
         }
 
         private void OnStartFormBegin()
@@ -57,20 +58,29 @@ namespace GenBall.UI
             // 关闭主菜单
             Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.StartForm_CloseRequest);
 
-            // 重新打开 SplashForm 作为加载画面
-            CloseExistingLogic(_splashFormLogicId);
-            var logic = BusinessLogicManager.Instance.CreateLogic<SplashFormLogic>();
-            _splashFormLogicId = logic.LogicId;
+            // 重新打开 LoadingForm 作为加载画面
+            CloseExistingLogic(_loadingFormLogicId);
+            var logic = BusinessLogicManager.Instance.CreateLogic<LoadingFormLogic>();
+            _loadingFormLogicId = logic.LogicId;
         }
 
         private void OnLoadingProgress(float progress)
         {
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_ProgressUpdate, progress);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.LoadingForm_ProgressUpdate, progress);
         }
 
         private void OnLoadingComplete()
         {
-            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SplashForm_CloseRequest);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.LoadingForm_CloseRequest);
+
+            // Create InGameUIBusinessLogic on first scene load so it can receive SceneReady.
+            // Teleport re-triggers LoadingComplete, but InGameUIBusinessLogic persists
+            // (created under FrameworkBase DontDestroyOnLoad), so guard against duplicates.
+            if (!_inGameUICreated)
+            {
+                BusinessLogicManager.Instance.CreateLogic<InGameUIBusinessLogic>();
+                _inGameUICreated = true;
+            }
         }
 
         private static void CloseExistingLogic(int logicId)

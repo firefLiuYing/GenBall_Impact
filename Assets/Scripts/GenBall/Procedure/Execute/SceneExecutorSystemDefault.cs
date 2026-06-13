@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using GenBall.Enemy;
 using GenBall.Enemy.AI;
+using GenBall.Event;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
-using GenBall.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Yueyn.Event;
 using Yueyn.Main;
 using Yueyn.Resource;
 using Object = UnityEngine.Object;
@@ -15,62 +16,51 @@ namespace GenBall.Procedure.Execute
 {
     public class SceneExecutorSystemDefault : ISceneExecutorSystem
     {
-        private IGameManagerSystem _gameManager;
         private ISceneStateSystem _sceneSystem;
-        private ITeleportSystem _teleportSystem;
         private IPlayerSystem _playerSystem;
 
         public void Init()
         {
-            _gameManager = SystemRepository.Instance.GetSystem<IGameManagerSystem>();
             _sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
-            _teleportSystem = SystemRepository.Instance.GetSystem<ITeleportSystem>();
             _playerSystem = SystemRepository.Instance.GetSystem<IPlayerSystem>();
         }
 
         public void UnInit() { }
 
-        public void ExecuteSceneSetup()
+        public void ExecuteSceneSetup(SceneInitContext context)
         {
-            var gameData = _gameManager.GameData;
-            if (gameData == null)
+            if (context == null)
             {
-                Debug.LogWarning("[SceneExecutorSystem] GameData is null, skipping scene setup.");
+                Debug.LogError("[SceneExecutorSystem] SceneInitContext is null, skipping scene setup.");
                 return;
             }
 
-            // Reset cursor
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-
-            // Load enemies (BattleEntity framework)
+            // TODO: 敌人出生列表应从 SceneInitContext 获取，待场景配置系统设计
             LoadEnemyUnit();
 
-            // Initialize UI (new MVP)
-            MainHudFormLogic.Open();
-
-            // Spawn player at teleport target or default position
-            var loadSystem = SystemRepository.Instance.GetSystem<ISceneLoadSystem>();
-            var targetSavePoint = loadSystem.TargetSavePoint;
-            if (targetSavePoint != null)
+            // Spawn player at specified position
+            if (context.SpawnPosition != default || context.SpawnRotation != default)
             {
-                _playerSystem.CreatePlayer(targetSavePoint.spawnPosition, targetSavePoint.spawnRotation);
+                _playerSystem.CreatePlayer(context.SpawnPosition, context.SpawnRotation);
             }
             else
             {
                 _playerSystem.CreatePlayer();
             }
-            _teleportSystem.IsTeleporting = false;
 
             // ================================================================
-            // [TEMPORARY] Test spawn a Blue Orbis near the player for B-2 validation.
+            // [TEMPORARY] Test spawn a Blue Orbis for B-2 validation.
             // Remove this block after runtime verification is complete.
             // ================================================================
             SpawnTestEnemy();
+
+            // Notify: scene is ready — UI layer listens and opens HUD
+            CEventRouter.Instance.FireNow((int)GlobalEventId.SceneReady);
+            Debug.Log("[SceneExecutorSystem] Scene setup complete, SceneReady fired.");
         }
 
         /// <summary>
-        /// [TEMPORARY] Spawn a single NormalOrbis near the player for BattleEntity migration testing.
+        /// [TEMPORARY] Spawn a single NormalOrbis for BattleEntity migration testing.
         /// TODO: Remove after B-2 runtime verification.
         /// </summary>
         private void SpawnTestEnemy()
@@ -84,7 +74,6 @@ namespace GenBall.Procedure.Execute
                 return;
             }
 
-            // Spawn in front of the player (or at origin if player doesn't exist)
             var player = _playerSystem.Player;
             var spawnPos = player != null
                 ? player.transform.position + player.transform.forward * 5f
@@ -108,6 +97,10 @@ namespace GenBall.Procedure.Execute
             { "NormalOrbis", "Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab" },
         };
 
+        /// <summary>
+        /// [TEMPORARY] 从 ISceneStateSystem 加载敌人。
+        /// TODO: 替换为从 SceneInitContext 获取敌人列表，待场景配置系统设计。
+        /// </summary>
         private void LoadEnemyUnit()
         {
             var sceneName = SceneManager.GetActiveScene().name;
@@ -123,12 +116,10 @@ namespace GenBall.Procedure.Execute
                 var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
                 var go = Object.Instantiate(prefab, enemyUnitModel.spawnPosition, enemyUnitModel.spawnRotation);
 
-                // Try to get configs from EnemyConfigReference on the prefab
                 var configRef = go.GetComponent<EnemyConfigReference>();
                 EnemyConfigSo config = configRef?.Config;
                 EnemyAIConfigSo aiConfig = configRef?.AiConfig;
 
-                // Fallback: create default config. TODO: proper config loading from IConfigProvider
                 if (config == null)
                 {
                     config = ScriptableObject.CreateInstance<EnemyConfigSo>();

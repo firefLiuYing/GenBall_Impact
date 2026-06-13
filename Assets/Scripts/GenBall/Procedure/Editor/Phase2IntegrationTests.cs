@@ -43,21 +43,17 @@ namespace GenBall.Procedure.Tests
         {
             public RunningMode Mode => RunningMode.SaveData | RunningMode.LoadData;
             public string StartSceneName => "Test";
-            public float SceneLoadProgress => 0f;
-            public bool IsSceneLoading => false;
             public void Init() { }
             public void UnInit() { }
-            public void StartNewGame() { }
-            public void ContinueLastGame() { }
-            public void LoadGame(int saveIndex) { }
-            public void SkipSplash() { }
+            public void SkipStartupLoading() { }
+            public void StartGameWithContext(GameStartContext context) { }
         }
 
         private class TestSceneExecutorSystem : ISceneExecutorSystem
         {
             public void Init() { }
             public void UnInit() { }
-            public void ExecuteSceneSetup() { }
+            public void ExecuteSceneSetup(SceneInitContext context) { }
         }
 
         /// <summary>
