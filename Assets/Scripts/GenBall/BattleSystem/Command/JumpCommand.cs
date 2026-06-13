@@ -16,6 +16,9 @@ namespace GenBall.BattleSystem.Command
         public int InterruptPriority => 3;
         public int AntiInterruptPriority => 3;
         public bool Bufferable => Phase != JumpPhase.Cancel;
+        public bool BlocksMove => false;
+        public bool BlocksRotate => false;
+        public bool BlocksGravity => false;
 
         public JumpCommand(JumpPhase phase = JumpPhase.Start)
         {

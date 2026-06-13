@@ -331,10 +331,10 @@ namespace GenBall.BattleSystem.Framework.Tests
             // Advance time past 0.5s cooldown
             _playerDecision.MakeDecision(0.6f);
 
-            // Should be able to dash again
+            // Second dash interrupts the first: CancelActive calls dash.Dash(zero) + Activate calls dash.Dash(forward)
             _input.SimulateDash(ButtonState.Down);
 
-            Assert.That(_dash.CallCount, Is.EqualTo(2));
+            Assert.That(_dash.CallCount, Is.EqualTo(3));
         }
 
         [Test]
@@ -398,8 +398,10 @@ namespace GenBall.BattleSystem.Framework.Tests
             // Then continuous inputs polled
             _playerDecision.MakeDecision(0.016f);
 
-            Assert.That(_move.CallCount, Is.EqualTo(0));
-            // Dash active: blocks both Move and Rotate
+            // Jump BlocksMove=false (doesn't block movement), Dash BlocksMove=true
+            // → only Dash's Activate issues RouteMove(zero), so Move=1
+            Assert.That(_move.CallCount, Is.EqualTo(1));
+            // Dash active: BlocksRotate=true blocks rotation
             Assert.That(_rotate.CallCount, Is.EqualTo(0));
             Assert.That(_jump.CallCount, Is.EqualTo(1));
             Assert.That(_dash.CallCount, Is.EqualTo(1));

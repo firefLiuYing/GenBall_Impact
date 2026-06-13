@@ -10,6 +10,9 @@ namespace GenBall.BattleSystem.Command
         public int InterruptPriority => 10;
         public int AntiInterruptPriority => 10;
         public bool Bufferable => false;
+        public bool BlocksMove => true;
+        public bool BlocksRotate => false;
+        public bool BlocksGravity => false;
 
         public StunCommand(float duration)
         {

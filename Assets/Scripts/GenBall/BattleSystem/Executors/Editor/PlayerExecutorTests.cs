@@ -64,6 +64,12 @@ namespace GenBall.BattleSystem.Executors.Tests
         [SetUp]
         public void SetUp()
         {
+            // Ensure clean state — SystemRepository is a singleton shared across test fixtures
+            if (SystemRepository.Instance.HasSystem<IEntityUpdateSystem>())
+                SystemRepository.Instance.UnregisterSystem<IEntityUpdateSystem>();
+            if (SystemRepository.Instance.HasSystem<IPauseSystem>())
+                SystemRepository.Instance.UnregisterSystem<IPauseSystem>();
+
             var pauseSystem = new MockPauseSystem();
             SystemRepository.Instance.RegisterSystem<IPauseSystem>(pauseSystem);
 
@@ -236,6 +242,12 @@ namespace GenBall.BattleSystem.Executors.Tests
         [SetUp]
         public void SetUp()
         {
+            // Ensure clean state — SystemRepository is a singleton shared across test fixtures
+            if (SystemRepository.Instance.HasSystem<IEntityUpdateSystem>())
+                SystemRepository.Instance.UnregisterSystem<IEntityUpdateSystem>();
+            if (SystemRepository.Instance.HasSystem<IPauseSystem>())
+                SystemRepository.Instance.UnregisterSystem<IPauseSystem>();
+
             var pauseSystem = new MockPauseSystem();
             SystemRepository.Instance.RegisterSystem<IPauseSystem>(pauseSystem);
 

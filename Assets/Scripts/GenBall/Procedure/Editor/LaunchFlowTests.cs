@@ -9,6 +9,7 @@ using GenBall.Procedure.Execute;
 using GenBall.Procedure.Game;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 using Yueyn.Main;
 
 namespace GenBall.Procedure.Tests
@@ -348,7 +349,6 @@ namespace GenBall.Procedure.Tests
             Assert.DoesNotThrow(() => launchSystem.SkipStartupLoading());
 
             // Second call to SkipStartupLoading should be a no-op (not in StartupLoadingState anymore)
-            // If it throws, the FSM state assumption is wrong
             Assert.DoesNotThrow(() => launchSystem.SkipStartupLoading(),
                 "Calling SkipStartupLoading again should be a no-op when already past StartupLoadingState.");
 

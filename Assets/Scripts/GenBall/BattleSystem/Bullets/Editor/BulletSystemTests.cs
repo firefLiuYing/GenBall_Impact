@@ -17,6 +17,10 @@ namespace GenBall.BattleSystem.Bullets.Tests
         [SetUp]
         public void SetUp()
         {
+            // Ensure clean state — SystemRepository is a singleton shared across test fixtures
+            if (SystemRepository.Instance.HasSystem<IBulletSystem>())
+                SystemRepository.Instance.UnregisterSystem<IBulletSystem>();
+
             _bulletSystem = new BulletSystem();
             SystemRepository.Instance.RegisterSystem<IBulletSystem>(_bulletSystem);
         }
@@ -56,18 +60,17 @@ namespace GenBall.BattleSystem.Bullets.Tests
         }
 
         [Test]
-        public void FireBullet_WithNullInfo_Throws()
+        public void FireBullet_WithNullInfo_DoesNotThrow()
         {
-            // FireBullet accesses info.Model on null, causing NullReferenceException
-            Assert.Throws<System.NullReferenceException>(() => _bulletSystem.FireBullet(null));
+            // FireBullet(BulletLaunchInfo) now has a null guard: if (info == null) return;
+            Assert.DoesNotThrow(() => _bulletSystem.FireBullet(null));
         }
 
         [Test]
-        public void RecycleBullet_WithNull_Throws()
+        public void RecycleBullet_WithNull_DoesNotThrow()
         {
-            // RecycleBullet calls Object.Destroy(bulletState.gameObject); with null bulletState,
-            // causing NullReferenceException
-            Assert.Throws<System.NullReferenceException>(() => _bulletSystem.RecycleBullet(null));
+            // RecycleBullet(BulletState) now has a null guard: if (bulletState != null) ...
+            Assert.DoesNotThrow(() => _bulletSystem.RecycleBullet(null));
         }
     }
 }

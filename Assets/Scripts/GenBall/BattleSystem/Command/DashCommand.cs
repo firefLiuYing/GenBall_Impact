@@ -12,6 +12,7 @@ namespace GenBall.BattleSystem.Command
         public int InterruptPriority => 5;
         public int AntiInterruptPriority => 5;
         public bool Bufferable => false;
+        public bool BlocksMove => true;
         public bool BlocksRotate => true;
         public bool BlocksGravity => true;
 

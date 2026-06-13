@@ -12,6 +12,11 @@ namespace GenBall.BattleSystem.Buff.Tests
         [SetUp]
         public void SetUp()
         {
+            // Ensure clean state — SystemRepository is a singleton shared across test fixtures
+            if (SystemRepository.Instance.HasSystem<IBuffTickSystem>())
+                SystemRepository.Instance.UnregisterSystem<IBuffTickSystem>();
+            if (SystemRepository.Instance.HasSystem<IBuffRegistry>())
+                SystemRepository.Instance.UnregisterSystem<IBuffRegistry>();
             SystemUpdaterManager.Instance.Resume();
             _registry = new BuffRegistry();
         }

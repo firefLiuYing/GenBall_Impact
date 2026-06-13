@@ -14,6 +14,14 @@ namespace GenBall.Map.Tests
         [SetUp]
         public void SetUp()
         {
+            // Ensure clean state — SystemRepository is a singleton shared across test fixtures
+            if (SystemRepository.Instance.HasSystem<ITeleportSystem>())
+                SystemRepository.Instance.UnregisterSystem<ITeleportSystem>();
+            if (SystemRepository.Instance.HasSystem<ISceneStateSystem>())
+                SystemRepository.Instance.UnregisterSystem<ISceneStateSystem>();
+            if (SystemRepository.Instance.HasSystem<ISceneLoadSystem>())
+                SystemRepository.Instance.UnregisterSystem<ISceneLoadSystem>();
+
             // Register ISceneLoadSystem first (new dependency of TeleportSystem)
             var loadSystem = new SceneLoadSystemDefault();
             SystemRepository.Instance.RegisterSystem<ISceneLoadSystem>(loadSystem);

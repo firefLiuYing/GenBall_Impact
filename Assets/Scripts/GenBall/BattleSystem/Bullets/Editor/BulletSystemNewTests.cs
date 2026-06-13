@@ -4,6 +4,7 @@ using GenBall.Framework.Config;
 using GenBall.Framework.Entity;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 using Yueyn.Main;
 
 namespace GenBall.BattleSystem.Bullets.Tests
@@ -17,8 +18,20 @@ namespace GenBall.BattleSystem.Bullets.Tests
         [SetUp]
         public void SetUp()
         {
+            // Ensure clean state — SystemRepository is a singleton shared across test fixtures
+            if (SystemRepository.Instance.HasSystem<IConfigProvider>())
+                SystemRepository.Instance.UnregisterSystem<IConfigProvider>();
+            if (SystemRepository.Instance.HasSystem<IBulletSystem>())
+                SystemRepository.Instance.UnregisterSystem<IBulletSystem>();
+            if (SystemRepository.Instance.HasSystem<IEntityUpdateSystem>())
+                SystemRepository.Instance.UnregisterSystem<IEntityUpdateSystem>();
+
             _bulletSystem = new BulletSystem();
             SystemRepository.Instance.RegisterSystem<IBulletSystem>(_bulletSystem);
+
+            // FireBullet -> BulletInstance.Init needs IEntityUpdateSystem
+            var entityUpdate = new EntityUpdateSystem();
+            SystemRepository.Instance.RegisterSystem<IEntityUpdateSystem>(entityUpdate);
 
             // Create test config collection
             _testConfigCollection = ScriptableObject.CreateInstance<BulletConfigCollection>();
@@ -97,6 +110,7 @@ namespace GenBall.BattleSystem.Bullets.Tests
         {
             try { SystemRepository.Instance.UnregisterSystem<IBulletSystem>(); } catch { }
             try { SystemRepository.Instance.UnregisterSystem<IConfigProvider>(); } catch { }
+            try { SystemRepository.Instance.UnregisterSystem<IEntityUpdateSystem>(); } catch { }
         }
 
         // ======== System Lifecycle ========
@@ -213,6 +227,7 @@ namespace GenBall.BattleSystem.Bullets.Tests
                 SpeedMultiplier = 1f
             };
 
+            LogAssert.Expect(LogType.Error, "[BulletSystem] BulletConfig 'None' not found");
             Assert.DoesNotThrow(() => _bulletSystem.FireBullet(fireParams));
         }
 
@@ -355,15 +370,17 @@ namespace GenBall.BattleSystem.Bullets.Tests
         // ======== Backward Compatibility ========
 
         [Test]
-        public void FireBullet_WithNullLaunchInfo_Throws()
+        public void FireBullet_WithNullLaunchInfo_DoesNotThrow()
         {
-            Assert.Throws<System.NullReferenceException>(() => _bulletSystem.FireBullet(null as BulletLaunchInfo));
+            // FireBullet(BulletLaunchInfo) now has a null guard: if (info == null) return;
+            Assert.DoesNotThrow(() => _bulletSystem.FireBullet(null as BulletLaunchInfo));
         }
 
         [Test]
-        public void RecycleBullet_WithNullBulletState_Throws()
+        public void RecycleBullet_WithNullBulletState_DoesNotThrow()
         {
-            Assert.Throws<System.NullReferenceException>(() => _bulletSystem.RecycleBullet(null as BulletState));
+            // RecycleBullet(BulletState) now has a null guard: if (bulletState != null) ...
+            Assert.DoesNotThrow(() => _bulletSystem.RecycleBullet(null as BulletState));
         }
 
         // ======== Fake Config Provider ========

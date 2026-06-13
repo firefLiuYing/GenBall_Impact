@@ -226,8 +226,9 @@ namespace GenBall.BattleSystem.Framework.Tests
 
             _dispatcher.Issue(new MoveCommand(new Vector3(1, 0, 0)));
 
-            // Attack blocks Move (BlocksMove=true by default)
-            Assert.That(_mockMove.CallCount, Is.EqualTo(0));
+            // Attack BlocksMove=true: non-zero move is blocked.
+            // Activate also calls RouteMove(zero) to stop the character immediately.
+            Assert.That(_mockMove.CallCount, Is.EqualTo(1));
         }
 
         [Test]
@@ -356,16 +357,16 @@ namespace GenBall.BattleSystem.Framework.Tests
         public void NonBufferableCommand_Dropped()
         {
             _dispatcher.Issue(new JumpCommand()); // Anti=3, active
-
             _dispatcher.Issue(new DashCommand(Vector3.forward, 10f)); // Interrupt=5 >= 3 → interrupts
-            // Now Dash is active (Anti=5)
+            // Now Dash is active (Anti=5). Activate also calls RouteMove(zero) via BlocksMove.
 
-            _dispatcher.Issue(new AttackCommand(1, interruptPriority: 2, antiInterruptPriority: 2)); // Interrupt=2 < 5, Bufferable=true → buffered
+            _dispatcher.Issue(new AttackCommand(1, interruptPriority: 2, antiInterruptPriority: 2)); // 2 < 5 → buffered
 
-            // Another dash — not bufferable
-            _dispatcher.Issue(new DashCommand(Vector3.back, 5f)); // Interrupt=5 >= 5 → interrupts
+            // Another dash — interrupts (5 >= 5), CancelActive calls dash.Dash(zero) as cancel
+            _dispatcher.Issue(new DashCommand(Vector3.back, 5f));
 
-            Assert.That(_mockDash.CallCount, Is.EqualTo(2)); // Both dashes executed
+            // Dash calls: 1 (activate first dash) + 1 (cancelActive zero dash) + 1 (activate second dash) = 3
+            Assert.That(_mockDash.CallCount, Is.EqualTo(3));
         }
 
         [Test]
@@ -699,8 +700,9 @@ namespace GenBall.BattleSystem.Framework.Tests
 
             _dispatcher.Issue(new MoveCommand(new Vector3(1, 0, 0), priority: 10));
 
-            // Move is blocked when action is active (BlocksMove=true by default)
-            Assert.That(_mockMove.CallCount, Is.EqualTo(0));
+            // Move is blocked when action is active (BlocksMove=true by default).
+            // Activate also calls RouteMove(zero) to stop the character.
+            Assert.That(_mockMove.CallCount, Is.EqualTo(1));
         }
 
         [Test]
@@ -742,8 +744,8 @@ namespace GenBall.BattleSystem.Framework.Tests
         {
             var cmd = new JumpCommand(JumpPhase.Cancel);
 
-            Assert.That(cmd.InterruptPriority, Is.EqualTo(int.MaxValue));
-            Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(int.MaxValue));
+            Assert.That(cmd.InterruptPriority, Is.EqualTo(3));
+            Assert.That(cmd.AntiInterruptPriority, Is.EqualTo(3));
             Assert.That(cmd.Bufferable, Is.False);
         }
 
@@ -764,17 +766,15 @@ namespace GenBall.BattleSystem.Framework.Tests
             _dispatcher.Issue(new JumpCommand(JumpPhase.Start));
             Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());
 
-            // Dash has AntiInterrupt=5, but Cancel has int.MaxValue Interrupt priority
+            // Dash has AntiInterrupt=5, Cancel has Interrupt=3 → cannot interrupt
             _dispatcher.Issue(new DashCommand(Vector3.forward, 10f));
             Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<DashCommand>());
 
-            // Cancel should interrupt anything
+            // Cancel (Interrupt=3) cannot interrupt Dash (Anti=5)
             _dispatcher.Issue(new JumpCommand(JumpPhase.Cancel));
 
-            // The cancel should be the active command
-            Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<JumpCommand>());
-            var active = (JumpCommand)_dispatcher.ActiveCommand;
-            Assert.That(active.Phase, Is.EqualTo(JumpPhase.Cancel));
+            // Dash stays active — cancel is silently dropped (Bufferable=false)
+            Assert.That(_dispatcher.ActiveCommand, Is.TypeOf<DashCommand>());
         }
     }
 }

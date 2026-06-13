@@ -67,6 +67,21 @@ namespace GenBall.Procedure.Tests
             }
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            // Ensure clean state before each test — SystemRepository is a singleton shared across test fixtures
+            SafeUnregister<ISceneExecutorSystem>();
+            SafeUnregister<ILaunchSystem>();
+            SafeUnregister<IGameManagerSystem>();
+            SafeUnregister<IPauseSystem>();
+            SafeUnregister<ITeleportSystem>();
+            SafeUnregister<ISceneStateSystem>();
+            SafeUnregister<IInteractSystem>();
+            SafeUnregister<ISaveService>();
+            SafeUnregister<IConfigProvider>();
+        }
+
         [TearDown]
         public void TearDown()
         {

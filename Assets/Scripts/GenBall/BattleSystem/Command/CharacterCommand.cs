@@ -49,6 +49,9 @@ namespace GenBall.BattleSystem.Command
         public int InterruptPriority { get; }
         public int AntiInterruptPriority { get; }
         public bool Bufferable => true;
+        public bool BlocksMove => true;
+        public bool BlocksRotate => false;
+        public bool BlocksGravity => false;
 
         /// <summary>
         /// Default priorities (2/2) represent a normal attack.
