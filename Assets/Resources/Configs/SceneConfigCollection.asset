@@ -12,4 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79cd6334fb4de748aec12a098319210, type: 3}
   m_Name: SceneConfigCollection
   m_EditorClassIdentifier: 
-  scenes: []
+  scenes:
+  - sceneName: YueynTestMap
+    displayName: YueynTestMap
+    savePoints: []
+    enemySpawns:
+    - id: 0
+      enemyType: NormalOrbis
+      position: {x: -3.0594623, y: 4.3894763, z: -7.317647}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      patrolRadius: 5
+      detectRadius: 10
+      aiBehavior: 0
+    triggers: []
+    mechanisms: []

@@ -56,7 +56,7 @@ namespace GenBall.Procedure.Execute
             // [TEMPORARY] Test spawn a Blue Orbis for B-2 validation.
             // Remove this block after runtime verification is complete.
             // ================================================================
-            SpawnTestEnemy();
+            // SpawnTestEnemy();
 
             // Hide editor placeholders for dynamically spawned objects (enemies, triggers).
             // These objects were placed in the editor for configuration and visual reference;

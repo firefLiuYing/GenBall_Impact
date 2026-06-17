@@ -413,6 +413,16 @@ namespace GenBall.Utils.Editor.Map
             instance.transform.position = spawnPos;
             instance.name = prefab.name;
 
+            // For dynamic placeables (enemies, triggers): immediately unpack to break
+            // the prefab link. This ensures the lightweight placeholder prefab does not
+            // create a missing-dependency error during asset bundle packaging.
+            var placeable = instance.GetComponent<IScenePlaceable>();
+            if (placeable != null && placeable.IsDynamic)
+            {
+                PrefabUtility.UnpackPrefabInstance(instance,
+                    PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            }
+
             Undo.RegisterCreatedObjectUndo(instance, "Add Placeable");
             Selection.activeGameObject = instance;
 
@@ -420,7 +430,6 @@ namespace GenBall.Utils.Editor.Map
             RefreshSceneData();
 
             // Select the new placeable
-            var placeable = instance.GetComponent<IScenePlaceable>();
             if (placeable != null)
             {
                 _selected = placeable;

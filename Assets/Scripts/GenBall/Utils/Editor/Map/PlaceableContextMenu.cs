@@ -9,6 +9,11 @@ namespace GenBall.Utils.Editor.Map
     /// <summary>
     /// Hierarchy right-click context menu entries for creating Map placeables.
     /// Mirrors the "3D Object &gt; Cube" workflow for lower learning curve.
+    ///
+    /// Dynamic placeables (enemies, triggers) are unpacked immediately after creation
+    /// to break the prefab link. This prevents missing-dependency errors during
+    /// asset bundle packaging, since placeholder prefabs live outside the AB scope.
+    /// Non-dynamic placeables (save points, mechanisms) keep their prefab link.
     /// </summary>
     public static class PlaceableContextMenu
     {
@@ -19,7 +24,7 @@ namespace GenBall.Utils.Editor.Map
         [MenuItem("GameObject/Map/Enemy/NormalOrbis", false, MenuPriority)]
         private static void CreateNormalOrbis()
         {
-            CreatePlaceable<NormalOrbisConfig>("NormalOrbis_Placeholder");
+            CreateDynamicPlaceable<NormalOrbisConfig>("NormalOrbis_Placeholder");
         }
 
         // ── SavePoint ──────────────────────────────────────────
@@ -27,7 +32,7 @@ namespace GenBall.Utils.Editor.Map
         [MenuItem("GameObject/Map/SavePoint", false, MenuPriority + 10)]
         private static void CreateSavePoint()
         {
-            CreatePlaceableFromPrefab<SavePointConfig>(
+            CreateStaticPlaceable<SavePointConfig>(
                 "SavePoint",
                 "Assets/AssetBundles/Common/SavePoint/SavePoint.prefab");
         }
@@ -37,7 +42,7 @@ namespace GenBall.Utils.Editor.Map
         [MenuItem("GameObject/Map/SceneTrigger", false, MenuPriority + 20)]
         private static void CreateSceneTrigger()
         {
-            CreatePlaceableFromPrefab<SceneTriggerConfig>(
+            CreateDynamicPlaceable<SceneTriggerConfig>(
                 "Trigger",
                 "Assets/AssetBundles/Common/TriggerObject/Trigger.prefab");
         }
@@ -45,9 +50,57 @@ namespace GenBall.Utils.Editor.Map
         // ── Helpers ────────────────────────────────────────────
 
         /// <summary>
-        /// Create a placeable by instantiating a prefab (which should already have the component).
+        /// Create a dynamic placeable (enemies, triggers). Instantiates the prefab
+        /// then immediately unpacks to break the prefab link, avoiding AB dependency.
         /// </summary>
-        private static void CreatePlaceableFromPrefab<T>(string defaultName, string prefabPath)
+        private static void CreateDynamicPlaceable<T>(string defaultName, string prefabPath = null)
+            where T : Component
+        {
+            Vector3 spawnPos = GetSpawnPosition();
+
+            // Resolve prefab path: parameter first, then [PlaceablePrefab] attribute
+            if (string.IsNullOrEmpty(prefabPath))
+            {
+                var attr = System.Attribute.GetCustomAttribute(typeof(T), typeof(PlaceablePrefabAttribute)) as PlaceablePrefabAttribute;
+                prefabPath = attr?.PrefabPath;
+            }
+
+            GameObject go;
+            if (!string.IsNullOrEmpty(prefabPath))
+            {
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                if (prefab != null)
+                {
+                    go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                    go.transform.position = spawnPos;
+                    // Break prefab link to avoid AB packaging dependency
+                    PrefabUtility.UnpackPrefabInstance(go,
+                        PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                }
+                else
+                {
+                    go = new GameObject(defaultName);
+                    go.transform.position = spawnPos;
+                    go.AddComponent<T>();
+                }
+            }
+            else
+            {
+                go = new GameObject(defaultName);
+                go.transform.position = spawnPos;
+                go.AddComponent<T>();
+            }
+
+            go.name = defaultName;
+            Undo.RegisterCreatedObjectUndo(go, $"Create {typeof(T).Name}");
+            Selection.activeGameObject = go;
+        }
+
+        /// <summary>
+        /// Create a non-dynamic placeable (save points, mechanisms) that keeps its
+        /// prefab link. The prefab must be within the asset bundle packaging scope.
+        /// </summary>
+        private static void CreateStaticPlaceable<T>(string defaultName, string prefabPath)
             where T : Component
         {
             Vector3 spawnPos = GetSpawnPosition();
@@ -67,43 +120,6 @@ namespace GenBall.Utils.Editor.Map
             }
 
             go.name = defaultName;
-            Undo.RegisterCreatedObjectUndo(go, $"Create {typeof(T).Name}");
-            Selection.activeGameObject = go;
-        }
-
-        /// <summary>
-        /// Create a placeable as an empty GameObject with the config component added.
-        /// Used for dynamic entities (enemies) where the prefab is a lightweight placeholder
-        /// that may not exist yet.
-        /// </summary>
-        private static void CreatePlaceable<T>(string defaultName) where T : Component
-        {
-            // Try to find the placeholder prefab from [PlaceablePrefab] attribute
-            var prefabAttr = System.Attribute.GetCustomAttribute(typeof(T), typeof(PlaceablePrefabAttribute)) as PlaceablePrefabAttribute;
-            string prefabPath = prefabAttr?.PrefabPath;
-
-            Vector3 spawnPos = GetSpawnPosition();
-            GameObject go;
-
-            if (!string.IsNullOrEmpty(prefabPath))
-            {
-                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-                if (prefab != null)
-                {
-                    go = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-                    go.transform.position = spawnPos;
-                    go.name = defaultName;
-                    Undo.RegisterCreatedObjectUndo(go, $"Create {typeof(T).Name}");
-                    Selection.activeGameObject = go;
-                    return;
-                }
-            }
-
-            // Fallback: create empty GO with component
-            go = new GameObject(defaultName);
-            go.transform.position = spawnPos;
-            go.AddComponent<T>();
-
             Undo.RegisterCreatedObjectUndo(go, $"Create {typeof(T).Name}");
             Selection.activeGameObject = go;
         }
