@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace GenBall.Map
 {
-    public class SavePointConfig : MonoBehaviour
+    [PlaceableCategory("SavePoint", "存档点", 0)]
+    public class SavePointConfig : MonoBehaviour, IScenePlaceable
     {
-        [SerializeField] private Transform playerSpawnPoint; 
+        [SerializeField] private Transform playerSpawnPoint;
         [SerializeField,HideInInspector] private int index;
         [SerializeField] private string displayName;
         public Transform PlayerSpawnPoint => playerSpawnPoint ?? transform;
@@ -17,5 +18,29 @@ namespace GenBall.Map
             set => index = value;
         }
 
+        int IScenePlaceable.Id
+        {
+            get => index;
+            set => index = value;
+        }
+
+        string IScenePlaceable.DisplayLabel => displayName;
+
+        string IScenePlaceable.Category => "SavePoint";
+
+        Transform IScenePlaceable.Anchor => PlayerSpawnPoint;
+
+        bool IScenePlaceable.IsDynamic => false;
+
+        object IScenePlaceable.BakeToConfigData() => new SavePointData
+        {
+            id = index,
+            displayName = displayName,
+            position = PlayerSpawnPoint.position,
+            rotation = PlayerSpawnPoint.rotation,
+        };
+
+        string IScenePlaceable.Validate() =>
+            string.IsNullOrEmpty(displayName) ? "Display name is required." : null;
     }
 }

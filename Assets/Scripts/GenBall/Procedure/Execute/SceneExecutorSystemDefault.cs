@@ -58,9 +58,41 @@ namespace GenBall.Procedure.Execute
             // ================================================================
             SpawnTestEnemy();
 
+            // Hide editor placeholders for dynamically spawned objects (enemies, triggers).
+            // These objects were placed in the editor for configuration and visual reference;
+            // at runtime they are replaced by dynamically spawned instances.
+            CleanupDynamicPlaceables();
+
             // Notify: scene is fully ready, player can start playing.
             CEventRouter.Instance.FireNow((int)GlobalEventId.SceneReady);
             Debug.Log("[SceneExecutorSystem] Scene setup complete, SceneReady fired.");
+        }
+
+        /// <summary>
+        /// Deactivate all IScenePlaceable objects marked as dynamic (enemies, triggers)
+        /// since they have been replaced by dynamically spawned instances.
+        /// Uses SetActive(false) rather than Destroy to avoid issues with
+        /// other systems that may hold references.
+        /// </summary>
+        private static void CleanupDynamicPlaceables()
+        {
+            var scene = SceneManager.GetActiveScene();
+            var roots = scene.GetRootGameObjects();
+            var cleaned = 0;
+            foreach (var root in roots)
+            {
+                var placeables = root.GetComponentsInChildren<IScenePlaceable>(true);
+                foreach (var p in placeables)
+                {
+                    if (p.IsDynamic && p.Anchor != null && p.Anchor.gameObject.activeSelf)
+                    {
+                        p.Anchor.gameObject.SetActive(false);
+                        cleaned++;
+                    }
+                }
+            }
+            if (cleaned > 0)
+                Debug.Log($"[SceneExecutorSystem] Cleaned up {cleaned} dynamic placeables.");
         }
 
         /// <summary>
@@ -96,10 +128,7 @@ namespace GenBall.Procedure.Execute
             Debug.Log($"[SceneExecutorSystem] Test enemy spawned at {spawnPos}");
         }
 
-        private static readonly Dictionary<string, string> EnemyPrefabPaths = new()
-        {
-            { "NormalOrbis", "Assets/AssetBundles/Common/Orbis/NormalOrbis/Prefab/NormalOrbis.prefab" },
-        };
+        // EnemyPrefabPaths replaced by EnemyPrefabRegistry for centralized registration.
 
         /// <summary>
         /// [TEMPORARY] 从 ISceneStateSystem 加载敌人。
@@ -111,7 +140,7 @@ namespace GenBall.Procedure.Execute
             var enemyUnitModels = _sceneSystem.GetAllUnKilledEnemyModel(sceneName);
             foreach (var enemyUnitModel in enemyUnitModels)
             {
-                if (!EnemyPrefabPaths.TryGetValue(enemyUnitModel.enemyType, out var path))
+                if (!EnemyPrefabRegistry.TryGetPath(enemyUnitModel.enemyType, out var path))
                 {
                     Debug.LogWarning($"[SceneExecutorSystem] No prefab path registered for enemy type: {enemyUnitModel.enemyType}");
                     continue;

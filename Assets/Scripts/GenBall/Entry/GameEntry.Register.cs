@@ -22,7 +22,7 @@ namespace GenBall
         public static EventManager Event => GetModule<EventManager>();
         public static UIManager UI => GetModule<UIManager>();
         public static SaveComponent Save => GetModule<SaveComponent>();
-        public static MapModule Map => GetModule<MapModule>();
+        // MapModule deleted — old MapBlock system abandoned. Use ISceneStateSystem + SceneConfigCollection instead.
         // ExecuteComponent / SceneModule migrated to new framework ISystems
         // (ILaunchSystem / ISceneLoadSystem)
         public static FsmManager Fsm => GetModule<FsmManager>();

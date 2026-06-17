@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Buff;
+using GenBall.Map;
 using GenBall.Player;
 using UnityEngine;
 
@@ -25,6 +26,8 @@ namespace GenBall.Framework.Config
             LoadConfig<BulletConfigCollection>("Configs/BulletConfigCollection");
             var bulletConfig = GetConfig<BulletConfigCollection>();
             bulletConfig?.Init();
+
+            LoadConfig<SceneConfigCollection>("Configs/SceneConfigCollection");
 
             Debug.Log($"[AppConfigManager] Loaded {_configs.Count} configs");
         }

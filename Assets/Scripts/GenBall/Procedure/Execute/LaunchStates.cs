@@ -1,4 +1,5 @@
 using GenBall.Event;
+using GenBall.Framework.Config;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
@@ -62,11 +63,11 @@ namespace GenBall.Procedure.Execute
             var mapSaveData = mapProvider?.RuntimeData ?? new MapSaveData();
             sceneSystem.InitializeSceneStateObjs(mapSaveData);
 
-#if UNITY_EDITOR
-            sceneSystem.InitializeMapConfig(ConfigProvider.GetOrCreateMapConfig());
-#else
-            sceneSystem.InitializeMapConfig(new MapModel());
-#endif
+            // Load scene config via IConfigProvider and convert to MapModel for SceneSystem compatibility.
+            // TODO: Refactor SceneSystem to accept SceneConfigCollection directly, then remove MapModel.
+            var configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
+            var sceneConfig = configProvider?.GetConfig<SceneConfigCollection>();
+            sceneSystem.InitializeMapConfig(ConvertToMapModel(sceneConfig));
 
             // 4. Look up save point for spawn position
             var savePoint = sceneSystem.GetSavePointModel(startContext.TargetSceneName, startContext.TargetSavePointIndex);
@@ -100,6 +101,51 @@ namespace GenBall.Procedure.Execute
 
             var executor = SystemRepository.Instance.GetSystem<ISceneExecutorSystem>();
             executor.ExecuteSceneSetup(initContext);
+        }
+
+        /// <summary>
+        /// Temporary conversion from new SceneConfigCollection to legacy MapModel.
+        /// TODO: Remove when SceneSystem directly consumes SceneConfigCollection.
+        /// </summary>
+        private static MapModel ConvertToMapModel(SceneConfigCollection sceneConfig)
+        {
+            var mapModel = ScriptableObject.CreateInstance<MapModel>();
+            if (sceneConfig == null) return mapModel;
+
+            foreach (var entry in sceneConfig.scenes)
+            {
+                var sceneModel = new SceneModel
+                {
+                    sceneName = entry.sceneName,
+                    displayName = entry.displayName,
+                };
+
+                foreach (var sp in entry.savePoints)
+                {
+                    sceneModel.savePoints.Add(new SavePointModel
+                    {
+                        id = sp.id,
+                        displayName = sp.displayName,
+                        spawnPosition = sp.position,
+                        spawnRotation = sp.rotation,
+                    });
+                }
+
+                foreach (var es in entry.enemySpawns)
+                {
+                    sceneModel.enemyUnits.Add(new EnemyUnitModel
+                    {
+                        id = es.id,
+                        enemyType = es.enemyType,
+                        spawnPosition = es.position,
+                        spawnRotation = es.rotation,
+                    });
+                }
+
+                mapModel.scenes.Add(sceneModel);
+            }
+
+            return mapModel;
         }
     }
 }
