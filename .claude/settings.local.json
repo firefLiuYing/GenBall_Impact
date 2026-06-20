@@ -97,7 +97,9 @@
       "Bash(rmdir \"Assets/AssetBundles/UI/SplashForm\")",
       "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --mode EditMode)",
       "Bash(bash run_editmode_tests.sh --mode EditMode --class TeleportSystemTests)",
-      "Bash(bash \"D:/Apps/Unity/Unity Project/GenBall_Impact/run_editmode_tests.sh\" --mode EditMode)"
+      "Bash(bash \"D:/Apps/Unity/Unity Project/GenBall_Impact/run_editmode_tests.sh\" --mode EditMode)",
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh --class SceneSystemTests,TeleportSystemTests)",
+      "Bash(echo:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

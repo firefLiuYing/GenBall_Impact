@@ -32,9 +32,7 @@ namespace GenBall.Utils.Editor.Map
         [MenuItem("GameObject/Map/SavePoint", false, MenuPriority + 10)]
         private static void CreateSavePoint()
         {
-            CreateStaticPlaceable<SavePointConfig>(
-                "SavePoint",
-                "Assets/AssetBundles/Common/SavePoint/SavePoint.prefab");
+            CreateDynamicPlaceable<SavePointConfig>("SavePoint");
         }
 
         // ── SceneTrigger ───────────────────────────────────────

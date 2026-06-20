@@ -25,7 +25,7 @@ namespace GenBall.Utils.Editor.Map
         private string _validationResult;
         private bool _validationPassed;
 
-        [MenuItem("Tools/Map/Map Scene Editor")]
+        [MenuItem("Tools/Map Scene Editor")]
         public static void OpenWindow()
         {
             var window = GetWindow<MapSceneEditorWindow>("Map Scene Editor");
@@ -197,6 +197,7 @@ namespace GenBall.Utils.Editor.Map
 
             if (_selected == null)
             {
+                DrawSceneSettings();
                 EditorGUILayout.HelpBox(
                     "Select a placeable from the left panel to edit its properties.\n\n" +
                     "Use the toolbar buttons to validate all placeables or bake to config.",
@@ -442,6 +443,92 @@ namespace GenBall.Utils.Editor.Map
             var typeInfo = PlaceableTypeDiscovery.DiscoverAll()
                 .FirstOrDefault(t => t.CategoryAttribute.Category == category);
             return typeInfo?.CategoryAttribute.DisplayName ?? category;
+        }
+
+        private void DrawSceneSettings()
+        {
+            GUILayout.Label("Scene Settings", EditorStyles.boldLabel);
+
+            var scene = SceneManager.GetActiveScene();
+            var sceneName = scene.name;
+
+            // Scene display name — stored in EditorPrefs, fallback to SceneConfig or scene name
+            var displayNameKey = $"MapEditor_{sceneName}_DisplayName";
+            var displayName = EditorPrefs.GetString(displayNameKey, "");
+            if (string.IsNullOrEmpty(displayName))
+            {
+                var sceneConfig = UnityEngine.Object.FindObjectOfType<SceneConfig>();
+                displayName = sceneConfig != null ? sceneConfig.DisplayName : sceneName;
+            }
+            EditorGUI.BeginChangeCheck();
+            displayName = EditorGUILayout.TextField("Scene Display Name", displayName);
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorPrefs.SetString(displayNameKey, displayName);
+            }
+
+            // Default save point dropdown
+            DrawDefaultSavePointDropdown(sceneName);
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            EditorGUILayout.Space();
+        }
+
+        private void DrawDefaultSavePointDropdown(string sceneName)
+        {
+            const string configPath = "Assets/Resources/Configs/SceneConfigCollection.asset";
+            var config = AssetDatabase.LoadAssetAtPath<SceneConfigCollection>(configPath);
+            var prefsKey = $"MapEditor_{sceneName}_DefaultSavePointId";
+
+            var displayOptions = new System.Collections.Generic.List<string>();
+            var idOptions = new System.Collections.Generic.List<int>();
+            displayOptions.Add("(Not set)");
+            idOptions.Add(-1);
+
+            if (config != null)
+            {
+                var entry = config.scenes.FirstOrDefault(s => s.sceneName == sceneName);
+                if (entry != null)
+                {
+                    foreach (var sp in entry.savePoints)
+                    {
+                        displayOptions.Add($"[{sp.id}] {sp.displayName}");
+                        idOptions.Add(sp.id);
+                    }
+                }
+            }
+
+            int currentId = EditorPrefs.GetInt(prefsKey, -1);
+            var currentIndex = idOptions.IndexOf(currentId);
+            if (currentIndex < 0) currentIndex = 0;
+
+            EditorGUILayout.BeginHorizontal();
+            var newIndex = EditorGUILayout.Popup("Default Save Point", currentIndex, displayOptions.ToArray());
+            if (newIndex != currentIndex)
+            {
+                EditorPrefs.SetInt(prefsKey, idOptions[newIndex]);
+            }
+
+            // Ping button
+            if (idOptions[newIndex] >= 0)
+            {
+                if (GUILayout.Button("\u25ce", GUILayout.Width(30)))
+                {
+                    var configs = UnityEngine.Object.FindObjectsOfType<SavePointConfig>();
+                    foreach (var sp in configs)
+                    {
+                        if (sp.Index == idOptions[newIndex])
+                        {
+                            Selection.activeGameObject = sp.gameObject;
+                            if (SceneView.lastActiveSceneView != null)
+                                SceneView.lastActiveSceneView.FrameSelected();
+                            break;
+                        }
+                    }
+                }
+            }
+            EditorGUILayout.EndHorizontal();
         }
 
         private void DestroySelectedEditor()

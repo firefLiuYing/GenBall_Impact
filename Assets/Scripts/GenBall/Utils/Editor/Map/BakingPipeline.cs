@@ -18,6 +18,28 @@ namespace GenBall.Utils.Editor.Map
         private const string ConfigAssetPath = "Assets/Resources/Configs/SceneConfigCollection.asset";
         private const string ConfigDirectory = "Assets/Resources/Configs";
 
+        [MenuItem("Tools/Bake Current Scene")]
+        public static void BakeCurrentSceneStandalone()
+        {
+            var scene = SceneManager.GetActiveScene();
+            if (!scene.isLoaded)
+            {
+                Debug.LogWarning("[BakingPipeline] No active scene to bake.");
+                return;
+            }
+
+            var placeables = new System.Collections.Generic.List<IScenePlaceable>();
+            var roots = scene.GetRootGameObjects();
+            foreach (var root in roots)
+            {
+                var components = root.GetComponentsInChildren<MonoBehaviour>(true)
+                    .OfType<IScenePlaceable>();
+                placeables.AddRange(components);
+            }
+
+            BakeCurrentScene(placeables);
+        }
+
         /// <summary>
         /// Run validation on all IScenePlaceable objects in the active scene.
         /// Returns true if all pass, false with collected error messages.
@@ -66,9 +88,14 @@ namespace GenBall.Utils.Editor.Map
                 config.scenes.Add(entry);
             }
 
-            // 4. Get scene display name from SceneConfig component
+            // 4. Get scene display name and default save point
             var sceneConfig = Object.FindObjectOfType<SceneConfig>();
-            entry.displayName = sceneConfig != null ? sceneConfig.DisplayName : sceneName;
+            var displayNameKey = $"MapEditor_{sceneName}_DisplayName";
+            var prefsDisplayName = EditorPrefs.GetString(displayNameKey, "");
+            entry.displayName = !string.IsNullOrEmpty(prefsDisplayName) ? prefsDisplayName
+                : (sceneConfig != null ? sceneConfig.DisplayName : sceneName);
+            var savePointKey = $"MapEditor_{sceneName}_DefaultSavePointId";
+            entry.defaultSavePointId = EditorPrefs.GetInt(savePointKey, 0);
 
             // 5. Clear existing lists and repopulate
             entry.savePoints.Clear();
@@ -120,6 +147,16 @@ namespace GenBall.Utils.Editor.Map
 
             // 7. Mark scene dirty (IDs were assigned back to components)
             EditorSceneManager.MarkSceneDirty(scene);
+
+            // 8. Update GameObject names to reflect assigned IDs
+            foreach (var p in grouped)
+            {
+                if (p is MonoBehaviour mb)
+                {
+                    Undo.RecordObject(mb.gameObject, "Bake Name");
+                    mb.gameObject.name = p.DisplayLabel;  // e.g. "[0] Initial Bonfire"
+                }
+            }
 
             Debug.Log($"[BakingPipeline] Baked scene '{sceneName}': " +
                 $"{entry.savePoints.Count} save points, {entry.enemySpawns.Count} enemies, " +

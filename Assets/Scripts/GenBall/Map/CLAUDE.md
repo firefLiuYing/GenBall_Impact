@@ -7,7 +7,7 @@
 | 类别 | IsDynamic | 组件 | Prefab |
 |------|-----------|------|--------|
 | Enemy (敌人) | true | `EnemyUnitConfigBase` 子类 | 各类 Orbis prefab |
-| SavePoint (存档点) | false | `SavePointConfig` | `SavePoint.prefab` |
+| SavePoint (存档点/篝火) | true | `SavePointConfig` | `SavePoint.prefab` (placeholder) |
 | SceneTrigger (触发器) | true | `SceneTriggerConfig` | `Trigger.prefab` |
 | Mechanism (机关) | false | `MechanismConfig` | 各机关 prefab |
 
@@ -28,8 +28,9 @@ SceneConfigCollection
   └─ List<SceneConfigEntry> scenes
        ├─ string sceneName
        ├─ string displayName
+       ├─ int defaultSavePointId
        ├─ List<SavePointData> savePoints
-       │    └─ id, displayName, position, rotation
+       │    └─ id, displayName, position, rotation, bonfireType, initiallyActive, bonfirePosition, bonfireRotation
        ├─ List<EnemySpawnData> enemySpawns
        │    └─ id, enemyType, position, rotation, patrolRadius, detectRadius, aiBehavior
        ├─ List<SceneTriggerData> triggers
@@ -41,47 +42,63 @@ SceneConfigCollection
 ### 运行时消费示例
 
 ```csharp
-// 获取场景配置
-var configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
-var sceneConfig = configProvider.GetConfig<SceneConfigCollection>();
-
-// 查找当前场景的配置
+var sceneConfig = SystemRepository.Instance.GetSystem<IConfigProvider>().GetConfig<SceneConfigCollection>();
 var sceneName = SceneManager.GetActiveScene().name;
 var entry = sceneConfig.scenes.FirstOrDefault(s => s.sceneName == sceneName);
 
-// 获取所有存档点（供传送系统用）
-foreach (var sp in entry.savePoints)
-{
-    Debug.Log($"SavePoint {sp.id}: {sp.displayName} at {sp.position}");
-}
+// 场景默认出生存档点（第一个进入 / 死亡复活时）
+var defaultSpawn = entry.savePoints.FirstOrDefault(sp => sp.id == entry.defaultSavePointId);
+var spawnPos = defaultSpawn?.position ?? Vector3.zero;
 
-// 获取敌人生成点
-foreach (var es in entry.enemySpawns)
+// 篝火生成：bonfireType 非空即为篝火，通过 BonfirePrefabRegistry 查 prefab
+foreach (var sp in entry.savePoints.Where(sp => !string.IsNullOrEmpty(sp.bonfireType)))
 {
-    // 用 EnemyPrefabRegistry 解析 prefab 路径
-    if (EnemyPrefabRegistry.TryGetPath(es.enemyType, out var path))
+    if (BonfirePrefabRegistry.TryGetPath(sp.bonfireType, out var path))
     {
         var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
-        Instantiate(prefab, es.position, es.rotation);
+        Instantiate(prefab, sp.bonfirePosition, sp.bonfireRotation);
     }
 }
 ```
 
 ### 编辑器工具
 
-- **菜单**: `Tools/Map/Map Scene Editor`
-- **烘焙管线**: `BakingPipeline.BakeCurrentScene()` — 校验 → 分配ID → 写入 SceneConfigCollection
+- **窗口**: `Tools/Map Scene Editor` — 可放置物树、属性面板、Scene Settings（展示名 + 默认存档点下拉+定位按钮）
+- **独立烘焙**: `Tools/Bake Current Scene` — 不打开窗口直接烘焙
+- **烘焙管线**: `BakingPipeline.BakeCurrentScene()` — 校验 → 分配ID → 写入 SceneConfigCollection → 更新 GO 名称
 - **类型发现**: `PlaceableTypeDiscovery.DiscoverAll()` — 反射扫描所有可放置类型
-- **Scene View**: `PlaceableSceneGUI` — 彩色 Gizmo + Handle 编辑
+- **Scene View**: `PlaceableSceneGUI` — 彩色 Gizmo + Handle 编辑；存档点额外画 PlayerSpawnPoint 十字 + 虚线 + 篝火图标
+- **Scene Settings**: displayName 和 defaultSavePointId 存于 EditorPrefs，不依赖场景中 GO。有 SceneConfig 组件时 displayName 以其为初始值。
 
-### 敌人 Prefab 注册
+### 存档点 / 篝火
 
-`EnemyPrefabRegistry` 是运行时静态注册表，映射敌人类型名 → prefab 路径。
+存档点统一为一个 Category，通过 `bonfireType` 区分：
+- **空字符串** = 纯锚点（仅定义 Player 出生位置，不可见不可交互）
+- **非空** = 篝火（可见可交互，模型通过 `BonfirePrefabRegistry` 查找）
+
+`initiallyActive` 控制场景初始化是否生成；`false` 的篝火需事件解锁（解锁后 ID 进入持久化的 `UnlockedSavePoints`）。
+
+`[SavePointReference]` 属性可用于 int 字段，Inspector 显示下拉选择存档点并支持 PingObject 定位。`crossScene: true` 支持跨场景引用（仅下拉）。
+
+### Prefab 注册表
+
+| 注册表 | 映射 |
+|--------|------|
+| `EnemyPrefabRegistry` | 敌人类型名 → prefab 路径 |
+| `BonfirePrefabRegistry` | 篝火类型名 → prefab 路径 |
 
 ```csharp
-// 注册新敌人类型（在系统 Init 中调用）
+// 注册（在系统 Init 中调用）
 EnemyPrefabRegistry.Register("AcidOrbis", "Assets/AssetBundles/Common/Orbis/AcidOrbis/Prefab/AcidOrbis.prefab");
+BonfirePrefabRegistry.Register("Default", "Assets/AssetBundles/Common/Bonfire/Default/Prefab/Default.prefab");
 
 // 查找
 if (EnemyPrefabRegistry.TryGetPath("AcidOrbis", out var path)) { ... }
+foreach (var t in BonfirePrefabRegistry.RegisteredTypes) { ... }
 ```
+
+### 运行时
+
+- `SceneExecutorSystemDefault.SpawnBonfires()` — 扫描场景中 SavePointConfig，生成 `initiallyActive` 的篝火
+- `SceneExecutorSystemDefault.CleanupDynamicPlaceables()` — 禁用所有 IsDynamic=true 的编辑占位 GO
+- 运行顺序：LoadEnemyUnit → InGameUIReady → CreatePlayer → **SpawnBonfires → CleanupDynamicPlaceables** → SceneReady

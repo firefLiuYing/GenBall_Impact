@@ -15,11 +15,28 @@ MonoBehaviour:
   scenes:
   - sceneName: YueynTestMap
     displayName: YueynTestMap
-    savePoints: []
+    defaultSavePointId: 0
+    savePoints:
+    - id: 0
+      displayName: 
+      position: {x: 1.22, y: 7.04, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      bonfireType: 
+      initiallyActive: 1
+      bonfirePosition: {x: 0, y: 7.04, z: 0}
+      bonfireRotation: {x: 0, y: 0, z: 0, w: 1}
+    - id: 1
+      displayName: "\u725B\u903C"
+      position: {x: 2.3188515, y: -0.53082705, z: 2.4459486}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      bonfireType: Default
+      initiallyActive: 1
+      bonfirePosition: {x: 1.0988514, y: -0.53082705, z: 2.4459486}
+      bonfireRotation: {x: 0, y: 0, z: 0, w: 1}
     enemySpawns:
     - id: 0
       enemyType: NormalOrbis
-      position: {x: -3.0594623, y: 4.3894763, z: -7.317647}
+      position: {x: -3.0594623, y: -2.87, z: -7.317647}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       patrolRadius: 5
       detectRadius: 10

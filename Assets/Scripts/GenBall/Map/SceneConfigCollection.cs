@@ -22,6 +22,7 @@ namespace GenBall.Map
     {
         public string sceneName;
         public string displayName;
+        public int defaultSavePointId;
         public List<SavePointData> savePoints = new();
         public List<EnemySpawnData> enemySpawns = new();
         public List<SceneTriggerData> triggers = new();
@@ -38,6 +39,14 @@ namespace GenBall.Map
         public string displayName;
         public Vector3 position;
         public Quaternion rotation;
+        /// <summary>Empty string = pure anchor point. Non-empty = bonfire type looked up via BonfirePrefabRegistry.</summary>
+        public string bonfireType;
+        /// <summary>Whether to spawn the bonfire on scene init.</summary>
+        public bool initiallyActive;
+        /// <summary>World position for the bonfire prefab (config.transform.position).</summary>
+        public Vector3 bonfirePosition;
+        /// <summary>World rotation for the bonfire prefab (config.transform.rotation).</summary>
+        public Quaternion bonfireRotation;
     }
 
     /// <summary>

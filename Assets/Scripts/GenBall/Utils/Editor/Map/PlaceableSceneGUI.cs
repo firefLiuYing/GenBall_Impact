@@ -76,6 +76,36 @@ namespace GenBall.Utils.Editor.Map
                         }
                     }
                     break;
+
+                case SavePointConfig sp:
+                    // Draw cross at player spawn point (Anchor) to distinguish from config position sphere
+                    var anchorPos = sp.PlayerSpawnPoint != null ? sp.PlayerSpawnPoint.position : sp.transform.position;
+                    Handles.color = new Color(color.r, color.g, color.b, 0.6f);
+                    var crossSize = 0.2f;
+                    Handles.DrawLine(anchorPos + Vector3.left * crossSize, anchorPos + Vector3.right * crossSize);
+                    Handles.DrawLine(anchorPos + Vector3.back * crossSize, anchorPos + Vector3.forward * crossSize);
+                    Handles.DrawLine(anchorPos + Vector3.down * crossSize, anchorPos + Vector3.up * crossSize);
+
+                    // Draw dashed line from config position to player spawn point
+                    if (Vector3.Distance(pos, anchorPos) > 0.01f)
+                    {
+                        Handles.color = new Color(color.r, color.g, color.b, 0.4f);
+                        Handles.DrawDottedLine(pos, anchorPos, 4f);
+                    }
+
+                    // If bonfire type is set, draw a marker at config position
+                    if (!string.IsNullOrEmpty(sp.BonfireType))
+                    {
+                        Handles.color = new Color(1f, 0.6f, 0.1f, 0.7f);
+                        var firePos = sp.transform.position;
+                        Handles.DrawWireDisc(firePos, Vector3.up, 0.25f);
+                        Handles.Label(firePos + Vector3.up * 0.5f, sp.BonfireType, new GUIStyle(GUI.skin.label)
+                        {
+                            fontSize = 9,
+                            normal = { textColor = new Color(1f, 0.7f, 0.2f) }
+                        });
+                    }
+                    break;
             }
         }
 

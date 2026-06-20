@@ -58,7 +58,10 @@ namespace GenBall.Procedure.Execute
             // ================================================================
             // SpawnTestEnemy();
 
-            // Hide editor placeholders for dynamically spawned objects (enemies, triggers).
+            // Spawn bonfires from editor-placed SavePointConfig before cleanup.
+            SpawnBonfires();
+
+            // Hide editor placeholders for dynamically spawned objects (enemies, triggers, save points).
             // These objects were placed in the editor for configuration and visual reference;
             // at runtime they are replaced by dynamically spawned instances.
             CleanupDynamicPlaceables();
@@ -69,7 +72,46 @@ namespace GenBall.Procedure.Execute
         }
 
         /// <summary>
-        /// Deactivate all IScenePlaceable objects marked as dynamic (enemies, triggers)
+        /// Spawn bonfire prefabs from editor-placed SavePointConfig components.
+        /// Bonfires with initiallyActive=false are skipped (awaiting event-based unlock).
+        /// </summary>
+        private static void SpawnBonfires()
+        {
+            var scene = SceneManager.GetActiveScene();
+            var roots = scene.GetRootGameObjects();
+            var spawned = 0;
+            foreach (var root in roots)
+            {
+                var configs = root.GetComponentsInChildren<SavePointConfig>(true);
+                foreach (var sp in configs)
+                {
+                    if (string.IsNullOrEmpty(sp.BonfireType)) continue;
+                    if (!sp.InitiallyActive) continue;
+
+                    if (!BonfirePrefabRegistry.TryGetPath(sp.BonfireType, out var path))
+                    {
+                        Debug.LogWarning($"[SceneExecutorSystem] Bonfire type '{sp.BonfireType}' not registered in BonfirePrefabRegistry.");
+                        continue;
+                    }
+
+                    var prefab = CResourceManager.Instance.LoadSync<GameObject>(path);
+                    if (prefab == null)
+                    {
+                        Debug.LogWarning($"[SceneExecutorSystem] Bonfire prefab not found at: {path}");
+                        continue;
+                    }
+
+                    var go = Object.Instantiate(prefab, sp.transform.position, sp.transform.rotation);
+                    go.name = $"[{sp.Index}] {sp.DisplayName} (Runtime)";
+                    spawned++;
+                }
+            }
+            if (spawned > 0)
+                Debug.Log($"[SceneExecutorSystem] Spawned {spawned} bonfire(s).");
+        }
+
+        /// <summary>
+        /// Deactivate all IScenePlaceable objects marked as dynamic (enemies, triggers, save points)
         /// since they have been replaced by dynamically spawned instances.
         /// Uses SetActive(false) rather than Destroy to avoid issues with
         /// other systems that may hold references.
@@ -84,9 +126,9 @@ namespace GenBall.Procedure.Execute
                 var placeables = root.GetComponentsInChildren<IScenePlaceable>(true);
                 foreach (var p in placeables)
                 {
-                    if (p.IsDynamic && p.Anchor != null && p.Anchor.gameObject.activeSelf)
+                    if (p.IsDynamic && p is MonoBehaviour mb && mb.gameObject.activeSelf)
                     {
-                        p.Anchor.gameObject.SetActive(false);
+                        mb.gameObject.SetActive(false);
                         cleaned++;
                     }
                 }
