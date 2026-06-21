@@ -1,7 +1,6 @@
 using System;
 using GenBall.Interact;
 using UnityEngine;
-using Yueyn.Main;
 
 namespace GenBall.Event
 {
@@ -9,6 +8,8 @@ namespace GenBall.Event
     /// Small bridge component used by RuntimeEventTrigger in Interact mode.
     /// Implements IInteractable so the player's interaction system can activate
     /// the trigger. Delegates to a plain Action callback.
+    ///
+    /// Sight-based discovery is handled by InteractSystem (IFrameUpdate SphereCast).
     /// </summary>
     public class RuntimeInteractProxy : MonoBehaviour, IInteractable
     {
@@ -16,20 +17,21 @@ namespace GenBall.Event
         public event Action OnInteract;
 
         public string OperationDescription => "Interact";
-
-        public void Register()
-        {
-            SystemRepository.Instance.GetSystem<IInteractSystem>()?.AddInteractable(this);
-        }
-
-        public void Unregister()
-        {
-            SystemRepository.Instance.GetSystem<IInteractSystem>()?.RemoveInteractable(this);
-        }
+        public bool CanInteract => true;
 
         public void Interact()
         {
             OnInteract?.Invoke();
+        }
+
+        public void OnFocused()
+        {
+            Debug.Log($"[RuntimeInteractProxy] Focused: {gameObject.name}");
+        }
+
+        public void OnUnfocused()
+        {
+            Debug.Log($"[RuntimeInteractProxy] Unfocused: {gameObject.name}");
         }
     }
 }

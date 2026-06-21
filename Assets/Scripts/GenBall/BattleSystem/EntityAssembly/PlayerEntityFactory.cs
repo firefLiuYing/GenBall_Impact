@@ -82,11 +82,10 @@ namespace GenBall.BattleSystem.EntityAssembly
             // Gravity executor — checks dispatcher for BlocksGravity (e.g., dash)
             var gravityExecutor = new PlayerGravityExecutor(mover, groundDetect, config, dispatcher);
 
-            // Interact executor
-            var camera = firstPersonCamera;
+            // Interact executor — sight detection is handled by InteractSystem (IFrameUpdate)
             var interactSystem = SystemRepository.Instance.GetSystem<IInteractSystem>();
-            var interactExecutor = new PlayerInteractExecutor(interactSystem, camera,
-                config.sightDetectRadius, config.sightDetectDistance, config.interactableLayer);
+            interactSystem.Configure(config.coneHalfAngle, config.maxInteractDistance, config.interactableLayer);
+            var interactExecutor = new PlayerInteractExecutor(interactSystem);
 
             // 7. Register executors on dispatcher
             dispatcher.RegisterExecutor<MoveCommand>(playerMoveExecutor);
@@ -126,7 +125,6 @@ namespace GenBall.BattleSystem.EntityAssembly
             entity.RegisterComponent(gravityExecutor);
             entity.RegisterComponent(jumpExecutor);
             entity.RegisterComponent(dashExecutor);
-            entity.RegisterComponent(interactExecutor);
             entity.RegisterComponent(decisionLayer);
             entity.RegisterComponent(deathComponent);
             entity.RegisterComponent(hitReaction);

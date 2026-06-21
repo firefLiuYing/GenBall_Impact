@@ -27,6 +27,8 @@ Module-specific rules auto-loaded when working in those directories:
 |------|--------|
 | `Assets/Scripts/GenBall/UI/CLAUDE.md` | UI — Form/Part lifecycle, communication patterns, UiViewBinding |
 | `Assets/Scripts/GenBall/BattleSystem/CLAUDE.md` | Battle — BattleEntity framework, components, decision/command/executor layers |
+| `Assets/Scripts/GenBall/Interact/CLAUDE.md` | Interact — IInteractable/IInteractSystem, cone sight detection, interaction flow |
+| `Assets/Scripts/GenBall/Event/CLAUDE.md` | Event — EventAdapter usage, event ID ranges, parameter types, PropertyDrawer |
 | `Assets/Scripts/Yueyn/CLAUDE.md` | Framework — ISystem/Singleton patterns, SystemRepository, update lifecycle |
 
 ## Essential Docs
@@ -44,7 +46,7 @@ Module-specific rules auto-loaded when working in those directories:
 
 <!-- AI_MAINTAINED_START -->
 - **Self-constraint**: When asked to update this file, never add code examples, class lists, or tables >5 lines. Expand `.claude/docs/` instead and add only a one-line index link here.
-- **Current focus**: Phase B 实体迁移 — B-1 Player (90%), B-2 Enemy (80%), 待编译验证。见 `.claude/docs/execution-plan.md`。
+- **Current focus**: 交互系统重构完成 — IInteractSystem 锥形视线检测 + IInteractable + UI Part + EventAdapter 事件驱动。烘培 ID 稳定性已修复。见 `.claude/docs/execution-plan.md`。
 - **Compilation**: Use `mcp__unity__unity_compile` to trigger compilation and get results (errors/warnings with file/line). Waits up to 120s.
 - **Testing**: User compiles manually → auto-run tests. Test files go in `Editor/` folder (no asmdef), compiled into Assembly-CSharp-Editor.
 <!-- AI_MAINTAINED_END -->

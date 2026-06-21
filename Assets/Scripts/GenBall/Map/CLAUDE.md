@@ -65,7 +65,7 @@ foreach (var sp in entry.savePoints.Where(sp => !string.IsNullOrEmpty(sp.bonfire
 
 - **窗口**: `Tools/Map Scene Editor` — 可放置物树、属性面板、Scene Settings（展示名 + 默认存档点下拉+定位按钮）
 - **独立烘焙**: `Tools/Bake Current Scene` — 不打开窗口直接烘焙
-- **烘焙管线**: `BakingPipeline.BakeCurrentScene()` — 校验 → 分配ID → 写入 SceneConfigCollection → 更新 GO 名称
+- **烘焙管线**: `BakingPipeline.BakeCurrentScene()` — 校验 → 稳定分配ID（已有ID保留不重排，新增取max+1，冲突检测）→ 写入 SceneConfigCollection → 更新 GO 名称
 - **类型发现**: `PlaceableTypeDiscovery.DiscoverAll()` — 反射扫描所有可放置类型
 - **Scene View**: `PlaceableSceneGUI` — 彩色 Gizmo + Handle 编辑；存档点额外画 PlayerSpawnPoint 十字 + 虚线 + 篝火图标
 - **Scene Settings**: displayName 和 defaultSavePointId 存于 EditorPrefs，不依赖场景中 GO。有 SceneConfig 组件时 displayName 以其为初始值。

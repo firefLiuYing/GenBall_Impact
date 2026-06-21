@@ -26,12 +26,20 @@ MonoBehaviour:
       bonfirePosition: {x: 0, y: 7.04, z: 0}
       bonfireRotation: {x: 0, y: 0, z: 0, w: 1}
     - id: 1
-      displayName: "\u725B\u903C"
-      position: {x: 2.3188515, y: -0.53082705, z: 2.4459486}
+      displayName: "\u7B2C\u4E8C\u725B\u903C"
+      position: {x: 3.3600001, y: -3.51, z: 10.1}
       rotation: {x: -0, y: -0, z: -0, w: 1}
       bonfireType: Default
       initiallyActive: 1
-      bonfirePosition: {x: 1.0988514, y: -0.53082705, z: 2.4459486}
+      bonfirePosition: {x: 2.14, y: -3.51, z: 10.1}
+      bonfireRotation: {x: 0, y: 0, z: 0, w: 1}
+    - id: 2
+      displayName: "\u725B\u903C"
+      position: {x: 2.3188515, y: -3.41, z: 9.87}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      bonfireType: Default
+      initiallyActive: 1
+      bonfirePosition: {x: 1.0988514, y: -3.41, z: 9.87}
       bonfireRotation: {x: 0, y: 0, z: 0, w: 1}
     enemySpawns: []
     triggers:

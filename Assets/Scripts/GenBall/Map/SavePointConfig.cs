@@ -8,7 +8,7 @@ namespace GenBall.Map
     public class SavePointConfig : MonoBehaviour, IScenePlaceable
     {
         [SerializeField] private Transform playerSpawnPoint;
-        [SerializeField] private int index;
+        [SerializeField] private int index = -1;
         [SerializeField] private string displayName;
         [SerializeField] private string bonfireType = "";     // "" = pure anchor, non-empty = bonfire
         [SerializeField] private bool initiallyActive = true;  // spawn on scene init

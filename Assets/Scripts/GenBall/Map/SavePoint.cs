@@ -1,42 +1,55 @@
+using System.Collections.Generic;
+using GenBall.CombatState;
+using GenBall.Event;
 using GenBall.Interact;
-using GenBall.Utils.Trigger;
-using Yueyn.Main;
 using UnityEngine;
+using Yueyn.Main;
 
 namespace GenBall.Map
 {
-    public class SavePoint : MonoBehaviour,IInteractable
+    public class SavePoint : MonoBehaviour, IInteractable
     {
-        private TriggerObject _triggerObject;
-        private SavePointConfig _savePointConfig;
+        [SerializeField]
+        private List<EventAdapter> _interactEvents = new();
+
+        private ICombatStateSystem _combatStateSystem;
+
+        [SerializeField]
+        private string _displayName;
+
+        /// <summary>
+        /// Injected by SpawnBonfires during scene initialization.
+        /// </summary>
+        public void SetConfig(string displayName)
+        {
+            _displayName = displayName;
+        }
+
         private void Awake()
         {
-            _triggerObject = GetComponentInChildren<TriggerObject>();
-            _savePointConfig = GetComponent<SavePointConfig>();
-            if (_triggerObject == null)
-            {
-                Debug.LogError("gzp �浵��û�󶨴�����");
-            }
-        }
-        private void Start()
-        {
-            _triggerObject.onTriggerEnter.AddListener(OnEnter);
-            _triggerObject.onTriggerExit.AddListener(OnExit);
-        }
-        private void OnEnter()
-        {
-            SystemRepository.Instance.GetSystem<IInteractSystem>().AddInteractable(this);
+            _combatStateSystem = SystemRepository.Instance.GetSystem<ICombatStateSystem>();
         }
 
-        private void OnExit()
-        {
-            SystemRepository.Instance.GetSystem<IInteractSystem>().RemoveInteractable(this);
-        }
+        public string OperationDescription => _displayName;
+        public bool CanInteract => _combatStateSystem != null && !_combatStateSystem.IsInCombat;
 
-        public string OperationDescription => _savePointConfig.DisplayName;
         public void Interact()
         {
-            Debug.Log($"��ʱӦ�ô򿪴浵��:{_savePointConfig.DisplayName}�����˵�");
+            foreach (var evt in _interactEvents)
+            {
+                evt?.Fire();
+            }
+            Debug.Log($"[SavePoint] Interacted: {_displayName}");
+        }
+
+        public void OnFocused()
+        {
+            Debug.Log($"[SavePoint] Focused: {_displayName}");
+        }
+
+        public void OnUnfocused()
+        {
+            Debug.Log($"[SavePoint] Unfocused: {_displayName}");
         }
     }
 }

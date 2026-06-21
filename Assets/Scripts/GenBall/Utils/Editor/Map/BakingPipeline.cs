@@ -119,19 +119,43 @@ namespace GenBall.Utils.Editor.Map
             entry.triggers.Clear();
             entry.mechanisms.Clear();
 
+            // Stable ID assignment per category.
+            // Placeables with an existing ID (Id >= 0) keep it unless duplicated.
+            // New placeables (Id < 0) get max(existing) + 1 for that category.
+            var byCategory = placeables.GroupBy(p => p.Category);
+            foreach (var group in byCategory)
+            {
+                var seenIds = new HashSet<int>();
+                int maxId = -1;
+
+                // First pass: collect existing IDs, detect duplicates, find max
+                foreach (var p in group)
+                {
+                    if (p.Id >= 0)
+                    {
+                        if (seenIds.Contains(p.Id))
+                            p.Id = -1; // duplicate — reassign
+                        else
+                        {
+                            seenIds.Add(p.Id);
+                            if (p.Id > maxId) maxId = p.Id;
+                        }
+                    }
+                }
+
+                // Second pass: assign new IDs to unassigned (Id < 0)
+                int nextId = maxId + 1;
+                foreach (var p in group.OrderBy(p => p.DisplayLabel))
+                {
+                    if (p.Id < 0)
+                        p.Id = nextId++;
+                }
+            }
+
             var grouped = placeables
                 .OrderBy(p => p.Category)
-                .ThenBy(p => p.DisplayLabel)
+                .ThenBy(p => p.Id)
                 .ToList();
-
-            // Assign IDs per category
-            var categoryCounters = new Dictionary<string, int>();
-            foreach (var p in grouped)
-            {
-                if (!categoryCounters.ContainsKey(p.Category))
-                    categoryCounters[p.Category] = 0;
-                p.Id = categoryCounters[p.Category]++;
-            }
 
             foreach (var p in grouped)
             {

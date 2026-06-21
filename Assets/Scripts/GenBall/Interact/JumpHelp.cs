@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+[Obsolete("Legacy component, to be removed after cleaning scene references in Prologue.unity")]
 public class JumpHelp : MonoBehaviour
 {
     public void PrintJumpHelp()
     {
-        Debug.Log("请按下空格来跳跃！");
+        Debug.Log("Press Space to jump");
     }
-  
 }

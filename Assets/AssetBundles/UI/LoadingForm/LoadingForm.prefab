@@ -168,9 +168,9 @@ GameObject:
   - component: {fileID: 1479738621995744782}
   - component: {fileID: 7425589271621607400}
   - component: {fileID: 1445395843851176002}
-  - component: {fileID: 1437781720655296371}
+  - component: {fileID: 121414615856928679}
   m_Layer: 0
-  m_Name: SplashForm
+  m_Name: LoadingForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,7 +306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canReuse: 0
---- !u!114 &1437781720655296371
+  _fadeDuration: 0.3
+--- !u!114 &121414615856928679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,7 +316,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7349596592511676550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ec259c92e7a094bb993da089e56be2, type: 3}
+  m_Script: {fileID: 11500000, guid: cbc8bb1209970a14badbc6150a915feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7578105396883600411

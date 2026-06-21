@@ -116,6 +116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7320775265213470518}
+  - component: {fileID: 3619694568416598364}
   m_Layer: 0
   m_Name: DefaultSavePoint
   m_TagString: Untagged
@@ -139,6 +140,23 @@ Transform:
   - {fileID: 504200414666693141}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3619694568416598364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4087134442442137485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9efe5ceb327b0e1428e94ec29ab14ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactEvents: []
+  _displayName: 
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8077396987524427578
 GameObject:
   m_ObjectHideFlags: 0

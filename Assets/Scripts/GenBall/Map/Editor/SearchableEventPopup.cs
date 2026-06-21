@@ -14,16 +14,23 @@ namespace GenBall.Map.Editor
     /// </summary>
     public class SearchableEventPopup : EditorWindow
     {
-        private static List<TriggerVolumeEditor.EventEntry> _allEvents;
+        public struct EventEntry
+        {
+            public int id;
+            public string label;
+            public string category;
+        }
+
+        private static List<EventEntry> _allEvents;
         private static Action<int> _onSelected;
 
-        private List<TriggerVolumeEditor.EventEntry> _filtered;
+        private List<EventEntry> _filtered;
         private string _search = "";
         private Vector2 _scroll;
         private int _highlightIndex = -1;
 
         public static void Show(Rect activatorRect,
-            List<TriggerVolumeEditor.EventEntry> events,
+            List<EventEntry> events,
             int currentId,
             Action<int> onSelected)
         {

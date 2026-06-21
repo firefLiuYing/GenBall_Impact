@@ -7,7 +7,7 @@ namespace GenBall.Map
     {
         [SerializeField] private string mechanismName = "New Mechanism";
         [SerializeField] private string mechanismType;
-        [SerializeField, HideInInspector] private int id;
+        [SerializeField, HideInInspector] private int id = -1;
 
         public int Id { get => id; set => id = value; }
         public string DisplayLabel => mechanismName;

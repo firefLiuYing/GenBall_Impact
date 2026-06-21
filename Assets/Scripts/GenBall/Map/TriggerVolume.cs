@@ -44,7 +44,7 @@ namespace GenBall.Map
         private Transform spawnPoint;
 
         [SerializeField, HideInInspector]
-        private int id;
+        private int id = -1;
 
         // ── Public accessors ──
 

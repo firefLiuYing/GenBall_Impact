@@ -6,7 +6,7 @@ namespace GenBall.Map.EnemyUnitConfig
 {
     public abstract class EnemyUnitConfigBase : MonoBehaviour, IScenePlaceable
     {
-        [SerializeField, HideInInspector] private int id;
+        [SerializeField, HideInInspector] private int id = -1;
         [SerializeField] private float patrolRadius = 5f;
         [SerializeField] private float detectRadius = 10f;
         [SerializeField] private int aiBehavior = 0;

@@ -27,8 +27,8 @@ namespace GenBall.Player
         public float dashCountdownTime = 0.5f;
 
         [Header("Interact")]
-        public float sightDetectRadius = 0.5f;
-        public float sightDetectDistance = 5f;
+        public float coneHalfAngle = 30f;
+        public float maxInteractDistance = 3f;
         public LayerMask interactableLayer;
     }
 }

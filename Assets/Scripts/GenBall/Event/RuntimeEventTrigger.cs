@@ -102,8 +102,6 @@ namespace GenBall.Event
 
             var proxy = gameObject.AddComponent<RuntimeInteractProxy>();
             proxy.OnInteract += HandleTrigger;
-            triggerObj.onTriggerEnter.AddListener(proxy.Register);
-            triggerObj.onTriggerExit.AddListener(proxy.Unregister);
         }
 
         private void SetupEventListener()

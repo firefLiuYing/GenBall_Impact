@@ -27,3 +27,8 @@ MonoBehaviour:
   endingTime: 0.1
   dashSpeed: 10
   dashCountdownTime: 0.5
+  sightDetectRadius: 0.5
+  sightDetectDistance: 5
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 2049

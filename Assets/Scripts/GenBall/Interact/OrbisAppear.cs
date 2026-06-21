@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using GenBall;
 using GenBall.Enemy;
 using UnityEngine;
 using UnityEngine.Playables;
 
+[Obsolete("Legacy component, to be removed after cleaning scene references in Prologue.unity")]
 public class OrbisAppear : MonoBehaviour
 {
     public PlayableDirector playableDirector;

@@ -12,14 +12,7 @@ namespace GenBall.Map.Editor
     [CustomEditor(typeof(TriggerVolume))]
     public class TriggerVolumeEditor : UnityEditor.Editor
     {
-        public struct EventEntry
-        {
-            public int id;
-            public string label;
-            public string category;
-        }
-
-        private List<EventEntry> _allEvents = new();
+        private List<SearchableEventPopup.EventEntry> _allEvents = new();
 
         public override void OnInspectorGUI()
         {
@@ -195,7 +188,7 @@ namespace GenBall.Map.Editor
                 foreach (var entry in table.entries.OrderBy(e => e.id))
                 {
                     if (enumValues.Contains(entry.id)) continue;
-                    _allEvents.Add(new EventEntry
+                    _allEvents.Add(new SearchableEventPopup.EventEntry
                     {
                         id = entry.id,
                         label = $"[{entry.id}] {entry.displayName} ({entry.name})",
@@ -211,7 +204,7 @@ namespace GenBall.Map.Editor
             {
                 if (val < min || val > max) continue;
                 var name = Enum.GetName(typeof(GlobalEventId), val);
-                _allEvents.Add(new EventEntry
+                _allEvents.Add(new SearchableEventPopup.EventEntry
                 {
                     id = val,
                     label = $"[{val}] {name}",

@@ -132,6 +132,12 @@ namespace GenBall.Procedure.Execute
 
                     var go = Object.Instantiate(prefab, sp.transform.position, sp.transform.rotation);
                     go.name = $"[{sp.Index}] {sp.DisplayName} (Runtime)";
+
+                    var savePoint = go.GetComponent<SavePoint>();
+                    if (savePoint == null)
+                        savePoint = go.AddComponent<SavePoint>();
+                    savePoint.SetConfig(sp.DisplayName);
+
                     spawned++;
                 }
             }
