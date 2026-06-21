@@ -1,7 +1,7 @@
 # 长期执行计划
 
 > **用途**：跨会话持久化计划。每完成一个任务更新状态。新会话启动时先读此文档。
-> **最后更新**：2026-06-06
+> **最后更新**：2026-06-21
 > **当前阶段**：Phase C-1 匣纳之枪收尾（能力武器管线验证）
 > **需求清单**：`.claude/docs/requirements-checklist.md`（会议后用策划回答填入）
 
@@ -125,15 +125,17 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 
 ## Phase D：内容层 & 工具
 
-### D-1：场景事件触发器工具 ❌
+### D-1：场景事件触发器工具 ✅（2026-06-21）
 
 **目标**：让策划在场景里通过下拉框选择全局事件并配置参数，无需代码。
 
-- [ ] D-1a：`SceneEventTrigger` 组件 + `[SerializeReference]` 多态 EventParams
-- [ ] D-1b：三种触发器类型：碰撞触发 / 手动交互 / 事件监听
-- [ ] D-1c：Custom Editor（选事件 → 动态切换参数字段）
-- [ ] D-1d：事件 ID 管理（框架事件枚举 + 投放类事件配置表）→ **依赖策划回答 2.1**
-- [ ] D-1e：接收器端（事件→行为）：开门、刷怪、播对话、发道具等
+- [x] D-1a：`TriggerVolume` 组件（`IScenePlaceable`）+ `EventAdapter` + `[SerializeReference]` 多态 `EventParameterBase`
+- [x] D-1b：三种触发器类型（`TriggerMode`）：`Collision` / `Interact` / `EventListener`
+- [x] D-1c：Custom Editor（`TriggerVolumeEditor` + `SearchableEventPopup`，选事件 → 动态切换参数字段）
+- [x] D-1d：事件 ID 管理（`GlobalEventId` 枚举 1-5999 + `PlacedEventTable` 投放类 >=6000，CSV 导入 + 冲突校验）
+- [x] D-1e：接收器端（`SceneEventOrchestrator`：事件→行为映射，`SpawnEnemy` 已完成；其余 handler 待依赖系统就绪后添加）
+- [x] D-1f：烘焙管线（`BakingPipeline`，扫描 `IScenePlaceable` → 序列化到 `SceneConfigCollection.asset`）
+- [x] D-1g：运行时生成（`SceneExecutorSystemDefault.SpawnTriggers()` → `RuntimeEventTrigger`）
 
 ### D-2：对话系统 ❌
 
@@ -194,7 +196,7 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 | C-4: 配件系统 | ❌ |
 | C-5: 经济 + 技能树 | ❌ |
 | C-6: 敌人补齐（第一章） | ❌ |
-| D-1: 触发器工具 | ❌ |
+| D-1: 触发器工具 | ✅ |
 | D-2: 对话系统 | ❌ |
 | D-3: 存档点全息界面 | ❌ |
 | D-4: 关卡搭建 | ❌ |
@@ -208,8 +210,8 @@ C-2 (原语层) ──→ C-3 (进化) ──→ D-3 (存档UI)
               ├─→ C-4 (配件) ──→ D-3
               └─→ C-5 (技能树) ──→ D-3
 C-1 (匣纳) ──→ D-2 (对话需要能力枪管线稳定)
-D-1 (触发器工具) ──→ D-2 (对话需要触发器)
-                 └─→ D-4 (关卡搭建需要触发器)
+D-1 (触发器工具) ✅ ──→ D-2 (对话需要触发器)
+                     └─→ D-4 (关卡搭建需要触发器)
 C-6 (敌人) ──→ D-4 (关卡需要敌人)
 ```
 

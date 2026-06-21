@@ -8,7 +8,7 @@
 |------|-----------|------|--------|
 | Enemy (敌人) | true | `EnemyUnitConfigBase` 子类 | 各类 Orbis prefab |
 | SavePoint (存档点/篝火) | true | `SavePointConfig` | `SavePoint.prefab` (placeholder) |
-| SceneTrigger (触发器) | true | `SceneTriggerConfig` | `Trigger.prefab` |
+| SceneTrigger (触发器) | true | `TriggerVolume` | `Trigger.prefab` |
 | Mechanism (机关) | false | `MechanismConfig` | 各机关 prefab |
 
 新增类型：创建 MonoBehaviour，实现 `IScenePlaceable`，加 `[PlaceableCategory]` 属性即可。
@@ -34,7 +34,7 @@ SceneConfigCollection
        ├─ List<EnemySpawnData> enemySpawns
        │    └─ id, enemyType, position, rotation, patrolRadius, detectRadius, aiBehavior
        ├─ List<SceneTriggerData> triggers
-       │    └─ id, triggerName, eventName, position, radius, activationType
+       │    └─ id, triggerName, eventId, paramTypeName, serializedParams, position, radius, activationType, triggerMode, triggerBehavior, maxFireCount, cooldownSeconds, listenerEventId, layerMask
        └─ List<MechanismData> mechanisms
             └─ id, mechanismName, mechanismType, position, rotation, customDataJson
 ```
@@ -97,8 +97,34 @@ if (EnemyPrefabRegistry.TryGetPath("AcidOrbis", out var path)) { ... }
 foreach (var t in BonfirePrefabRegistry.RegisteredTypes) { ... }
 ```
 
-### 运行时
+### 触发器系统
 
-- `SceneExecutorSystemDefault.SpawnBonfires()` — 扫描场景中 SavePointConfig，生成 `initiallyActive` 的篝火
-- `SceneExecutorSystemDefault.CleanupDynamicPlaceables()` — 禁用所有 IsDynamic=true 的编辑占位 GO
-- 运行顺序：LoadEnemyUnit → InGameUIReady → CreatePlayer → **SpawnBonfires → CleanupDynamicPlaceables** → SceneReady
+#### 编辑器端
+
+- `TriggerVolume` — 场景放置组件，实现 `IScenePlaceable`，通过 `EventAdapter` 配置事件+参数
+- `TriggerVolumeEditor` — Custom Editor，事件 ID 可搜索下拉（`SearchableEventPopup`），选事件后自动推荐参数类型
+- `EventParameterBase` — 多态参数基类（`[SerializeReference]`），子类用 `[EventParamHint]` 关联事件 ID
+- 参数子类：`SpawnEnemyParams(6001)` / `OpenDoorParams(6002)` / `PlayDialogueParams(6003)` / `GrantAccessoryParams(6004)` / `UnlockSavePointParams(6005)`
+- `TriggerMode`：`Collision` / `Interact` / `EventListener`；`TriggerBehavior`：`Once` / `Repeatable` / `Limited`
+
+#### 烘焙管线
+
+- `BakingPipeline.BakeCurrentScene()` 扫描 `IScenePlaceable`，调用 `BakeToConfigData()` 序列化到 `SceneConfigCollection.asset`
+- `EventAdapter` 序列化为 `paramTypeName` + `serializedParams`（JsonUtility）
+
+#### 事件 ID 体系
+
+- `GlobalEventId` 枚举：框架事件 1-5999（按模块分段：Launch/Player/Input/Weapon/Enemy/System）
+- `PlacedEventTable`（`Assets/Resources/Configs/PlacedEventTable.asset`）：投放类事件 >=6000，CSV 导入，自动冲突校验
+- `GlobalEventCodeGenerator` 生成类型安全的事件包装器到 `Generated/GlobalEventSystem.Generated.cs`
+
+#### 运行时
+
+- `SceneExecutorSystemDefault` 在场景初始化时调用 `SpawnTriggers()` + `RegisterOrchestrator()`
+- `RuntimeEventTrigger` 根据 `TriggerMode` 自动设置碰撞体/交互代理/事件订阅，触发时应用冷却+次数限制
+- `RuntimeInteractProxy` — `IInteractable` 桥接，在 Interact 模式下注册到 `IInteractSystem`
+- `SceneEventOrchestrator` — 事件→行为映射（当前仅 `SpawnEnemy(6001)` 已实现，其余 handler 待依赖系统就绪后添加）
+
+#### 运行顺序
+
+- LoadEnemyUnit → InGameUIReady → CreatePlayer → **SpawnTriggers → RegisterOrchestrator → SpawnBonfires → CleanupDynamicPlaceables** → SceneReady
