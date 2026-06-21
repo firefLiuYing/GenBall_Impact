@@ -1,66 +1,144 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Yueyn.Event;
 
 namespace GenBall.Event
 {
     /// <summary>
-    /// Serializable event payload. Stores an event ID and a polymorphic parameter
-    /// object. Can be embedded in any MonoBehaviour or data structure.
+    /// A single event entry within an EventAdapter.
+    /// </summary>
+    [System.Serializable]
+    public class EventEntry
+    {
+        public int eventId;
+
+        [SerializeReference]
+        public EventParameterBase parameters;
+    }
+
+    /// <summary>
+    /// Serializable event container. Internally holds a list of EventEntry,
+    /// similar to UnityEvent's persistent calls. Inspector shows a compact
+    /// inline list with per-entry Event dropdown and parameter configuration.
     ///
-    /// At runtime, Fire() calls the correct generic CEventRouter.FireNow&lt;T&gt;
-    /// overload via the parameter's Dispatch() — zero reflection.
+    /// Can be embedded in any MonoBehaviour or data structure.
+    /// At runtime, Fire() iterates all entries and dispatches each.
     /// </summary>
     [System.Serializable]
     public class EventAdapter
     {
-        [SerializeField]
+        // Legacy fields — kept for backward compatibility with previously serialized data.
+        // Moved into _entries on first access via EnsureMigrated().
+        [SerializeField, HideInInspector]
         private int eventId;
 
-        [SerializeReference]
+        [SerializeReference, HideInInspector]
         private EventParameterBase parameters;
 
+        [SerializeField]
+        private List<EventEntry> _entries = new();
+
+        private bool _migrated;
+
+        public IReadOnlyList<EventEntry> Entries
+        {
+            get
+            {
+                EnsureMigrated();
+                return _entries;
+            }
+        }
+
+        /// <summary>Accessor for the first entry's eventId (backward compat).</summary>
         public int EventId
         {
-            get => eventId;
-            set => eventId = value;
+            get
+            {
+                EnsureMigrated();
+                return _entries.Count > 0 ? _entries[0].eventId : 0;
+            }
+            set
+            {
+                EnsureMigrated();
+                if (_entries.Count == 0)
+                    _entries.Add(new EventEntry());
+                _entries[0].eventId = value;
+            }
         }
 
+        /// <summary>Accessor for the first entry's parameters (backward compat).</summary>
         public EventParameterBase Parameters
         {
-            get => parameters;
-            set => parameters = value;
+            get
+            {
+                EnsureMigrated();
+                return _entries.Count > 0 ? _entries[0].parameters : null;
+            }
+            set
+            {
+                EnsureMigrated();
+                if (_entries.Count == 0)
+                    _entries.Add(new EventEntry());
+                _entries[0].parameters = value;
+            }
         }
 
-        public bool HasParameters => parameters != null;
+        public bool HasParameters
+        {
+            get
+            {
+                EnsureMigrated();
+                return _entries.Count > 0 && _entries[0].parameters != null;
+            }
+        }
+
+        private void EnsureMigrated()
+        {
+            if (_migrated) return;
+            _migrated = true;
+
+            if (_entries.Count > 0) return;
+            if (eventId == 0) return;
+
+            _entries.Add(new EventEntry
+            {
+                eventId = eventId,
+                parameters = parameters,
+            });
+        }
 
         /// <summary>
-        /// Fire the event via CEventRouter. If parameters exists, delegates to
-        /// its Dispatch() which calls the correct generic FireNow&lt;T&gt; overload.
-        /// Otherwise calls the parameterless FireNow().
+        /// Fire all event entries via CEventRouter.
         /// </summary>
         public void Fire()
         {
-            if (parameters != null)
+            EnsureMigrated();
+            foreach (var entry in _entries)
             {
-                parameters.Dispatch(eventId);
-            }
-            else
-            {
-                CEventRouter.Instance.FireNow(eventId);
+                if (entry.parameters != null)
+                    entry.parameters.Dispatch(entry.eventId);
+                else
+                    CEventRouter.Instance.FireNow(entry.eventId);
             }
         }
 
         /// <summary>
-        /// Create a shallow copy for baking into config data.
-        /// Parameter objects should be immutable-ish data bags, so shallow copy is sufficient.
+        /// Create a copy with cloned entries (parameters are shallow-copied).
         /// </summary>
         public EventAdapter Clone()
         {
-            return new EventAdapter
+            var clone = new EventAdapter();
+            EnsureMigrated();
+            foreach (var entry in _entries)
             {
-                eventId = this.eventId,
-                parameters = this.parameters,
-            };
+                clone._entries.Add(new EventEntry
+                {
+                    eventId = entry.eventId,
+                    parameters = entry.parameters,
+                });
+            }
+            clone._migrated = true;
+            return clone;
         }
     }
 }

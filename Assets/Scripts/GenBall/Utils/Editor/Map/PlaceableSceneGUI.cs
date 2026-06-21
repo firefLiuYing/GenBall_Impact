@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Linq;
 using GenBall.Map;
 using GenBall.Map.EnemyUnitConfig;
 using UnityEditor;
@@ -68,7 +69,9 @@ namespace GenBall.Utils.Editor.Map
                         Gizmos.color = new Color(color.r, color.g, color.b, 0.2f);
                         Gizmos.DrawWireSphere(pos, tv.Radius);
                     }
-                    DrawEventLabel(pos, $"OnEnter: {tv.OnEnter.EventId}");
+                    var eventIds = string.Join(", ", tv.OnEnter.Entries.Select(e => e.eventId.ToString()));
+                    if (string.IsNullOrEmpty(eventIds)) eventIds = "(none)";
+                    DrawEventLabel(pos, $"OnEnter: {eventIds}");
 
                     // Draw spawn point marker if set
                     if (tv.SpawnPoint != null)

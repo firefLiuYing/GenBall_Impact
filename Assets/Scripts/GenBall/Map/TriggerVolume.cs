@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GenBall.Event;
 using GenBall.Event.Params;
 using UnityEngine;
@@ -90,29 +91,38 @@ namespace GenBall.Map
 
         public object BakeToConfigData()
         {
-            // Resolve spawnPoint into SpawnEnemyParams before serialization
-            if (spawnPoint != null
-                && onEnter.HasParameters
-                && onEnter.Parameters is SpawnEnemyParams sep)
+            var serializedEvents = new List<SerializedTriggerEvent>();
+            foreach (var entry in onEnter.Entries)
             {
-                sep.spawnPosition = spawnPoint.position;
-                sep.spawnRotation = spawnPoint.rotation;
-            }
+                // Resolve spawnPoint into SpawnEnemyParams before serialization
+                if (spawnPoint != null
+                    && entry.parameters != null
+                    && entry.parameters is SpawnEnemyParams sep)
+                {
+                    sep.spawnPosition = spawnPoint.position;
+                    sep.spawnRotation = spawnPoint.rotation;
+                }
 
-            var paramTypeName = onEnter.HasParameters
-                ? onEnter.Parameters.GetType().AssemblyQualifiedName
-                : null;
-            var serializedParams = onEnter.HasParameters
-                ? JsonUtility.ToJson(onEnter.Parameters)
-                : null;
+                var paramTypeName = entry.parameters != null
+                    ? entry.parameters.GetType().AssemblyQualifiedName
+                    : null;
+                var serializedParams = entry.parameters != null
+                    ? JsonUtility.ToJson(entry.parameters)
+                    : null;
+
+                serializedEvents.Add(new SerializedTriggerEvent
+                {
+                    eventId = entry.eventId,
+                    paramTypeName = paramTypeName,
+                    serializedParams = serializedParams,
+                });
+            }
 
             return new SceneTriggerData
             {
                 id = id,
                 triggerName = triggerName,
-                eventId = onEnter.EventId,
-                paramTypeName = paramTypeName,
-                serializedParams = serializedParams,
+                events = serializedEvents,
                 position = transform.position,
                 radius = radius,
                 layerMask = targetLayers.value,
@@ -126,8 +136,14 @@ namespace GenBall.Map
 
         public string Validate()
         {
-            if (onEnter.EventId == 0)
-                return "Event ID must be set (non-zero).";
+            var entries = onEnter.Entries;
+            if (entries.Count == 0)
+                return "At least one event must be configured.";
+            for (var i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].eventId == 0)
+                    return $"Event [{i}] must have a valid Event ID (non-zero).";
+            }
             if (radius <= 0f)
                 return "Radius must be > 0.";
             return null;

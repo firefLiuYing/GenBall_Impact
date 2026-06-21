@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GenBall.Interact;
 using GenBall.Map;
 using GenBall.Utils.Trigger;
@@ -15,8 +16,7 @@ namespace GenBall.Event
     /// </summary>
     public class RuntimeEventTrigger : MonoBehaviour
     {
-        private int _eventId;
-        private EventParameterBase _params;
+        private readonly List<(int eventId, EventParameterBase parameters)> _events = new();
         private TriggerMode _triggerMode;
         private TriggerBehavior _behavior;
         private int _maxFireCount;
@@ -31,7 +31,6 @@ namespace GenBall.Event
 
         public void Initialize(SceneTriggerData data)
         {
-            _eventId = data.eventId;
             _triggerMode = (TriggerMode)data.triggerMode;
             _behavior = (TriggerBehavior)data.triggerBehavior;
             _maxFireCount = data.maxFireCount;
@@ -40,13 +39,18 @@ namespace GenBall.Event
             _layerMask = data.layerMask;
             _listenerEventId = data.listenerEventId;
 
-            if (!string.IsNullOrEmpty(data.paramTypeName) && !string.IsNullOrEmpty(data.serializedParams))
+            foreach (var evt in data.events)
             {
-                var type = Type.GetType(data.paramTypeName);
-                if (type != null && typeof(EventParameterBase).IsAssignableFrom(type))
-                    _params = (EventParameterBase)JsonUtility.FromJson(data.serializedParams, type);
-                else
-                    Debug.LogWarning($"[RuntimeEventTrigger] Could not resolve parameter type: {data.paramTypeName}");
+                EventParameterBase @params = null;
+                if (!string.IsNullOrEmpty(evt.paramTypeName) && !string.IsNullOrEmpty(evt.serializedParams))
+                {
+                    var type = Type.GetType(evt.paramTypeName);
+                    if (type != null && typeof(EventParameterBase).IsAssignableFrom(type))
+                        @params = (EventParameterBase)JsonUtility.FromJson(evt.serializedParams, type);
+                    else
+                        Debug.LogWarning($"[RuntimeEventTrigger] Could not resolve parameter type: {evt.paramTypeName}");
+                }
+                _events.Add((evt.eventId, @params));
             }
 
             SetupTrigger();
@@ -127,10 +131,13 @@ namespace GenBall.Event
             _fireCount++;
             _lastFireTime = Time.time;
 
-            if (_params != null)
-                _params.Dispatch(_eventId);
-            else
-                CEventRouter.Instance.FireNow(_eventId);
+            foreach (var (eventId, @params) in _events)
+            {
+                if (@params != null)
+                    @params.Dispatch(eventId);
+                else
+                    CEventRouter.Instance.FireNow(eventId);
+            }
 
             // Disable self when exhausted
             var exhausted = (_behavior == TriggerBehavior.Once && _fireCount >= 1)

@@ -68,6 +68,19 @@ namespace GenBall.Map
     }
 
     /// <summary>
+    /// A single serialized event entry within a trigger's event list.
+    /// </summary>
+    [Serializable]
+    public class SerializedTriggerEvent
+    {
+        public int eventId;
+        /// <summary>Assembly-qualified type name of the parameter class, or null if no params.</summary>
+        public string paramTypeName;
+        /// <summary>JsonUtility.ToJson result of the parameter object, or null if no params.</summary>
+        public string serializedParams;
+    }
+
+    /// <summary>
     /// Baked data for a scene event trigger.
     /// </summary>
     [Serializable]
@@ -76,12 +89,8 @@ namespace GenBall.Map
         public int id;
         public string triggerName;
 
-        // Event data (replaces the old string eventName)
-        public int eventId;
-        /// <summary>Assembly-qualified type name of the parameter class, or null if no params.</summary>
-        public string paramTypeName;
-        /// <summary>JsonUtility.ToJson result of the parameter object, or null if no params.</summary>
-        public string serializedParams;
+        /// <summary>List of events to fire when this trigger activates.</summary>
+        public List<SerializedTriggerEvent> events = new();
 
         public Vector3 position;
         public float radius;

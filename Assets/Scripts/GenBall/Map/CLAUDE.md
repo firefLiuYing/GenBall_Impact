@@ -101,8 +101,8 @@ foreach (var t in BonfirePrefabRegistry.RegisteredTypes) { ... }
 
 #### 编辑器端
 
-- `TriggerVolume` — 场景放置组件，实现 `IScenePlaceable`，通过 `EventAdapter` 配置事件+参数
-- `TriggerVolumeEditor` — Custom Editor，事件 ID 可搜索下拉（`SearchableEventPopup`），选事件后自动推荐参数类型
+- `TriggerVolume` — 场景放置组件，实现 `IScenePlaceable`，通过单个 `EventAdapter` 字段配置事件列表（EventAdapter 自身为容器，类似 UnityEvent，支持多事件依次触发）
+- `TriggerVolumeEditor` — Custom Editor，事件区域使用 `PropertyField` 委托给 `EventAdapterDrawer`（紧凑行内列表，每行 [Event下拉] [参数] [-]）
 - `EventParameterBase` — 多态参数基类（`[SerializeReference]`），子类用 `[EventParamHint]` 关联事件 ID
 - 参数子类：`SpawnEnemyParams(6001)` / `OpenDoorParams(6002)` / `PlayDialogueParams(6003)` / `GrantAccessoryParams(6004)` / `UnlockSavePointParams(6005)`
 - `TriggerMode`：`Collision` / `Interact` / `EventListener`；`TriggerBehavior`：`Once` / `Repeatable` / `Limited`
