@@ -62,18 +62,27 @@ namespace GenBall.Utils.Editor.Map
                     }
                     break;
 
-                case SceneTriggerConfig trigger:
-                    // draw dynamic access via reflection to avoid coupling
-                    var radiusField = trigger.GetType().GetField("triggerRadius",
-                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                    if (radiusField != null)
+                case TriggerVolume tv:
+                    if (tv.Radius > 0f)
                     {
-                        var radius = (float)radiusField.GetValue(trigger);
-                        if (radius > 0f)
+                        Gizmos.color = new Color(color.r, color.g, color.b, 0.2f);
+                        Gizmos.DrawWireSphere(pos, tv.Radius);
+                    }
+                    DrawEventLabel(pos, $"OnEnter: {tv.OnEnter.EventId}");
+
+                    // Draw spawn point marker if set
+                    if (tv.SpawnPoint != null)
+                    {
+                        var spPos = tv.SpawnPoint.position;
+                        Handles.color = new Color(1f, 0.5f, 0.2f, 0.5f);
+                        Handles.DrawDottedLine(pos, spPos, 4f);
+                        Gizmos.color = new Color(1f, 0.5f, 0.2f, 0.8f);
+                        Gizmos.DrawSphere(spPos, 0.15f);
+                        Handles.Label(spPos + Vector3.up * 0.3f, "Spawn", new GUIStyle(GUI.skin.label)
                         {
-                            Gizmos.color = new Color(color.r, color.g, color.b, 0.2f);
-                            Gizmos.DrawWireSphere(pos, radius);
-                        }
+                            fontSize = 9,
+                            normal = { textColor = new Color(1f, 0.7f, 0.2f) },
+                        });
                     }
                     break;
 
@@ -123,6 +132,16 @@ namespace GenBall.Utils.Editor.Map
                 Undo.RecordObject(placeable.Anchor, "Move Placeable");
                 placeable.Anchor.position = newPos;
             }
+        }
+
+        private static void DrawEventLabel(Vector3 pos, string label)
+        {
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 9,
+                normal = { textColor = new Color(1f, 0.9f, 0.4f) },
+            };
+            Handles.Label(pos + Vector3.up * 0.2f, label, style);
         }
 
         private static Color GetCategoryColor(string category)

@@ -1,0 +1,6 @@
+Id,Name,DisplayName,DefaultParamType
+6001,SpawnEnemy,刷怪,GenBall.Event.Params.SpawnEnemyParams
+6002,OpenDoor,开门,GenBall.Event.Params.OpenDoorParams
+6003,PlayDialogue,播放对话,GenBall.Event.Params.PlayDialogueParams
+6004,GrantAccessory,发放配件,GenBall.Event.Params.GrantAccessoryParams
+6005,UnlockSavePoint,解锁存档点,GenBall.Event.Params.UnlockSavePointParams

@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
+using GenBall.Event;
 using GenBall.Map;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -69,6 +70,21 @@ namespace GenBall.Utils.Editor.Map
 
             // 1. Validate
             if (!RunValidation(placeables, out var errors))
+            {
+                // Also check PlacedEventTable for ID conflicts
+                var placedTable = AssetDatabase.LoadAssetAtPath<PlacedEventTable>(
+                    "Assets/Resources/Configs/PlacedEventTable.asset");
+                if (placedTable != null)
+                {
+                    var tableError = placedTable.ValidateNoConflicts();
+                    if (tableError != null)
+                    {
+                        errors.Add($"[PlacedEventTable] {tableError}");
+                    }
+                }
+            }
+
+            if (errors.Count > 0)
             {
                 var errorMsg = string.Join("\n", errors);
                 EditorUtility.DisplayDialog("Validation Failed",

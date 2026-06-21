@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using GenBall.Enemy;
 using GenBall.Enemy.AI;
 using GenBall.Event;
+using GenBall.Framework.Config;
 using GenBall.Map;
 using GenBall.Player;
 using GenBall.Procedure.Game;
@@ -18,14 +20,25 @@ namespace GenBall.Procedure.Execute
     {
         private ISceneStateSystem _sceneSystem;
         private IPlayerSystem _playerSystem;
+        private SceneEventOrchestrator _orchestrator;
 
         public void Init()
         {
             _sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
             _playerSystem = SystemRepository.Instance.GetSystem<IPlayerSystem>();
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
-        public void UnInit() { }
+        public void UnInit()
+        {
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            _orchestrator?.UnregisterAll();
+        }
+
+        private void OnSceneUnloaded(Scene scene)
+        {
+            _orchestrator?.UnregisterAll();
+        }
 
         public void ExecuteSceneSetup(SceneInitContext context)
         {
@@ -58,6 +71,13 @@ namespace GenBall.Procedure.Execute
             // ================================================================
             // SpawnTestEnemy();
 
+            // Spawn runtime triggers from editor-placed EventTrigger data before cleanup.
+            SpawnTriggers();
+
+            // Register orchestrator: listens for placed events fired by triggers and
+            // dispatches to the appropriate behavior systems.
+            RegisterOrchestrator();
+
             // Spawn bonfires from editor-placed SavePointConfig before cleanup.
             SpawnBonfires();
 
@@ -70,6 +90,15 @@ namespace GenBall.Procedure.Execute
             CEventRouter.Instance.FireNow((int)GlobalEventId.SceneReady);
             Debug.Log("[SceneExecutorSystem] Scene setup complete, SceneReady fired.");
         }
+
+        private void RegisterOrchestrator()
+        {
+            if (_orchestrator != null) return;
+            _orchestrator = new SceneEventOrchestrator();
+            _orchestrator.RegisterAll();
+        }
+
+        // ── Scene Setup Helpers ──────────────────────────────────────
 
         /// <summary>
         /// Spawn bonfire prefabs from editor-placed SavePointConfig components.
@@ -111,7 +140,34 @@ namespace GenBall.Procedure.Execute
         }
 
         /// <summary>
-        /// Deactivate all IScenePlaceable objects marked as dynamic (enemies, triggers, save points)
+        /// Spawn runtime event triggers from editor-placed EventTrigger components.
+        /// Reads baked SceneTriggerData from SceneConfigCollection and creates
+        /// RuntimeEventTrigger GameObjects that handle the actual trigger logic.
+        /// </summary>
+        private static void SpawnTriggers()
+        {
+            var configProvider = SystemRepository.Instance.GetSystem<IConfigProvider>();
+            if (configProvider == null) return;
+
+            var config = configProvider.GetConfig<SceneConfigCollection>();
+            if (config == null || config.scenes.Count == 0) return;
+
+            var sceneName = SceneManager.GetActiveScene().name;
+            var entry = config.scenes.FirstOrDefault(s => s.sceneName == sceneName);
+            if (entry == null || entry.triggers == null || entry.triggers.Count == 0) return;
+
+            foreach (var data in entry.triggers)
+            {
+                var go = new GameObject($"[Trigger] {data.triggerName} (Runtime)");
+                go.transform.position = data.position;
+
+                var trigger = go.AddComponent<RuntimeEventTrigger>();
+                trigger.Initialize(data);
+            }
+
+            if (entry.triggers.Count > 0)
+                Debug.Log($"[SceneExecutorSystem] Spawned {entry.triggers.Count} runtime trigger(s).");
+        }
         /// since they have been replaced by dynamically spawned instances.
         /// Uses SetActive(false) rather than Destroy to avoid issues with
         /// other systems that may hold references.

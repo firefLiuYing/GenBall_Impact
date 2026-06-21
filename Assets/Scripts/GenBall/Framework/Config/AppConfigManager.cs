@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GenBall.BattleSystem.Buff;
+using GenBall.Event;
 using GenBall.Map;
 using GenBall.Player;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace GenBall.Framework.Config
             bulletConfig?.Init();
 
             LoadConfig<SceneConfigCollection>("Configs/SceneConfigCollection");
+            LoadConfig<PlacedEventTable>("Configs/PlacedEventTable");
 
             Debug.Log($"[AppConfigManager] Loaded {_configs.Count} configs");
         }

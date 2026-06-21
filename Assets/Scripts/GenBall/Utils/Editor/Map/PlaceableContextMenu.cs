@@ -37,12 +37,10 @@ namespace GenBall.Utils.Editor.Map
 
         // ── SceneTrigger ───────────────────────────────────────
 
-        [MenuItem("GameObject/Map/SceneTrigger", false, MenuPriority + 20)]
-        private static void CreateSceneTrigger()
+        [MenuItem("GameObject/Map/Trigger Volume", false, MenuPriority + 20)]
+        private static void CreateTriggerVolume()
         {
-            CreateDynamicPlaceable<SceneTriggerConfig>(
-                "Trigger",
-                "Assets/AssetBundles/Common/TriggerObject/Trigger.prefab");
+            CreateDynamicPlaceable<TriggerVolume>("TriggerVolume");
         }
 
         // ── Helpers ────────────────────────────────────────────

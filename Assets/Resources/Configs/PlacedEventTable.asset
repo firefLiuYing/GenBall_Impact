@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4afdc13c368f8884394d894e4eee6c32, type: 3}
+  m_Name: PlacedEventTable
+  m_EditorClassIdentifier: 
+  entries:
+  - id: 6001
+    name: SpawnEnemy
+    displayName: "\u5237\u602A"
+    defaultParamType: GenBall.Event.Params.SpawnEnemyParams
+  - id: 6002
+    name: OpenDoor
+    displayName: "\u5F00\u95E8"
+    defaultParamType: GenBall.Event.Params.OpenDoorParams
+  - id: 6003
+    name: PlayDialogue
+    displayName: "\u64AD\u653E\u5BF9\u8BDD"
+    defaultParamType: GenBall.Event.Params.PlayDialogueParams
+  - id: 6004
+    name: GrantAccessory
+    displayName: "\u53D1\u653E\u914D\u4EF6"
+    defaultParamType: GenBall.Event.Params.GrantAccessoryParams
+  - id: 6005
+    name: UnlockSavePoint
+    displayName: "\u89E3\u9501\u5B58\u6863\u70B9"
+    defaultParamType: GenBall.Event.Params.UnlockSavePointParams

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GenBall.Map
 {
     [CustomEditor(typeof(SavePointConfig))]
-    public class SavePointConfigEditor : Editor
+    public class SavePointConfigEditor : UnityEditor.Editor
     {
         private int _bonfireTypeIndex;
 

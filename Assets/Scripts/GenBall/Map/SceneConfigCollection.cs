@@ -75,10 +75,35 @@ namespace GenBall.Map
     {
         public int id;
         public string triggerName;
-        public string eventName;
+
+        // Event data (replaces the old string eventName)
+        public int eventId;
+        /// <summary>Assembly-qualified type name of the parameter class, or null if no params.</summary>
+        public string paramTypeName;
+        /// <summary>JsonUtility.ToJson result of the parameter object, or null if no params.</summary>
+        public string serializedParams;
+
         public Vector3 position;
         public float radius;
         public TriggerActivationType activationType;
+
+        // Extended fields for new trigger system
+        public int triggerMode;       // (int)GenBall.Event.TriggerMode
+        public int triggerBehavior;   // (int)GenBall.Event.TriggerBehavior
+        public int maxFireCount = 1;  // for Limited behavior
+        public float cooldownSeconds; // minimum seconds between fires, 0 = none
+        public int listenerEventId;   // for EventListener mode
+        public int layerMask;         // for Collision mode
+    }
+
+    /// <summary>
+    /// Controls how many times a trigger can fire.
+    /// </summary>
+    public enum TriggerBehavior
+    {
+        Once = 0,       // Fire once, then disable
+        Repeatable = 1, // Fire every time (no limit)
+        Limited = 2,    // Fire up to maxFireCount times, then disable
     }
 
     /// <summary>

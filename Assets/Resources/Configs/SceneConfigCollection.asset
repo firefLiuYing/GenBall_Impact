@@ -33,13 +33,21 @@ MonoBehaviour:
       initiallyActive: 1
       bonfirePosition: {x: 1.0988514, y: -0.53082705, z: 2.4459486}
       bonfireRotation: {x: 0, y: 0, z: 0, w: 1}
-    enemySpawns:
+    enemySpawns: []
+    triggers:
     - id: 0
-      enemyType: NormalOrbis
-      position: {x: -3.0594623, y: -2.87, z: -7.317647}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
-      patrolRadius: 5
-      detectRadius: 10
-      aiBehavior: 0
-    triggers: []
+      triggerName: "\u5C1D\u8BD5\u89E6\u53D1\u5668\u5237\u602A"
+      eventId: 6001
+      paramTypeName: GenBall.Event.Params.SpawnEnemyParams, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      serializedParams: '{"enemyType":"NormalOrbis","spawnPosition":{"x":1.5989910364151,"y":7.968999862670898,"z":-4.839000225067139},"spawnRotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0},"patrolRadius":5.0,"detectRadius":10.0,"aiBehavior":0}'
+      position: {x: 0, y: 0, z: 0}
+      radius: 2
+      activationType: 0
+      triggerMode: 0
+      triggerBehavior: 0
+      maxFireCount: 1
+      cooldownSeconds: 0
+      listenerEventId: 0
+      layerMask: 128
     mechanisms: []
