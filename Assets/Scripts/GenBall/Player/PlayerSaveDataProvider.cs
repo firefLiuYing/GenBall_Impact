@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GenBall.Procedure;
 using UnityEngine;
 
@@ -25,6 +26,19 @@ namespace GenBall.Player
             if (!string.IsNullOrEmpty(json))
             {
                 _runtimeData = JsonUtility.FromJson<PlayerSaveData>(json) ?? new PlayerSaveData();
+            }
+        }
+
+        public void MergeSaveFields(Dictionary<string, string> fields)
+        {
+            if (fields.TryGetValue(SaveFieldKeys.Player.LastSavePointIndex, out var idxStr)
+                && int.TryParse(idxStr, out var idx))
+            {
+                _runtimeData.lastSavePointIndex = idx;
+            }
+            if (fields.TryGetValue(SaveFieldKeys.Player.LastSceneName, out var scene))
+            {
+                _runtimeData.lastSceneName = scene;
             }
         }
     }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GenBall.Procedure
 {
     /// <summary>
@@ -16,5 +18,12 @@ namespace GenBall.Procedure
 
         /// <summary>从 JSON 字符串反序列化并应用到当前运行时状态</summary>
         void ApplySaveData(string json);
+
+        /// <summary>
+        /// Merge incremental field updates into the provider's runtime data.
+        /// Keys correspond to [Serializable] field names in the provider's data model.
+        /// The provider is responsible for type conversion and validation.
+        /// </summary>
+        void MergeSaveFields(Dictionary<string, string> fields);
     }
 }

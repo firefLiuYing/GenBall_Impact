@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GenBall.Procedure;
 using UnityEngine;
 
@@ -26,5 +27,23 @@ namespace GenBall.Map
                 _runtimeData = JsonUtility.FromJson<MapSaveData>(json) ?? new MapSaveData();
             }
         }
+
+        public void MergeSaveFields(Dictionary<string, string> fields)
+        {
+            if (fields.TryGetValue(SaveFieldKeys.Map.UnlockedScenes, out var scenesJson))
+            {
+                var wrapper = JsonUtility.FromJson<SceneSaveDataListWrapper>(scenesJson);
+                if (wrapper != null && wrapper.scenes != null)
+                {
+                    _runtimeData.unlockedScenes = wrapper.scenes;
+                }
+            }
+        }
+    }
+
+    [System.Serializable]
+    internal class SceneSaveDataListWrapper
+    {
+        public List<SceneSaveData> scenes;
     }
 }

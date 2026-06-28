@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GenBall.Procedure;
 using NUnit.Framework;
 using Yueyn.Main;
@@ -131,6 +132,11 @@ namespace GenBall.Procedure.Game.Tests
             public void ApplySaveData(string json)
             {
                 LastApplied = json;
+            }
+
+            public void MergeSaveFields(Dictionary<string, string> fields)
+            {
+                // No-op for mock
             }
         }
     }

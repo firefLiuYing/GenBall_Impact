@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using GenBall.Procedure;
 using GenBall.Procedure.Execute;
 using GenBall.Procedure.Game;
 using Yueyn.Main;
@@ -32,6 +34,8 @@ namespace GenBall.UI
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_Continue, OnContinue);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_LoadGame, OnLoadGame);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_CloseRequest, OnCloseRequest);
+
+            _ = RefreshCanContinue();
         }
 
         protected override void OnFormUnbound(UIFormScript form)
@@ -71,15 +75,39 @@ namespace GenBall.UI
             launchSystem.StartGameWithContext(context);
         }
 
-        private async void OnLoadGame()
+        private void OnLoadGame()
+        {
+            CloseForm();
+            SaveSlotFormLogic.Open(saveIndex =>
+            {
+                _ = StartLoadGame(saveIndex);
+            });
+        }
+
+        private async Task StartLoadGame(int saveIndex)
         {
             var gameStartSystem = SystemRepository.Instance.GetSystem<IGameStartSystem>();
-            // TODO: 存档选择 UI 完成后传入实际 index
             var context = await gameStartSystem.PrepareStartAsync(
-                new GameStartRequest { Type = GameStartType.LoadGame, SaveIndex = 0 });
+                new GameStartRequest { Type = GameStartType.LoadGame, SaveIndex = saveIndex });
 
             var launchSystem = SystemRepository.Instance.GetSystem<ILaunchSystem>();
             launchSystem.StartGameWithContext(context);
+        }
+
+        private async Task RefreshCanContinue()
+        {
+            var saveService = SystemRepository.Instance.GetSystem<ISaveService>();
+            if (saveService == null) return;
+
+            var slots = await saveService.GetSaveSlotDatas();
+            bool canContinue = false;
+            foreach (var slot in slots)
+            {
+                if (!slot.isEmpty) { canContinue = true; break; }
+            }
+
+            if (View != null)
+                View.SetViewData(new StartFormViewData { CanContinue = canContinue });
         }
 
         private void OnCloseRequest()

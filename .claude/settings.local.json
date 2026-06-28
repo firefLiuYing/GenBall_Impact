@@ -102,7 +102,8 @@
       "Bash(echo:*)",
       "Bash(dir /s /b 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\Map')",
       "Bash(dir /s /b 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\Event')",
-      "Bash(dir /s /b \"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Editor\"\" 2>nul | findstr /i \"map event \")"
+      "Bash(dir /s /b \"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Editor\"\" 2>nul | findstr /i \"map event \")",
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh)"
     ]
   },
   "enableAllProjectMcpServers": true,

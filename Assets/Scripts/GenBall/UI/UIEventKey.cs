@@ -34,6 +34,11 @@ namespace GenBall.UI
         /// <summary>请求关闭 StartForm</summary>
         StartForm_CloseRequest = 13,
 
+        // ===== SaveSlotForm 事件 =====
+
+        /// <summary>SaveSlotForm 返回按钮</summary>
+        SaveSlotForm_Back = 30,
+
         // ===== GM Console (20-22) =====
 
         /// <summary>GM Console 提交命令</summary>

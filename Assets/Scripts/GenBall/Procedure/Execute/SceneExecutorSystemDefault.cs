@@ -136,7 +136,18 @@ namespace GenBall.Procedure.Execute
                     var savePoint = go.GetComponent<SavePoint>();
                     if (savePoint == null)
                         savePoint = go.AddComponent<SavePoint>();
-                    savePoint.SetConfig(sp.DisplayName);
+
+                    // Check if this save point is already unlocked in save data
+                    var sceneName = scene.name;
+                    var sceneSystem = SystemRepository.Instance.GetSystem<ISceneStateSystem>();
+                    bool isUnlocked = false;
+                    if (sceneSystem != null)
+                    {
+                        var unlockedPoints = sceneSystem.GetUnlockedSavePointModels(sceneName);
+                        isUnlocked = unlockedPoints.Any(m => m.id == sp.Index);
+                    }
+
+                    savePoint.SetConfig(sp.DisplayName, sp.Index, isUnlocked);
 
                     spawned++;
                 }

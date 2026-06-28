@@ -1,8 +1,8 @@
 # 长期执行计划
 
 > **用途**：跨会话持久化计划。每完成一个任务更新状态。新会话启动时先读此文档。
-> **最后更新**：2026-06-21
-> **当前阶段**：Phase C-1 匣纳之枪收尾（能力武器管线验证）
+> **最后更新**：2026-06-28
+> **当前阶段**：Phase D-3 存档系统 & 死亡复活闭环（核心循环打通）
 > **需求清单**：`.claude/docs/requirements-checklist.md`（会议后用策划回答填入）
 
 ---
@@ -146,15 +146,147 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 - [ ] D-2e：闲聊系统（定时随机池 + 事件触发池）
 - [ ] D-2f：对话触发器（场景内选对话 ID）→ **依赖 D-1**
 
-### D-3：存档点全息界面 ❌
+### D-3：存档系统 & 死亡复活闭环 🔄
 
-**目标**：World Space 3D UI（死亡搁浅风格），靠近按 F 弹出，整合所有管理功能。
+**边界**：打通 存档→死亡→复活→恢复 的完整核心循环。全息界面的子功能（配装/技能树/配件）只做入口占位，等对应系统就绪后再接入。
 
-- [ ] D-3a：World Space Canvas + 全息视觉效果
-- [ ] D-3b：存档交互（手动存档、休息后回阶段一+货币转换）
-- [ ] D-3c：集成：技能树 / 阶段配装 / 配件配置入口
-- [ ] D-3d：自动存档节点（Boss 击杀等全局事件触发）
-- [ ] D-3e：存档点激活/交互流程 → **依赖策划回答 2.4**
+**设计决策摘要**：
+- 用户设置（音量/键位等）独立于存档槽位持久化，所有槽位共享
+- 增量保存：`GameManager.UpdateSaveFields(providerKey, fields)`，按系统隔离字段
+- 全量保存触发：手动休息、传送前、章节切换
+- 死亡：YOU DIED → 自动重载场景 → 复活到存档点
+- 复活不读磁盘存档，用内存中的 `PlayerSaveData` + `ISceneStateSystem` 场景状态
+- 字段 key 用 const string 维护，放到 `SaveFieldKeys` 类
+
+#### D-3a：用户设置独立存储 ✅（2026-06-28）
+
+**目标**：独立于 6 个存档槽位的用户级配置文件，所有槽位共享。
+
+- [x] D-3a1：`UserSettings` 数据模型（音量/鼠标灵敏度/键位映射/语言等，第一章先用音量+灵敏度）
+- [x] D-3a2：`UserSettingsStorage` — 序列化到 `user_settings.json`，读/写接口
+- [x] D-3a3：`FrameworkDefault` 注册，接入音频/输入系统
+
+> 依赖：无
+
+#### D-3b：增量保存机制 + 字段常量 ✅（2026-06-28）
+
+**目标**：在现有 `GameManager` 上暴露字段级增量更新接口。
+
+- [x] D-3b1：`GameManager.UpdateSaveFields(string providerKey, Dictionary<string, string> fields)` — 读当前槽位 GameData → 更新对应 key 的 DataBlock → 写回磁盘
+- [x] D-3b2：`SaveFieldKeys` 常量类 — 维护所有增量更新的字段名，按 provider 分组，避免拼写错误
+- [x] D-3b3：字段隔离校验 — `UpdateSaveFields` 只允许更新 providerKey 匹配的 DataBlock，跨系统更新打 logWarning 忽略
+- [x] D-3b4：单元测试
+
+> 依赖：D-1 事件总管，无其他硬依赖
+
+#### D-3c：存档槽选择 UI
+
+**目标**：标题画面选"读取存档"时不硬编码 index=0，而是展示存档槽列表。
+
+- [x] D-3c1：`SaveSlotForm` UI Form — 展示槽位列表（创建时间、总时长、场景名），选中后传 `saveIndex` 进 LoadGame 流程
+- [x] D-3c2：`StartFormLogic` — `OnLoadGame()` 改为打开 SaveSlotForm 而非硬编码 index=0
+- [x] D-3c3：`CanContinue` 修复 — `RefreshCanContinue()` 检查是否有有效存档槽位，灰显/点亮继续按钮
+- [x] D-3c4：`SaveSlotViewData` — 槽位元数据 ViewData
+
+> 依赖：现有 StartForm + ISaveService.GetSaveSlotDatas()
+
+#### D-3d：存档点状态区分 ✅（2026-06-28）
+
+**目标**：存档点有"未解锁"和"已解锁"两种状态，视觉和行为都不同。
+
+- [x] D-3d1：`SavePoint` 组件扩展 — `IsUnlocked` 字段 + `SavePointIndex` + 视觉占位（`ApplyVisualState()`）
+- [x] D-3d2：未解锁交互流程 — 靠近按 F → 标记 `IsUnlocked = true` → 同步 ISceneStateSystem + MapSaveDataProvider → `GameManager.UpdateSaveFields("Map", ...)` 增量保存
+- [x] D-3d3：已解锁交互流程 — 靠近按 F → `OpenBonfireUI()` 占位（→ D-3e）
+- [x] D-3d4：`SavePoint.Interact()` 内根据 `IsUnlocked` 分支 `Unlock()` / `OpenBonfireUI()`
+- [x] D-3d5：`SpawnBonfires()` 启动时读取 ISceneStateSystem 检查已有解锁状态，传入 `SetConfig()`
+
+#### D-3e：存档点全息界面（含 UI 框架 World Space Canvas 支持）
+
+**目标**：世界空间 3D UI，已解锁存档点交互后弹出。需要先改造 UI 框架层支持 World Space Canvas。
+
+##### D-3e-1：UI 框架层改造（Assets/Scripts/Yueyn/UI/）
+
+**关键文件**：
+- `UIFormScript.cs` — `InitializeCanvas()` 第 224-272 行硬编码 ScreenSpaceCamera，是唯一最关键改动点
+- `UIManager.cs` — 表单实例化/父节点分配/层级设置
+- `BusinessFormLogic.cs` — 表单创建流程
+- `UIFormType.cs` — 枚举扩展
+- `UiBindingCodeGenerator.cs` — 代码生成器模板
+
+**具体改动**：
+
+- [ ] D-3e1a：`UIFormType` 枚举 — 新增 `WorldSpace` 类型
+- [ ] D-3e1b：`UIFormScript.InitializeCanvas()` — 检查 FormType，WorldSpace 分支：`RenderMode.WorldSpace`、跳过 `CanvasScaler`、不强制 `overrideSorting`
+- [ ] D-3e1c：`UIManager.OpenForm()` — WorldSpace 表单：不挂到 Persistent/Popup/Transition RectTransform 下，放到 WorldUIRoot（场景中独立节点）；跳过 `SetUILayerRecursively`（用场景层而非 UI 层）
+- [ ] D-3e1d：`BusinessFormLogic` — 新增 `IsWorldSpace` 虚属性（默认 false），`OnCreateInternal()` 中传入 FormType 到 OpenForm
+- [ ] D-3e1e：`UiViewBinding` + 代码生成器 — `FormTypeEnum` 加 `WorldSpace`；`EnsurePrefabComponents()` 对 WorldSpace 表单跳过 CanvasScaler 添加
+- [ ] D-3e1f：编译验证 + 现有屏幕空间 UI 回归（确保 StartForm/LoadingForm/MainHud 不受影响）
+
+##### D-3e-2：BonfireForm 实现（Assets/Scripts/GenBall/UI/BonfireForm/）
+
+- [ ] D-3e2a：`BonfireForm.prefab` — World Space Canvas，全息视觉效果（透明/发光材质），定位在存档点前方
+- [ ] D-3e2b：`BonfireFormView` + `BonfireFormLogic` — WorldSpace FormType，UI 事件绑定
+- [ ] D-3e2d：菜单项 — "休息"按钮（调 `GameManager.SaveGame()` + 战斗状态重置）
+- [ ] D-3e2e：子系统入口占位 — 配装/技能树/配件 按钮（灰显，文字提示"开发中"）
+- [ ] D-3e2f：关闭交互 — 远离存档点自动关闭 / 按 ESC 关闭
+- [ ] D-3e2g：`IInteractSystem` 集成 — 超出交互范围自动关闭菜单
+
+> 依赖：D-3d（存档点状态）、D-3e-1（UI 框架层改造）、现有 UI 框架
+
+#### D-3f：IRespawnSystem 死亡复活
+
+**目标**：处理玩家死亡→复活完整流程，通过事件总线解耦其他系统的响应。
+
+- [ ] D-3f1：`IRespawnSystem` 接口定义（`void StartDeathFlow()`）
+- [ ] D-3f2：`RespawnSystemDefault` 实现：
+  - 发送 `PlayerDied` 事件（通过 `CEventRouter`）
+  - 等待死亡表现完成（延迟/动画）
+  - 重载当前场景（`ISceneLoadSystem`）
+  - 场景加载完成后，用内存中的 `PlayerSaveData` 确定生成位置
+  - 发送 `PlayerRespawned` 事件
+- [ ] D-3f3：`PlayerDied` / `PlayerRespawned` 事件注册到 `GlobalEventId` 枚举 + 代码生成
+- [ ] D-3f4：死亡触发点 — `PlayerDeathHandler.OnDeath()` 中调 `IRespawnSystem.StartDeathFlow()`
+- [ ] D-3f5：`DeathInfo` 扩展 — 区分玩家死亡和敌人死亡，避免敌人死亡触发复活流程
+
+> 依赖：DeathComponent + DeathSystemDefault、ISceneLoadSystem、PlayerSaveData（内存）
+
+#### D-3g：战斗状态重置
+
+**目标**：复活/休息时，各系统通过 `PlayerRespawned` 事件重置自己的运行时数据。
+
+- [ ] D-3g1：`PlayerRespawned` 事件 — 各系统订阅并重置：
+  - `IHealth` → HP 回满
+  - 护甲系统 → 护甲回满
+  - `IMagazineComponent` → 弹匣回满
+  - 击杀计数 → 转换为圆形数据，清零（→ **依赖 C-5 货币系统，目前发事件占位**）
+  - 进化阶段 → 回阶段一
+  - 能力枪 → 清空
+  - `IBuffContainer` → 清除所有临时 Buff
+- [ ] D-3g2：`ICombatStateSystem` 扩展 — 提供 `ResetCombatState()` 方法，统一处理战斗状态重置
+- [ ] D-3g3：休息时也触发同一重置流程（全息界面点"休息" = `SaveGame()` + `ResetCombatState()`）
+
+> 依赖：D-3f（PlayerRespawned 事件）、各战斗系统现有接口
+
+#### D-3h：全量存档触发集成
+
+**目标**：在所有需要全量存档的时机调用 `GameManager.SaveGame()`。
+
+- [ ] D-3h1：手动休息 — 全息界面"休息"按钮 → `GameManager.SaveGame()`
+- [ ] D-3h2：传送 — `ITeleportSystem.DoTeleport()` 传送前调 `SaveGame()`
+- [ ] D-3h3：章节切换 — 章节过渡触发器调用 `SaveGame()`
+- [ ] D-3h4：`GameManager.SaveGame()` 内更新 `PlayerSaveData.lastSceneName` + `lastSavePointIndex` 后写入
+
+> 依赖：D-3b（增量保存已就绪）、ITeleportSystem、关卡章节触发器
+
+#### D-3i：死亡 UI（YOU DIED）
+
+**目标**：死亡后黑屏+文字提示，自动过渡到复活。
+
+- [ ] D-3i1：`DeathScreenFormLogic` + `DeathScreenFormView` — 监听 `PlayerDied` 事件，显示 YOU DIED 文字
+- [ ] D-3i2：文字淡入动画（约 1 秒）+ 保持（约 2 秒）+ 淡出（约 1 秒）→ 自动关闭
+- [ ] D-3i3：淡出完成后发 UI 事件，RespawnSystem 监听到后执行场景重载
+
+> 依赖：D-3f（PlayerDied 事件）、现有 UI 框架
 
 ### D-4：第一章关卡搭建 ❌
 
@@ -198,7 +330,7 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 | C-6: 敌人补齐（第一章） | ❌ |
 | D-1: 触发器工具 | ✅ |
 | D-2: 对话系统 | ❌ |
-| D-3: 存档点全息界面 | ❌ |
+| D-3: 存档系统 & 死亡复活闭环 | 🔄 |
 | D-4: 关卡搭建 | ❌ |
 | D-5: 战斗反馈 | ❌ |
 | E: 清理旧代码 | ❌ |
@@ -206,13 +338,26 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 ### 依赖关系
 
 ```
-C-2 (原语层) ──→ C-3 (进化) ──→ D-3 (存档UI)
-              ├─→ C-4 (配件) ──→ D-3
-              └─→ C-5 (技能树) ──→ D-3
-C-1 (匣纳) ──→ D-2 (对话需要能力枪管线稳定)
-D-1 (触发器工具) ✅ ──→ D-2 (对话需要触发器)
-                     └─→ D-4 (关卡搭建需要触发器)
-C-6 (敌人) ──→ D-4 (关卡需要敌人)
+D-3 内部依赖：
+  D-3b (增量保存) ←─ D-3d (存档点解锁, 增量)
+  D-3d (存档点状态) ←─ D-3e (全息界面)
+  D-3b (增量保存) ←─ D-3h (全量存档集成)
+  D-3f (复活系统) ←─ D-3g (战斗状态重置)
+  D-3f (复活系统) ←─ D-3i (死亡 UI)
+
+D-3 外部依赖：
+  D-1 (触发器工具) ✅ ──→ D-3h (章节切换触发器)
+  C-5 (货币系统) ──→ D-3g (击杀→货币转换)
+  C-3/C-4/C-5 ──→ D-3e (全息界面子系统入口，仅占位)
+
+跨 Phase：
+  C-2 (原语层) ──→ C-3 (进化) ──→ D-3e (配装入库)
+                ├─→ C-4 (配件) ──→ D-3e (配件配置入口)
+                └─→ C-5 (技能树) ──→ D-3e (技能树入口)
+  C-1 (匣纳) ──→ D-2 (对话需要能力枪管线稳定)
+  D-1 (触发器工具) ✅ ──→ D-2 (对话需要触发器)
+                       └─→ D-4 (关卡搭建需要触发器)
+  C-6 (敌人) ──→ D-4 (关卡需要敌人)
 ```
 
 ---

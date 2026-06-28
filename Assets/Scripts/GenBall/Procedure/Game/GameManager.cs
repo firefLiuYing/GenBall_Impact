@@ -67,6 +67,56 @@ namespace GenBall.Procedure.Game
             }
         }
 
+        public async Task<bool> UpdateSaveFields(string providerKey, Dictionary<string, string> fields)
+        {
+            if (fields == null || fields.Count == 0) return true;
+
+            if (CurSaveIndex < 0)
+            {
+                Debug.LogWarning($"[GameManager] UpdateSaveFields: No active save slot.");
+                return false;
+            }
+
+            if (!_providers.TryGetValue(providerKey, out var provider))
+            {
+                Debug.LogWarning($"[GameManager] UpdateSaveFields: Provider '{providerKey}' is not registered. Cross-system update ignored.");
+                return false;
+            }
+
+            try
+            {
+                var saveService = SystemRepository.Instance.GetSystem<ISaveService>();
+                var gameData = await saveService.LoadGameData(CurSaveIndex);
+                if (gameData == null)
+                {
+                    Debug.LogError($"[GameManager] UpdateSaveFields: Failed to load save slot {CurSaveIndex}.");
+                    return false;
+                }
+
+                // Hydrate provider from disk state, merge fields, re-collect
+                var currentJson = gameData.GetData(providerKey);
+                if (!string.IsNullOrEmpty(currentJson))
+                {
+                    provider.ApplySaveData(currentJson);
+                }
+                provider.MergeSaveFields(fields);
+                gameData.SetData(providerKey, provider.CollectSaveData());
+                gameData.LastUpdateTime = DateTime.Now;
+
+                var result = await saveService.SaveGameData(gameData, CurSaveIndex);
+                if (result)
+                {
+                    GameData = gameData;
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[GameManager] UpdateSaveFields failed: {e.Message}");
+                return false;
+            }
+        }
+
         public async Task<bool> LoadGameData(int saveIndex)
         {
             try

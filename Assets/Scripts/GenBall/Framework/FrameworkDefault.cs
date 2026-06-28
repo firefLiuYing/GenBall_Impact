@@ -40,6 +40,9 @@ namespace GenBall.Framework
             // 存档系统（待重新设计后移入 Yueyn 框架层）
             SystemRep.RegisterSystem<ISaveService>(new SaveSystem());
 
+            // 用户设置存储（独立于存档槽位）
+            SystemRep.RegisterSystem<IUserSettingsStorage>(new UserSettingsStorage());
+
             // Phase 4: 战斗系统（Buff、伤害、死亡）
             SystemRep.RegisterSystem<IBuffRegistry>(new BuffRegistry());
             SystemRep.RegisterSystem<IBuffTickSystem>(new BuffTickSystem());

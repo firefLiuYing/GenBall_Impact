@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GenBall.Procedure;
 using Yueyn.Main;
@@ -15,5 +16,6 @@ namespace GenBall.Procedure.Game
         void UnregisterSaveDataProvider(ISaveDataProvider provider);
         ISaveDataProvider GetProvider(string key);
         Task<bool> LoadGameData(int saveIndex);
+        Task<bool> UpdateSaveFields(string providerKey, Dictionary<string, string> fields);
     }
 }
