@@ -1,0 +1,3117 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/DefaultWeapon.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "OnEquip",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "owner"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DefaultWeapon",
+          "startLine": 7,
+          "endLine": 26,
+          "methods": [
+            "OnEquip"
+          ],
+          "properties": [
+            "Fire",
+            "Stats"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Stats",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "DefaultWeapon",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Factory/WeaponEntityFactory.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 177,
+      "nonEmptyLines": 156,
+      "functions": [
+        {
+          "name": "Create",
+          "startLine": 23,
+          "endLine": 36,
+          "params": [
+            "weaponId",
+            "parent"
+          ]
+        },
+        {
+          "name": "CreateDefault",
+          "startLine": 39,
+          "endLine": 42,
+          "params": [
+            "parent"
+          ]
+        },
+        {
+          "name": "Assemble",
+          "startLine": 48,
+          "endLine": 147,
+          "params": [
+            "go"
+          ]
+        },
+        {
+          "name": "PopulateAmmoStats",
+          "startLine": 149,
+          "endLine": 165,
+          "params": [
+            "stats",
+            "assembly"
+          ]
+        },
+        {
+          "name": "PopulateSpreadStats",
+          "startLine": 167,
+          "endLine": 174,
+          "params": [
+            "stats",
+            "assembly"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponEntityFactory",
+          "startLine": 18,
+          "endLine": 176,
+          "methods": [
+            "Create",
+            "CreateDefault",
+            "Assemble",
+            "PopulateAmmoStats",
+            "PopulateSpreadStats"
+          ],
+          "properties": [
+            "PrefabPath"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Create",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "CreateDefault",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "Assemble",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponEntityFactory",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Create",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Create",
+          "callee": "Debug.LogError",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Create",
+          "callee": "Object.Instantiate",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Create",
+          "callee": "Assemble",
+          "lineNumber": 35
+        },
+        {
+          "caller": "CreateDefault",
+          "callee": "Create",
+          "lineNumber": 41
+        },
+        {
+          "caller": "Assemble",
+          "callee": "go.GetComponent<WeaponAssembly>",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Assemble",
+          "callee": "Debug.LogError",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Assemble",
+          "callee": "go.GetComponent<BattleEntity>",
+          "lineNumber": 57
+        },
+        {
+          "caller": "Assemble",
+          "callee": "go.AddComponent<BattleEntity>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new StatComponent",
+          "lineNumber": 62
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 64
+        },
+        {
+          "caller": "Assemble",
+          "callee": "PopulateAmmoStats",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Assemble",
+          "callee": "PopulateSpreadStats",
+          "lineNumber": 66
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Assemble",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new BuffContainerComponent",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 80
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new EventDispatcherComponent",
+          "lineNumber": 80
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new WeaponMagazineExecutor",
+          "lineNumber": 86
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 87
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponentAs<IAmmoSystem>",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new HeatComponent",
+          "lineNumber": 91
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 92
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponentAs<IAmmoSystem>",
+          "lineNumber": 93
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent<IAmmoSystem>",
+          "lineNumber": 96
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new InfiniteAmmoComponent",
+          "lineNumber": 96
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new SemiAutoTriggerBehavior",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new FullAutoTriggerBehavior",
+          "lineNumber": 104
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new ShotgunTriggerBehavior",
+          "lineNumber": 105
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new ChargeTriggerBehavior",
+          "lineNumber": 107
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new SemiAutoTriggerBehavior",
+          "lineNumber": 109
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent<IWeaponTrigger>",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new WeaponFireDecision",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 119
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new WeaponFireExecutor",
+          "lineNumber": 119
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.RegisterComponent",
+          "lineNumber": 123
+        },
+        {
+          "caller": "Assemble",
+          "callee": "new SpreadComponent",
+          "lineNumber": 123
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.Get<EventDispatcherComponent>",
+          "lineNumber": 126
+        },
+        {
+          "caller": "Assemble",
+          "callee": "ed.Subscribe<StatChangedEventData>",
+          "lineNumber": 129
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.Get<IAmmoSystem>",
+          "lineNumber": 133
+        },
+        {
+          "caller": "Assemble",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 135
+        },
+        {
+          "caller": "Assemble",
+          "callee": "ammoSystem.GetDisplayInfo",
+          "lineNumber": 135
+        },
+        {
+          "caller": "Assemble",
+          "callee": "entity.Get<IAmmoSystem>",
+          "lineNumber": 140
+        },
+        {
+          "caller": "Assemble",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 142
+        },
+        {
+          "caller": "Assemble",
+          "callee": "ammoSystem.GetDisplayInfo",
+          "lineNumber": 142
+        },
+        {
+          "caller": "Assemble",
+          "callee": "go.SetActive",
+          "lineNumber": 145
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 154
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 155
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 156
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 159
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 160
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 161
+        },
+        {
+          "caller": "PopulateAmmoStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 162
+        },
+        {
+          "caller": "PopulateSpreadStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 171
+        },
+        {
+          "caller": "PopulateSpreadStats",
+          "callee": "stats.GetOrCreate",
+          "lineNumber": 172
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/FireComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 113,
+      "nonEmptyLines": 99,
+      "functions": [
+        {
+          "name": "SetBulletType",
+          "startLine": 26,
+          "endLine": 26,
+          "params": [
+            "type"
+          ]
+        },
+        {
+          "name": "SetBaseFireInterval",
+          "startLine": 29,
+          "endLine": 29,
+          "params": [
+            "time"
+          ]
+        },
+        {
+          "name": "OnEquip",
+          "startLine": 35,
+          "endLine": 43,
+          "params": []
+        },
+        {
+          "name": "OnUnequip",
+          "startLine": 45,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 51,
+          "endLine": 58,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "Trigger",
+          "startLine": 60,
+          "endLine": 67,
+          "params": [
+            "buttonState"
+          ]
+        },
+        {
+          "name": "CanFireCurFrame",
+          "startLine": 69,
+          "endLine": 79,
+          "params": []
+        },
+        {
+          "name": "Fire",
+          "startLine": 81,
+          "endLine": 92,
+          "params": []
+        },
+        {
+          "name": "RegisterEvents",
+          "startLine": 94,
+          "endLine": 98,
+          "params": []
+        },
+        {
+          "name": "UnregisterEvents",
+          "startLine": 100,
+          "endLine": 104,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "FireComponent",
+          "startLine": 11,
+          "endLine": 112,
+          "methods": [
+            "SetBulletType",
+            "SetBaseFireInterval",
+            "OnEquip",
+            "OnUnequip",
+            "OnUpdate",
+            "Trigger",
+            "CanFireCurFrame",
+            "Fire",
+            "RegisterEvents",
+            "UnregisterEvents"
+          ],
+          "properties": [
+            "BulletPrefabPaths",
+            "baseFireInterval",
+            "bulletSpawnPoint",
+            "fireMode",
+            "BulletType",
+            "Magazine",
+            "Mode",
+            "FireInterval",
+            "CanFire",
+            "_fireColdTime",
+            "_fireButtonState",
+            "_fireButtonDownThisFrame"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BulletType",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Mode",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "SetBulletType",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "FireInterval",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "CanFire",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "SetBaseFireInterval",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "FireComponent",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEquip",
+          "callee": "FireInterval.SetBaseValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "OnEquip",
+          "callee": "RegisterEvents",
+          "lineNumber": 42
+        },
+        {
+          "caller": "OnUnequip",
+          "callee": "UnregisterEvents",
+          "lineNumber": 47
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "CanFireCurFrame",
+          "lineNumber": 54
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "Fire",
+          "lineNumber": 56
+        },
+        {
+          "caller": "CanFireCurFrame",
+          "callee": "Magazine.CanFire",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Fire",
+          "callee": "Magazine.Fire",
+          "lineNumber": 85
+        },
+        {
+          "caller": "Fire",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Fire",
+          "callee": "Instantiate",
+          "lineNumber": 89
+        },
+        {
+          "caller": "Fire",
+          "callee": "go.GetComponent<IBullet>",
+          "lineNumber": 90
+        },
+        {
+          "caller": "Fire",
+          "callee": "bullet.Fire",
+          "lineNumber": 91
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "Owner.SubscribeSystemUpdate",
+          "lineNumber": 96
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "Owner.SubscribeInputTrigger",
+          "lineNumber": 97
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "Owner.UnsubscribeSystemUpdate",
+          "lineNumber": 102
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "Owner.UnsubscribeInputTrigger",
+          "lineNumber": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeapon.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "IWeapon",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [
+            "Trigger",
+            "Equip",
+            "Unequip",
+            "Attack",
+            "GetWeaponComponent"
+          ],
+          "properties": [
+            "Owner",
+            "Stats"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWeapon",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "IWeaponComponent",
+          "startLine": 5,
+          "endLine": 11,
+          "methods": [
+            "Equip",
+            "Unequip"
+          ],
+          "properties": [
+            "Owner"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWeaponComponent",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponReloadController.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "IWeaponReloadController",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "Init",
+            "Reload"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWeaponReloadController",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponStats.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "IWeaponStats",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [],
+          "properties": [
+            "Damage",
+            "ImpactForce"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWeaponStats",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponTriggerController.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "IWeaponTriggerController",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [
+            "Init",
+            "Trigger"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWeaponTriggerController",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/MagazineComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 74,
+      "nonEmptyLines": 63,
+      "functions": [
+        {
+          "name": "SetBaseCapacity",
+          "startLine": 16,
+          "endLine": 16,
+          "params": [
+            "capacity"
+          ]
+        },
+        {
+          "name": "Reload",
+          "startLine": 20,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "CanFire",
+          "startLine": 26,
+          "endLine": 26,
+          "params": [
+            "amount"
+          ]
+        },
+        {
+          "name": "Fire",
+          "startLine": 27,
+          "endLine": 34,
+          "params": [
+            "amount"
+          ]
+        },
+        {
+          "name": "OnEquip",
+          "startLine": 36,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "OnUnequip",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "OnReloadInput",
+          "startLine": 49,
+          "endLine": 52,
+          "params": [
+            "buttonState"
+          ]
+        },
+        {
+          "name": "RegisterEvents",
+          "startLine": 54,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "UnregisterEvents",
+          "startLine": 59,
+          "endLine": 62,
+          "params": []
+        },
+        {
+          "name": "FireMagazineInfoChange",
+          "startLine": 64,
+          "endLine": 67,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MagazineComponent",
+          "startLine": 12,
+          "endLine": 73,
+          "methods": [
+            "SetBaseCapacity",
+            "Reload",
+            "CanFire",
+            "Fire",
+            "OnEquip",
+            "OnUnequip",
+            "OnReloadInput",
+            "RegisterEvents",
+            "UnregisterEvents",
+            "FireMagazineInfoChange"
+          ],
+          "properties": [
+            "baseCapacity",
+            "Capacity",
+            "AmmunitionCount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SetBaseCapacity",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Capacity",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "AmmunitionCount",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Reload",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "CanFire",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Fire",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "MagazineComponent",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Reload",
+          "callee": "FireMagazineInfoChange",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Fire",
+          "callee": "CanFire",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Fire",
+          "callee": "FireMagazineInfoChange",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnEquip",
+          "callee": "Capacity.SetBaseValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "OnEquip",
+          "callee": "Reload",
+          "lineNumber": 39
+        },
+        {
+          "caller": "OnEquip",
+          "callee": "RegisterEvents",
+          "lineNumber": 41
+        },
+        {
+          "caller": "OnUnequip",
+          "callee": "UnregisterEvents",
+          "lineNumber": 46
+        },
+        {
+          "caller": "OnReloadInput",
+          "callee": "Reload",
+          "lineNumber": 51
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "GameEntry.Event.SubscribeInputReload",
+          "lineNumber": 56
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "GameEntry.Event.UnsubscribeInputReload",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalReloadController.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 27,
+          "endLine": 31,
+          "params": [
+            "weapon"
+          ]
+        },
+        {
+          "name": "CostBullet",
+          "startLine": 33,
+          "endLine": 37,
+          "params": [
+            "amount"
+          ]
+        },
+        {
+          "name": "Reload",
+          "startLine": 38,
+          "endLine": 42,
+          "params": [
+            "button"
+          ]
+        },
+        {
+          "name": "AutoReload",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "HandleReload",
+          "startLine": 48,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "FireMagazineInfoChange",
+          "startLine": 53,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "NormalReloadController",
+          "startLine": 8,
+          "endLine": 57,
+          "methods": [
+            "Init",
+            "CostBullet",
+            "Reload",
+            "AutoReload",
+            "HandleReload",
+            "FireMagazineInfoChange"
+          ],
+          "properties": [
+            "baseCapacity",
+            "_restBullets",
+            "RestBullets",
+            "Capacity",
+            "HaveBullets",
+            "Weapon"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RestBullets",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Capacity",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "HaveBullets",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Weapon",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "CostBullet",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "Reload",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "AutoReload",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "NormalReloadController",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Reload",
+          "callee": "HandleReload",
+          "lineNumber": 41
+        },
+        {
+          "caller": "AutoReload",
+          "callee": "HandleReload",
+          "lineNumber": 46
+        },
+        {
+          "caller": "FireMagazineInfoChange",
+          "callee": "GameEntry.Event.FireNowWeaponMagazineInfoChange",
+          "lineNumber": 55
+        },
+        {
+          "caller": "FireMagazineInfoChange",
+          "callee": "new MagazineInfo",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalTriggerController.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 94,
+      "nonEmptyLines": 88,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 21,
+          "endLine": 24,
+          "params": [
+            "weapon"
+          ]
+        },
+        {
+          "name": "Trigger",
+          "startLine": 25,
+          "endLine": 32,
+          "params": [
+            "buttonState"
+          ]
+        },
+        {
+          "name": "Update",
+          "startLine": 34,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "CanFireCurFrame",
+          "startLine": 50,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "HandleFireBullet",
+          "startLine": 69,
+          "endLine": 79,
+          "params": []
+        },
+        {
+          "name": "Awake",
+          "startLine": 81,
+          "endLine": 84,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "NormalTriggerController",
+          "startLine": 10,
+          "endLine": 93,
+          "methods": [
+            "Init",
+            "Trigger",
+            "Update",
+            "CanFireCurFrame",
+            "HandleFireBullet",
+            "Awake"
+          ],
+          "properties": [
+            "bulletSpawnPoint",
+            "fireMode",
+            "bulletModel",
+            "_weapon",
+            "_reload",
+            "FireInterval",
+            "_fireColdTime",
+            "_fireButtonDownThisFrame",
+            "_fireButtonState"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Init",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Trigger",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "NormalTriggerController",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Update",
+          "callee": "SystemRepository.Instance.GetSystem<IPauseSystem>",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Update",
+          "callee": "CanFireCurFrame",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Update",
+          "callee": "HandleFireBullet",
+          "lineNumber": 43
+        },
+        {
+          "caller": "CanFireCurFrame",
+          "callee": "_reload.AutoReload",
+          "lineNumber": 59
+        },
+        {
+          "caller": "HandleFireBullet",
+          "callee": "_reload.CostBullet",
+          "lineNumber": 71
+        },
+        {
+          "caller": "HandleFireBullet",
+          "callee": "_weapon.Stats.Damage.GetValue",
+          "lineNumber": 72
+        },
+        {
+          "caller": "HandleFireBullet",
+          "callee": "SystemRepository.Instance.GetSystem<IBulletSystem>().FireBullet",
+          "lineNumber": 73
+        },
+        {
+          "caller": "HandleFireBullet",
+          "callee": "SystemRepository.Instance.GetSystem<IBulletSystem>",
+          "lineNumber": 73
+        },
+        {
+          "caller": "HandleFireBullet",
+          "callee": "BulletLaunchInfo.Create",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Awake",
+          "callee": "GetComponent<NormalReloadController>",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponAssembly.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 65,
+      "nonEmptyLines": 54,
+      "classes": [
+        {
+          "name": "WeaponAssembly",
+          "startLine": 11,
+          "endLine": 49,
+          "methods": [],
+          "properties": [
+            "Archetype",
+            "AmmoType",
+            "Damage",
+            "FireInterval",
+            "ShotgunPelletCount",
+            "ShotgunSpreadAngle",
+            "ChargeMaxTime",
+            "ChargeMaxDamageMult",
+            "SpreadBase",
+            "SpreadMoving",
+            "MagazineCapacity",
+            "ReloadTime",
+            "MaxHeat",
+            "HeatPerShot",
+            "HeatCoolRate",
+            "BulletSpawnPoint",
+            "BulletConfigId",
+            "BulletSpeed",
+            "BulletRadius"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Archetype",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "AmmoType",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Damage",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "FireInterval",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "ShotgunPelletCount",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "ShotgunSpreadAngle",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ChargeMaxTime",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ChargeMaxDamageMult",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "SpreadBase",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "SpreadMoving",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "MagazineCapacity",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "ReloadTime",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "MaxHeat",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "HeatPerShot",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "HeatCoolRate",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "BulletSpawnPoint",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "BulletConfigId",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "BulletSpeed",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "BulletRadius",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponAssembly",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 20,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 142,
+      "nonEmptyLines": 119,
+      "functions": [
+        {
+          "name": "EntityUpdate",
+          "startLine": 20,
+          "endLine": 25,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 26,
+          "endLine": 26,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "EntityFixedUpdate",
+          "startLine": 28,
+          "endLine": 32,
+          "params": [
+            "fixedDeltaTime"
+          ]
+        },
+        {
+          "name": "OnFixedUpdate",
+          "startLine": 34,
+          "endLine": 34,
+          "params": [
+            "fixedDeltaTime"
+          ]
+        },
+        {
+          "name": "OnRecycle",
+          "startLine": 36,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "AddEffect",
+          "startLine": 42,
+          "endLine": 46,
+          "params": [
+            "effect"
+          ]
+        },
+        {
+          "name": "RemoveEffect",
+          "startLine": 48,
+          "endLine": 53,
+          "params": [
+            "effect"
+          ]
+        },
+        {
+          "name": "Trigger",
+          "startLine": 57,
+          "endLine": 61,
+          "params": [
+            "triggerState"
+          ]
+        },
+        {
+          "name": "OnTrigger",
+          "startLine": 62,
+          "endLine": 62,
+          "params": [
+            "triggerState"
+          ]
+        },
+        {
+          "name": "Equip",
+          "startLine": 64,
+          "endLine": 70,
+          "params": [
+            "owner"
+          ]
+        },
+        {
+          "name": "OnEquip",
+          "startLine": 71,
+          "endLine": 71,
+          "params": [
+            "attacker"
+          ]
+        },
+        {
+          "name": "Unequip",
+          "startLine": 73,
+          "endLine": 78,
+          "params": []
+        },
+        {
+          "name": "UnapplyEffects",
+          "startLine": 80,
+          "endLine": 90,
+          "params": []
+        },
+        {
+          "name": "OnSpawn",
+          "startLine": 92,
+          "endLine": 95,
+          "params": []
+        },
+        {
+          "name": "Attack",
+          "startLine": 97,
+          "endLine": 104,
+          "params": [
+            "target",
+            "attackInfo"
+          ]
+        },
+        {
+          "name": "GetWeaponComponent",
+          "startLine": 106,
+          "endLine": 106,
+          "params": []
+        },
+        {
+          "name": "InternalGetWeaponComponent",
+          "startLine": 107,
+          "endLine": 107,
+          "params": [
+            "type"
+          ]
+        },
+        {
+          "name": "EquipWeaponComponent",
+          "startLine": 109,
+          "endLine": 122,
+          "params": []
+        },
+        {
+          "name": "UnequipWeaponComponents",
+          "startLine": 124,
+          "endLine": 131,
+          "params": []
+        },
+        {
+          "name": "Subscribe",
+          "startLine": 134,
+          "endLine": 134,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Unsubscribe",
+          "startLine": 136,
+          "endLine": 136,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "FireEvent",
+          "startLine": 138,
+          "endLine": 138,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "FireNow",
+          "startLine": 140,
+          "endLine": 140,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponBase",
+          "startLine": 13,
+          "endLine": 141,
+          "methods": [
+            "EntityUpdate",
+            "OnUpdate",
+            "EntityFixedUpdate",
+            "OnFixedUpdate",
+            "OnRecycle",
+            "AddEffect",
+            "RemoveEffect",
+            "Trigger",
+            "OnTrigger",
+            "Equip",
+            "OnEquip",
+            "Unequip",
+            "UnapplyEffects",
+            "OnSpawn",
+            "Attack",
+            "GetWeaponComponent",
+            "InternalGetWeaponComponent",
+            "EquipWeaponComponent",
+            "UnequipWeaponComponents",
+            "Subscribe",
+            "Unsubscribe",
+            "FireEvent",
+            "FireNow"
+          ],
+          "properties": [
+            "_eventPool",
+            "_effects",
+            "_cachedEffects",
+            "_weaponComponents",
+            "Owner",
+            "Stats"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EntityUpdate",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "EntityFixedUpdate",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "OnRecycle",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "AddEffect",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveEffect",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "Owner",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "Trigger",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "Equip",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "Unequip",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "OnSpawn",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "Attack",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "GetWeaponComponent",
+          "line": 106,
+          "isDefault": false
+        },
+        {
+          "name": "Stats",
+          "line": 132,
+          "isDefault": false
+        },
+        {
+          "name": "Subscribe",
+          "line": 134,
+          "isDefault": false
+        },
+        {
+          "name": "Unsubscribe",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "FireEvent",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "FireNow",
+          "line": 140,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponBase",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EntityUpdate",
+          "callee": "this.FireNowSystemUpdate",
+          "lineNumber": 22
+        },
+        {
+          "caller": "EntityUpdate",
+          "callee": "_eventPool.Update",
+          "lineNumber": 23
+        },
+        {
+          "caller": "EntityUpdate",
+          "callee": "OnUpdate",
+          "lineNumber": 24
+        },
+        {
+          "caller": "EntityFixedUpdate",
+          "callee": "this.FireNowSystemFixedUpdate",
+          "lineNumber": 30
+        },
+        {
+          "caller": "EntityFixedUpdate",
+          "callee": "OnFixedUpdate",
+          "lineNumber": 31
+        },
+        {
+          "caller": "OnRecycle",
+          "callee": "_eventPool.Clear",
+          "lineNumber": 38
+        },
+        {
+          "caller": "OnRecycle",
+          "callee": "_effects.Clear",
+          "lineNumber": 39
+        },
+        {
+          "caller": "AddEffect",
+          "callee": "_effects.Add",
+          "lineNumber": 44
+        },
+        {
+          "caller": "AddEffect",
+          "callee": "effect.Apply",
+          "lineNumber": 45
+        },
+        {
+          "caller": "RemoveEffect",
+          "callee": "_effects.Remove",
+          "lineNumber": 50
+        },
+        {
+          "caller": "RemoveEffect",
+          "callee": "effect.Unapply",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Trigger",
+          "callee": "this.FireNowInputTrigger",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Trigger",
+          "callee": "OnTrigger",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Equip",
+          "callee": "EquipWeaponComponent",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Equip",
+          "callee": "OnEquip",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Equip",
+          "callee": "gameObject.SetActive",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Unequip",
+          "callee": "UnapplyEffects",
+          "lineNumber": 75
+        },
+        {
+          "caller": "Unequip",
+          "callee": "UnequipWeaponComponents",
+          "lineNumber": 76
+        },
+        {
+          "caller": "UnapplyEffects",
+          "callee": "_cachedEffects.Clear",
+          "lineNumber": 82
+        },
+        {
+          "caller": "UnapplyEffects",
+          "callee": "_cachedEffects.AddRange",
+          "lineNumber": 83
+        },
+        {
+          "caller": "UnapplyEffects",
+          "callee": "effect.Unapply",
+          "lineNumber": 86
+        },
+        {
+          "caller": "UnapplyEffects",
+          "callee": "_effects.Clear",
+          "lineNumber": 88
+        },
+        {
+          "caller": "UnapplyEffects",
+          "callee": "_cachedEffects.Clear",
+          "lineNumber": 89
+        },
+        {
+          "caller": "GetWeaponComponent",
+          "callee": "InternalGetWeaponComponent",
+          "lineNumber": 106
+        },
+        {
+          "caller": "InternalGetWeaponComponent",
+          "callee": "_weaponComponents.GetValueOrDefault",
+          "lineNumber": 107
+        },
+        {
+          "caller": "EquipWeaponComponent",
+          "callee": "_weaponComponents.Clear",
+          "lineNumber": 111
+        },
+        {
+          "caller": "EquipWeaponComponent",
+          "callee": "GetComponentsInChildren<IWeaponComponent>",
+          "lineNumber": 112
+        },
+        {
+          "caller": "EquipWeaponComponent",
+          "callee": "_weaponComponents.Add",
+          "lineNumber": 115
+        },
+        {
+          "caller": "EquipWeaponComponent",
+          "callee": "weaponComponent.GetType",
+          "lineNumber": 115
+        },
+        {
+          "caller": "EquipWeaponComponent",
+          "callee": "wc.Equip",
+          "lineNumber": 120
+        },
+        {
+          "caller": "UnequipWeaponComponents",
+          "callee": "weaponComponent.Unequip",
+          "lineNumber": 128
+        },
+        {
+          "caller": "UnequipWeaponComponents",
+          "callee": "_weaponComponents.Clear",
+          "lineNumber": 130
+        },
+        {
+          "caller": "Subscribe",
+          "callee": "_eventPool.Subscribe",
+          "lineNumber": 134
+        },
+        {
+          "caller": "Unsubscribe",
+          "callee": "_eventPool.Unsubscribe",
+          "lineNumber": 136
+        },
+        {
+          "caller": "FireEvent",
+          "callee": "_eventPool.Fire",
+          "lineNumber": 138
+        },
+        {
+          "caller": "FireNow",
+          "callee": "_eventPool.FireNow",
+          "lineNumber": 140
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 23,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponComponentBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "Equip",
+          "startLine": 10,
+          "endLine": 14,
+          "params": [
+            "owner"
+          ]
+        },
+        {
+          "name": "OnEquip",
+          "startLine": 15,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "Unequip",
+          "startLine": 17,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "OnUnequip",
+          "startLine": 22,
+          "endLine": 22,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponComponentBase",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [
+            "Equip",
+            "OnEquip",
+            "Unequip",
+            "OnUnequip"
+          ],
+          "properties": [
+            "Owner"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Owner",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Equip",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Unequip",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponComponentBase",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Equip",
+          "callee": "OnEquip",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Unequip",
+          "callee": "OnUnequip",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponId.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "Register",
+          "startLine": 17,
+          "endLine": 20,
+          "params": []
+        },
+        {
+          "name": "Register",
+          "startLine": 29,
+          "endLine": 33,
+          "params": [
+            "weaponId"
+          ]
+        },
+        {
+          "name": "Create",
+          "startLine": 35,
+          "endLine": 41,
+          "params": [
+            "weaponId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponRegister",
+          "startLine": 14,
+          "endLine": 21,
+          "methods": [
+            "Register"
+          ],
+          "properties": []
+        },
+        {
+          "name": "WeaponIdExtension",
+          "startLine": 23,
+          "endLine": 42,
+          "methods": [
+            "Register",
+            "Create"
+          ],
+          "properties": [
+            "_prefabPaths",
+            "Path"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Register",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponRegister",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Register",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Create",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponIdExtension",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Register",
+          "callee": "WeaponId.Pistol.Register",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Register",
+          "callee": "weaponId.ToString",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Create",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Create",
+          "callee": "Object.Instantiate",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Create",
+          "callee": "go.GetComponent<WeaponState>",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 3,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 86,
+      "functions": [
+        {
+          "name": "AddAccessory",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "accessoryObj"
+          ]
+        },
+        {
+          "name": "RemoveAllAccessories",
+          "startLine": 30,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "OnUnequip",
+          "startLine": 39,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "Init",
+          "startLine": 43,
+          "endLine": 55,
+          "params": [
+            "playerGo"
+          ]
+        },
+        {
+          "name": "Trigger",
+          "startLine": 56,
+          "endLine": 59,
+          "params": [
+            "buttonState"
+          ]
+        },
+        {
+          "name": "Reload",
+          "startLine": 61,
+          "endLine": 64,
+          "params": [
+            "buttonState"
+          ]
+        },
+        {
+          "name": "Awake",
+          "startLine": 65,
+          "endLine": 69,
+          "params": []
+        },
+        {
+          "name": "AddBuff",
+          "startLine": 75,
+          "endLine": 75,
+          "params": [
+            "buff"
+          ]
+        },
+        {
+          "name": "RemoveBuff",
+          "startLine": 77,
+          "endLine": 77,
+          "params": [
+            "buff"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 81,
+          "endLine": 83,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnDestroy",
+          "startLine": 85,
+          "endLine": 88,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponState",
+          "startLine": 14,
+          "endLine": 89,
+          "methods": [
+            "AddAccessory",
+            "RemoveAllAccessories",
+            "OnUnequip",
+            "Init",
+            "Trigger",
+            "Reload",
+            "Awake",
+            "AddBuff",
+            "RemoveBuff",
+            "LogicUpdate",
+            "OnDestroy"
+          ],
+          "properties": [
+            "PlayerGo",
+            "_trigger",
+            "_reload",
+            "_accessoryObjs",
+            "model",
+            "Stats",
+            "Buffs",
+            "_buffs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerGo",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Stats",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "AddAccessory",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "OnUnequip",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "Trigger",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "Reload",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "Buffs",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "AddBuff",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveBuff",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponState",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AddAccessory",
+          "callee": "_accessoryObjs.Add",
+          "lineNumber": 26
+        },
+        {
+          "caller": "AddAccessory",
+          "callee": "accessoryObj.OnAdd",
+          "lineNumber": 27
+        },
+        {
+          "caller": "RemoveAllAccessories",
+          "callee": "accessoryObj.OnRemove",
+          "lineNumber": 34
+        },
+        {
+          "caller": "RemoveAllAccessories",
+          "callee": "_accessoryObjs.Clear",
+          "lineNumber": 36
+        },
+        {
+          "caller": "OnUnequip",
+          "callee": "RemoveAllAccessories",
+          "lineNumber": 41
+        },
+        {
+          "caller": "Init",
+          "callee": "new WeaponStats",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Init",
+          "callee": "DamageValue.Create",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Init",
+          "callee": "FloatStat.Create",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Init",
+          "callee": "FloatStat.Create",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Init",
+          "callee": "_trigger.Init",
+          "lineNumber": 52
+        },
+        {
+          "caller": "Init",
+          "callee": "_reload.Init",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Init",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>().AddLogicUpdate",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Init",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Trigger",
+          "callee": "_trigger?.Trigger",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Reload",
+          "callee": "_reload?.Reload",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Awake",
+          "callee": "GetComponent<IWeaponTriggerController>",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Awake",
+          "callee": "GetComponent<IWeaponReloadController>",
+          "lineNumber": 68
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "_buffs.Add",
+          "lineNumber": 75
+        },
+        {
+          "caller": "RemoveBuff",
+          "callee": "_buffs.Remove",
+          "lineNumber": 77
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>()?.RemoveLogicUpdate",
+          "lineNumber": 87
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>",
+          "lineNumber": 87
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponStats.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "WeaponStats",
+          "startLine": 5,
+          "endLine": 11,
+          "methods": [],
+          "properties": [
+            "Damage",
+            "FireInterval",
+            "ReloadTime"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Damage",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "FireInterval",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "ReloadTime",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponStats",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Entry/GameEntry.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "Awake",
+          "startLine": 12,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "Start",
+          "startLine": 18,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "Update",
+          "startLine": 23,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "FixedUpdate",
+          "startLine": 28,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "GetModule",
+          "startLine": 32,
+          "endLine": 32,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GameEntry",
+          "startLine": 8,
+          "endLine": 33,
+          "methods": [
+            "Awake",
+            "Start",
+            "Update",
+            "FixedUpdate",
+            "GetModule"
+          ],
+          "properties": [
+            "_entry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetModule",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "GameEntry",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Awake",
+          "callee": "new Entry",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Awake",
+          "callee": "RegisterModules",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Start",
+          "callee": "_entry.Initialize",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Update",
+          "callee": "_entry.Update",
+          "lineNumber": 25
+        },
+        {
+          "caller": "FixedUpdate",
+          "callee": "_entry.FixedUpdate",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetModule",
+          "callee": "_entry.GetComponent<T>",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Entry/GameEntry.Register.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "RegisterModules",
+          "startLine": 14,
+          "endLine": 20,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GameEntry",
+          "startLine": 12,
+          "endLine": 30,
+          "methods": [
+            "RegisterModules"
+          ],
+          "properties": [
+            "Event",
+            "UI",
+            "Save",
+            "Fsm",
+            "Timeline"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Event",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "UI",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Save",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "Fsm",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "Timeline",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "GameEntry",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RegisterModules",
+          "callee": "GetComponentsInChildren<IComponent>",
+          "lineNumber": 16
+        },
+        {
+          "caller": "RegisterModules",
+          "callee": "_entry.Register",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/CLAUDE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 66,
+      "nonEmptyLines": 46,
+      "sections": [
+        {
+          "heading": "Event 模块",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "EventAdapter — 事件总线适配层",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "在组件中使用",
+          "level": 3,
+          "line": 7
+        },
+        {
+          "heading": "事件 ID 体系",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "参数类型",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "分发原理",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "PropertyDrawer",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "向后兼容",
+          "level": 3,
+          "line": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/EventAdapter.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 144,
+      "nonEmptyLines": 129,
+      "functions": [
+        {
+          "name": "EnsureMigrated",
+          "startLine": 95,
+          "endLine": 108,
+          "params": []
+        },
+        {
+          "name": "Fire",
+          "startLine": 113,
+          "endLine": 123,
+          "params": []
+        },
+        {
+          "name": "Clone",
+          "startLine": 128,
+          "endLine": 142,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EventEntry",
+          "startLine": 10,
+          "endLine": 17,
+          "methods": [],
+          "properties": [
+            "eventId",
+            "parameters"
+          ]
+        },
+        {
+          "name": "EventAdapter",
+          "startLine": 27,
+          "endLine": 143,
+          "methods": [
+            "EnsureMigrated",
+            "Fire",
+            "Clone"
+          ],
+          "properties": [
+            "eventId",
+            "parameters",
+            "_entries",
+            "_migrated",
+            "Entries",
+            "EventId",
+            "Parameters",
+            "HasParameters"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "eventId",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "parameters",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "EventEntry",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Entries",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "EventId",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Parameters",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "HasParameters",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "Fire",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "Clone",
+          "line": 128,
+          "isDefault": false
+        },
+        {
+          "name": "EventAdapter",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EnsureMigrated",
+          "callee": "_entries.Add",
+          "lineNumber": 103
+        },
+        {
+          "caller": "EnsureMigrated",
+          "callee": "new EventEntry",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Fire",
+          "callee": "EnsureMigrated",
+          "lineNumber": 115
+        },
+        {
+          "caller": "Fire",
+          "callee": "entry.parameters.Dispatch",
+          "lineNumber": 119
+        },
+        {
+          "caller": "Fire",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Clone",
+          "callee": "new EventAdapter",
+          "lineNumber": 130
+        },
+        {
+          "caller": "Clone",
+          "callee": "EnsureMigrated",
+          "lineNumber": 131
+        },
+        {
+          "caller": "Clone",
+          "callee": "clone._entries.Add",
+          "lineNumber": 134
+        },
+        {
+          "caller": "Clone",
+          "callee": "new EventEntry",
+          "lineNumber": 134
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 3,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/EventParameterBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "Dispatch",
+          "startLine": 21,
+          "endLine": 21,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "IEventParameter",
+          "startLine": 8,
+          "endLine": 11,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": []
+        },
+        {
+          "name": "EventParameterBase",
+          "startLine": 18,
+          "endLine": 22,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IEventParameter",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Dispatch",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "EventParameterBase",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/EventParamHintAttribute.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "EventParamHintAttribute",
+          "startLine": 15,
+          "endLine": 18,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EventParamHintAttribute",
+          "startLine": 10,
+          "endLine": 19,
+          "methods": [
+            "EventParamHintAttribute"
+          ],
+          "properties": [
+            "EventId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EventId",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "EventParamHintAttribute",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "EventParamHintAttribute",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/GlobalEventId.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 57,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/ILocalEventManager.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "ILocalEventManager",
+          "startLine": 7,
+          "endLine": 14,
+          "methods": [
+            "Subscribe",
+            "Unsubscribe",
+            "FireEvent",
+            "FireNow"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ILocalEventManager",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

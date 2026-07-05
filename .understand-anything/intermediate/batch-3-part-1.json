@@ -1,0 +1,1197 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "type": "file",
+      "name": "WeaponAttackExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "summary": "武器攻击执行器，作为 CommandDispatcher 的攻击执行者，将攻击/换弹/切换武器指令委托给当前装备的武器实体。",
+      "tags": [
+        "executor",
+        "weapon",
+        "attack",
+        "command-pattern",
+        "battle-system"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "实现 IAttack/IReload/ISwitchWeapon 接口的薄委托层，通过 BattleEntity.TryGet 获取武器组件。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:WeaponAttackExecutor",
+      "type": "class",
+      "name": "WeaponAttackExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        16,
+        89
+      ],
+      "summary": "武器攻击命令执行器，将 IAttack/IReload/ISwitchWeapon 指令桥接到当前装备的武器实体上。",
+      "tags": [
+        "executor",
+        "weapon",
+        "attack",
+        "command-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:WeaponAttackExecutor",
+      "type": "function",
+      "name": "WeaponAttackExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        23,
+        27
+      ],
+      "summary": "构造函数，记录 playerEntity 和 weaponSpawnPoint 引用。",
+      "tags": [
+        "constructor",
+        "weapon",
+        "attack"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:EquipWeapon",
+      "type": "function",
+      "name": "EquipWeapon",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        31,
+        35
+      ],
+      "summary": "装备武器实体并获取其 IWeaponTrigger 组件。",
+      "tags": [
+        "weapon",
+        "equip",
+        "trigger"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:UnequipWeapon",
+      "type": "function",
+      "name": "UnequipWeapon",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        37,
+        41
+      ],
+      "summary": "卸载当前武器实体，清空内部引用。",
+      "tags": [
+        "weapon",
+        "unequip",
+        "cleanup"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Attack",
+      "type": "function",
+      "name": "Attack",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        49,
+        52
+      ],
+      "summary": "通过 IWeaponTrigger.SetTriggerState 触发武器开火。",
+      "tags": [
+        "weapon",
+        "attack",
+        "trigger"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Cancel",
+      "type": "function",
+      "name": "Cancel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        54,
+        57
+      ],
+      "summary": "通过 IWeaponTrigger.SetTriggerState 取消武器开火。",
+      "tags": [
+        "weapon",
+        "cancel",
+        "trigger"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Reload",
+      "type": "function",
+      "name": "Reload",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        71,
+        75
+      ],
+      "summary": "获取 WeaponMagazineExecutor 并调用其 Reload 方法。",
+      "tags": [
+        "weapon",
+        "reload",
+        "magazine"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:SwitchWeapon",
+      "type": "function",
+      "name": "SwitchWeapon",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "lineRange": [
+        81,
+        88
+      ],
+      "summary": "切换武器槽位索引。",
+      "tags": [
+        "weapon",
+        "switch",
+        "index"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "type": "file",
+      "name": "WeaponExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "summary": "武器管理器执行器，负责装备/卸载武器、通过 EvolutionSystem 获取武器配置，并将攻击/换弹/切换指令转发给当前武器。",
+      "tags": [
+        "executor",
+        "weapon",
+        "equipment",
+        "evolution",
+        "battle-system"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "包含两个 Equip 重载：一个按进化等级装备，一个按 EquipInfo 精确装备并添加配件。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:WeaponExecutor",
+      "type": "class",
+      "name": "WeaponExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        19,
+        100
+      ],
+      "summary": "武器装备与指令执行器，管理与 EvolutionSystem 的交互，负责武器的创建、装备、卸载和配件挂载。",
+      "tags": [
+        "executor",
+        "weapon",
+        "equipment",
+        "evolution"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        34,
+        39
+      ],
+      "summary": "初始化：缓存 playerGo 引用并从 SystemRepository 获取 IEvolutionSystem。",
+      "tags": [
+        "initialization",
+        "evolution",
+        "weapon"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Attack",
+      "type": "function",
+      "name": "Attack",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        43,
+        46
+      ],
+      "summary": "委派当前武器执行攻击指令。",
+      "tags": [
+        "weapon",
+        "attack",
+        "delegation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Cancel",
+      "type": "function",
+      "name": "Cancel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        48,
+        48
+      ],
+      "summary": "取消攻击指令（当前为空实现）。",
+      "tags": [
+        "weapon",
+        "cancel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Reload",
+      "type": "function",
+      "name": "Reload",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        52,
+        55
+      ],
+      "summary": "委派当前武器执行换弹指令。",
+      "tags": [
+        "weapon",
+        "reload",
+        "delegation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:SwitchWeapon",
+      "type": "function",
+      "name": "SwitchWeapon",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        59,
+        63
+      ],
+      "summary": "通过 EvolutionSystem 获取装备信息并执行武器切换。",
+      "tags": [
+        "weapon",
+        "switch",
+        "evolution"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Equip",
+      "type": "function",
+      "name": "Equip",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "lineRange": [
+        73,
+        99
+      ],
+      "summary": "按 EquipInfo 精确装备武器：卸载旧武器、通过 WeaponId 创建新武器、设置父节点、初始化并挂载配件。",
+      "tags": [
+        "weapon",
+        "equip",
+        "lifecycle",
+        "accessory"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "type": "file",
+      "name": "WeaponVisibilityExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "summary": "武器可见性执行器，处理武器显示/隐藏的平滑过渡动画，支持 IWeaponVisibility 指令。",
+      "tags": [
+        "executor",
+        "weapon",
+        "visibility",
+        "animation",
+        "battle-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:WeaponVisibilityExecutor",
+      "type": "class",
+      "name": "WeaponVisibilityExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "lineRange": [
+        7,
+        45
+      ],
+      "summary": "武器可见性过渡执行器，通过计时器实现武器 GameObject SetActive 的平滑切换。",
+      "tags": [
+        "executor",
+        "weapon",
+        "visibility",
+        "transition"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:WeaponVisibilityExecutor",
+      "type": "function",
+      "name": "WeaponVisibilityExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "lineRange": [
+        15,
+        18
+      ],
+      "summary": "构造函数：缓存 weaponGameObject 引用。",
+      "tags": [
+        "constructor",
+        "visibility",
+        "weapon"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:SetWeapon",
+      "type": "function",
+      "name": "SetWeapon",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "lineRange": [
+        22,
+        25
+      ],
+      "summary": "设置新的武器 GameObject，重置过渡状态。",
+      "tags": [
+        "weapon",
+        "visibility",
+        "setup"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:Execute",
+      "type": "function",
+      "name": "Execute",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "lineRange": [
+        27,
+        32
+      ],
+      "summary": "执行武器可见性指令，启动显示/隐藏过渡。",
+      "tags": [
+        "visibility",
+        "transition",
+        "command"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "lineRange": [
+        34,
+        44
+      ],
+      "summary": "每帧更新过渡计时器，到达阈值时切换武器 GameObject 的 Active 状态。",
+      "tags": [
+        "visibility",
+        "transition",
+        "update"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "type": "file",
+      "name": "WheelExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "summary": "技能轮盘执行器，在开启轮盘时通过 ITimeScaleSystem 减速时间，在关闭或取消时恢复正常时间流速。",
+      "tags": [
+        "executor",
+        "ability-wheel",
+        "time-scale",
+        "command-pattern",
+        "battle-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs:WheelExecutor",
+      "type": "class",
+      "name": "WheelExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "lineRange": [
+        11,
+        46
+      ],
+      "summary": "技能轮盘执行器，管理 ITimeScaleSystem 的时间缩放请求句柄，实现慢动作效果。",
+      "tags": [
+        "executor",
+        "ability-wheel",
+        "time-scale"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs:Execute",
+      "type": "function",
+      "name": "Execute",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "lineRange": [
+        19,
+        45
+      ],
+      "summary": "执行技能轮盘指令：按下时请求时间缩放并触发事件，松开或取消时释放时间缩放请求。",
+      "tags": [
+        "ability-wheel",
+        "time-scale",
+        "command-execution"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "type": "file",
+      "name": "AIDecisionAttackState.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "summary": "AI 攻击决策状态，进入时面向玩家并发出攻击指令，每帧持续追踪玩家朝向并维持攻击。",
+      "tags": [
+        "ai",
+        "decision-state",
+        "attack",
+        "enemy-behavior",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:AIDecisionAttackState",
+      "type": "class",
+      "name": "AIDecisionAttackState",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "lineRange": [
+        6,
+        45
+      ],
+      "summary": "AI 攻击决策状态，持续朝向玩家并发出攻击指令，脱离攻击范围时切换回追逐。",
+      "tags": [
+        "ai-state",
+        "attack",
+        "decision",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:OnEnter",
+      "type": "function",
+      "name": "OnEnter",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "lineRange": [
+        10,
+        21
+      ],
+      "summary": "进入攻击状态时，先调用基类，再发出 FaceDirectionCommand 和 AttackCommand。",
+      "tags": [
+        "ai",
+        "attack",
+        "state-enter",
+        "command"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:OnFixedUpdate",
+      "type": "function",
+      "name": "OnFixedUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "lineRange": [
+        23,
+        44
+      ],
+      "summary": "每帧检测玩家距离：超出范围切回追逐，否则维持朝向并持续攻击。",
+      "tags": [
+        "ai",
+        "attack",
+        "update",
+        "distance-check"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "type": "file",
+      "name": "AIDecisionChaseState.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "summary": "AI 追逐决策状态，在检测到玩家后持续朝向玩家移动，距离过远时切回 Idle，距离足够时切换为 Attack。",
+      "tags": [
+        "ai",
+        "decision-state",
+        "chase",
+        "enemy-behavior",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs:AIDecisionChaseState",
+      "type": "class",
+      "name": "AIDecisionChaseState",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "lineRange": [
+        6,
+        26
+      ],
+      "summary": "AI 追逐决策状态，向玩家移动并保持朝向，距离判断触发状态切换。",
+      "tags": [
+        "ai-state",
+        "chase",
+        "decision",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs:OnFixedUpdate",
+      "type": "function",
+      "name": "OnFixedUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "lineRange": [
+        8,
+        25
+      ],
+      "summary": "每帧检测条件：无目标切闲置，在攻击范围切攻击，否则继续追逐并朝向玩家移动。",
+      "tags": [
+        "ai",
+        "chase",
+        "update",
+        "distance-check"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "type": "file",
+      "name": "AIDecisionIdleState.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "summary": "AI 闲置决策状态，在未检测到玩家时随机游走，检测到敌人后切换到追逐状态。",
+      "tags": [
+        "ai",
+        "decision-state",
+        "idle",
+        "enemy-behavior",
+        "fsm"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:AIDecisionIdleState",
+      "type": "class",
+      "name": "AIDecisionIdleState",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "lineRange": [
+        8,
+        66
+      ],
+      "summary": "AI 闲置决策状态，随机方向游走并定时更换方向，检测到玩家时切换到追逐。",
+      "tags": [
+        "ai-state",
+        "idle",
+        "decision",
+        "fsm"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:OnEnter",
+      "type": "function",
+      "name": "OnEnter",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "lineRange": [
+        14,
+        27
+      ],
+      "summary": "进入闲置状态时设置初始随机游走方向和计时器。",
+      "tags": [
+        "ai",
+        "idle",
+        "state-enter",
+        "random"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:OnFixedUpdate",
+      "type": "function",
+      "name": "OnFixedUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "lineRange": [
+        29,
+        58
+      ],
+      "summary": "每帧检查是否有检测目标切换追逐，否则按计时器刷新随机方向并发出移动指令。",
+      "tags": [
+        "ai",
+        "idle",
+        "update",
+        "wander"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "type": "file",
+      "name": "AIDecisionWanderState.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "summary": "AI 漫游决策状态，在巡逻范围内随机移动和转向，检测到敌人后切换到追逐状态。",
+      "tags": [
+        "ai",
+        "decision-state",
+        "wander",
+        "enemy-behavior",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs:AIDecisionWanderState",
+      "type": "class",
+      "name": "AIDecisionWanderState",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "lineRange": [
+        7,
+        45
+      ],
+      "summary": "AI 漫游决策状态，在巡逻区域内随机移动，检测到玩家时切换到追逐。",
+      "tags": [
+        "ai-state",
+        "wander",
+        "decision",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs:OnFixedUpdate",
+      "type": "function",
+      "name": "OnFixedUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "lineRange": [
+        21,
+        37
+      ],
+      "summary": "漫游状态逐帧逻辑：检测玩家切换追逐，定时更换随机方向并发出移动和朝向指令。",
+      "tags": [
+        "ai",
+        "wander",
+        "update",
+        "random-movement"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "type": "file",
+      "name": "EnemyDecisionStateBase.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "summary": "敌人决策状态基类，提供 Fsm、Agent、Detect、AttackController 等共享引用和 ChangeState/IssueCommand 便捷方法。",
+      "tags": [
+        "ai",
+        "base-class",
+        "decision-state",
+        "fsm",
+        "abstraction"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "class",
+      "name": "EnemyDecisionStateBase",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "lineRange": [
+        8,
+        27
+      ],
+      "summary": "敌人 AI 决策状态抽象基类，封装对 Fsm/Agent/Detect/AttackController 的访问和 ChangeState/IssueCommand 便捷方法。",
+      "tags": [
+        "ai",
+        "base-class",
+        "decision-state",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:SetConfig",
+      "type": "function",
+      "name": "SetConfig",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "lineRange": [
+        16,
+        16
+      ],
+      "summary": "设置 AI 状态配置。",
+      "tags": [
+        "ai",
+        "config",
+        "setup"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:WeaponAttackExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:WeaponAttackExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:WeaponAttackExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:WeaponAttackExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:EquipWeapon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:EquipWeapon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:UnequipWeapon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:UnequipWeapon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Attack",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Attack",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Reload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:Reload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:SwitchWeapon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs:SwitchWeapon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:WeaponExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:WeaponExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Attack",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Attack",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Reload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Reload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:SwitchWeapon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:SwitchWeapon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Equip",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs:Equip",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:WeaponVisibilityExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:WeaponVisibilityExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:WeaponVisibilityExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:WeaponVisibilityExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:SetWeapon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:SetWeapon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:Execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:Execute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs:WheelExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs:WheelExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs:Execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs:Execute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:AIDecisionAttackState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:AIDecisionAttackState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:OnEnter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:OnFixedUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs:AIDecisionChaseState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs:AIDecisionChaseState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs:OnFixedUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:AIDecisionIdleState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:AIDecisionIdleState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:OnEnter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:OnFixedUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs:AIDecisionWanderState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs:AIDecisionWanderState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs:OnFixedUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:SetConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:SetConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs:AIDecisionAttackState",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs:AIDecisionChaseState",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs:AIDecisionIdleState",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs:AIDecisionWanderState",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs:EnemyDecisionStateBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

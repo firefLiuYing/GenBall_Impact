@@ -1,0 +1,313 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/ListExpense.cs",
+      "type": "file",
+      "name": "ListExpense.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/ListExpense.cs",
+      "summary": "List 扩展方法，提供 IsNullOrEmpty 快捷判断。",
+      "tags": ["utility", "extension-method", "list"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "type": "file",
+      "name": "MonoSingleton.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "summary": "MonoBehaviour 泛型单例基类，管理 Instance 的创建与销毁，防止重复实例，子类通过重写 Init 实现初始化。",
+      "tags": ["utility", "singleton", "monobehaviour", "generic", "design-pattern"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "type": "file",
+      "name": "MultiDictionary.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "summary": "多值字典数据结构，基于 Dictionary<Key, LinkedList<Value>> 实现一对多映射，支持增删查和完整枚举遍历。",
+      "tags": ["utility", "data-structure", "dictionary", "collection"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/QueueExpense.cs",
+      "type": "file",
+      "name": "QueueExpense.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/QueueExpense.cs",
+      "summary": "Queue 扩展方法，提供 IsNullOrEmpty 快捷判断。",
+      "tags": ["utility", "extension-method", "queue"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "type": "file",
+      "name": "SafeIterableCollection.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "summary": "安全可迭代集合封装，提供 SafeIterableList 和 SafeIterableDict 两种数据结构，通过缓存快照机制支持在迭代期间安全修改底层集合。",
+      "tags": ["utility", "data-structure", "iteration-safety", "snapshot", "collection"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/Singleton.cs",
+      "type": "file",
+      "name": "Singleton.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/Singleton.cs",
+      "summary": "泛型单例基类（非 MonoBehaviour），通过静态 Instance 属性和子类 Init 重写提供全局单例访问模式。",
+      "tags": ["utility", "singleton", "generic", "design-pattern"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/StringExpense.cs",
+      "type": "file",
+      "name": "StringExpense.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/StringExpense.cs",
+      "summary": "String 扩展方法，提供 IsNullOrEmpty 和 IsNullOrWhiteSpace 的流畅调用封装。",
+      "tags": ["utility", "extension-method", "string"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/TypeNamePair.cs",
+      "type": "file",
+      "name": "TypeNamePair.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs",
+      "summary": "组合 Type 和 Name 的结构体，实现 IEquatable 接口，用于以 (类型, 名称) 元组作为字典键等场景。",
+      "tags": ["utility", "struct", "equatable", "key-pair"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:MonoSingleton",
+      "type": "class",
+      "name": "MonoSingleton<T>",
+      "filePath": "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "lineRange": [10, 42],
+      "summary": "MonoBehaviour 泛型单例基类，Awake 时检查重复实例并调用 Init，OnDestroy 时清理 Instance 引用。",
+      "tags": ["utility", "singleton", "monobehaviour", "generic"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:MultiDictionary",
+      "type": "class",
+      "name": "MultiDictionary<TKey, TValue>",
+      "filePath": "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "lineRange": [7, 92],
+      "summary": "一对多映射字典，内部使用 Dictionary<TKey, LinkedList<TValue>> 存储，支持 Add/Remove/RemoveAll/Clear/Contains/TryGetValue 操作和完整枚举遍历。",
+      "tags": ["utility", "data-structure", "dictionary", "collection", "linked-list"],
+      "complexity": "moderate",
+      "languageNotes": "使用 LinkedList 实现同键多值存储，自定义 Enumerator 结构体实现 IEnumerable 遍历。"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableList",
+      "type": "class",
+      "name": "SafeIterableList<T>",
+      "filePath": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "lineRange": [11, 83],
+      "summary": "安全可迭代列表，维护主列表和缓存列表，通过 _isDirty 标记和 GetIterableSnapshot() 返回快照，确保迭代期间可安全增删。",
+      "tags": ["utility", "data-structure", "list", "iteration-safety", "snapshot"],
+      "complexity": "moderate",
+      "languageNotes": "快照模式：仅在 GetIterableSnapshot 时同步主列表到缓存列表，避免每次修改都重建迭代器。"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableDict",
+      "type": "class",
+      "name": "SafeIterableDict<TKey, TValue>",
+      "filePath": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "lineRange": [91, 171],
+      "summary": "安全可迭代字典，维护主字典和缓存 KeyValuePair 列表，通过快照机制确保迭代期间可安全增删。",
+      "tags": ["utility", "data-structure", "dictionary", "iteration-safety", "snapshot"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/Singleton.cs:Singleton",
+      "type": "class",
+      "name": "Singleton<T>",
+      "filePath": "Assets/Scripts/Yueyn/Utils/Singleton.cs",
+      "lineRange": [7, 31],
+      "summary": "非 MonoBehaviour 泛型单例基类，通过静态 Instance 属性提供全局访问，子类重写 Init 实现自定义初始化逻辑。",
+      "tags": ["utility", "singleton", "generic", "design-pattern"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/TypeNamePair.cs:TypeNamePair",
+      "type": "class",
+      "name": "TypeNamePair",
+      "filePath": "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs",
+      "lineRange": [1, 37],
+      "summary": "组合 Type 和 string Name 的结构体，实现 IEquatable<TypeNamePair>，用于作为复合键标识系统或组件的类型-名称对。",
+      "tags": ["utility", "struct", "equatable", "key-pair"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:GetIterableSnapshot",
+      "type": "function",
+      "name": "GetIterableSnapshot (SafeIterableList)",
+      "filePath": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "lineRange": [65, 74],
+      "summary": "返回主列表的缓存快照用于安全迭代，仅在脏标记时同步数据，避免修改导致的 CollectionModified 异常。",
+      "tags": ["snapshot", "iteration-safety", "cache"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:GetIterableSnapshot_Dict",
+      "type": "function",
+      "name": "GetIterableSnapshot (SafeIterableDict)",
+      "filePath": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "lineRange": [153, 162],
+      "summary": "返回主字典的 KeyValuePair 缓存快照用于安全迭代，仅在脏标记时同步数据。",
+      "tags": ["snapshot", "iteration-safety", "cache"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:Awake",
+      "type": "function",
+      "name": "Awake",
+      "filePath": "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "lineRange": [24, 35],
+      "summary": "MonoBehaviour Awake 回调：确保单例唯一性，重复实例自动销毁，首次实例调用 Init 初始化。",
+      "tags": ["singleton", "awake", "lifecycle"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:Add",
+      "type": "function",
+      "name": "Add",
+      "filePath": "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "lineRange": [22, 35],
+      "summary": "向多值字典中添加键值对，键不存在时自动创建 LinkedList，存在时追加到链表末尾。",
+      "tags": ["data-structure", "add", "linked-list"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:MonoSingleton",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "target": "function:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:Awake",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:MonoSingleton",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:MonoSingleton",
+      "target": "function:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:Awake",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:MultiDictionary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "target": "function:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:Add",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:MultiDictionary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:MultiDictionary",
+      "target": "function:Assets/Scripts/Yueyn/Utils/MultiDictionary.cs:Add",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableList",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableDict",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "target": "function:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:GetIterableSnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "target": "function:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:GetIterableSnapshot_Dict",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableList",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableDict",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableList",
+      "target": "function:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:GetIterableSnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:SafeIterableDict",
+      "target": "function:Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs:GetIterableSnapshot_Dict",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/Singleton.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/Singleton.cs:Singleton",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/Singleton.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/Singleton.cs:Singleton",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/TypeNamePair.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/TypeNamePair.cs:TypeNamePair",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ]
+}

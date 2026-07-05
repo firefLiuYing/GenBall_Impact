@@ -1,0 +1,580 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs",
+      "type": "file",
+      "name": "LiveDataAttribute.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs",
+      "summary": "定义 LiveDataAttribute 自定义特性，用于标记需要生成 LiveData 属性的字段，支持事件名称、属性名称和跳过相等检查等配置选项。",
+      "tags": ["codegen", "attribute", "data-binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs:LiveDataAttribute",
+      "type": "class",
+      "name": "LiveDataAttribute",
+      "filePath": "Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs",
+      "lineRange": [5, 17],
+      "summary": "System.Attribute 子类，为 LiveData 代码生成器提供元数据配置。",
+      "tags": ["codegen", "attribute", "data-binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs",
+      "type": "file",
+      "name": "UiBindingConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs",
+      "summary": "UI 绑定配置中心，维护 GameObject 命名前缀到 UI 组件类型的映射表，支持前缀匹配和配置导出为 JSON，为 UiBindTool 提供绑定规则。",
+      "tags": ["ui", "codegen", "config", "binding"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:UiBindingConfig",
+      "type": "class",
+      "name": "UiBindingConfig",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs",
+      "lineRange": [12, 86],
+      "summary": "UI 绑定配置的主配置类，包含前缀映射表、基类名称、命名空间和输出路径等全局配置。",
+      "tags": ["ui", "codegen", "config"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:PrefixMapping",
+      "type": "class",
+      "name": "PrefixMapping",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs",
+      "lineRange": [88, 108],
+      "summary": "单个前缀映射数据类，记录 GameObject 命名前缀到具体 UI 组件类型（Button/Text 等）的映射关系。",
+      "tags": ["ui", "codegen", "data-model", "mapping"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:Match",
+      "type": "function",
+      "name": "Match",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs",
+      "lineRange": [35, 53],
+      "summary": "遍历前缀映射表，根据 GameObject 名称匹配第一个符合的前缀，返回对应 PrefixMapping。",
+      "tags": ["ui", "codegen", "matching"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:ExportToJson",
+      "type": "function",
+      "name": "ExportToJson",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs",
+      "lineRange": [55, 85],
+      "summary": "将当前 UI 绑定配置（前缀映射表和所有 Meta 配置项）序列化为格式化的 JSON 字符串。",
+      "tags": ["ui", "codegen", "serialization", "export"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/IBindable.cs",
+      "type": "file",
+      "name": "IBindable.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/IBindable.cs",
+      "summary": "定义可绑定 UI 控件的接口 IBindable，要求实现类提供 Type 属性来标识其绑定的组件类型。",
+      "tags": ["ui", "codegen", "interface", "binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs",
+      "type": "file",
+      "name": "UiBindTool.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs",
+      "summary": "UI 绑定工具核心类，维护 Text/Image/Button/RectTransform 四类 UI 控件的绑定映射表，提供 Get/Set/Clear 操作。",
+      "tags": ["ui", "codegen", "binding", "tool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs:UiBindTool",
+      "type": "class",
+      "name": "UiBindTool",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs",
+      "lineRange": [14, 73],
+      "summary": "UI 绑定工具类，维护四类映射表（Text/Image/Button/RectTransform），提供按名称查询和批量设置/清空绑定数据。",
+      "tags": ["ui", "codegen", "binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs",
+      "type": "file",
+      "name": "UiViewBinding.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs",
+      "summary": "UI 视图绑定配置的 ScriptableObject，存储 Form/Part 类型、命名空间、输出路径、生成目标等代码生成所需元数据。",
+      "tags": ["ui", "codegen", "scriptable-object", "config"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs:UiViewBinding",
+      "type": "class",
+      "name": "UiViewBinding",
+      "filePath": "Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs",
+      "lineRange": [14, 77],
+      "summary": "ScriptableObject 子类，存储视图类型、表单名称、表单类型、命名空间和输出路径等代码生成元数据。",
+      "tags": ["ui", "codegen", "scriptable-object"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs",
+      "type": "file",
+      "name": "CountdownController.CountdownEvent.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs",
+      "summary": "CountdownController 分部类文件，定义内部 CountdownEvent 类实现 IReference 接口，封装倒计时状态管理和回调触发。",
+      "tags": ["countdown", "partial-class", "timer", "event"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownController",
+      "type": "class",
+      "name": "CountdownController",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs",
+      "lineRange": [7, 95],
+      "summary": "CountdownController 的分部类声明，包含内部私有类 CountdownEvent 的定义。",
+      "tags": ["countdown", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownEvent",
+      "type": "class",
+      "name": "CountdownEvent",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs",
+      "lineRange": [9, 94],
+      "summary": "CountdownController 内部的倒计时事件类，实现 IReference 支持引用池复用，管理倒计时状态（暂停/触发）并通过回调通知。",
+      "tags": ["countdown", "timer", "reference-pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:Update",
+      "type": "function",
+      "name": "Update",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs",
+      "lineRange": [53, 64],
+      "summary": "每帧更新倒计时进度，检测暂停和触发状态，到达倒计时后调用完成回调，每帧调用更新回调传递剩余时间。",
+      "tags": ["countdown", "update", "timer"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:Create",
+      "type": "function",
+      "name": "Create",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs",
+      "lineRange": [73, 83],
+      "summary": "静态工厂方法，从 ReferencePool 获取 CountdownEvent 实例并初始化倒计时参数（时长、更新回调、完成回调）。",
+      "tags": ["countdown", "factory", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs",
+      "type": "file",
+      "name": "CountdownController.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs",
+      "summary": "CountdownController 主分部类，管理多个命名倒计时事件的生命周期，提供开始/暂停/恢复/重置/增删/帧更新等完整接口。",
+      "tags": ["countdown", "controller", "timer", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:CountdownController",
+      "type": "class",
+      "name": "CountdownController",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs",
+      "lineRange": [9, 91],
+      "summary": "倒计时控制器主分部类，维护命名倒计时事件字典，提供完整的 CRUD 操作和帧更新调度。",
+      "tags": ["countdown", "controller", "timer"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:RemoveAllCountdownEvents",
+      "type": "function",
+      "name": "RemoveAllCountdownEvents",
+      "filePath": "Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs",
+      "lineRange": [80, 90],
+      "summary": "清除所有已注册的倒计时事件，遍历每个事件调用 ReferencePool.Release 归还对象池后清空内部字典。",
+      "tags": ["countdown", "cleanup", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs",
+      "type": "file",
+      "name": "BakingPipeline.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs",
+      "summary": "编辑器场景烘焙管线，收集当前场景中 IScenePlaceable 组件并按类别归类后写入全局 SceneConfigCollection 资源，包含验证和重复 ID 检测。",
+      "tags": ["editor", "baking", "pipeline", "scene-config"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakingPipeline",
+      "type": "class",
+      "name": "BakingPipeline",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs",
+      "lineRange": [17, 230],
+      "summary": "静态编辑器工具类，从场景收集 IScenePlaceable 并按 SavePoint/EnemySpawn/Trigger/Mechanism 分类写入 ScriptableObject 配置。",
+      "tags": ["editor", "baking", "static-class", "pipeline"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakeCurrentScene",
+      "type": "function",
+      "name": "BakeCurrentScene",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs",
+      "lineRange": [67, 202],
+      "summary": "核心烘焙方法，先验证后加载/创建 SceneConfigCollection，按类别将 Placeable 数据写入配置，含重复 ID 检测和排序。",
+      "tags": ["editor", "baking", "scene-config", "validation"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:GetOrCreateConfig",
+      "type": "function",
+      "name": "GetOrCreateConfig",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs",
+      "lineRange": [210, 228],
+      "summary": "加载或创建 SceneConfigCollection ScriptableObject 资源，自动创建目录结构。",
+      "tags": ["editor", "config", "scriptable-object", "asset-management"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "type": "file",
+      "name": "MapSceneEditorWindow.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "summary": "Unity EditorWindow 实现的地图场景编辑器，提供分类树视图、属性面板、场景设置、对象创建（Prefab/Type 实例化）、验证和烘焙等完整 IScenePlaceable 可视化编辑功能。",
+      "tags": ["editor", "editor-window", "map-editor", "scene-editor"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow",
+      "type": "class",
+      "name": "MapSceneEditorWindow",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [17, 543],
+      "summary": "继承 EditorWindow 的地图场景编辑器，管理 IScenePlaceable 对象列表、分类分组、选中编辑和场景设置。",
+      "tags": ["editor", "editor-window", "map-editor"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:RefreshSceneData",
+      "type": "function",
+      "name": "RefreshSceneData",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [60, 82],
+      "summary": "刷新场景数据，遍历当前场景所有根 GameObject 收集 IScenePlaceable 组件，按类别分组排序。",
+      "tags": ["editor", "scene", "data-refresh", "placeable"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:OnGUI",
+      "type": "function",
+      "name": "OnGUI",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [87, 110],
+      "summary": "EditorWindow 主渲染入口，布局为左侧分类树、中间分隔线、右侧属性面板和底部状态栏。",
+      "tags": ["editor", "gui", "layout"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawToolbar",
+      "type": "function",
+      "name": "DrawToolbar",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [115, 139],
+      "summary": "绘制顶部工具栏，显示场景名称，提供刷新、验证和烘焙三个操作按钮。",
+      "tags": ["editor", "toolbar", "gui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawCategoryTree",
+      "type": "function",
+      "name": "DrawCategoryTree",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [144, 190],
+      "summary": "绘制左侧分类树，按类别分组折叠展示 Placeable 列表，底部提供添加按钮。",
+      "tags": ["editor", "tree-view", "category", "gui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawPropertyPanel",
+      "type": "function",
+      "name": "DrawPropertyPanel",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [196, 253],
+      "summary": "绘制右侧属性面板，无选中时显示场景设置，有选中时显示 Inspector 编辑器，支持定位和删除。",
+      "tags": ["editor", "property-panel", "inspector", "gui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:ShowAddPlaceableMenu",
+      "type": "function",
+      "name": "ShowAddPlaceableMenu",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [306, 336],
+      "summary": "显示添加 Placeable 右键菜单，通过 PlaceableTypeDiscovery.DiscoverAll 获取可用类型，支持 Prefab 或 Type 创建。",
+      "tags": ["editor", "context-menu", "placeable", "instantiation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawSceneSettings",
+      "type": "function",
+      "name": "DrawSceneSettings",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [450, 475],
+      "summary": "绘制场景设置面板，含场景名称文本框（EditorPrefs 持久化）和默认存档点下拉选择器。",
+      "tags": ["editor", "settings", "scene", "gui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawDefaultSavePointDropdown",
+      "type": "function",
+      "name": "DrawDefaultSavePointDropdown",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [481, 531],
+      "summary": "绘制默认存档点下拉框，从 SceneConfigCollection 加载存档点列表作为选项，提供定位按钮。",
+      "tags": ["editor", "save-point", "dropdown", "gui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:InstantiatePlaceablePrefab",
+      "type": "function",
+      "name": "InstantiatePlaceablePrefab",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs",
+      "lineRange": [397, 437],
+      "summary": "从 Prefab 实例化 Placeable 对象到场景，根据标记决定是否解包 Prefab 实例，注册 Undo 并刷新。",
+      "tags": ["editor", "prefab", "instantiation", "undo"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs",
+      "type": "file",
+      "name": "PlaceableContextMenu.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs",
+      "summary": "Hierarchy 右键菜单扩展，提供快速创建 NormalOrbis/SavePoint/TriggerVolume 等 Map Placeable 对象的菜单项。",
+      "tags": ["editor", "context-menu", "placeable", "instantiation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:PlaceableContextMenu",
+      "type": "class",
+      "name": "PlaceableContextMenu",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs",
+      "lineRange": [18, 134],
+      "summary": "静态编辑器工具类，通过 MenuItem 特性注册右键菜单创建入口，提供动态（解包）和静态（保留 Prefab 链接）两种创建路径。",
+      "tags": ["editor", "context-menu", "static-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:CreateDynamicPlaceable",
+      "type": "function",
+      "name": "CreateDynamicPlaceable",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs",
+      "lineRange": [50, 92],
+      "summary": "通用动态 Placeable 创建方法，从 Prefab 实例化后立即解包断开 Prefab 链接（避免 AssetBundle 依赖错误），或直接新建 GameObject 添加组件。",
+      "tags": ["editor", "placeable", "instantiation", "dynamic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:CreateStaticPlaceable",
+      "type": "function",
+      "name": "CreateStaticPlaceable",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs",
+      "lineRange": [98, 125],
+      "summary": "通用静态 Placeable 创建方法，从 Prefab 或直接新建，保留 Prefab 链接不解包，适用于存档点和机关等非动态对象。",
+      "tags": ["editor", "placeable", "instantiation", "static"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs",
+      "type": "file",
+      "name": "PlaceableSceneGUI.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs",
+      "summary": "Scene View 可视化绘制工具，为 IScenePlaceable 组件绘制 Gizmos 和 Handles，按类别使用不同颜色区分。",
+      "tags": ["editor", "gizmos", "handles", "visualization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs:PlaceableSceneGUI",
+      "type": "class",
+      "name": "PlaceableSceneGUI",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs",
+      "lineRange": [13, 162],
+      "summary": "静态编辑器工具类，提供 DrawGizmo 绘制场景可视化（球体/连线/标签）和 DrawPositionHandle 位置编辑手柄。",
+      "tags": ["editor", "gizmos", "static-class", "visualization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs:DrawGizmo",
+      "type": "function",
+      "name": "DrawGizmo",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs",
+      "lineRange": [29, 117],
+      "summary": "核心 Gizmo 绘制方法，按 Placeable 类别绘制不同颜色的球体标记、事件触发连接线、标签文字和圆形范围指示器。",
+      "tags": ["editor", "gizmos", "visualization", "drawing"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs",
+      "type": "file",
+      "name": "PlaceableTypeDiscovery.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs",
+      "summary": "基于反射的 IScenePlaceable 类型发现工具，扫描所有程序集筛选实现了 IScenePlaceable 的非抽象 MonoBehaviour 子类。",
+      "tags": ["editor", "reflection", "type-discovery", "placeable"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:PlaceableTypeDiscovery",
+      "type": "class",
+      "name": "PlaceableTypeDiscovery",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs",
+      "lineRange": [14, 64],
+      "summary": "静态反射工具类，包含内部数据类 PlaceableTypeInfo，通过 DiscoverAll 扫描全域类型并按类别排序返回。",
+      "tags": ["editor", "reflection", "static-class", "discovery"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:DiscoverAll",
+      "type": "function",
+      "name": "DiscoverAll",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs",
+      "lineRange": [36, 55],
+      "summary": "通过反射扫描所有程序集，筛选出实现 IScenePlaceable 的非抽象 MonoBehaviour 子类，提取特性属性后排序返回。",
+      "tags": ["editor", "reflection", "discovery", "linq"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs",
+      "type": "file",
+      "name": "SavePointReferenceDrawer.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs",
+      "summary": "SavePointReferenceAttribute 的自定义 PropertyDrawer，渲染存档点选择下拉框，支持跨场景存档点引用和定位功能。",
+      "tags": ["editor", "property-drawer", "save-point", "reference"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:SavePointReferenceDrawer",
+      "type": "class",
+      "name": "SavePointReferenceDrawer",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs",
+      "lineRange": [10, 146],
+      "summary": "继承 PropertyDrawer，将 SavePointReference 属性渲染为下拉框，从 SceneConfigCollection 加载存档点列表，提供定位按钮。",
+      "tags": ["editor", "property-drawer", "save-point"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:OnGUI",
+      "type": "function",
+      "name": "OnGUI",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs",
+      "lineRange": [19, 102],
+      "summary": "PropertyDrawer 的 OnGUI 重写，渲染存档点选择下拉框，从 SceneConfigCollection 动态加载存档点列表，包含 Ping 定位按钮。",
+      "tags": ["editor", "property-drawer", "gui", "save-point"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:GetPropertyHeight",
+      "type": "function",
+      "name": "GetPropertyHeight",
+      "filePath": "Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs",
+      "lineRange": [111, 122],
+      "summary": "PropertyDrawer 高度计算重写，根据当前场景是否有存档点返回标准高度或额外高度容纳错误提示。",
+      "tags": ["editor", "property-drawer", "layout"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    { "source": "file:Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs", "target": "class:Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs:LiveDataAttribute", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs", "target": "class:Assets/Scripts/GenBall/Utils/Attributes/LiveData/LiveDataAttribute.cs:LiveDataAttribute", "type": "exports", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:UiBindingConfig", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:PrefixMapping", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:Match", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:ExportToJson", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:UiBindingConfig", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:PrefixMapping", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:Match", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "target": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:ExportToJson", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:UiBindingConfig", "target": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:Match", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:UiBindingConfig", "target": "function:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs:ExportToJson", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs:UiBindTool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs:UiBindTool", "type": "exports", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs:UiViewBinding", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs", "target": "class:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs:UiViewBinding", "type": "exports", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownController", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownEvent", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:Update", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:Create", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownController", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownController", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownEvent", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownEvent", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:Update", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownEvent", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:Create", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:CountdownController", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:RemoveAllCountdownEvents", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:CountdownController", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:RemoveAllCountdownEvents", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:CountdownController", "target": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:RemoveAllCountdownEvents", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakingPipeline", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakeCurrentScene", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:GetOrCreateConfig", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakingPipeline", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakeCurrentScene", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakingPipeline", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:GetOrCreateConfig", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakeCurrentScene", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:GetOrCreateConfig", "type": "calls", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:RefreshSceneData", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:OnGUI", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawToolbar", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawCategoryTree", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawPropertyPanel", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:ShowAddPlaceableMenu", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawSceneSettings", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawDefaultSavePointDropdown", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:InstantiatePlaceablePrefab", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:RefreshSceneData", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:OnGUI", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawToolbar", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawCategoryTree", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawPropertyPanel", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:ShowAddPlaceableMenu", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawSceneSettings", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawDefaultSavePointDropdown", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:MapSceneEditorWindow", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:InstantiatePlaceablePrefab", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:PlaceableContextMenu", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:CreateDynamicPlaceable", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:CreateStaticPlaceable", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:PlaceableContextMenu", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:CreateDynamicPlaceable", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:PlaceableContextMenu", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs:CreateStaticPlaceable", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs:PlaceableSceneGUI", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs:DrawGizmo", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs:PlaceableSceneGUI", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs:DrawGizmo", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:PlaceableTypeDiscovery", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:DiscoverAll", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:PlaceableTypeDiscovery", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:DiscoverAll", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:SavePointReferenceDrawer", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:OnGUI", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:GetPropertyHeight", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:SavePointReferenceDrawer", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:OnGUI", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:SavePointReferenceDrawer", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs:GetPropertyHeight", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawToolbar", "target": "class:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs:BakingPipeline", "type": "calls", "direction": "forward", "weight": 0.8 },
+    { "source": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:DrawCategoryTree", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:DiscoverAll", "type": "calls", "direction": "forward", "weight": 0.8 },
+    { "source": "function:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs:ShowAddPlaceableMenu", "target": "function:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs:DiscoverAll", "type": "calls", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiViewBinding.cs", "target": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindTool/UiBindTool.cs", "target": "file:Assets/Scripts/GenBall/Utils/CodeGenerator/UI/UiBindingConfig.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs", "target": "file:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs", "target": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/BakingPipeline.cs", "target": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableSceneGUI.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/MapSceneEditorWindow.cs", "target": "file:Assets/Scripts/GenBall/Utils/Editor/Map/SavePointReferenceDrawer.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableContextMenu.cs", "target": "file:Assets/Scripts/GenBall/Utils/Editor/Map/PlaceableTypeDiscovery.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+
+    { "source": "function:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.cs:RemoveAllCountdownEvents", "target": "class:Assets/Scripts/GenBall/Utils/Countdown/CountdownController.CountdownEvent.cs:CountdownEvent", "type": "calls", "direction": "forward", "weight": 0.8 }
+  ]
+}

@@ -1,0 +1,1293 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "type": "file",
+      "name": "EnemyDashExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "summary": "敌人冲刺执行器，实现多阶段（准备/飞行/蓄力/冲刺/反弹）的复杂冲刺行为，包含碰撞检测、目标追踪和伤害施加逻辑。",
+      "tags": ["executor", "enemy", "dash", "state-machine", "combat"],
+      "complexity": "complex",
+      "languageNotes": "多阶段状态机模式，使用 Enum 驱动阶段转换，每阶段有独立的 Enter/Update 方法，通过 TransitionTo 统一管理状态切换。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnemyDashExecutor",
+      "type": "class",
+      "name": "EnemyDashExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [20, 434],
+      "summary": "敌人冲刺执行器主类，管理冲刺行为的多阶段状态机，包含 5 个阶段（Prepare/Fly/Charge/Dash/Rebound）和碰撞伤害检测。",
+      "tags": ["executor", "enemy", "dash", "state-machine", "combat"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnemyDashExecutor",
+      "type": "function",
+      "name": "EnemyDashExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [94, 104],
+      "summary": "构造函数，注入移动器、实体引用、配置、检测器、攻击触发器和屏障组件。",
+      "tags": ["constructor", "executor", "dependency-injection"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:Cancel",
+      "type": "function",
+      "name": "Cancel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [114, 125],
+      "summary": "取消当前冲刺行为，停止碰撞检测、禁用屏障并转换到 Idle 状态。",
+      "tags": ["executor", "cancel", "state-machine"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [127, 154],
+      "summary": "逻辑更新入口，根据当前阶段（Prepare/Fly/Charge/Dash/Rebound）分发到对应的 Update 方法。",
+      "tags": ["update", "state-machine", "dispatch"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:TransitionTo",
+      "type": "function",
+      "name": "TransitionTo",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [160, 210],
+      "summary": "阶段转换核心方法，重置速度、清理旧阶段状态，按目标阶段配置初始参数并调用对应的 Enter 方法。",
+      "tags": ["state-machine", "transition", "executor"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnterDash",
+      "type": "function",
+      "name": "EnterDash",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [234, 253],
+      "summary": "进入冲刺阶段的初始化，启用屏障碰撞器，根据当前高度选择平面或抛物线方向，并设置冲刺速度。",
+      "tags": ["state-machine", "dash", "init"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnterRebound",
+      "type": "function",
+      "name": "EnterRebound",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [255, 264],
+      "summary": "进入反弹阶段的初始化，反转冲刺方向并设置反弹速度。",
+      "tags": ["state-machine", "rebound", "init"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:UpdatePrepare",
+      "type": "function",
+      "name": "UpdatePrepare",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [270, 294],
+      "summary": "准备阶段的帧更新，检测地面并倒计时准备时间，超时后转换到 Fly 或直接冲刺阶段。",
+      "tags": ["state-machine", "prepare", "update"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:UpdateFly",
+      "type": "function",
+      "name": "UpdateFly",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [296, 308],
+      "summary": "飞行阶段的帧更新，使用 Lerp 平滑上升到目标高度，到达后转换到蓄力阶段。",
+      "tags": ["state-machine", "fly", "update"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:UpdateDash",
+      "type": "function",
+      "name": "UpdateDash",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [319, 384],
+      "summary": "冲刺阶段的帧更新，执行多层碰撞检测（OverlapSphere/SphereCast），处理撞墙反弹、命中目标和地面检测。",
+      "tags": ["state-machine", "dash", "collision", "update"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:OnHitTarget",
+      "type": "function",
+      "name": "OnHitTarget",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [398, 412],
+      "summary": "命中目标时的回调，通过 DamageInfo 构建伤害信息并通过 IDamageSystem 施加伤害，然后转换到反弹阶段。",
+      "tags": ["combat", "damage", "collision"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:GroundDetection",
+      "type": "function",
+      "name": "GroundDetection",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "lineRange": [418, 433],
+      "summary": "地面检测方法，使用 Raycast 检测下方地面（可选检测玩家层），返回距离和是否有碰撞。",
+      "tags": ["physics", "ground-detection", "raycast"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "type": "file",
+      "name": "EnemyFaceExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "summary": "敌人朝向执行器，根据输入命令平滑旋转敌人朝向目标方向。",
+      "tags": ["executor", "enemy", "rotation", "facing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:EnemyFaceExecutor",
+      "type": "class",
+      "name": "EnemyFaceExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "lineRange": [10, 32],
+      "summary": "敌人朝向执行器类，持有 Transform 引用和旋转速度，使用 Quaternion.RotateTowards 实现平滑朝向。",
+      "tags": ["executor", "enemy", "rotation", "facing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:EnemyFaceExecutor",
+      "type": "function",
+      "name": "EnemyFaceExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "lineRange": [15, 19],
+      "summary": "构造函数，注入 Transform 和旋转速度参数。",
+      "tags": ["constructor", "executor"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:Face",
+      "type": "function",
+      "name": "Face",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "lineRange": [21, 31],
+      "summary": "执行朝向命令，根据目标方向计算目标旋转并使用 RotateTowards 平滑过渡。",
+      "tags": ["executor", "rotation", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "type": "file",
+      "name": "EnemyGravityExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "summary": "敌人重力执行器，模拟重力加速度影响敌人垂直速度，并检测地面状态。",
+      "tags": ["executor", "enemy", "gravity", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:EnemyGravityExecutor",
+      "type": "class",
+      "name": "EnemyGravityExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "lineRange": [16, 62],
+      "summary": "敌人重力执行器类，管理垂直速度累计和地面状态更新，通过事件分发器通知着地和离地事件。",
+      "tags": ["executor", "enemy", "gravity", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:EnemyGravityExecutor",
+      "type": "function",
+      "name": "EnemyGravityExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "lineRange": [25, 34],
+      "summary": "构造函数，注入移动器、配置、事件分发器和地面检测器。",
+      "tags": ["constructor", "executor", "dependency-injection"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "lineRange": [36, 61],
+      "summary": "逻辑更新，每帧累积重力加速度到垂直速度，检测地面状态变化并触发着地/离地事件。",
+      "tags": ["update", "gravity", "physics", "event"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "type": "file",
+      "name": "EnemyJumpExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "summary": "敌人跳跃执行器，管理跳跃的启动、持续和取消状态，控制垂直速度变化。",
+      "tags": ["executor", "enemy", "jump", "movement"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:EnemyJumpExecutor",
+      "type": "class",
+      "name": "EnemyJumpExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "lineRange": [13, 58],
+      "summary": "敌人跳跃执行器类，管理跳跃状态（激活/非激活），处理跳跃启动、跳跃持续时间限制和取消逻辑。",
+      "tags": ["executor", "enemy", "jump", "movement"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:EnemyJumpExecutor",
+      "type": "function",
+      "name": "EnemyJumpExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "lineRange": [23, 27],
+      "summary": "构造函数，注入移动器和跳跃力参数。",
+      "tags": ["constructor", "executor"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:Jump",
+      "type": "function",
+      "name": "Jump",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "lineRange": [29, 44],
+      "summary": "执行跳跃命令，先取消当前跳跃再启动新的跳跃，设置向上的初始速度。",
+      "tags": ["executor", "jump", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:Cancel",
+      "type": "function",
+      "name": "Cancel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "lineRange": [46, 50],
+      "summary": "取消当前跳跃，重置跳跃状态并将垂直速度归零。",
+      "tags": ["executor", "cancel"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "lineRange": [52, 57],
+      "summary": "逻辑更新，检查跳跃持续时间是否超限，超时后自动取消跳跃。",
+      "tags": ["update", "jump", "timer"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "type": "file",
+      "name": "EnemyJumpMoveExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "summary": "敌人跳跃移动执行器，在跳跃状态下控制水平移动，包含导航、随机跳跃方向和抛物线速度计算。",
+      "tags": ["executor", "enemy", "jump", "movement", "ai"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:EnemyJumpMoveExecutor",
+      "type": "class",
+      "name": "EnemyJumpMoveExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "lineRange": [16, 122],
+      "summary": "敌人跳跃移动执行器类，管理空中水平移动和周期性随机跳跃发射，使用导航器计算移动方向。",
+      "tags": ["executor", "enemy", "jump", "movement", "ai"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:EnemyJumpMoveExecutor",
+      "type": "function",
+      "name": "EnemyJumpMoveExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "lineRange": [36, 43],
+      "summary": "构造函数，注入移动器、配置、地面检测器和导航器。",
+      "tags": ["constructor", "executor", "dependency-injection"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:Move",
+      "type": "function",
+      "name": "Move",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "lineRange": [45, 57],
+      "summary": "处理移动命令，缓存水平移动方向供后续帧使用。",
+      "tags": ["executor", "movement", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "lineRange": [59, 91],
+      "summary": "逻辑更新，在发射状态期间管理倒计时和速度过渡，在地面时触发周期性随机跳跃。",
+      "tags": ["update", "movement", "jump", "ai"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:Jump",
+      "type": "function",
+      "name": "Jump",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "lineRange": [93, 121],
+      "summary": "执行随机跳跃发射，使用三角函数计算随机水平方向，结合导航器方向产生抛物线速度。",
+      "tags": ["executor", "jump", "random", "ai"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "type": "file",
+      "name": "PlayerDashExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "summary": "玩家冲刺执行器，管理冲刺方向、速度和无敌时间，在冲刺期间取消跳跃并提供短暂无敌效果。",
+      "tags": ["executor", "player", "dash", "movement"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:PlayerDashExecutor",
+      "type": "class",
+      "name": "PlayerDashExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "lineRange": [18, 105],
+      "summary": "玩家冲刺执行器类，管理冲刺生命周期（启动、进行中、结束），提供无敌帧和速度控制。",
+      "tags": ["executor", "player", "dash", "movement"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:PlayerDashExecutor",
+      "type": "function",
+      "name": "PlayerDashExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "lineRange": [33, 43],
+      "summary": "构造函数，注入移动器、配置、BattleEntity 和跳跃执行器引用，初始化速度和无敌时间参数。",
+      "tags": ["constructor", "executor", "dependency-injection"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:Dash",
+      "type": "function",
+      "name": "Dash",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "lineRange": [45, 61],
+      "summary": "执行冲刺命令，取消当前跳跃，设置冲刺方向和速度，激活 DamageReceiverComponent 无敌状态。",
+      "tags": ["executor", "dash", "command-handler", "invincibility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "lineRange": [63, 104],
+      "summary": "逻辑更新，管理冲刺倒计时、无敌时间结束后的伤害恢复、冲刺结束时的速度衰减。",
+      "tags": ["update", "dash", "timer", "invincibility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "type": "file",
+      "name": "PlayerGravityExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "summary": "玩家重力执行器，管理重力加速度、地面检测和土狼时间（coyote time），支持离地后的跳跃宽限判定。",
+      "tags": ["executor", "player", "gravity", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:PlayerGravityExecutor",
+      "type": "class",
+      "name": "PlayerGravityExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "lineRange": [16, 67],
+      "summary": "玩家重力执行器类，管理垂直速度和地面状态，提供土狼时间（CoyoteTime）机制以改善跳跃手感。",
+      "tags": ["executor", "player", "gravity", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:PlayerGravityExecutor",
+      "type": "function",
+      "name": "PlayerGravityExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "lineRange": [29, 39],
+      "summary": "构造函数，注入移动器、地面检测器、配置和事件分发器，读取重力加速度等参数。",
+      "tags": ["constructor", "executor", "dependency-injection"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "lineRange": [41, 66],
+      "summary": "逻辑更新，每帧累积重力加速度，更新地面状态（含土狼时间宽限），触发着地/离地事件。",
+      "tags": ["update", "gravity", "coyote-time", "physics", "event"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "type": "file",
+      "name": "PlayerInputAdapter.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "summary": "玩家输入适配器，桥接 InputHandler 和命令系统，将原始输入事件转换为战斗系统的命令事件（跳跃、冲刺、射击等）。",
+      "tags": ["executor", "player", "input", "adapter"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs:PlayerInputAdapter",
+      "type": "class",
+      "name": "PlayerInputAdapter",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "lineRange": [15, 47],
+      "summary": "玩家输入适配器类，封装 InputHandler 引用，暴露移动方向/视角差量属性，将输入事件映射为命令 Action 回调。",
+      "tags": ["executor", "player", "input", "adapter"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs:PlayerInputAdapter",
+      "type": "function",
+      "name": "PlayerInputAdapter",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "lineRange": [32, 46],
+      "summary": "构造函数，注入 InputHandler 并订阅所有输入事件（跳跃、冲刺、射击、装弹、切换武器、交互、滚轮、技能等），映射为命令回调。",
+      "tags": ["constructor", "input", "event-binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "type": "file",
+      "name": "PlayerInteractExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "summary": "玩家交互执行器，处理交互命令的派发，支持选中交互对象的触发、下一个/上一个选择切换。",
+      "tags": ["executor", "player", "interact", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:PlayerInteractExecutor",
+      "type": "class",
+      "name": "PlayerInteractExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "lineRange": [10, 34],
+      "summary": "玩家交互执行器类，持有交互系统引用，根据命令类型分发到触发交互、下一个选择或上一个选择。",
+      "tags": ["executor", "player", "interact", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:PlayerInteractExecutor",
+      "type": "function",
+      "name": "PlayerInteractExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "lineRange": [14, 17],
+      "summary": "构造函数，注入交互系统接口引用。",
+      "tags": ["constructor", "executor"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:Interact",
+      "type": "function",
+      "name": "Interact",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "lineRange": [19, 33],
+      "summary": "执行交互命令，根据命令类型调用交互系统的 TriggerInteractable、NextSelection 或 LastSelection 方法。",
+      "tags": ["executor", "interact", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "type": "file",
+      "name": "PlayerJumpExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "summary": "玩家跳跃执行器，实现短按/长按跳跃物理，包含初始速度、持续加速度和三个阶段（普通过渡/跳跃中/释放后）的完整跳跃系统。",
+      "tags": ["executor", "player", "jump", "physics", "movement"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:PlayerJumpExecutor",
+      "type": "class",
+      "name": "PlayerJumpExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "lineRange": [23, 165],
+      "summary": "玩家跳跃执行器类，实现三段式跳跃物理（初始冲量/长按加速/释放减速），支持土狼时间和跳跃输入缓冲。",
+      "tags": ["executor", "player", "jump", "physics", "movement"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:Cancel",
+      "type": "function",
+      "name": "Cancel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "lineRange": [47, 51],
+      "summary": "取消当前跳跃，重置跳跃阶段、状态和速度。",
+      "tags": ["executor", "cancel", "jump"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:PlayerJumpExecutor",
+      "type": "function",
+      "name": "PlayerJumpExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "lineRange": [53, 63],
+      "summary": "构造函数，注入移动器、配置和地面检测器，调用 InitPhysics 初始化跳跃物理参数。",
+      "tags": ["constructor", "executor", "dependency-injection"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:InitPhysics",
+      "type": "function",
+      "name": "InitPhysics",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "lineRange": [65, 85],
+      "summary": "初始化跳跃物理参数，根据配置中的跳跃高度、最大时间和重力加速度，反算初始速度和各段加速度。",
+      "tags": ["init", "physics", "calculation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:Jump",
+      "type": "function",
+      "name": "Jump",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "lineRange": [87, 112],
+      "summary": "执行跳跃命令，处理短按/长按逻辑：短按时调度自动释放，启动跳跃并计算初始向上速度。",
+      "tags": ["executor", "jump", "command-handler", "input"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "lineRange": [114, 164],
+      "summary": "逻辑更新，根据跳跃阶段（Transition/InJump/AfterRelease）计算当前帧的垂直速度，管理释放减速和着地检测。",
+      "tags": ["update", "jump", "physics", "state-machine"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "type": "file",
+      "name": "PlayerMoveExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "summary": "玩家移动执行器，根据输入方向计算水平移动速度，支持缓存命令和命令消耗标记。",
+      "tags": ["executor", "player", "movement"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:PlayerMoveExecutor",
+      "type": "class",
+      "name": "PlayerMoveExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "lineRange": [12, 57],
+      "summary": "玩家移动执行器类，根据输入命令的方向和速度系数计算水平移动速度并设置到移动器。",
+      "tags": ["executor", "player", "movement"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "lineRange": [22, 26],
+      "summary": "初始化移动执行器，注入移动器和移动速度参数。",
+      "tags": ["init", "executor"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:Move",
+      "type": "function",
+      "name": "Move",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "lineRange": [28, 56],
+      "summary": "执行移动命令，将输入方向（2D 向量）转换为水平速度，支持命令缓存和一次性消耗模式。",
+      "tags": ["executor", "movement", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "type": "file",
+      "name": "PlayerRotateExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "summary": "玩家旋转执行器，处理水平/垂直视角旋转，支持鼠标灵敏度和垂直角度限制，兼容 Rigidbody 和 Transform 两种旋转模式。",
+      "tags": ["executor", "player", "camera", "rotation", "input"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:PlayerRotateExecutor",
+      "type": "class",
+      "name": "PlayerRotateExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "lineRange": [13, 63],
+      "summary": "玩家旋转执行器类，同时管理水平身体旋转和垂直相机旋转，优先使用 RigidbodyMover，回退到直接 Transform/Rigidbody 旋转。",
+      "tags": ["executor", "player", "camera", "rotation", "input"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "lineRange": [33, 37],
+      "summary": "初始化旋转执行器，设置水平和垂直鼠标灵敏度。",
+      "tags": ["init", "executor", "sensitivity"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:Rotate",
+      "type": "function",
+      "name": "Rotate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "lineRange": [39, 62],
+      "summary": "执行旋转命令，计算水平旋转（身体 Y 轴）和垂直旋转（相机 X 轴），使用 Clamp 限制垂直角度范围。",
+      "tags": ["executor", "rotation", "camera", "command-handler"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnemyDashExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnemyDashExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnemyDashExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnemyDashExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:Cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:Cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:TransitionTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnterDash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:EnterRebound",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:UpdatePrepare",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:UpdateFly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:UpdateDash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:OnHitTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs:GroundDetection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:EnemyFaceExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:EnemyFaceExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:EnemyFaceExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:EnemyFaceExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:Face",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs:Face",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:EnemyGravityExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:EnemyGravityExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:EnemyGravityExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:EnemyGravityExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:EnemyJumpExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:EnemyJumpExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:EnemyJumpExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:EnemyJumpExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:Jump",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:Jump",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:Cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:Cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:EnemyJumpMoveExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:EnemyJumpMoveExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:EnemyJumpMoveExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:EnemyJumpMoveExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:Move",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:Move",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs:Jump",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:PlayerDashExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:PlayerDashExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:PlayerDashExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:PlayerDashExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:Dash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:Dash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:PlayerGravityExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:PlayerGravityExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:PlayerGravityExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:PlayerGravityExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs:PlayerInputAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs:PlayerInputAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs:PlayerInputAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs:PlayerInputAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:PlayerInteractExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:PlayerInteractExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:PlayerInteractExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:PlayerInteractExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:Interact",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs:Interact",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:PlayerJumpExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:PlayerJumpExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:Cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:Cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:PlayerJumpExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:PlayerJumpExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:InitPhysics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:Jump",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:Jump",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:PlayerMoveExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:PlayerMoveExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:Move",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs:Move",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:PlayerRotateExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:PlayerRotateExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:Rotate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs:Rotate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

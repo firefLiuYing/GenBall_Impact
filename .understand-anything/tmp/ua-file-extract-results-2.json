@@ -1,0 +1,2199 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IReload",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "Reload"
+          ],
+          "properties": [
+            "IsReloading"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IReload",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "IRotate",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "Rotate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IRotate",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IStun",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "Stun"
+          ],
+          "properties": [
+            "IsStunned"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IStun",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "ISwitchWeapon",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "SwitchWeapon"
+          ],
+          "properties": [
+            "IsSwitching"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ISwitchWeapon",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IWeaponVisibility",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "Execute"
+          ],
+          "properties": [
+            "IsTransitioning"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWeaponVisibility",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IWheel",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "Execute"
+          ],
+          "properties": [
+            "IsWheeling"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWheel",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/JumpCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 24,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 21,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/StunCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/SwitchWeaponCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/WeaponVisibilityCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 18,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/WheelCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 26,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "SetActiveWeapon",
+          "startLine": 11,
+          "endLine": 11,
+          "params": [
+            "weapon"
+          ]
+        },
+        {
+          "name": "Attack",
+          "startLine": 14,
+          "endLine": 14,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "AbilitySecondary",
+          "startLine": 16,
+          "endLine": 16,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "CancelAbilitySecondary",
+          "startLine": 18,
+          "endLine": 18,
+          "params": []
+        },
+        {
+          "name": "Cancel",
+          "startLine": 20,
+          "endLine": 20,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AbilityWeaponExecutor",
+          "startLine": 7,
+          "endLine": 21,
+          "methods": [
+            "SetActiveWeapon",
+            "Attack",
+            "AbilitySecondary",
+            "CancelAbilitySecondary",
+            "Cancel"
+          ],
+          "properties": [
+            "_activeWeapon",
+            "IsAttacking"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SetActiveWeapon",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "IsAttacking",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Attack",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "AbilitySecondary",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "CancelAbilitySecondary",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Cancel",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "AbilityWeaponExecutor",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Attack",
+          "callee": "_activeWeapon?.HandlePrimary",
+          "lineNumber": 14
+        },
+        {
+          "caller": "AbilitySecondary",
+          "callee": "_activeWeapon?.HandleSecondary",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Cancel",
+          "callee": "_activeWeapon?.HandlePrimary",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 435,
+      "nonEmptyLines": 365,
+      "functions": [
+        {
+          "name": "EnemyDashExecutor",
+          "startLine": 94,
+          "endLine": 104,
+          "params": [
+            "mover",
+            "entity",
+            "config",
+            "detector",
+            "attackTrigger",
+            "barrier"
+          ]
+        },
+        {
+          "name": "Attack",
+          "startLine": 106,
+          "endLine": 112,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "Cancel",
+          "startLine": 114,
+          "endLine": 125,
+          "params": []
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 127,
+          "endLine": 154,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "TransitionTo",
+          "startLine": 160,
+          "endLine": 210,
+          "params": [
+            "newState"
+          ]
+        },
+        {
+          "name": "EnterPrepare",
+          "startLine": 216,
+          "endLine": 220,
+          "params": []
+        },
+        {
+          "name": "EnterFly",
+          "startLine": 222,
+          "endLine": 227,
+          "params": []
+        },
+        {
+          "name": "EnterCharge",
+          "startLine": 229,
+          "endLine": 232,
+          "params": []
+        },
+        {
+          "name": "EnterDash",
+          "startLine": 234,
+          "endLine": 253,
+          "params": []
+        },
+        {
+          "name": "EnterRebound",
+          "startLine": 255,
+          "endLine": 264,
+          "params": []
+        },
+        {
+          "name": "UpdatePrepare",
+          "startLine": 270,
+          "endLine": 294,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "UpdateFly",
+          "startLine": 296,
+          "endLine": 308,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "UpdateCharge",
+          "startLine": 310,
+          "endLine": 317,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "UpdateDash",
+          "startLine": 319,
+          "endLine": 384,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "UpdateRebound",
+          "startLine": 386,
+          "endLine": 392,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnHitTarget",
+          "startLine": 398,
+          "endLine": 412,
+          "params": [
+            "target"
+          ]
+        },
+        {
+          "name": "GroundDetection",
+          "startLine": 418,
+          "endLine": 433,
+          "params": [
+            "detectPlayer"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyDashExecutor",
+          "startLine": 20,
+          "endLine": 434,
+          "methods": [
+            "EnemyDashExecutor",
+            "Attack",
+            "Cancel",
+            "LogicUpdate",
+            "TransitionTo",
+            "EnterPrepare",
+            "EnterFly",
+            "EnterCharge",
+            "EnterDash",
+            "EnterRebound",
+            "UpdatePrepare",
+            "UpdateFly",
+            "UpdateCharge",
+            "UpdateDash",
+            "UpdateRebound",
+            "OnHitTarget",
+            "GroundDetection"
+          ],
+          "properties": [
+            "CurrentPhase",
+            "_mover",
+            "_entity",
+            "_config",
+            "_detector",
+            "_attackTrigger",
+            "_barrier",
+            "_state",
+            "_prepareTimer",
+            "_targetPos",
+            "_targetFlyHeight",
+            "_flyElapsed",
+            "_chargeTimer",
+            "_dashDirection",
+            "_dashStartPos",
+            "MaxDashDistance",
+            "UppingSpeed",
+            "FlyMaxTime",
+            "_cachedCollider",
+            "IsAttacking",
+            "Collider"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CurrentPhase",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "IsAttacking",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyDashExecutor",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "Attack",
+          "line": 106,
+          "isDefault": false
+        },
+        {
+          "name": "Cancel",
+          "line": 114,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyDashExecutor",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Attack",
+          "callee": "TransitionTo",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Cancel",
+          "callee": "_attackTrigger?.StopDetect",
+          "lineNumber": 120
+        },
+        {
+          "caller": "Cancel",
+          "callee": "_barrier?.SetColliderEnable",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Cancel",
+          "callee": "TransitionTo",
+          "lineNumber": 124
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "UpdatePrepare",
+          "lineNumber": 135
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "UpdateFly",
+          "lineNumber": 139
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "UpdateCharge",
+          "lineNumber": 143
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "UpdateDash",
+          "lineNumber": 147
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "UpdateRebound",
+          "lineNumber": 151
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 166
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "_attackTrigger?.StopDetect",
+          "lineNumber": 171
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "_barrier?.SetColliderEnable",
+          "lineNumber": 172
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 173
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 178
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "EnterPrepare",
+          "lineNumber": 191
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "EnterFly",
+          "lineNumber": 195
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "EnterCharge",
+          "lineNumber": 199
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "EnterDash",
+          "lineNumber": 203
+        },
+        {
+          "caller": "TransitionTo",
+          "callee": "EnterRebound",
+          "lineNumber": 207
+        },
+        {
+          "caller": "EnterFly",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 226
+        },
+        {
+          "caller": "EnterDash",
+          "callee": "_barrier?.SetColliderEnable",
+          "lineNumber": 236
+        },
+        {
+          "caller": "EnterDash",
+          "callee": "_dashDirection.Normalize",
+          "lineNumber": 248
+        },
+        {
+          "caller": "EnterDash",
+          "callee": "_mover.SetRotation",
+          "lineNumber": 251
+        },
+        {
+          "caller": "EnterDash",
+          "callee": "Quaternion.LookRotation",
+          "lineNumber": 251
+        },
+        {
+          "caller": "EnterDash",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 252
+        },
+        {
+          "caller": "EnterRebound",
+          "callee": "_mover.SetRotation",
+          "lineNumber": 261
+        },
+        {
+          "caller": "EnterRebound",
+          "callee": "Quaternion.LookRotation",
+          "lineNumber": 261
+        },
+        {
+          "caller": "EnterRebound",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 263
+        },
+        {
+          "caller": "UpdatePrepare",
+          "callee": "TransitionTo",
+          "lineNumber": 274
+        },
+        {
+          "caller": "UpdatePrepare",
+          "callee": "GroundDetection",
+          "lineNumber": 278
+        },
+        {
+          "caller": "UpdatePrepare",
+          "callee": "TransitionTo",
+          "lineNumber": 293
+        },
+        {
+          "caller": "UpdateFly",
+          "callee": "TransitionTo",
+          "lineNumber": 302
+        },
+        {
+          "caller": "UpdateFly",
+          "callee": "Mathf.Lerp",
+          "lineNumber": 306
+        },
+        {
+          "caller": "UpdateFly",
+          "callee": "Mathf.Clamp01",
+          "lineNumber": 306
+        },
+        {
+          "caller": "UpdateFly",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 307
+        },
+        {
+          "caller": "UpdateCharge",
+          "callee": "TransitionTo",
+          "lineNumber": 316
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "Mathf.Max",
+          "lineNumber": 326
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 328
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 329
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 330
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "Physics.OverlapSphere",
+          "lineNumber": 332
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "hit.CompareTag",
+          "lineNumber": 335
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "OnHitTarget",
+          "lineNumber": 337
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "Physics.SphereCast",
+          "lineNumber": 344
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "sweepHit.collider.CompareTag",
+          "lineNumber": 346
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "OnHitTarget",
+          "lineNumber": 348
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 356
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 357
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 358
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 359
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "Physics.SphereCast",
+          "lineNumber": 360
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "Vector3.Reflect",
+          "lineNumber": 362
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 363
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "TransitionTo",
+          "lineNumber": 365
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "Vector3.Distance",
+          "lineNumber": 371
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "TransitionTo",
+          "lineNumber": 373
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "GroundDetection",
+          "lineNumber": 377
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "TransitionTo",
+          "lineNumber": 379
+        },
+        {
+          "caller": "UpdateDash",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 383
+        },
+        {
+          "caller": "UpdateRebound",
+          "callee": "GroundDetection",
+          "lineNumber": 388
+        },
+        {
+          "caller": "UpdateRebound",
+          "callee": "TransitionTo",
+          "lineNumber": 391
+        },
+        {
+          "caller": "OnHitTarget",
+          "callee": "DamageInfo.Create",
+          "lineNumber": 400
+        },
+        {
+          "caller": "OnHitTarget",
+          "callee": "new List<string>",
+          "lineNumber": 403
+        },
+        {
+          "caller": "OnHitTarget",
+          "callee": "SystemRepository.Instance.GetSystem<IDamageSystem>()?.ApplyDamage",
+          "lineNumber": 408
+        },
+        {
+          "caller": "OnHitTarget",
+          "callee": "SystemRepository.Instance.GetSystem<IDamageSystem>",
+          "lineNumber": 408
+        },
+        {
+          "caller": "OnHitTarget",
+          "callee": "Debug.Log",
+          "lineNumber": 409
+        },
+        {
+          "caller": "OnHitTarget",
+          "callee": "TransitionTo",
+          "lineNumber": 411
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 424
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 425
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 426
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 428
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "Physics.Raycast",
+          "lineNumber": 432
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 17,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "EnemyFaceExecutor",
+          "startLine": 15,
+          "endLine": 19,
+          "params": [
+            "transform",
+            "rotateSpeed"
+          ]
+        },
+        {
+          "name": "Face",
+          "startLine": 21,
+          "endLine": 31,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyFaceExecutor",
+          "startLine": 10,
+          "endLine": 32,
+          "methods": [
+            "EnemyFaceExecutor",
+            "Face"
+          ],
+          "properties": [
+            "_transform",
+            "_rotateSpeed"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EnemyFaceExecutor",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Face",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyFaceExecutor",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Face",
+          "callee": "Quaternion.LookRotation",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Face",
+          "callee": "Quaternion.RotateTowards",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "EnemyGravityExecutor",
+          "startLine": 25,
+          "endLine": 34,
+          "params": [
+            "mover",
+            "config",
+            "dispatcher",
+            "groundDetect"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 36,
+          "endLine": 61,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyGravityExecutor",
+          "startLine": 16,
+          "endLine": 62,
+          "methods": [
+            "EnemyGravityExecutor",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_mover",
+            "_config",
+            "_dispatcher",
+            "_groundDetect",
+            "IsOnGround"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsOnGround",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyGravityExecutor",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyGravityExecutor",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogicUpdate",
+          "callee": "Mathf.Max",
+          "lineNumber": 59
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "EnemyJumpExecutor",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "mover",
+            "jumpForce"
+          ]
+        },
+        {
+          "name": "Jump",
+          "startLine": 29,
+          "endLine": 44,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "Cancel",
+          "startLine": 46,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 52,
+          "endLine": 57,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyJumpExecutor",
+          "startLine": 13,
+          "endLine": 58,
+          "methods": [
+            "EnemyJumpExecutor",
+            "Jump",
+            "Cancel",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_mover",
+            "_jumpForce",
+            "_jumpStartTime",
+            "_jumpActive",
+            "IsJumping"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsJumping",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyJumpExecutor",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Jump",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Cancel",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyJumpExecutor",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Jump",
+          "callee": "Cancel",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Jump",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 123,
+      "nonEmptyLines": 101,
+      "functions": [
+        {
+          "name": "EnemyJumpMoveExecutor",
+          "startLine": 36,
+          "endLine": 43,
+          "params": [
+            "mover",
+            "config",
+            "groundDetect",
+            "navigator"
+          ]
+        },
+        {
+          "name": "Move",
+          "startLine": 45,
+          "endLine": 57,
+          "params": [
+            "moveCommand"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 59,
+          "endLine": 91,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "Jump",
+          "startLine": 93,
+          "endLine": 121,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyJumpMoveExecutor",
+          "startLine": 16,
+          "endLine": 122,
+          "methods": [
+            "EnemyJumpMoveExecutor",
+            "Move",
+            "LogicUpdate",
+            "Jump"
+          ],
+          "properties": [
+            "_mover",
+            "_config",
+            "_groundDetect",
+            "_navigator",
+            "_cachedDirection",
+            "_hasDirection",
+            "_lastJumpTime",
+            "_currentJumpInterval",
+            "_isLaunching",
+            "_launchTimer",
+            "_launchTargetVelocity",
+            "JumpLaunchTime",
+            "Velocity"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Velocity",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyJumpMoveExecutor",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "Move",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyJumpMoveExecutor",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogicUpdate",
+          "callee": "Mathf.Clamp01",
+          "lineNumber": 65
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 68
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "Vector3.Lerp",
+          "lineNumber": 68
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 73
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "Jump",
+          "lineNumber": 90
+        },
+        {
+          "caller": "Jump",
+          "callee": "Random.Range",
+          "lineNumber": 96
+        },
+        {
+          "caller": "Jump",
+          "callee": "Random.Range",
+          "lineNumber": 102
+        },
+        {
+          "caller": "Jump",
+          "callee": "Random.Range",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Jump",
+          "callee": "Mathf.Sin",
+          "lineNumber": 106
+        },
+        {
+          "caller": "Jump",
+          "callee": "Mathf.Cos",
+          "lineNumber": 107
+        },
+        {
+          "caller": "Jump",
+          "callee": "Mathf.Cos",
+          "lineNumber": 108
+        },
+        {
+          "caller": "Jump",
+          "callee": "_navigator?.CalculateVelocity",
+          "lineNumber": 110
+        },
+        {
+          "caller": "Jump",
+          "callee": "_mover.SetRotation",
+          "lineNumber": 116
+        },
+        {
+          "caller": "Jump",
+          "callee": "Quaternion.LookRotation",
+          "lineNumber": 116
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 106,
+      "nonEmptyLines": 91,
+      "functions": [
+        {
+          "name": "PlayerDashExecutor",
+          "startLine": 33,
+          "endLine": 43,
+          "params": [
+            "mover",
+            "config",
+            "entity",
+            "jumpExecutor"
+          ]
+        },
+        {
+          "name": "Dash",
+          "startLine": 45,
+          "endLine": 61,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 63,
+          "endLine": 104,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerDashExecutor",
+          "startLine": 18,
+          "endLine": 105,
+          "methods": [
+            "PlayerDashExecutor",
+            "Dash",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_mover",
+            "_entity",
+            "_jumpExecutor",
+            "_invincibleTime",
+            "_endingTime",
+            "_dashSpeed",
+            "_dashStartTime",
+            "_dashDirection",
+            "IsDashing"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsDashing",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerDashExecutor",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "Dash",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerDashExecutor",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Dash",
+          "callee": "_jumpExecutor?.Cancel",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Dash",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Dash",
+          "callee": "_entity.Get<DamageReceiverComponent>",
+          "lineNumber": 58
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 77
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 86
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_entity.Get<DamageReceiverComponent>",
+          "lineNumber": 93
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 102
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "PlayerGravityExecutor",
+          "startLine": 29,
+          "endLine": 39,
+          "params": [
+            "mover",
+            "groundDetect",
+            "config",
+            "dispatcher"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 41,
+          "endLine": 66,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerGravityExecutor",
+          "startLine": 16,
+          "endLine": 67,
+          "methods": [
+            "PlayerGravityExecutor",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_mover",
+            "_groundDetect",
+            "_config",
+            "_dispatcher",
+            "_gravityAcceleration",
+            "_lastGroundedTime",
+            "IsOnGround",
+            "CanJump"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsOnGround",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "CanJump",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerGravityExecutor",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerGravityExecutor",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogicUpdate",
+          "callee": "Mathf.Max",
+          "lineNumber": 64
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "PlayerInputAdapter",
+          "startLine": 32,
+          "endLine": 46,
+          "params": [
+            "inputHandler"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerInputAdapter",
+          "startLine": 15,
+          "endLine": 47,
+          "methods": [
+            "PlayerInputAdapter"
+          ],
+          "properties": [
+            "_inputHandler",
+            "MoveDirection",
+            "ViewDelta"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MoveDirection",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ViewDelta",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerInputAdapter",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerInputAdapter",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnJump?.Invoke",
+          "lineNumber": 37
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnDash?.Invoke",
+          "lineNumber": 38
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnFire?.Invoke",
+          "lineNumber": 39
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnReload?.Invoke",
+          "lineNumber": 40
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnSwitchWeapon?.Invoke",
+          "lineNumber": 41
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnInteract?.Invoke",
+          "lineNumber": 42
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnScroll?.Invoke",
+          "lineNumber": 43
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnAbilitySecondary?.Invoke",
+          "lineNumber": 44
+        },
+        {
+          "caller": "PlayerInputAdapter",
+          "callee": "OnAbilityWheel?.Invoke",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "PlayerInteractExecutor",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "interactSystem"
+          ]
+        },
+        {
+          "name": "Interact",
+          "startLine": 19,
+          "endLine": 33,
+          "params": [
+            "cmd"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerInteractExecutor",
+          "startLine": 10,
+          "endLine": 34,
+          "methods": [
+            "PlayerInteractExecutor",
+            "Interact"
+          ],
+          "properties": [
+            "_interactSystem"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerInteractExecutor",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Interact",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerInteractExecutor",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Interact",
+          "callee": "_interactSystem.TriggerInteractable",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Interact",
+          "callee": "_interactSystem.NextSelection",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Interact",
+          "callee": "_interactSystem.LastSelection",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 166,
+      "nonEmptyLines": 141,
+      "functions": [
+        {
+          "name": "Cancel",
+          "startLine": 47,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "PlayerJumpExecutor",
+          "startLine": 53,
+          "endLine": 63,
+          "params": [
+            "mover",
+            "config",
+            "groundDetect"
+          ]
+        },
+        {
+          "name": "InitPhysics",
+          "startLine": 65,
+          "endLine": 85,
+          "params": [
+            "config"
+          ]
+        },
+        {
+          "name": "Jump",
+          "startLine": 87,
+          "endLine": 112,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 114,
+          "endLine": 164,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerJumpExecutor",
+          "startLine": 23,
+          "endLine": 165,
+          "methods": [
+            "Cancel",
+            "PlayerJumpExecutor",
+            "InitPhysics",
+            "Jump",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_mover",
+            "_groundDetect",
+            "_longPressMaxTime",
+            "_shortPressJustifyTime",
+            "_initialVelocity",
+            "_holdExtraAcceleration",
+            "_releaseExtraAcceleration",
+            "_phase",
+            "_jumpStartTime",
+            "_scheduledReleaseTime",
+            "IsJumping"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsJumping",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "Cancel",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerJumpExecutor",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Jump",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 114,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerJumpExecutor",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PlayerJumpExecutor",
+          "callee": "InitPhysics",
+          "lineNumber": 62
+        },
+        {
+          "caller": "Jump",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 100
+        },
+        {
+          "caller": "Jump",
+          "callee": "Mathf.Max",
+          "lineNumber": 108
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 153
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 162
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 22,
+          "endLine": 26,
+          "params": [
+            "mover",
+            "speed"
+          ]
+        },
+        {
+          "name": "Move",
+          "startLine": 28,
+          "endLine": 56,
+          "params": [
+            "moveCommand"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerMoveExecutor",
+          "startLine": 12,
+          "endLine": 57,
+          "methods": [
+            "Init",
+            "Move"
+          ],
+          "properties": [
+            "_mover",
+            "_speed",
+            "_cachedCommand",
+            "_commandConsumed",
+            "Velocity"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Velocity",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Move",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerMoveExecutor",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Move",
+          "callee": "_mover.SetVelocity",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "Awake",
+          "startLine": 25,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "Init",
+          "startLine": 33,
+          "endLine": 37,
+          "params": [
+            "horizontalSensitivity",
+            "verticalSensitivity"
+          ]
+        },
+        {
+          "name": "Rotate",
+          "startLine": 39,
+          "endLine": 62,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerRotateExecutor",
+          "startLine": 13,
+          "endLine": 63,
+          "methods": [
+            "Awake",
+            "Init",
+            "Rotate"
+          ],
+          "properties": [
+            "cameraTransform",
+            "_rigidbody",
+            "_mover",
+            "_horizontalSensitivity",
+            "_verticalSensitivity",
+            "_verticalAngle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Init",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "Rotate",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerRotateExecutor",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Awake",
+          "callee": "GetComponent<Rigidbody>",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Awake",
+          "callee": "GetComponent<RigidbodyMover>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Awake",
+          "callee": "transform.Find",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Rotate",
+          "callee": "_mover.SetRotation",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Rotate",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Rotate",
+          "callee": "_rigidbody.MoveRotation",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Rotate",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Rotate",
+          "callee": "transform.Rotate",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Rotate",
+          "callee": "Mathf.Clamp",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Rotate",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    }
+  ]
+}

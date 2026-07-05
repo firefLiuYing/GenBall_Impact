@@ -1,0 +1,291 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+      "type": "file",
+      "name": "IReload.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+      "summary": "定义装弹命令接口，声明 Reload 方法和 IsReloading 属性，用于武器装弹系统的命令分发。",
+      "tags": ["interface", "command", "weapon", "reload"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs:IReload",
+      "type": "class",
+      "name": "IReload",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+      "lineRange": [3, 7],
+      "summary": "装弹命令接口，提供 Reload 方法和 IsReloading 状态属性，供命令分发器进行装弹操作仲裁。",
+      "tags": ["interface", "command", "weapon", "reload"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+      "type": "file",
+      "name": "IRotate.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+      "summary": "定义旋转命令接口，声明 Rotate 方法，用于角色视角旋转的命令系统。",
+      "tags": ["interface", "command", "rotation", "camera"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs:IRotate",
+      "type": "class",
+      "name": "IRotate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+      "lineRange": [3, 6],
+      "summary": "旋转命令接口，提供 Rotate 方法，供旋转执行器接收视角旋转指令。",
+      "tags": ["interface", "command", "rotation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+      "type": "file",
+      "name": "IStun.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+      "summary": "定义眩晕命令接口，声明 Stun 方法和 IsStunned 属性，用于受击僵直的命令分发。",
+      "tags": ["interface", "command", "hit-reaction", "stun"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs:IStun",
+      "type": "class",
+      "name": "IStun",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+      "lineRange": [3, 7],
+      "summary": "眩晕命令接口，提供 Stun 方法和 IsStunned 状态属性，用于控制受击后的僵直行为。",
+      "tags": ["interface", "command", "hit-reaction", "stun"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+      "type": "file",
+      "name": "ISwitchWeapon.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+      "summary": "定义切换武器命令接口，声明 SwitchWeapon 方法和 IsSwitching 属性。",
+      "tags": ["interface", "command", "weapon", "switch"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs:ISwitchWeapon",
+      "type": "class",
+      "name": "ISwitchWeapon",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+      "lineRange": [3, 7],
+      "summary": "切换武器命令接口，提供 SwitchWeapon 方法和 IsSwitching 状态属性，用于武器切换的命令分发。",
+      "tags": ["interface", "command", "weapon", "switch"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+      "type": "file",
+      "name": "IWeaponVisibility.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+      "summary": "定义武器显隐命令接口，声明 Execute 方法和 IsTransitioning 属性，用于控制武器模型显示/隐藏的过渡动画。",
+      "tags": ["interface", "command", "weapon", "visibility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs:IWeaponVisibility",
+      "type": "class",
+      "name": "IWeaponVisibility",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+      "lineRange": [3, 7],
+      "summary": "武器显隐命令接口，提供 Execute 方法和 IsTransitioning 状态属性，用于武器可见性过渡的控制命令。",
+      "tags": ["interface", "command", "weapon", "visibility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+      "type": "file",
+      "name": "IWheel.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+      "summary": "定义武器轮盘命令接口，声明 Execute 方法和 IsWheeling 属性，用于武器轮盘选择系统的命令分发。",
+      "tags": ["interface", "command", "weapon", "wheel"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs:IWheel",
+      "type": "class",
+      "name": "IWheel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+      "lineRange": [3, 7],
+      "summary": "武器轮盘命令接口，提供 Execute 方法和 IsWheeling 状态属性，用于武器轮盘（Ability Wheel）选择的控制命令。",
+      "tags": ["interface", "command", "weapon", "wheel"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/JumpCommand.cs",
+      "type": "file",
+      "name": "JumpCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/JumpCommand.cs",
+      "summary": "跳跃命令数据结构，封装跳跃输入的参数信息，用于命令分发器中进行跳跃命令的仲裁和派发。",
+      "tags": ["command", "data-struct", "jump", "input"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs",
+      "type": "file",
+      "name": "ReloadCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs",
+      "summary": "装弹命令数据结构，封装装弹输入的参数信息，用于武器装弹系统的命令派发。",
+      "tags": ["command", "data-struct", "weapon", "reload"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/StunCommand.cs",
+      "type": "file",
+      "name": "StunCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/StunCommand.cs",
+      "summary": "眩晕命令数据结构，封装受击僵直参数，用于战斗系统中击晕效果的触发和控制。",
+      "tags": ["command", "data-struct", "hit-reaction", "stun"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/SwitchWeaponCommand.cs",
+      "type": "file",
+      "name": "SwitchWeaponCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/SwitchWeaponCommand.cs",
+      "summary": "切换武器命令数据结构，封装武器切换参数（目标武器索引等），用于武器系统换武器命令的派发。",
+      "tags": ["command", "data-struct", "weapon", "switch"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/WeaponVisibilityCommand.cs",
+      "type": "file",
+      "name": "WeaponVisibilityCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/WeaponVisibilityCommand.cs",
+      "summary": "武器显隐命令数据结构，封装武器显示/隐藏参数，用于在特定状态下控制武器的可见性过渡。",
+      "tags": ["command", "data-struct", "weapon", "visibility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/WheelCommand.cs",
+      "type": "file",
+      "name": "WheelCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/WheelCommand.cs",
+      "summary": "武器轮盘命令数据结构，封装轮盘选择的方向和索引参数，用于武器轮盘系统的命令派发。",
+      "tags": ["command", "data-struct", "weapon", "wheel"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+      "type": "file",
+      "name": "AbilityWeaponExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+      "summary": "技能武器执行器，处理武器的主要攻击和次要技能调度，将攻击命令桥接到当前激活的武器实例进行处理。",
+      "tags": ["executor", "weapon", "ability", "command-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs:AbilityWeaponExecutor",
+      "type": "class",
+      "name": "AbilityWeaponExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+      "lineRange": [7, 21],
+      "summary": "技能武器执行器类，封装对当前激活武器的引用，将 Attack 和 AbilitySecondary 命令桥接到武器的 HandlePrimary/HandleSecondary 方法。",
+      "tags": ["executor", "weapon", "ability", "command-handler"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs:IReload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs:IReload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs:IRotate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs:IRotate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs:IStun",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs:IStun",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs:ISwitchWeapon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs:ISwitchWeapon",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs:IWeaponVisibility",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs:IWeaponVisibility",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs:IWheel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs:IWheel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs:AbilityWeaponExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs:AbilityWeaponExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

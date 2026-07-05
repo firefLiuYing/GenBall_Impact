@@ -1,0 +1,69 @@
+# .understandignore — Unity C# 项目分析排除规则
+# 只分析 .cs 源码 + .md 文档，跳过资源/生成代码/第三方库
+
+# === Unity 编辑器 & 构建产物 ===
+Library/
+Temp/
+Logs/
+UserSettings/
+obj/
+Builds/
+*.sln
+*.csproj
+*.userprefs
+
+# === Unity 元数据 ===
+*.meta
+
+# === 第三方/插件代码（不改，无需理解） ===
+Assets/DOTween/
+Assets/Plugins/
+
+# === 生成代码（禁止手动编辑，无需理解） ===
+**/Generated/
+*.Generated.cs
+*.Bind.cs
+
+# === 资源文件（非文本，无分析价值） ===
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.psd
+*.fbx
+*.obj
+*.blend
+*.mat
+*.anim
+*.controller
+*.prefab
+*.unity
+*.asset
+*.physicMaterial
+*.wav
+*.mp3
+*.ogg
+*.shader
+*.cginc
+*.hlsl
+*.ttf
+*.otf
+*.bytes
+*.zip
+*.tar
+*.gz
+*.7z
+
+# === IDE & 工具配置 ===
+.idea/
+.vscode/
+.codegraph/
+.mergecopilot/
+*.DotSettings
+
+# === 通用 ===
+node_modules/
+.git/
+*.log

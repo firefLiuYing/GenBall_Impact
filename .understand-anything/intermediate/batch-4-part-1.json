@@ -1,0 +1,597 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs",
+      "type": "file",
+      "name": "SimpleDamageCalculator.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs",
+      "summary": "实现 IDamageCalculator 接口的简单伤害计算器，直接使用攻击者的攻击属性作为最终伤害值。",
+      "tags": ["damage-calculation", "idamagecalculator", "simple"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs:SimpleDamageCalculator",
+      "type": "class",
+      "name": "SimpleDamageCalculator",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs",
+      "lineRange": [3, 10],
+      "summary": "简单伤害计算器，通过 context.AttackerStats.GetValue 获取攻击力作为伤害值。",
+      "tags": ["damage-calculation", "idamagecalculator", "strategy-pattern"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "type": "file",
+      "name": "Stat.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "summary": "核心属性值系统，实现带修饰符叠加的最终值计算（扁平化合并 Flat/Percent/Add 修饰符）。",
+      "tags": ["stat-system", "data-model", "modifier-stack"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs:Stat",
+      "type": "class",
+      "name": "Stat",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "lineRange": [5, 68],
+      "summary": "单个属性值的封装，维护基础值和修饰符列表，通过 Recalculate 方法合并计算最终值。",
+      "tags": ["stat-system", "data-model", "modifier-stack"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs:Recalculate",
+      "type": "function",
+      "name": "Recalculate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "lineRange": [44, 67],
+      "summary": "按修饰符类型分层重新计算最终值：Set→Flat→Percent→Add→PostAdd，支持多修饰符叠加。",
+      "tags": ["stat-calculation", "modifier-stack", "core-logic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "type": "file",
+      "name": "StatComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "summary": "BattleEntity 的属性组件，管理命名属性的字典，支持 GetOrCreate/GetValue/AddModifier 等操作，变更时触发事件。",
+      "tags": ["stat-system", "battle-entity-component", "event-driven"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:StatComponent",
+      "type": "class",
+      "name": "StatComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "lineRange": [21, 101],
+      "summary": "管理 BattleEntity 上命名属性的组件，提供字典存储和便捷的属性 CRUD 操作。",
+      "tags": ["stat-system", "battle-entity-component", "component"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:FireStatChanged",
+      "type": "function",
+      "name": "FireStatChanged",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "lineRange": [88, 100],
+      "summary": "当属性值变化时通过 EventDispatcherComponent 触发 StatChangedEventData 事件通知。",
+      "tags": ["event-driven", "stat-change-notification"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs",
+      "type": "file",
+      "name": "StatModifier.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs",
+      "summary": "属性修饰符数据结构，包含修饰类型（Flat/Percent/Add 等）和修饰值。",
+      "tags": ["stat-system", "data-model", "modifier"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs:StatModifier",
+      "type": "class",
+      "name": "StatModifier",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs",
+      "lineRange": [10, 20],
+      "summary": "属性修饰符值对象，包含 Type 枚举和 Value 数值，用于 Stat 的修饰符栈计算。",
+      "tags": ["stat-system", "data-model", "modifier"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs",
+      "type": "file",
+      "name": "WeaponDamageCalculator.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs",
+      "summary": "实现 IDamageCalculator 接口的武器伤害计算器，结合攻击者属性和武器属性计算最终伤害。",
+      "tags": ["damage-calculation", "idamagecalculator", "weapon"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs:WeaponDamageCalculator",
+      "type": "class",
+      "name": "WeaponDamageCalculator",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs",
+      "lineRange": [3, 11],
+      "summary": "武器伤害计算器，综合 attackerStats 和 weaponStats 进行伤害计算。",
+      "tags": ["damage-calculation", "idamagecalculator", "weapon"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryId.cs",
+      "type": "file",
+      "name": "AccessoryId.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryId.cs",
+      "summary": "配件 ID 枚举定义文件，声明可用的武器配件类型标识。",
+      "tags": ["weapon-accessory", "enum-definition", "data-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModel.cs",
+      "type": "file",
+      "name": "AccessoryModel.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModel.cs",
+      "summary": "配件模型数据定义，描述配件的配置属性结构。",
+      "tags": ["weapon-accessory", "data-model", "data-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "type": "file",
+      "name": "AccessoryModelConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "summary": "配件模型配置文件，使用 ScriptableObject 存储配件数据，通过 AccessoryModelConfigProvider 提供编辑器模式下的自动加载和创建。",
+      "tags": ["weapon-accessory", "scriptable-object", "config", "editor-tool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs:AccessoryModelConfig",
+      "type": "class",
+      "name": "AccessoryModelConfig",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "lineRange": [7, 22],
+      "summary": "ScriptableObject 配件配置，维护配件模型列表和字典索引。",
+      "tags": ["weapon-accessory", "scriptable-object", "config"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs:AccessoryModelConfigProvider",
+      "type": "class",
+      "name": "AccessoryModelConfigProvider",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "lineRange": [24, 63],
+      "summary": "编辑器模式下自动查找或创建 AccessoryModelConfig ScriptableObject 的提供者。",
+      "tags": ["weapon-accessory", "scriptable-object", "editor-tool", "provider"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "type": "file",
+      "name": "AccessoryObj.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "summary": "配件运行时对象，管理配件的 Buff 添加和移除，使用引用池进行对象复用。",
+      "tags": ["weapon-accessory", "buff-management", "object-pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:AccessoryObj",
+      "type": "class",
+      "name": "AccessoryObj",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "lineRange": [8, 43],
+      "summary": "配件运行时实例，在装备时通过 IBuffRegistry 添加 Buff，卸载时移除。",
+      "tags": ["weapon-accessory", "buff-management", "object-pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:OnAdd",
+      "type": "function",
+      "name": "OnAdd",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "lineRange": [13, 22],
+      "summary": "配件装备时调用，遍历配件的 Buff 列表，通过 IBuffRegistry 将每个 Buff 添加到武器上。",
+      "tags": ["weapon-accessory", "buff-management", "equip-logic"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "type": "file",
+      "name": "EvolutionConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "summary": "武器进化配置，定义各进化阶段的解锁条件，通过 EvolutionConfigProvider 在编辑器中自动加载。",
+      "tags": ["weapon-evolution", "scriptable-object", "config", "editor-tool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfig",
+      "type": "class",
+      "name": "EvolutionConfig",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "lineRange": [9, 12],
+      "summary": "ScriptableObject 进化配置，包含各阶段的 stageConfigs 列表。",
+      "tags": ["weapon-evolution", "scriptable-object", "config"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfigProvider",
+      "type": "class",
+      "name": "EvolutionConfigProvider",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "lineRange": [20, 48],
+      "summary": "编辑器模式下自动查找或创建 EvolutionConfig ScriptableObject 的提供者。",
+      "tags": ["weapon-evolution", "scriptable-object", "editor-tool", "provider"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "type": "file",
+      "name": "EvolutionSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "summary": "武器进化系统 ISystem，管理击杀点数积累和进化等级提升，通过 CEventRouter 触发进化事件。",
+      "tags": ["weapon-evolution", "isystem", "game-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EvolutionSystem",
+      "type": "class",
+      "name": "EvolutionSystem",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "lineRange": [8, 84],
+      "summary": "武器进化系统核心实现，维护击杀点数、进化等级，管理各等级装备信息映射。",
+      "tags": ["weapon-evolution", "isystem", "game-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EquipInfo",
+      "type": "class",
+      "name": "EquipInfo",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "lineRange": [86, 90],
+      "summary": "进化等级对应的装备信息，包含武器 ID 和配件列表。",
+      "tags": ["weapon-evolution", "data-model"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "lineRange": [61, 70],
+      "summary": "初始化进化系统，加载 EvolutionConfig 配置并构建各等级的 EquipInfo 映射表。",
+      "tags": ["weapon-evolution", "initialization", "isystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs",
+      "type": "file",
+      "name": "IEvolutionSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs",
+      "summary": "武器进化系统接口定义，声明进化等级、击杀点数和进化状态等属性和方法。",
+      "tags": ["weapon-evolution", "interface", "isystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs:IEvolutionSystem",
+      "type": "class",
+      "name": "IEvolutionSystem",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs",
+      "lineRange": [5, 15],
+      "summary": "进化系统接口，暴露 MaxEvolutionLevel、CurrentEvolutionLevel、KillPoints、CanEvolve 等只读属性。",
+      "tags": ["weapon-evolution", "interface", "isystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs",
+      "type": "file",
+      "name": "HeatComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs",
+      "summary": "热量弹药组件，实现 IAmmoSystem 接口，通过热量累积/冷却机制控制射击频率和显示弹药状态。",
+      "tags": ["weapon-ammo", "heat-system", "iammosystem", "component"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs:HeatComponent",
+      "type": "class",
+      "name": "HeatComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs",
+      "lineRange": [10, 48],
+      "summary": "基于热量的弹药组件，管理 Heat 数值、冷却速率，在过热时禁止射击。",
+      "tags": ["weapon-ammo", "heat-system", "iammosystem", "component"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs:SimpleDamageCalculator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs:SimpleDamageCalculator",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs:SimpleDamageCalculator",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs:IDamageCalculator",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs:Stat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs:Recalculate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs:Stat",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:StatComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:FireStatChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:StatComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:FireStatChanged",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:StatComponent",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs:Stat",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs:StatModifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs:StatModifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs:WeaponDamageCalculator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs:WeaponDamageCalculator",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs:WeaponDamageCalculator",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs:IDamageCalculator",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs:AccessoryModelConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs:AccessoryModelConfigProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs:AccessoryModelConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs:AccessoryModelConfigProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:AccessoryObj",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:OnAdd",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:AccessoryObj",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:OnAdd",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs:AccessoryObj",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfigProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfigProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EvolutionSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EquipInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EvolutionSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EvolutionSystem",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs:IEvolutionSystem",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs:EvolutionSystem",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs:EvolutionConfig",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs:IEvolutionSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs:IEvolutionSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs:HeatComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs:HeatComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs:HeatComponent",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs:HeatComponent",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponComponentBase.cs:WeaponComponentBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

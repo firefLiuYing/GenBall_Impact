@@ -1,0 +1,2601 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "Dispatch",
+          "startLine": 11,
+          "endLine": 12,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GrantAccessoryParams",
+          "startLine": 5,
+          "endLine": 13,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": [
+            "accessoryId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "accessoryId",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Dispatch",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "GrantAccessoryParams",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Dispatch",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "Dispatch",
+          "startLine": 12,
+          "endLine": 13,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OpenDoorParams",
+          "startLine": 5,
+          "endLine": 14,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": [
+            "doorObjectId",
+            "openSpeed"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "doorObjectId",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "openSpeed",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Dispatch",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "OpenDoorParams",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Dispatch",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "Dispatch",
+          "startLine": 11,
+          "endLine": 12,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayDialogueParams",
+          "startLine": 5,
+          "endLine": 13,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": [
+            "dialogueId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "dialogueId",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Dispatch",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "PlayDialogueParams",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Dispatch",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "Dispatch",
+          "startLine": 22,
+          "endLine": 23,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SpawnEnemyParams",
+          "startLine": 6,
+          "endLine": 24,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": [
+            "enemyType",
+            "spawnPosition",
+            "spawnRotation",
+            "patrolRadius",
+            "detectRadius",
+            "aiBehavior"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "enemyType",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "spawnPosition",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "spawnRotation",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "patrolRadius",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "detectRadius",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "aiBehavior",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Dispatch",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "SpawnEnemyParams",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Dispatch",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "Dispatch",
+          "startLine": 11,
+          "endLine": 12,
+          "params": [
+            "eventId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UnlockSavePointParams",
+          "startLine": 5,
+          "endLine": 13,
+          "methods": [
+            "Dispatch"
+          ],
+          "properties": [
+            "savePointId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "savePointId",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Dispatch",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "UnlockSavePointParams",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Dispatch",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "ValidateNoConflicts",
+          "startLine": 20,
+          "endLine": 34,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlacedEventTable",
+          "startLine": 12,
+          "endLine": 35,
+          "methods": [
+            "ValidateNoConflicts"
+          ],
+          "properties": [
+            "entries"
+          ]
+        },
+        {
+          "name": "PlacedEventEntry",
+          "startLine": 37,
+          "endLine": 48,
+          "methods": [],
+          "properties": [
+            "id",
+            "name",
+            "displayName",
+            "defaultParamType"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "entries",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "ValidateNoConflicts",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "PlacedEventTable",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "id",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "name",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "displayName",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "defaultParamType",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "PlacedEventEntry",
+          "line": 37,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ValidateNoConflicts",
+          "callee": "new HashSet<int>",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ValidateNoConflicts",
+          "callee": "System.Enum.GetValues(typeof(GlobalEventId)).Cast<int>",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ValidateNoConflicts",
+          "callee": "System.Enum.GetValues",
+          "lineNumber": 23
+        },
+        {
+          "caller": "ValidateNoConflicts",
+          "callee": "new HashSet<int>",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ValidateNoConflicts",
+          "callee": "enumValues.Contains",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ValidateNoConflicts",
+          "callee": "seenIds.Add",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 159,
+      "nonEmptyLines": 137,
+      "functions": [
+        {
+          "name": "Initialize",
+          "startLine": 32,
+          "endLine": 57,
+          "params": [
+            "data"
+          ]
+        },
+        {
+          "name": "SetupTrigger",
+          "startLine": 59,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "SetupCollisionTrigger",
+          "startLine": 75,
+          "endLine": 90,
+          "params": []
+        },
+        {
+          "name": "SetupInteractTrigger",
+          "startLine": 92,
+          "endLine": 109,
+          "params": []
+        },
+        {
+          "name": "SetupEventListener",
+          "startLine": 111,
+          "endLine": 115,
+          "params": []
+        },
+        {
+          "name": "HandleTrigger",
+          "startLine": 117,
+          "endLine": 148,
+          "params": []
+        },
+        {
+          "name": "OnDestroy",
+          "startLine": 150,
+          "endLine": 157,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "RuntimeEventTrigger",
+          "startLine": 17,
+          "endLine": 158,
+          "methods": [
+            "Initialize",
+            "SetupTrigger",
+            "SetupCollisionTrigger",
+            "SetupInteractTrigger",
+            "SetupEventListener",
+            "HandleTrigger",
+            "OnDestroy"
+          ],
+          "properties": [
+            "_events",
+            "_triggerMode",
+            "_behavior",
+            "_maxFireCount",
+            "_cooldownSeconds",
+            "_listenerEventId",
+            "_radius",
+            "_layerMask",
+            "_listenerDelegate",
+            "_fireCount",
+            "_lastFireTime"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Initialize",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "RuntimeEventTrigger",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Initialize",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Initialize",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Initialize",
+          "callee": "Type.GetType",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Initialize",
+          "callee": "typeof(EventParameterBase).IsAssignableFrom",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Initialize",
+          "callee": "JsonUtility.FromJson",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Initialize",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Initialize",
+          "callee": "_events.Add",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Initialize",
+          "callee": "SetupTrigger",
+          "lineNumber": 56
+        },
+        {
+          "caller": "SetupTrigger",
+          "callee": "SetupCollisionTrigger",
+          "lineNumber": 64
+        },
+        {
+          "caller": "SetupTrigger",
+          "callee": "SetupInteractTrigger",
+          "lineNumber": 67
+        },
+        {
+          "caller": "SetupTrigger",
+          "callee": "SetupEventListener",
+          "lineNumber": 70
+        },
+        {
+          "caller": "SetupCollisionTrigger",
+          "callee": "gameObject.AddComponent<Rigidbody>",
+          "lineNumber": 79
+        },
+        {
+          "caller": "SetupCollisionTrigger",
+          "callee": "gameObject.AddComponent<SphereCollider>",
+          "lineNumber": 82
+        },
+        {
+          "caller": "SetupCollisionTrigger",
+          "callee": "gameObject.AddComponent<TriggerObject>",
+          "lineNumber": 86
+        },
+        {
+          "caller": "SetupCollisionTrigger",
+          "callee": "new UnityEvent",
+          "lineNumber": 88
+        },
+        {
+          "caller": "SetupCollisionTrigger",
+          "callee": "triggerObj.onTriggerEnter.AddListener",
+          "lineNumber": 89
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "new GameObject",
+          "lineNumber": 94
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "child.transform.SetParent",
+          "lineNumber": 95
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "child.AddComponent<SphereCollider>",
+          "lineNumber": 98
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "child.AddComponent<TriggerObject>",
+          "lineNumber": 102
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "new UnityEvent",
+          "lineNumber": 104
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "new UnityEvent",
+          "lineNumber": 105
+        },
+        {
+          "caller": "SetupInteractTrigger",
+          "callee": "gameObject.AddComponent<RuntimeInteractProxy>",
+          "lineNumber": 107
+        },
+        {
+          "caller": "SetupEventListener",
+          "callee": "CEventRouter.Instance.Subscribe",
+          "lineNumber": 114
+        },
+        {
+          "caller": "HandleTrigger",
+          "callee": "@params.Dispatch",
+          "lineNumber": 137
+        },
+        {
+          "caller": "HandleTrigger",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 139
+        },
+        {
+          "caller": "HandleTrigger",
+          "callee": "gameObject.SetActive",
+          "lineNumber": 147
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "CEventRouter.Instance.Unsubscribe",
+          "lineNumber": 154
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "Interact",
+          "startLine": 22,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "OnFocused",
+          "startLine": 27,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "OnUnfocused",
+          "startLine": 32,
+          "endLine": 35,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "RuntimeInteractProxy",
+          "startLine": 14,
+          "endLine": 36,
+          "methods": [
+            "Interact",
+            "OnFocused",
+            "OnUnfocused"
+          ],
+          "properties": [
+            "OperationDescription",
+            "CanInteract"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OperationDescription",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "CanInteract",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Interact",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "OnFocused",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "OnUnfocused",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "RuntimeInteractProxy",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Interact",
+          "callee": "OnInteract?.Invoke",
+          "lineNumber": 24
+        },
+        {
+          "caller": "OnFocused",
+          "callee": "Debug.Log",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OnUnfocused",
+          "callee": "Debug.Log",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "ValueEventDefinition",
+          "startLine": 56,
+          "endLine": 62,
+          "params": [
+            "name",
+            "valueType",
+            "description",
+            "module"
+          ]
+        },
+        {
+          "name": "GetNestedTypeName",
+          "startLine": 86,
+          "endLine": 100,
+          "params": [
+            "type"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ValueEventTemplateConfig",
+          "startLine": 19,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "Events"
+          ]
+        },
+        {
+          "name": "ValueEventDefinition",
+          "startLine": 48,
+          "endLine": 104,
+          "methods": [
+            "ValueEventDefinition",
+            "GetNestedTypeName"
+          ],
+          "properties": [
+            "Name",
+            "ValueType",
+            "Description",
+            "Module",
+            "FullName",
+            "TypeFullName",
+            "TypeName",
+            "TypeNamespace"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Events",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ValueEventTemplateConfig",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "ValueType",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "Description",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Module",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "ValueEventDefinition",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "FullName",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "TypeFullName",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "TypeName",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "TypeNamespace",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "ValueEventDefinition",
+          "line": 48,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetNestedTypeName",
+          "callee": "new List<string>",
+          "lineNumber": 88
+        },
+        {
+          "caller": "GetNestedTypeName",
+          "callee": "names.Insert",
+          "lineNumber": 94
+        },
+        {
+          "caller": "GetNestedTypeName",
+          "callee": "string.Join",
+          "lineNumber": 99
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 2,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/TriggerMode.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "Create",
+          "startLine": 15,
+          "endLine": 21,
+          "params": [
+            "name",
+            "value"
+          ]
+        },
+        {
+          "name": "GetId",
+          "startLine": 22,
+          "endLine": 22,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "GetEventId",
+          "startLine": 23,
+          "endLine": 23,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 24,
+          "endLine": 28,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ValueChangeEventArgs",
+          "startLine": 8,
+          "endLine": 29,
+          "methods": [
+            "Create",
+            "GetId",
+            "GetEventId",
+            "Clear"
+          ],
+          "properties": [
+            "Id",
+            "Value",
+            "Name"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Value",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Create",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "GetId",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "GetEventId",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ValueChangeEventArgs",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Create",
+          "callee": "ReferencePool.Acquire<ValueChangeEventArgs<T>>",
+          "lineNumber": 17
+        },
+        {
+          "caller": "GetId",
+          "callee": "(new TypeNamePair(typeof(T), name)).GetHashCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GetId",
+          "callee": "new TypeNamePair",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GetEventId",
+          "callee": "(new TypeNamePair(typeof(T), name)).GetHashCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "GetEventId",
+          "callee": "new TypeNamePair",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 60,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 19,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "UnInit",
+          "startLine": 37,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "GetConfig",
+          "startLine": 42,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "LoadConfig",
+          "startLine": 52,
+          "endLine": 66,
+          "params": [
+            "resourcePath"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AppConfigManager",
+          "startLine": 15,
+          "endLine": 67,
+          "methods": [
+            "Init",
+            "UnInit",
+            "GetConfig",
+            "LoadConfig"
+          ],
+          "properties": [
+            "_configs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Init",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "UnInit",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "GetConfig",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "AppConfigManager",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "LoadConfig<AppSettingsConfig>",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Init",
+          "callee": "LoadConfig<PlayerConfig>",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Init",
+          "callee": "LoadConfig<BuffModelConfig>",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Init",
+          "callee": "GetConfig<BuffModelConfig>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Init",
+          "callee": "buffConfig?.Init",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Init",
+          "callee": "LoadConfig<BulletConfigCollection>",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Init",
+          "callee": "GetConfig<BulletConfigCollection>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Init",
+          "callee": "bulletConfig?.Init",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Init",
+          "callee": "LoadConfig<SceneConfigCollection>",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Init",
+          "callee": "LoadConfig<PlacedEventTable>",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Init",
+          "callee": "Debug.Log",
+          "lineNumber": 34
+        },
+        {
+          "caller": "UnInit",
+          "callee": "_configs.Clear",
+          "lineNumber": 39
+        },
+        {
+          "caller": "GetConfig",
+          "callee": "_configs.TryGetValue",
+          "lineNumber": 44
+        },
+        {
+          "caller": "GetConfig",
+          "callee": "Debug.LogError",
+          "lineNumber": 48
+        },
+        {
+          "caller": "LoadConfig",
+          "callee": "Resources.Load<T>",
+          "lineNumber": 54
+        },
+        {
+          "caller": "LoadConfig",
+          "callee": "Debug.Log",
+          "lineNumber": 58
+        },
+        {
+          "caller": "LoadConfig",
+          "callee": "ScriptableObject.CreateInstance<T>",
+          "lineNumber": 62
+        },
+        {
+          "caller": "LoadConfig",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 27,
+      "classes": [
+        {
+          "name": "AppSettingsConfig",
+          "startLine": 10,
+          "endLine": 32,
+          "methods": [],
+          "properties": [
+            "maxSaveCount",
+            "startSceneName",
+            "runningMode",
+            "orderInterval",
+            "loadLayerCount",
+            "defaultPlayerSpawnPosition",
+            "defaultPlayerSpawnRotation",
+            "devMode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "maxSaveCount",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "startSceneName",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "runningMode",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "orderInterval",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "loadLayerCount",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "defaultPlayerSpawnPosition",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "defaultPlayerSpawnRotation",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "devMode",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "AppSettingsConfig",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 140,
+      "nonEmptyLines": 124,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 18,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "Get",
+          "startLine": 38,
+          "endLine": 43,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "TryGet",
+          "startLine": 45,
+          "endLine": 49,
+          "params": [
+            "id",
+            "entry"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BulletConfigCollection",
+          "startLine": 11,
+          "endLine": 50,
+          "methods": [
+            "Init",
+            "Get",
+            "TryGet"
+          ],
+          "properties": [
+            "Configs",
+            "_lookup"
+          ]
+        },
+        {
+          "name": "BulletConfigEntry",
+          "startLine": 108,
+          "endLine": 137,
+          "methods": [],
+          "properties": [
+            "Id",
+            "DetectionMode",
+            "VisualPrefab",
+            "VisualBlendTime",
+            "MaxLifetime",
+            "HitBehaviors",
+            "MovementModifiers"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Configs",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Get",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "TryGet",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "BulletConfigCollection",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Id",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "DetectionMode",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "VisualPrefab",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "VisualBlendTime",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "MaxLifetime",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "HitBehaviors",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "MovementModifiers",
+          "line": 134,
+          "isDefault": false
+        },
+        {
+          "name": "BulletConfigEntry",
+          "line": 108,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "new Dictionary<BulletId, BulletConfigEntry>",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Init",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Init",
+          "callee": "_lookup.ContainsKey",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Init",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Init",
+          "callee": "Debug.Log",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Get",
+          "callee": "Init",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Get",
+          "callee": "_lookup.TryGetValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "TryGet",
+          "callee": "Init",
+          "lineNumber": 47
+        },
+        {
+          "caller": "TryGet",
+          "callee": "_lookup.TryGetValue",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 13,
+        "functionCount": 3,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Config/IConfigProvider.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "IConfigProvider",
+          "startLine": 8,
+          "endLine": 11,
+          "methods": [
+            "GetConfig"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IConfigProvider",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 15,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "UnInit",
+          "startLine": 16,
+          "endLine": 20,
+          "params": []
+        },
+        {
+          "name": "AddFrameUpdate",
+          "startLine": 22,
+          "endLine": 22,
+          "params": [
+            "entity"
+          ]
+        },
+        {
+          "name": "RemoveFrameUpdate",
+          "startLine": 23,
+          "endLine": 23,
+          "params": [
+            "entity"
+          ]
+        },
+        {
+          "name": "AddLogicUpdate",
+          "startLine": 24,
+          "endLine": 24,
+          "params": [
+            "entity"
+          ]
+        },
+        {
+          "name": "RemoveLogicUpdate",
+          "startLine": 25,
+          "endLine": 25,
+          "params": [
+            "entity"
+          ]
+        },
+        {
+          "name": "FrameUpdate",
+          "startLine": 27,
+          "endLine": 32,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 34,
+          "endLine": 39,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EntityUpdateSystem",
+          "startLine": 7,
+          "endLine": 40,
+          "methods": [
+            "Init",
+            "UnInit",
+            "AddFrameUpdate",
+            "RemoveFrameUpdate",
+            "AddLogicUpdate",
+            "RemoveLogicUpdate",
+            "FrameUpdate",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_frameUpdates",
+            "_logicUpdates",
+            "FrameUpdateScope",
+            "LogicUpdateScope"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FrameUpdateScope",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdateScope",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "UnInit",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "AddFrameUpdate",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveFrameUpdate",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "AddLogicUpdate",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveLogicUpdate",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "FrameUpdate",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "EntityUpdateSystem",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UnInit",
+          "callee": "_frameUpdates.Clear",
+          "lineNumber": 18
+        },
+        {
+          "caller": "UnInit",
+          "callee": "_logicUpdates.Clear",
+          "lineNumber": 19
+        },
+        {
+          "caller": "AddFrameUpdate",
+          "callee": "_frameUpdates.Add",
+          "lineNumber": 22
+        },
+        {
+          "caller": "RemoveFrameUpdate",
+          "callee": "_frameUpdates.Remove",
+          "lineNumber": 23
+        },
+        {
+          "caller": "AddLogicUpdate",
+          "callee": "_logicUpdates.Add",
+          "lineNumber": 24
+        },
+        {
+          "caller": "RemoveLogicUpdate",
+          "callee": "_logicUpdates.Remove",
+          "lineNumber": 25
+        },
+        {
+          "caller": "FrameUpdate",
+          "callee": "_frameUpdates.GetIterableSnapshot",
+          "lineNumber": 29
+        },
+        {
+          "caller": "FrameUpdate",
+          "callee": "entity.FrameUpdate",
+          "lineNumber": 31
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_logicUpdates.GetIterableSnapshot",
+          "lineNumber": 36
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "entity.LogicUpdate",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Entity/IEntityFrameUpdate.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "IEntityFrameUpdate",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "FrameUpdate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IEntityFrameUpdate",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Entity/IEntityLogicUpdate.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "IEntityLogicUpdate",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "LogicUpdate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IEntityLogicUpdate",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/Entity/IEntityUpdateSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "IEntityUpdateSystem",
+          "startLine": 5,
+          "endLine": 11,
+          "methods": [
+            "AddFrameUpdate",
+            "RemoveFrameUpdate",
+            "AddLogicUpdate",
+            "RemoveLogicUpdate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IEntityUpdateSystem",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 100,
+      "nonEmptyLines": 84,
+      "functions": [
+        {
+          "name": "DoInit",
+          "startLine": 32,
+          "endLine": 92,
+          "params": []
+        },
+        {
+          "name": "DoStart",
+          "startLine": 94,
+          "endLine": 98,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "FrameworkDefault",
+          "startLine": 30,
+          "endLine": 99,
+          "methods": [
+            "DoInit",
+            "DoStart"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "FrameworkDefault",
+          "line": 30,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DoInit",
+          "callee": "EnemyRegister.Register",
+          "lineNumber": 35
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IConfigProvider>",
+          "lineNumber": 38
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new AppConfigManager",
+          "lineNumber": 38
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ISaveService>",
+          "lineNumber": 41
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new SaveSystem",
+          "lineNumber": 41
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IUserSettingsStorage>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new UserSettingsStorage",
+          "lineNumber": 44
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IBuffRegistry>",
+          "lineNumber": 47
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new BuffRegistry",
+          "lineNumber": 47
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IBuffTickSystem>",
+          "lineNumber": 48
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new BuffTickSystem",
+          "lineNumber": 48
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IEntityUpdateSystem>",
+          "lineNumber": 49
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new EntityUpdateSystem",
+          "lineNumber": 49
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IDamageSystem>",
+          "lineNumber": 50
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new DamageSystemDefault",
+          "lineNumber": 50
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IDeathSystem>",
+          "lineNumber": 51
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new DeathSystemDefault",
+          "lineNumber": 51
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IInteractSystem>",
+          "lineNumber": 54
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new InteractSystem",
+          "lineNumber": 54
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ICameraSystem>",
+          "lineNumber": 55
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new CameraSystemDefault",
+          "lineNumber": 55
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ISceneStateSystem>",
+          "lineNumber": 56
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new SceneSystem",
+          "lineNumber": 56
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ISceneLoadSystem>",
+          "lineNumber": 57
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new SceneLoadSystemDefault",
+          "lineNumber": 57
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ITeleportSystem>",
+          "lineNumber": 58
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new TeleportSystem",
+          "lineNumber": 58
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IPauseSystem>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new PauseManager",
+          "lineNumber": 59
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IGameManagerSystem>",
+          "lineNumber": 60
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new GameManager",
+          "lineNumber": 60
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.GetSystem<IGameManagerSystem>",
+          "lineNumber": 63
+        },
+        {
+          "caller": "DoInit",
+          "callee": "gameManager.RegisterSaveDataProvider",
+          "lineNumber": 64
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new MapSaveDataProvider",
+          "lineNumber": 64
+        },
+        {
+          "caller": "DoInit",
+          "callee": "gameManager.RegisterSaveDataProvider",
+          "lineNumber": 65
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new PlayerSaveDataProvider",
+          "lineNumber": 65
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ILaunchSystem>",
+          "lineNumber": 68
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new LaunchSystemDefault",
+          "lineNumber": 68
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IGameStartSystem>",
+          "lineNumber": 69
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new GameStartSystemDefault",
+          "lineNumber": 69
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IPlayerSystem>",
+          "lineNumber": 72
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new PlayerSystemDefault",
+          "lineNumber": 72
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IBulletSystem>",
+          "lineNumber": 73
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new BulletSystem",
+          "lineNumber": 73
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IEvolutionSystem>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new EvolutionSystem",
+          "lineNumber": 74
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ICombatStateSystem>",
+          "lineNumber": 77
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new CombatStateSystem",
+          "lineNumber": 77
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IAbilityWeaponSystem>",
+          "lineNumber": 78
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new AbilityWeaponSystem",
+          "lineNumber": 78
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ITimeScaleSystem>",
+          "lineNumber": 79
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new TimeScaleSystemDefault",
+          "lineNumber": 79
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<ISceneExecutorSystem>",
+          "lineNumber": 81
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new SceneExecutorSystemDefault",
+          "lineNumber": 81
+        },
+        {
+          "caller": "DoInit",
+          "callee": "SystemRep.RegisterSystem<IGMCommandSystem>",
+          "lineNumber": 84
+        },
+        {
+          "caller": "DoInit",
+          "callee": "new GMCommandSystemDefault",
+          "lineNumber": 84
+        },
+        {
+          "caller": "DoInit",
+          "callee": "BusinessLogicManager.Instance.CreateLogic<LoadingBusinessLogic>",
+          "lineNumber": 87
+        },
+        {
+          "caller": "DoInit",
+          "callee": "Debug.Log",
+          "lineNumber": 91
+        },
+        {
+          "caller": "DoStart",
+          "callee": "base.DoStart",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 62,
+      "functions": [
+        {
+          "name": "Request",
+          "startLine": 31,
+          "endLine": 43,
+          "params": [
+            "source",
+            "targetScale",
+            "priority"
+          ]
+        },
+        {
+          "name": "ReleaseRequest",
+          "startLine": 45,
+          "endLine": 51,
+          "params": [
+            "handle"
+          ]
+        },
+        {
+          "name": "Init",
+          "startLine": 53,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "UnInit",
+          "startLine": 54,
+          "endLine": 54,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TimeScaleSystemDefault",
+          "startLine": 11,
+          "endLine": 68,
+          "methods": [
+            "Request",
+            "ReleaseRequest",
+            "Init",
+            "UnInit"
+          ],
+          "properties": [
+            "_requests",
+            "_nextId",
+            "EffectiveScale"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EffectiveScale",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Request",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "ReleaseRequest",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "UnInit",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "TimeScaleSystemDefault",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Request",
+          "callee": "new ScaleHandle",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Request",
+          "callee": "_requests.Add",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Request",
+          "callee": "new ScaleRequest",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Request",
+          "callee": "Debug.Log",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ReleaseRequest",
+          "callee": "_requests.RemoveAll",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ReleaseRequest",
+          "callee": "Debug.Log",
+          "lineNumber": 50
+        },
+        {
+          "caller": "UnInit",
+          "callee": "_requests.Clear",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/ActorInfo.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 58,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "Initialize",
+          "startLine": 11,
+          "endLine": 14,
+          "params": [
+            "characterState"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerArmorInitializer",
+          "startLine": 8,
+          "endLine": 15,
+          "methods": [
+            "Initialize"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Initialize",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerArmorInitializer",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Initialize",
+          "callee": "SystemRepository.Instance.GetSystem<IBuffRegistry>().AddBuff",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Initialize",
+          "callee": "SystemRepository.Instance.GetSystem<IBuffRegistry>",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Initialize",
+          "callee": "AddBuffInfo.Create",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "SetCamera",
+          "startLine": 11,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "Initialize",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "characterState"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerCameraInitializer",
+          "startLine": 7,
+          "endLine": 31,
+          "methods": [
+            "SetCamera",
+            "Initialize"
+          ],
+          "properties": [
+            "mainCameraTransform"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Initialize",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerCameraInitializer",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetCamera",
+          "callee": "new Exception",
+          "lineNumber": 15
+        },
+        {
+          "caller": "SetCamera",
+          "callee": "camTrans.SetParent",
+          "lineNumber": 18
+        },
+        {
+          "caller": "SetCamera",
+          "callee": "camTrans.gameObject.GetComponent<Camera>",
+          "lineNumber": 21
+        },
+        {
+          "caller": "SetCamera",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Initialize",
+          "callee": "SetCamera",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "Initialize",
+          "startLine": 15,
+          "endLine": 26,
+          "params": [
+            "characterState"
+          ]
+        },
+        {
+          "name": "UpdateArmor",
+          "startLine": 28,
+          "endLine": 31,
+          "params": [
+            "armor"
+          ]
+        },
+        {
+          "name": "UpdateMaxHealth",
+          "startLine": 32,
+          "endLine": 35,
+          "params": [
+            "maxHealth"
+          ]
+        },
+        {
+          "name": "UpdateHealth",
+          "startLine": 36,
+          "endLine": 39,
+          "params": [
+            "health"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerUiInitializer",
+          "startLine": 11,
+          "endLine": 40,
+          "methods": [
+            "Initialize",
+            "UpdateArmor",
+            "UpdateMaxHealth",
+            "UpdateHealth"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Initialize",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerUiInitializer",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Initialize",
+          "callee": "UpdateMaxHealth",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Initialize",
+          "callee": "characterState.GetBuffs<ArmorBuff>().FirstOrDefault",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Initialize",
+          "callee": "characterState.GetBuffs<ArmorBuff>",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Initialize",
+          "callee": "UpdateArmor",
+          "lineNumber": 24
+        },
+        {
+          "caller": "UpdateArmor",
+          "callee": "GameEntry.Event.FirePlayerArmor",
+          "lineNumber": 30
+        },
+        {
+          "caller": "UpdateMaxHealth",
+          "callee": "GameEntry.Event.FirePlayerMaxHealth",
+          "lineNumber": 34
+        },
+        {
+          "caller": "UpdateHealth",
+          "callee": "GameEntry.Event.FirePlayerHealth",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    }
+  ]
+}

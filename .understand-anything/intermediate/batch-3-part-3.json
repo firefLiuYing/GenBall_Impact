@@ -1,0 +1,991 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs",
+      "type": "file",
+      "name": "EntityEventId.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs",
+      "summary": "实体事件 ID 常量定义文件，声明 BattleEntity 层面的事件标识符。",
+      "tags": [
+        "constants",
+        "event-id",
+        "battle-entity"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "type": "file",
+      "name": "EventDispatcherComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "summary": "事件分发组件，封装 EventDispatcher 为 BattleEntity 组件，提供 Subscribe/Unsubscribe/FireNow 的多个泛型重载。",
+      "tags": [
+        "component",
+        "event-dispatcher",
+        "pub-sub",
+        "battle-entity"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:EventDispatcherComponent",
+      "type": "class",
+      "name": "EventDispatcherComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        9,
+        45
+      ],
+      "summary": "实体级事件分发器，封装 EventDispatcher，为 BattleEntity 提供类型安全的本地事件订阅/发布。",
+      "tags": [
+        "component",
+        "event-dispatcher",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:EventDispatcherComponent",
+      "type": "function",
+      "name": "EventDispatcherComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "构造函数：缓存实体引用并创建内部 EventDispatcher。",
+      "tags": [
+        "constructor",
+        "event",
+        "dispatcher"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        21,
+        21
+      ],
+      "summary": "订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "subscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        22,
+        22
+      ],
+      "summary": "订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "subscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        23,
+        23
+      ],
+      "summary": "订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "subscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        24,
+        24
+      ],
+      "summary": "订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "subscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "function",
+      "name": "Unsubscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        30,
+        30
+      ],
+      "summary": "取消订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "unsubscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "function",
+      "name": "Unsubscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        31,
+        31
+      ],
+      "summary": "取消订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "unsubscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "function",
+      "name": "Unsubscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        32,
+        32
+      ],
+      "summary": "取消订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "unsubscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "function",
+      "name": "Unsubscribe",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        33,
+        33
+      ],
+      "summary": "取消订阅指定 ID 的事件，提供多个泛型/非泛型重载。",
+      "tags": [
+        "unsubscribe",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "function",
+      "name": "FireNow",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        39,
+        39
+      ],
+      "summary": "立即触发指定 ID 的事件，提供多个泛型/非泛型多参数重载。",
+      "tags": [
+        "fire",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "function",
+      "name": "FireNow",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        40,
+        40
+      ],
+      "summary": "立即触发指定 ID 的事件，提供多个泛型/非泛型多参数重载。",
+      "tags": [
+        "fire",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "function",
+      "name": "FireNow",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        41,
+        41
+      ],
+      "summary": "立即触发指定 ID 的事件，提供多个泛型/非泛型多参数重载。",
+      "tags": [
+        "fire",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "function",
+      "name": "FireNow",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "lineRange": [
+        42,
+        42
+      ],
+      "summary": "立即触发指定 ID 的事件，提供多个泛型/非泛型多参数重载。",
+      "tags": [
+        "fire",
+        "event",
+        "pub-sub"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "type": "file",
+      "name": "HitReactionComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "summary": "受击反应组件，注册 StunCommand 执行器，在受到伤害时自动发出眩晕指令，通过计时器管理眩晕持续时长。",
+      "tags": [
+        "component",
+        "hit-reaction",
+        "stun",
+        "battle-entity",
+        "command-pattern"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:HitReactionComponent",
+      "type": "class",
+      "name": "HitReactionComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "lineRange": [
+        14,
+        67
+      ],
+      "summary": "受击反应组件，受到伤害时自动 Stun，注册 StunCommand 执行器并通过计时器管理眩晕持续。",
+      "tags": [
+        "component",
+        "hit-reaction",
+        "stun",
+        "command"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:HitReactionComponent",
+      "type": "function",
+      "name": "HitReactionComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "lineRange": [
+        25,
+        39
+      ],
+      "summary": "构造函数：注册 StunCommand 执行器并订阅 HealthChangedEventData 事件。",
+      "tags": [
+        "constructor",
+        "hit-reaction",
+        "registration",
+        "event"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:OnHealthChanged",
+      "type": "function",
+      "name": "OnHealthChanged",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "lineRange": [
+        41,
+        53
+      ],
+      "summary": "收到伤害时清空指令缓冲并发出 StunCommand，实现受击硬直效果。",
+      "tags": [
+        "hit-reaction",
+        "stun",
+        "event-handler",
+        "command"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:Stun",
+      "type": "function",
+      "name": "Stun",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "lineRange": [
+        55,
+        58
+      ],
+      "summary": "执行眩晕指令，设置眩晕定时器并更新 IsStunned 状态。",
+      "tags": [
+        "stun",
+        "hit-reaction",
+        "command"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "lineRange": [
+        60,
+        66
+      ],
+      "summary": "每帧递减眩晕计时器，到期时自动解除眩晕。",
+      "tags": [
+        "update",
+        "stun",
+        "timer"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "type": "file",
+      "name": "IDamageCalculator.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "summary": "伤害计算器接口，定义 Calculate(DamageContext) 方法签名，支持策略模式替换不同伤害公式。",
+      "tags": [
+        "interface",
+        "damage",
+        "calculator",
+        "strategy-pattern"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs:IDamageCalculator",
+      "type": "class",
+      "name": "IDamageCalculator",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "lineRange": [
+        7,
+        10
+      ],
+      "summary": "伤害计算器策略接口，定义 Calculate(DamageContext): float 签名。",
+      "tags": [
+        "interface",
+        "damage",
+        "strategy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "type": "file",
+      "name": "IDecisionLayer.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "summary": "决策层接口，定义 Dispatcher 属性和 MakeDecision 方法，PlayerDecisionLayer 和 EnemyDecisionLayer 均实现此接口。",
+      "tags": [
+        "interface",
+        "decision-layer",
+        "abstraction",
+        "battle-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs:IDecisionLayer",
+      "type": "class",
+      "name": "IDecisionLayer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "lineRange": [
+        3,
+        7
+      ],
+      "summary": "决策层抽象接口，暴露 CommandDispatcherComponent 和 MakeDecision 方法。",
+      "tags": [
+        "interface",
+        "decision-layer",
+        "abstraction"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "type": "file",
+      "name": "IPlayerInputEvents.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "summary": "玩家输入事件接口，暴露 MoveDirection 和 ViewDelta 属性，由 PlayerInputAdapter 实现，供 PlayerDecisionLayer 消费。",
+      "tags": [
+        "interface",
+        "input",
+        "player",
+        "abstraction"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs:IPlayerInputEvents",
+      "type": "class",
+      "name": "IPlayerInputEvents",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "lineRange": [
+        7,
+        20
+      ],
+      "summary": "玩家输入接口，定义 MoveDirection 和 ViewDelta 只读属性。",
+      "tags": [
+        "interface",
+        "input",
+        "player"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "type": "file",
+      "name": "PlayerDecisionLayer.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "summary": "玩家决策层，实现 IDecisionLayer，将玩家输入转化为战斗指令（移动/跳跃/闪避/射击/换弹/交互/技能等），通过 CommandDispatcherComponent 发出。",
+      "tags": [
+        "decision-layer",
+        "player",
+        "input",
+        "command-pattern",
+        "battle-entity"
+      ],
+      "complexity": "complex",
+      "languageNotes": "包含 14 个方法，Handle* 系列方法各自处理一个输入维度，ResolveDispatcher 延迟解析分发器引用。约 200 行。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "type": "class",
+      "name": "PlayerDecisionLayer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        19,
+        198
+      ],
+      "summary": "玩家输入决策层，将 IPlayerInputEvents 和 InputHandler 的状态转化为 Move/Jump/Dash/Fire/Reload 等指令并提交给 CommandDispatcher。",
+      "tags": [
+        "decision-layer",
+        "player",
+        "input",
+        "command"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "type": "function",
+      "name": "PlayerDecisionLayer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        31,
+        49
+      ],
+      "summary": "构造函数：接收 BattleEntity 和 IPlayerInputEvents，初始化 DashCooldown/DashSpeed 等配置。",
+      "tags": [
+        "constructor",
+        "player",
+        "initialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        55,
+        76
+      ],
+      "summary": "玩家主更新循环：发出 MoveCommand/RotateCommand，然后调用所有 Handle* 方法处理各类输入。",
+      "tags": [
+        "update",
+        "player",
+        "input",
+        "command"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:MakeDecision",
+      "type": "function",
+      "name": "MakeDecision",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        78,
+        83
+      ],
+      "summary": "委托给 LogicUpdate 执行决策（IDecisionLayer 接口实现）。",
+      "tags": [
+        "decision",
+        "player",
+        "delegation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:HandleJump",
+      "type": "function",
+      "name": "HandleJump",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        89,
+        108
+      ],
+      "summary": "处理跳跃输入：短按/长按跳跃高度区分，Coyote Time 和跳跃缓冲支持。",
+      "tags": [
+        "jump",
+        "input",
+        "coyote-time",
+        "buffering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:HandleDash",
+      "type": "function",
+      "name": "HandleDash",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        110,
+        121
+      ],
+      "summary": "处理闪避输入：冷却计时器管理，冷却结束且按下闪避时发出 DashCommand。",
+      "tags": [
+        "dash",
+        "input",
+        "cooldown"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:HandleAbilityWheel",
+      "type": "function",
+      "name": "HandleAbilityWheel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "lineRange": [
+        166,
+        179
+      ],
+      "summary": "处理技能轮盘输入：按下时进入慢动作轮盘模式，通过 SwitchWeaponCommand 切换武器并控制时间缩放。",
+      "tags": [
+        "ability-wheel",
+        "weapon-switch",
+        "time-scale",
+        "input"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:EventDispatcherComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:EventDispatcherComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:EventDispatcherComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:EventDispatcherComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Subscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:Unsubscribe",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs:FireNow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:HitReactionComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:HitReactionComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:HitReactionComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:HitReactionComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:OnHealthChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:Stun",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:Stun",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs:IDamageCalculator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs:IDamageCalculator",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs:IDecisionLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs:IDecisionLayer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs:IPlayerInputEvents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs:IPlayerInputEvents",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:MakeDecision",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:MakeDecision",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:HandleJump",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:HandleDash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:HandleAbilityWheel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs:PlayerDecisionLayer",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs:IDecisionLayer",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

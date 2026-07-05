@@ -1,0 +1,391 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerManager.cs",
+      "type": "file",
+      "name": "PlayerManager.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerManager.cs",
+      "summary": "玩家管理器 IComponent 实现，提供 CreatePlayer 工厂方法并管理玩家在 Entry 生命周期中的创建和注销。",
+      "tags": ["player", "manager", "factory", "component", "lifecycle"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerRotater.cs",
+      "type": "file",
+      "name": "PlayerRotater.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerRotater.cs",
+      "summary": "玩家视角旋转器，根据视角输入增量计算并应用摄像机水平旋转和玩家垂直旋转。",
+      "tags": ["player", "rotation", "camera", "input"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/PlayerRotater.cs:Rotate",
+      "type": "function",
+      "name": "Rotate",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerRotater.cs",
+      "lineRange": [9, 28],
+      "summary": "根据输入增量计算摄像机俯仰角和玩家偏航角，应用 Clamp 限制俯仰范围，通过四元数旋转摄像机。",
+      "tags": ["rotation", "camera", "clamp", "quaternion"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerSaveData.cs",
+      "type": "file",
+      "name": "PlayerSaveData.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerSaveData.cs",
+      "summary": "玩家存档数据结构，包含最后存档点索引和场景名称。",
+      "tags": ["data-model", "save", "player", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs",
+      "type": "file",
+      "name": "PlayerSaveDataProvider.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs",
+      "summary": "玩家存档数据提供者，实现 ISaveDataProvider 接口，负责序列化/反序列化 PlayerSaveData 并合并存档字段。",
+      "tags": ["save", "player", "serialization", "data-provider"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs:MergeSaveFields",
+      "type": "function",
+      "name": "MergeSaveFields",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs",
+      "lineRange": [32, 43],
+      "summary": "将存档字段字典合并到运行时 PlayerSaveData 中（解析 lastSavePointIndex 和 lastSceneName）。",
+      "tags": ["save", "merge", "data-parsing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs",
+      "type": "file",
+      "name": "PlayerSystemDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs",
+      "summary": "IPlayerSystem 的默认实现，通过 AppConfig 获取生成位置、使用 CResourceManager 加载玩家预制体并调用 PlayerEntityFactory 组装玩家实体。",
+      "tags": ["player", "system", "implementation", "factory"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs:CreatePlayer",
+      "type": "function",
+      "name": "CreatePlayer",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs",
+      "lineRange": [39, 51],
+      "summary": "在指定位置和旋转创建玩家：加载预制体、实例化 GameObject、获取 PlayerConfig 并通过 PlayerEntityFactory.AssemblePlayer 组装。",
+      "tags": ["player", "creation", "factory", "entity-assembly"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "type": "file",
+      "name": "PlayerDashState.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "summary": "玩家冲刺状态，实现短距离快速位移、无敌时间和倒计时冷却逻辑。",
+      "tags": ["player", "state", "dash", "movement"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState",
+      "type": "class",
+      "name": "PlayerDashState",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "lineRange": [10, 119],
+      "summary": "玩家冲刺 FSM 状态，管理冲刺方向、速度、无敌时间和持续时间，支持状态转换回移动/跳跃。",
+      "tags": ["player", "state", "dash", "fsm"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:OnEnter",
+      "type": "function",
+      "name": "OnEnter",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "lineRange": [36, 50],
+      "summary": "进入冲刺状态时获取 FSM 变量、初始化配置和冲刺参数、开始冲刺倒计时。",
+      "tags": ["state-enter", "dash", "initialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:OnExit",
+      "type": "function",
+      "name": "OnExit",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "lineRange": [52, 61],
+      "summary": "退出冲刺状态时停止倒计时并重置冲刺速度为零。",
+      "tags": ["state-exit", "dash", "cleanup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:OnUpdate",
+      "type": "function",
+      "name": "OnUpdate",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "lineRange": [63, 81],
+      "summary": "冲刺状态帧更新：更新视角和速度，倒计时结束后转回 PlayerMoveState，检测离地转入 PlayerJumpState。",
+      "tags": ["state-update", "dash", "transition"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:InitArgs",
+      "type": "function",
+      "name": "InitArgs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "lineRange": [91, 101],
+      "summary": "初始化冲刺参数：根据移动输入或视角方向计算冲刺方向。",
+      "tags": ["dash", "initialization", "direction"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:ChangeView",
+      "type": "function",
+      "name": "ChangeView",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "lineRange": [106, 118],
+      "summary": "更新视角旋转：根据视角输入增量调整俯仰和偏航，应用 Clamp 限制。",
+      "tags": ["view", "rotation", "camera"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/States/PlayerInitState.cs",
+      "type": "file",
+      "name": "PlayerInitState.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerInitState.cs",
+      "summary": "玩家初始化状态，首次进入时初始化 AccessoryController，按地面状态自动转换到 PlayerMoveState 或 PlayerJumpState。",
+      "tags": ["player", "state", "initialization", "fsm"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerInitState.cs:OnUpdate",
+      "type": "function",
+      "name": "OnUpdate",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerInitState.cs",
+      "lineRange": [24, 34],
+      "summary": "初始化状态更新：根据地面状态自动转换到 PlayerMoveState（地面）或 PlayerJumpState（空中）。",
+      "tags": ["state-update", "transition", "initialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "type": "file",
+      "name": "PlayerJumpState.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "summary": "玩家跳跃状态，实现短按/长按跳跃、土狼时间（coyote time）、输入缓冲、重力加速度和空中移动等完整跳跃物理。",
+      "tags": ["player", "state", "jump", "physics", "coyote-time"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState",
+      "type": "class",
+      "name": "PlayerJumpState",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [10, 255],
+      "summary": "玩家跳跃 FSM 状态，通过观察 FSM 变量实现短按/长按跳跃高度控制、土狼时间（离地后短暂可跳跃）、输入缓冲和空中冲刺切换。",
+      "tags": ["player", "state", "jump", "fsm", "physics"],
+      "complexity": "complex",
+      "languageNotes": "使用 Variable.Observe 模式监听 OnGround/JumpInput/DashInput 变化，实现响应式状态转换。coyote time 和 jump buffer 是平台跳跃游戏经典设计。"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:InitConfigs",
+      "type": "function",
+      "name": "InitConfigs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [25, 37],
+      "summary": "从 PlayerConfigSo 加载跳跃相关配置并计算内部参数（按压/释放加速度、初始速度）。",
+      "tags": ["config", "initialization", "jump", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:OnEnter",
+      "type": "function",
+      "name": "OnEnter",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [53, 75],
+      "summary": "进入跳跃状态：获取 FSM 变量引用、初始化配置和参数、设置跳跃预输入为 True、注册事件监听。",
+      "tags": ["state-enter", "jump", "initialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:InitArgs",
+      "type": "function",
+      "name": "InitArgs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [97, 111],
+      "summary": "初始化跳跃参数：记录当前时间、重置跳跃按钮释放时间、初始化垂直速度策略委托。",
+      "tags": ["jump", "initialization", "parameters"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:GetVerticalVelocity",
+      "type": "function",
+      "name": "GetVerticalVelocity",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [114, 152],
+      "summary": "计算垂直速度的核心方法：实现跳跃上升段（被中断或到达最大高度后进入下降段）、下降段的重力加速和最大下落速度限制。",
+      "tags": ["jump", "physics", "velocity", "gravity"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:OnJumpInputChange",
+      "type": "function",
+      "name": "OnJumpInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [195, 214],
+      "summary": "响应跳跃输入变化：实现土狼时间（离地后允许短时间跳跃）和输入缓冲（按下后允许短时间落地起跳）。",
+      "tags": ["jump", "input", "coyote-time", "buffer"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:OnGroundChange",
+      "type": "function",
+      "name": "OnGroundChange",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [215, 229],
+      "summary": "响应地面状态变化：触地时处理缓冲跳跃自动重新起跳，离地时重置跳跃预输入。",
+      "tags": ["ground-detection", "transition", "buffer"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:ChangeView",
+      "type": "function",
+      "name": "ChangeView",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [230, 242],
+      "summary": "更新视角旋转：根据视角输入增量调整俯仰和偏航，应用 Clamp 限制。",
+      "tags": ["view", "rotation", "camera"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:ChangeVelocity",
+      "type": "function",
+      "name": "ChangeVelocity",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "lineRange": [243, 254],
+      "summary": "更新速度：计算水平移动速度（基于移动输入和玩家朝向）和垂直速度（调用 GetVerticalVelocity），组合写入 FSM 变量。",
+      "tags": ["movement", "velocity", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+      "type": "file",
+      "name": "PlayerMoveState.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+      "summary": "玩家地面移动状态，处理地面行走移动、视角旋转，监听跳跃/冲刺/离地事件进行状态转换。",
+      "tags": ["player", "state", "movement", "fsm"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:PlayerMoveState",
+      "type": "class",
+      "name": "PlayerMoveState",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+      "lineRange": [10, 135],
+      "summary": "玩家地面移动 FSM 状态，通过观察 OnGround/DashInput/JumpInput 变量实现响应式状态转换。",
+      "tags": ["player", "state", "movement", "fsm"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:OnEnter",
+      "type": "function",
+      "name": "OnEnter",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+      "lineRange": [29, 41],
+      "summary": "进入移动状态：获取移动/视角/速度/跳跃等 FSM 变量、设置初始视角旋转、注册事件监听。",
+      "tags": ["state-enter", "movement", "initialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:ChangeView",
+      "type": "function",
+      "name": "ChangeView",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+      "lineRange": [113, 125],
+      "summary": "更新视角旋转：根据视角输入增量调整俯仰和偏航，应用 Clamp 限制。",
+      "tags": ["view", "rotation", "camera"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs",
+      "type": "file",
+      "name": "PlayerStateBase.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs",
+      "summary": "玩家状态基类，所有玩家 FSM 状态（Move/Jump/Dash/Init）的公共抽象基类。",
+      "tags": ["player", "state", "base-class", "fsm", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/ILaunchSystem.cs",
+      "type": "file",
+      "name": "ILaunchSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/ILaunchSystem.cs",
+      "summary": "定义启动系统接口，声明启动模式、起始场景名、跳过启动加载和带上下文启动游戏的方法签名。",
+      "tags": ["interface", "launch", "procedure", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs",
+      "type": "file",
+      "name": "ISceneExecutorSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs",
+      "summary": "定义场景执行系统接口和 SceneInitContext 数据上下文（包含 SpawnPosition/SpawnRotation）。",
+      "tags": ["interface", "scene", "procedure", "data-model", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs:SceneInitContext",
+      "type": "class",
+      "name": "SceneInitContext",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs",
+      "lineRange": [6, 12],
+      "summary": "场景初始化上下文数据结构，包含玩家生成位置和旋转。",
+      "tags": ["data-model", "scene", "spawn"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerRotater.cs", "target": "function:Assets/Scripts/GenBall/Player/PlayerRotater.cs:Rotate", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerRotater.cs", "target": "function:Assets/Scripts/GenBall/Player/PlayerRotater.cs:Rotate", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs", "target": "function:Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs:MergeSaveFields", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs", "target": "function:Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs:CreatePlayer", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs", "target": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:OnEnter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:OnExit", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:OnUpdate", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:InitArgs", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:ChangeView", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs", "target": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerInitState.cs", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerInitState.cs:OnUpdate", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs", "target": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:InitConfigs", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:OnEnter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:InitArgs", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:GetVerticalVelocity", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:OnJumpInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:OnGroundChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:ChangeView", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:ChangeVelocity", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs", "target": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs", "target": "class:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:PlayerMoveState", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:PlayerMoveState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:OnEnter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:PlayerMoveState", "target": "function:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:ChangeView", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs", "target": "class:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:PlayerMoveState", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs", "target": "class:Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs:SceneInitContext", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs", "target": "class:Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs:SceneInitContext", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerDashState.cs:PlayerDashState", "target": "file:Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs", "type": "inherits", "direction": "forward", "weight": 0.9},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs:PlayerJumpState", "target": "file:Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs", "type": "inherits", "direction": "forward", "weight": 0.9},
+    {"source": "class:Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs:PlayerMoveState", "target": "file:Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs", "type": "inherits", "direction": "forward", "weight": 0.9},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerManager.cs", "target": "file:Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs", "type": "depends_on", "direction": "forward", "weight": 0.6},
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs", "target": "file:Assets/Scripts/GenBall/Player/PlayerConfig.cs", "type": "depends_on", "direction": "forward", "weight": 0.6},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs", "target": "file:Assets/Scripts/GenBall/Player/PlayerSaveData.cs", "type": "depends_on", "direction": "forward", "weight": 0.6},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/States/PlayerInitState.cs", "target": "file:Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs", "type": "inherits", "direction": "forward", "weight": 0.9}
+  ]
+}

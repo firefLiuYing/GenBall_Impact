@@ -1,0 +1,892 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs",
+      "type": "file",
+      "name": "GrantAccessoryParams.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs",
+      "summary": "定义授予配件事件参数的轻量数据类，包含配件ID字段并通过Dispatch方法将事件通过CEventRouter全局事件总线分发。",
+      "tags": ["event-parameter", "data-model", "event-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs",
+      "type": "file",
+      "name": "OpenDoorParams.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs",
+      "summary": "定义开门事件参数的数据类，包含门对象ID和开门速度两个字段，通过Dispatch方法触发全局事件。",
+      "tags": ["event-parameter", "data-model", "event-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs",
+      "type": "file",
+      "name": "PlayDialogueParams.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs",
+      "summary": "定义播放对话事件参数的数据类，持有对话ID并通过CEventRouter分发事件通知。",
+      "tags": ["event-parameter", "data-model", "event-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs",
+      "type": "file",
+      "name": "SpawnEnemyParams.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs",
+      "summary": "定义生成敌人事件参数的数据类，包含敌人类型、生成位置/旋转、巡逻/侦测半径和AI行为等六项配置字段。",
+      "tags": ["event-parameter", "data-model", "event-system", "enemy"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs",
+      "type": "file",
+      "name": "UnlockSavePointParams.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs",
+      "summary": "定义解锁存档点事件参数的数据类，包含存档点ID用于通过全局事件总线通知存档系统。",
+      "tags": ["event-parameter", "data-model", "event-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "type": "file",
+      "name": "PlacedEventTable.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "summary": "定义关卡放置事件表及其条目结构，包含ValidateNoConflicts方法用于在编辑器中验证事件ID唯一性和合法性以避免事件ID冲突。",
+      "tags": ["event-system", "validation", "data-model", "config"],
+      "complexity": "moderate",
+      "languageNotes": "使用HashSet和Enum.GetValues进行O(1)查重的编辑器验证逻辑。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "type": "file",
+      "name": "RuntimeEventTrigger.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "summary": "运行时事件触发器MonoBehaviour，支持三种触发模式（碰撞触发、玩家交互触发、事件监听触发），具有冷却时间和最大触发次数控制，是关卡事件系统的核心执行组件。",
+      "tags": ["event-system", "monobehaviour", "entry-point", "trigger", "gameplay"],
+      "complexity": "complex",
+      "languageNotes": "使用动态JSON反序列化(Type.GetType + JsonUtility.FromJson)实现事件参数的运行时解析，支持三种互斥触发模式的多态设置。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs",
+      "type": "file",
+      "name": "RuntimeInteractProxy.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs",
+      "summary": "交互代理MonoBehaviour，为交互式事件触发器提供可见的操作描述和焦点状态回调，作为IInteractSystem与RuntimeEventTrigger之间的桥梁。",
+      "tags": ["event-system", "monobehaviour", "interaction", "proxy"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "type": "file",
+      "name": "ValueEventTemplateConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "summary": "定义值事件模板配置系统，包含ValueEventTemplateConfig（事件列表容器）和ValueEventDefinition（单个事件定义的Schema，含名称、类型、模块等元数据），支持嵌套类型名解析。",
+      "tags": ["event-system", "config", "template", "schema-definition"],
+      "complexity": "moderate",
+      "languageNotes": "通过GetNestedTypeName递归解析C#嵌套类型名称（含+分隔符），生成FullName和TypeName等派生属性。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/TriggerMode.cs",
+      "type": "file",
+      "name": "TriggerMode.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/TriggerMode.cs",
+      "summary": "定义事件触发模式的枚举：Collision（物理碰撞触发）、Interact（玩家交互触发）、EventListener（监听其他事件触发）。",
+      "tags": ["enum", "event-system", "trigger"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+      "type": "file",
+      "name": "ValueChangeEventArgs.cs",
+      "filePath": "Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+      "summary": "泛型值变化事件参数类，基于ReferencePool对象池管理，通过TypeNamePair生成事件ID，用于通知任意类型T的值变化。",
+      "tags": ["event-system", "generic", "data-model", "object-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "type": "file",
+      "name": "AppConfigManager.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "summary": "应用配置管理器，实现ISystem接口，负责加载和管理游戏运行所需的各类配置（AppSettings、Player、Buff、Bullet、Scene、PlacedEvent），支持ScriptableObject和Resources双模式加载。",
+      "tags": ["config", "isystem", "service", "resource-loading"],
+      "complexity": "moderate",
+      "languageNotes": "使用泛型LoadConfig<T>统一加载逻辑，优先从Resources加载ScriptableObject，失败时回退到CreateInstance兜底。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "type": "file",
+      "name": "AppSettingsConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "summary": "应用全局设置配置的ScriptableObject数据容器，定义最大存档数、启动场景、运行模式、加载参数、默认玩家生成点和开发者模式等核心启动参数。",
+      "tags": ["config", "scriptable-object", "data-model", "settings"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "type": "file",
+      "name": "BulletConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "summary": "子弹配置系统，包含BulletConfigCollection（基于Dictionary的ID查找集合）和BulletConfigEntry（定义检测模式、视觉预制体、存活时间、命中行为和移动修改器的子弹模版）。",
+      "tags": ["config", "bullet", "data-model", "scriptable-object"],
+      "complexity": "moderate",
+      "languageNotes": "Init方法将Configs列表转换为Dictionary实现O(1)查找，并包含重复ID检测的防御性警告。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Config/IConfigProvider.cs",
+      "type": "file",
+      "name": "IConfigProvider.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/IConfigProvider.cs",
+      "summary": "配置提供者接口，定义ISystem级别的配置服务契约，通过泛型GetConfig<T>方法提供类型安全的配置获取能力。",
+      "tags": ["interface", "config", "isystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "type": "file",
+      "name": "EntityUpdateSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "summary": "实体更新调度系统，实现ISystem和IFrameUpdate/ILogicUpdate接口，通过SafeIterableList管理实体的FrameUpdate和LogicUpdate注册，在每帧安全遍历并驱动实体更新。",
+      "tags": ["isystem", "entity", "update-loop", "service"],
+      "complexity": "simple",
+      "languageNotes": "使用SafeIterableList保证了更新遍历过程中的增删安全性，区分FrameUpdateScope和LogicUpdateScope限定了SystemUpdater的调度范围。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Entity/IEntityFrameUpdate.cs",
+      "type": "file",
+      "name": "IEntityFrameUpdate.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Entity/IEntityFrameUpdate.cs",
+      "summary": "实体帧更新接口，定义FrameUpdate(float deltaTime)方法，由EntityUpdateSystem每帧调用实体进行帧级更新。",
+      "tags": ["interface", "entity", "update-loop"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Entity/IEntityLogicUpdate.cs",
+      "type": "file",
+      "name": "IEntityLogicUpdate.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Entity/IEntityLogicUpdate.cs",
+      "summary": "实体逻辑更新接口，定义LogicUpdate(float deltaTime)方法，由EntityUpdateSystem按逻辑帧调用实体进行逻辑更新。",
+      "tags": ["interface", "entity", "update-loop"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/Entity/IEntityUpdateSystem.cs",
+      "type": "file",
+      "name": "IEntityUpdateSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/Entity/IEntityUpdateSystem.cs",
+      "summary": "实体更新系统接口，继承ISystem，定义AddFrameUpdate/RemoveFrameUpdate/AddLogicUpdate/RemoveLogicUpdate四个实体注册与注销方法。",
+      "tags": ["interface", "entity", "update-loop", "isystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "type": "file",
+      "name": "FrameworkDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "summary": "游戏框架初始化入口，在DoInit中集中注册所有ISystem服务到SystemRepository（配置、存档、Buff、实体更新、伤害、死亡、交互、相机、场景、传送、暂停、游戏管理、启动、玩家、子弹、进化、战斗状态、武器等20+系统），是项目的依赖注入配置中心。",
+      "tags": ["entry-point", "di-container", "isystem", "framework", "startup"],
+      "complexity": "complex",
+      "languageNotes": "使用显式构造注入模式（new + RegisterSystem），一次性注册全部系统实现，DoStart在初始化后触发基类启动流程。"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "type": "file",
+      "name": "TimeScaleSystemDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "summary": "时间缩放系统默认实现，支持多个来源按优先级请求不同的时间缩放倍率，通过Request/ReleaseRequest管理缩放句柄，EffectiveScale计算当前最高优先级请求的目标倍率。",
+      "tags": ["isystem", "time-scale", "service", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/ActorInfo.cs",
+      "type": "file",
+      "name": "ActorInfo.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/ActorInfo.cs",
+      "summary": "已废弃的玩家角色数据类（整个文件被注释），原用于持有MaxHealth、Health、KillPoints、Armor等属性并通过属性变更触发GameEntry事件。已被新架构替代。",
+      "tags": ["deprecated", "data-model", "player", "commented-out"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs",
+      "type": "file",
+      "name": "PlayerArmorInitializer.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs",
+      "summary": "玩家护甲初始化器，在玩家角色创建时为角色添加ArmorBuff护甲Buff，通过IBuffRegistry和AddBuffInfo完成Buff的生命周期绑定。",
+      "tags": ["initializer", "player", "buff", "armor"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "type": "file",
+      "name": "PlayerCameraInitializer.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "summary": "玩家相机初始化器，将主相机挂载到角色Transform下并设置为特定渲染层，SetCamera方法包含空检查和异常处理防御逻辑。",
+      "tags": ["initializer", "player", "camera", "setup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "type": "file",
+      "name": "PlayerUiInitializer.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "summary": "玩家UI初始化器，在角色初始化时通过GameEntry.Event触发PlayerMaxHealth事件，并从ArmorBuff读取护甲值更新UI；提供UpdateHealth、UpdateMaxHealth、UpdateArmor三个独立的UI刷新方法。",
+      "tags": ["initializer", "player", "ui", "event-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Event/PlacedEventTable.cs:PlacedEventTable",
+      "type": "class",
+      "name": "PlacedEventTable",
+      "filePath": "Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "lineRange": [12, 35],
+      "summary": "关卡放置事件表ScriptableObject，持有PlacedEventEntry列表并实现ValidateNoConflicts验证逻辑确保事件ID无冲突。",
+      "tags": ["config", "event-system", "validation", "scriptable-object"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Event/PlacedEventTable.cs:ValidateNoConflicts",
+      "type": "function",
+      "name": "ValidateNoConflicts",
+      "filePath": "Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "lineRange": [20, 34],
+      "summary": "验证放置事件表中的事件ID无重复且都在GlobalEventId枚举的有效范围内，使用HashSet实现O(1)查重。",
+      "tags": ["validation", "event-system", "editor-tool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:RuntimeEventTrigger",
+      "type": "class",
+      "name": "RuntimeEventTrigger",
+      "filePath": "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "lineRange": [17, 158],
+      "summary": "运行时事件触发器MonoBehaviour，支持Collision/Interact/EventListener三种触发模式，管理触发冷却、最大次数和事件参数反序列化。",
+      "tags": ["monobehaviour", "event-system", "trigger", "gameplay"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:Initialize",
+      "type": "function",
+      "name": "Initialize",
+      "filePath": "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "lineRange": [32, 57],
+      "summary": "初始化事件触发器，从配置数据反序列化事件参数类型和JSON数据，构建完整的参数对象列表并调用SetupTrigger进行具体触发模式的设置。",
+      "tags": ["event-system", "initialization", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:HandleTrigger",
+      "type": "function",
+      "name": "HandleTrigger",
+      "filePath": "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "lineRange": [117, 148],
+      "summary": "处理事件的触发逻辑，检查冷却时间和最大触发次数限制，遍历事件列表依次调用参数Dispatch或直接FireNow，并在触发后更新冷却时间戳和触发计数。",
+      "tags": ["event-system", "trigger", "gameplay"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs:ValueEventDefinition",
+      "type": "class",
+      "name": "ValueEventDefinition",
+      "filePath": "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "lineRange": [48, 104],
+      "summary": "值事件定义的可序列化Schema，包含事件名称、值类型、描述、模块归属等元数据，自动计算FullName、TypeFullName、TypeName和TypeNamespace等派生属性。",
+      "tags": ["config", "event-system", "schema-definition", "serializable"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs:GetNestedTypeName",
+      "type": "function",
+      "name": "GetNestedTypeName",
+      "filePath": "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "lineRange": [86, 100],
+      "summary": "递归解析C#嵌套类型的完整名称，将包含'+'分隔符的嵌套类型名转换为用'.'连接的标准命名空间路径格式。",
+      "tags": ["utility", "reflection", "naming"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs:ValueChangeEventArgs",
+      "type": "class",
+      "name": "ValueChangeEventArgs",
+      "filePath": "Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+      "lineRange": [8, 29],
+      "summary": "泛型值变化事件参数类，继承BaseEventArgs，通过ReferencePool对象池管理生命周期，使用TypeNamePair生成哈希事件ID以支持不同类型的值变化通知。",
+      "tags": ["event-system", "generic", "data-model", "object-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:AppConfigManager",
+      "type": "class",
+      "name": "AppConfigManager",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "lineRange": [15, 67],
+      "summary": "应用配置管理器，实现IConfigProvider接口，通过Dictionary管理所有配置的加载/缓存/查询，Init时集中加载六大类配置。",
+      "tags": ["config", "isystem", "service", "resource-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "lineRange": [19, 35],
+      "summary": "系统初始化方法，依次加载AppSettings、Player、Buff、Bullet、Scene和PlacedEvent六种配置，并对需要后处理的配置调用其Init方法完成运行时准备。",
+      "tags": ["config", "initialization", "isystem"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:LoadConfig",
+      "type": "function",
+      "name": "LoadConfig",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "lineRange": [52, 66],
+      "summary": "泛型配置加载私有方法，优先从Resources目录加载ScriptableObject资源，失败时创建空实例作为兜底并输出警告日志。",
+      "tags": ["config", "resource-loading", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs:AppSettingsConfig",
+      "type": "class",
+      "name": "AppSettingsConfig",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "lineRange": [10, 32],
+      "summary": "应用全局设置的ScriptableObject，定义最大存档数、启动场景名、运行模式、场景加载配置和默认玩家生成点等核心启动参数。",
+      "tags": ["config", "scriptable-object", "settings"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:BulletConfigCollection",
+      "type": "class",
+      "name": "BulletConfigCollection",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "lineRange": [11, 50],
+      "summary": "子弹配置集合ScriptableObject，Init时将配置列表转为Dictionary，提供Get和TryGet基于BulletId的O(1)查询。",
+      "tags": ["config", "bullet", "scriptable-object", "data-lookup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:BulletConfigEntry",
+      "type": "class",
+      "name": "BulletConfigEntry",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "lineRange": [108, 137],
+      "summary": "单个子弹配置条目，定义ID、检测模式、视觉预制体、存活时间、命中行为和移动修改器等完整子弹参数。",
+      "tags": ["config", "bullet", "data-model", "serializable"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "lineRange": [18, 36],
+      "summary": "BulletConfigCollection的初始化方法，将Configs列表构建为Dictionary查找表，检测空配置和重复ID并输出防御性警告日志。",
+      "tags": ["config", "initialization", "bullet"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs:EntityUpdateSystem",
+      "type": "class",
+      "name": "EntityUpdateSystem",
+      "filePath": "Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "lineRange": [7, 40],
+      "summary": "实体更新调度系统，实现IEntityUpdateSystem/IFrameUpdate/ILogicUpdate，通过SafeIterableList分别管理帧更新和逻辑更新两组实体列表。",
+      "tags": ["isystem", "entity", "update-loop", "service"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs:FrameworkDefault",
+      "type": "class",
+      "name": "FrameworkDefault",
+      "filePath": "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "lineRange": [30, 99],
+      "summary": "框架初始化默认实现，在DoInit中以显式构造注入模式注册全部20+个ISystem服务到SystemRepository，是项目的依赖注入配置中心和启动入口。",
+      "tags": ["entry-point", "di-container", "framework", "startup", "isystem"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs:DoInit",
+      "type": "function",
+      "name": "DoInit",
+      "filePath": "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "lineRange": [32, 92],
+      "summary": "集中注册所有游戏系统的初始化方法，按功能分组依次注入ConfigProvider、SaveService、BuffRegistry、EntityUpdate、Damage、Death、Interact、Camera、Scene、GameManager、Player、Bullet、Evolution等全部业务系统。",
+      "tags": ["entry-point", "di-container", "initialization", "framework"],
+      "complexity": "complex",
+      "languageNotes": "60+行显式构造注入，是最核心的系统装配点，所有ISystem的实现选择在此决定。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs:TimeScaleSystemDefault",
+      "type": "class",
+      "name": "TimeScaleSystemDefault",
+      "filePath": "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "lineRange": [11, 68],
+      "summary": "时间缩放系统默认实现，实现ITimeScaleSystem接口，管理多个时间缩放请求并按优先级计算最终EffectiveScale。",
+      "tags": ["isystem", "time-scale", "service"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs:Request",
+      "type": "function",
+      "name": "Request",
+      "filePath": "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "lineRange": [31, 43],
+      "summary": "请求时间缩放变更，创建ScaleHandle句柄并记录调用源、目标倍率和优先级，返回句柄供后续ReleaseRequest使用。",
+      "tags": ["time-scale", "api-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs:PlayerCameraInitializer",
+      "type": "class",
+      "name": "PlayerCameraInitializer",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "lineRange": [7, 31],
+      "summary": "玩家相机初始化器，将主相机绑定到角色Transform并设置渲染层，包含SetCamera私有方法和Initialize公开入口。",
+      "tags": ["initializer", "player", "camera", "setup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs:SetCamera",
+      "type": "function",
+      "name": "SetCamera",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "lineRange": [11, 26],
+      "summary": "设置主相机到角色身上，包含空引用检查和异常抛出防御逻辑，将相机Transform设为角色子对象并配置渲染层。",
+      "tags": ["initializer", "camera", "setup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs:PlayerUiInitializer",
+      "type": "class",
+      "name": "PlayerUiInitializer",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "lineRange": [11, 40],
+      "summary": "玩家UI初始化器，在角色初始化时绑定健康/护甲/Buff数据到UI事件系统，提供Initialize、UpdateHealth、UpdateMaxHealth、UpdateArmor四个方法。",
+      "tags": ["initializer", "player", "ui", "event-system"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs:Initialize",
+      "type": "function",
+      "name": "Initialize",
+      "filePath": "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "lineRange": [15, 26],
+      "summary": "初始化玩家UI绑定，触发MaxHealth事件、从ArmorBuff读取护甲值并更新UI显示、订阅武器变更事件用于后续装备更新。",
+      "tags": ["initializer", "player", "ui", "event-system"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/PlacedEventTable.cs:PlacedEventTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "target": "function:Assets/Scripts/GenBall/Event/PlacedEventTable.cs:ValidateNoConflicts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/PlacedEventTable.cs:PlacedEventTable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "target": "function:Assets/Scripts/GenBall/Event/PlacedEventTable.cs:ValidateNoConflicts",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:RuntimeEventTrigger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "function:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:Initialize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "function:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:HandleTrigger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:RuntimeEventTrigger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "function:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs:Initialize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs:ValueEventDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "target": "function:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs:GetNestedTypeName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs:ValueEventDefinition",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs:ValueChangeEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+      "target": "class:Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs:ValueChangeEventArgs",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:AppConfigManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:LoadConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:AppConfigManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs:AppSettingsConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs:AppSettingsConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:BulletConfigCollection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:BulletConfigEntry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:BulletConfigCollection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:BulletConfigEntry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs:EntityUpdateSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs:EntityUpdateSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs:FrameworkDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs:DoInit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs:FrameworkDefault",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs:TimeScaleSystemDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs:Request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs:TimeScaleSystemDefault",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs:Request",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "target": "class:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs:PlayerCameraInitializer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "target": "function:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs:SetCamera",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+      "target": "class:Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs:PlayerCameraInitializer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "target": "class:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs:PlayerUiInitializer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "target": "function:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs:Initialize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "target": "class:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs:PlayerUiInitializer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "target": "function:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs:Initialize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "target": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "target": "file:Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+      "target": "file:Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "file:Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "file:Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/TriggerMode.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs",
+      "target": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+      "target": "file:Assets/Scripts/GenBall/Entry/GameEntry.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+      "target": "file:Assets/Scripts/GenBall/Event/GlobalEventId.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

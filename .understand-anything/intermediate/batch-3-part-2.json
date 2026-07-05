@@ -1,0 +1,1640 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "type": "file",
+      "name": "AttackComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "summary": "攻击组件，封装伤害计算逻辑，通过注入的 IDamageCalculator 结合攻方/武器/子弹属性计算最终伤害。",
+      "tags": [
+        "component",
+        "attack",
+        "damage-calculation",
+        "battle-entity",
+        "strategy-pattern"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:AttackComponent",
+      "type": "class",
+      "name": "AttackComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "lineRange": [
+        5,
+        34
+      ],
+      "summary": "攻击计算组件，持有 IDamageCalculator 策略，从 BattleEntity 获取 StatComponent 并构建 DamageContext 执行计算。",
+      "tags": [
+        "component",
+        "attack",
+        "damage",
+        "strategy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:AttackComponent",
+      "type": "function",
+      "name": "AttackComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "lineRange": [
+        10,
+        14
+      ],
+      "summary": "构造函数：缓存 entity 和 IDamageCalculator 引用。",
+      "tags": [
+        "constructor",
+        "attack",
+        "calculator"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:CalculateDamage",
+      "type": "function",
+      "name": "CalculateDamage",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "lineRange": [
+        19,
+        30
+      ],
+      "summary": "构建 DamageContext，从实体获取 StatComponent 作为攻方属性，委托 IDamageCalculator 计算最终伤害。",
+      "tags": [
+        "damage",
+        "calculation",
+        "strategy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "type": "file",
+      "name": "BattleEntity.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "summary": "战斗实体核心类，基于 MonoBehaviour 的 ECS 风格组件容器，支持按类型注册/获取/查询组件，自动注册 IEntityFrameUpdate/IEntityLogicUpdate 到 EntityUpdateSystem。",
+      "tags": [
+        "core",
+        "entity",
+        "component-container",
+        "battle-entity",
+        "ecs-pattern"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "使用 Dictionary<Type, object> 实现类型到组件的映射，RegisterByType 自动检测 IEntityFrameUpdate/IEntityLogicUpdate 并注册更新。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:BattleEntity",
+      "type": "class",
+      "name": "BattleEntity",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        9,
+        94
+      ],
+      "summary": "战斗实体 MonoBehaviour，ECS 风格的组件容器，支持按类型注册/获取/查询组件，生命周期管理包括自动注册更新系统和 OnDestroy 清理。",
+      "tags": [
+        "core",
+        "entity",
+        "component-container",
+        "ecs",
+        "lifecycle"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterComponent",
+      "type": "function",
+      "name": "RegisterComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "按组件自身类型注册组件。",
+      "tags": [
+        "registration",
+        "component",
+        "ecs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterComponentAs",
+      "type": "function",
+      "name": "RegisterComponentAs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        26,
+        29
+      ],
+      "summary": "按组件基础类型注册组件（支持接口注册）。",
+      "tags": [
+        "registration",
+        "component",
+        "interface",
+        "ecs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterByType",
+      "type": "function",
+      "name": "RegisterByType",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        32,
+        48
+      ],
+      "summary": "按类型注册组件到内部字典，同时检测 IEntityFrameUpdate/IEntityLogicUpdate 接口并自动注册到 EntityUpdateSystem。",
+      "tags": [
+        "registration",
+        "component",
+        "reflection",
+        "update-system"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:Get",
+      "type": "function",
+      "name": "Get",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        51,
+        55
+      ],
+      "summary": "按类型获取组件（不存在时抛异常）。",
+      "tags": [
+        "getter",
+        "component",
+        "ecs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:TryGet",
+      "type": "function",
+      "name": "TryGet",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        58,
+        67
+      ],
+      "summary": "按类型安全获取组件（out 参数模式）。",
+      "tags": [
+        "getter",
+        "component",
+        "ecs",
+        "safe"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:Has",
+      "type": "function",
+      "name": "Has",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        70,
+        73
+      ],
+      "summary": "检查实体是否拥有指定类型的组件。",
+      "tags": [
+        "check",
+        "component",
+        "ecs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:OnDestroy",
+      "type": "function",
+      "name": "OnDestroy",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "lineRange": [
+        75,
+        93
+      ],
+      "summary": "销毁时清理：通知 IDecisionLayer.Cleanup，从 EntityUpdateSystem 注销更新，清空组件字典。",
+      "tags": [
+        "lifecycle",
+        "cleanup",
+        "destroy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "type": "file",
+      "name": "BuffContainerComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "summary": "Buff 容器组件，管理 BattleEntity 上挂载的 IBuff 列表，提供 AddBuff/RemoveBuff 操作。",
+      "tags": [
+        "component",
+        "buff",
+        "container",
+        "battle-entity"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:BuffContainerComponent",
+      "type": "class",
+      "name": "BuffContainerComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "lineRange": [
+        10,
+        33
+      ],
+      "summary": "Buff 容器组件，维护 IBuff 列表，提供线程安全的增删接口。",
+      "tags": [
+        "component",
+        "buff",
+        "container"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:AddBuff",
+      "type": "function",
+      "name": "AddBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "lineRange": [
+        24,
+        27
+      ],
+      "summary": "向内部列表添加 IBuff 实例。",
+      "tags": [
+        "buff",
+        "add",
+        "container"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:RemoveBuff",
+      "type": "function",
+      "name": "RemoveBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "lineRange": [
+        29,
+        32
+      ],
+      "summary": "从内部列表移除指定 IBuff 实例。",
+      "tags": [
+        "buff",
+        "remove",
+        "container"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "type": "file",
+      "name": "BulletDamageCalculator.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "summary": "子弹伤害计算器，实现 IDamageCalculator，累加攻方属性、武器属性和子弹属性得到最终伤害值。",
+      "tags": [
+        "calculator",
+        "damage",
+        "bullet",
+        "battle-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:BulletDamageCalculator",
+      "type": "class",
+      "name": "BulletDamageCalculator",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "lineRange": [
+        3,
+        12
+      ],
+      "summary": "子弹伤害计算器，实现 IDamageCalculator，累加 DamageContext 中三方属性得最终伤害。",
+      "tags": [
+        "calculator",
+        "damage",
+        "bullet"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:Calculate",
+      "type": "function",
+      "name": "Calculate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "lineRange": [
+        5,
+        11
+      ],
+      "summary": "从 DamageContext 获取三方属性累加计算最终伤害。",
+      "tags": [
+        "damage",
+        "calculation",
+        "bullet"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "type": "file",
+      "name": "CommandDispatcherComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "summary": "指令分发器组件，战斗系统中枢，负责注册执行器、接收指令、仲裁冲突、缓冲指令并在 LogicUpdate 中逐帧执行活跃指令。支持 Move/Rotate/FaceDirection 的路由和 Attack/Jump/Dash 等动作指令的执行与完成检测。",
+      "tags": [
+        "core",
+        "command-dispatcher",
+        "arbitration",
+        "buffering",
+        "battle-entity"
+      ],
+      "complexity": "complex",
+      "languageNotes": "实现了完整的指令仲裁机制：Active 指令优先，冲突指令缓冲，完成回调触发 DrainBuffer 消费队列。多达 18 个方法，约 370 行。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CommandDispatcherComponent",
+      "type": "class",
+      "name": "CommandDispatcherComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        22,
+        370
+      ],
+      "summary": "指令分发器中枢组件，承担执行器注册、指令仲裁、缓冲队列管理、逐帧执行和完成回调等全部调度职责。",
+      "tags": [
+        "core",
+        "command-dispatcher",
+        "arbitration",
+        "scheduler"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CommandDispatcherComponent",
+      "type": "function",
+      "name": "CommandDispatcherComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        40,
+        43
+      ],
+      "summary": "构造函数：设置缓冲窗口时间。",
+      "tags": [
+        "constructor",
+        "command",
+        "dispatcher"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RegisterExecutor",
+      "type": "function",
+      "name": "RegisterExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        55,
+        80
+      ],
+      "summary": "注册命令执行器及其完成检测回调，按类型存入字典并委托执行器自身注册到实体。",
+      "tags": [
+        "registration",
+        "executor",
+        "command"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:UnregisterExecutor",
+      "type": "function",
+      "name": "UnregisterExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        86,
+        91
+      ],
+      "summary": "从执行器和完成检查字典中移除执行器。",
+      "tags": [
+        "unregister",
+        "executor",
+        "cleanup"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Issue",
+      "type": "function",
+      "name": "Issue",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        98,
+        118
+      ],
+      "summary": "接收指令：Move/Rotate/FaceDirection 直接路由执行，其他指令进入仲裁流程。",
+      "tags": [
+        "command",
+        "routing",
+        "arbitration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        124,
+        140
+      ],
+      "summary": "每帧清理过期缓冲条目，检查活跃指令是否完成（触发 DrainBuffer），如无活跃指令则从缓冲队列取出下一条。",
+      "tags": [
+        "update",
+        "buffer",
+        "scheduler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RouteMove",
+      "type": "function",
+      "name": "RouteMove",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        146,
+        156
+      ],
+      "summary": "将移动指令路由到已注册的 IMove 执行器并调用 Move。",
+      "tags": [
+        "routing",
+        "move",
+        "executor"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Arbiter",
+      "type": "function",
+      "name": "Arbiter",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        181,
+        202
+      ],
+      "summary": "指令仲裁：无活跃指令时直接激活；兼容指令替换活跃；否则缓冲新指令。",
+      "tags": [
+        "arbitration",
+        "command",
+        "buffering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Activate",
+      "type": "function",
+      "name": "Activate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        204,
+        218
+      ],
+      "summary": "激活指令：先取消当前活跃，记录新活跃指令和完成检测回调，然后通过 RouteExecutor 分发执行。",
+      "tags": [
+        "activation",
+        "command",
+        "executor"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CancelActive",
+      "type": "function",
+      "name": "CancelActive",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        220,
+        234
+      ],
+      "summary": "取消当前活跃指令，根据指令类型调用对应的 Cancel/Dash/AbilitySecondary 取消逻辑。",
+      "tags": [
+        "cancel",
+        "command",
+        "interruption"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:DrainBuffer",
+      "type": "function",
+      "name": "DrainBuffer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        240,
+        252
+      ],
+      "summary": "从缓冲队列取出并激活队首指令，跳过已完成或过期的条目。",
+      "tags": [
+        "buffer",
+        "drain",
+        "queue"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RouteExecutor",
+      "type": "function",
+      "name": "RouteExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        267,
+        314
+      ],
+      "summary": "核心路由方法，根据 cmdType 将指令分发到对应执行器（Attack/Jump/Dash/Reload/SwitchWeapon/Stun/Interact/Ability/Visibility/Wheel）。",
+      "tags": [
+        "routing",
+        "executor",
+        "dispatch",
+        "command"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:GetCommandType",
+      "type": "function",
+      "name": "GetCommandType",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        320,
+        336
+      ],
+      "summary": "通过类型判断链返回指令的枚举类型标识，用于路由和执行器查找。",
+      "tags": [
+        "type-check",
+        "command",
+        "routing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:HasExecutor",
+      "type": "function",
+      "name": "HasExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        348,
+        348
+      ],
+      "summary": "检查是否已注册指定类型的执行器。",
+      "tags": [
+        "check",
+        "executor"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:ClearBuffer",
+      "type": "function",
+      "name": "ClearBuffer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        350,
+        350
+      ],
+      "summary": "清空指令缓冲队列。",
+      "tags": [
+        "buffer",
+        "clear",
+        "command"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:ForceClearActive",
+      "type": "function",
+      "name": "ForceClearActive",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "lineRange": [
+        352,
+        357
+      ],
+      "summary": "强制取消活跃指令并清空缓冲。",
+      "tags": [
+        "force",
+        "clear",
+        "active",
+        "command"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "type": "file",
+      "name": "DamageContext.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "summary": "伤害上下文数据类，聚合攻击者、防御者、攻击属性、武器属性和子弹属性等伤害计算所需的所有参数。",
+      "tags": [
+        "data-model",
+        "damage",
+        "context",
+        "battle-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs:DamageContext",
+      "type": "class",
+      "name": "DamageContext",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "lineRange": [
+        9,
+        27
+      ],
+      "summary": "伤害计算上下文，聚合攻击方/防御方/攻击属性/武器属性/子弹属性/方向等数据。",
+      "tags": [
+        "data-model",
+        "damage",
+        "context"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "type": "file",
+      "name": "DamageReceiverComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "summary": "受伤组件，管理实体的生命值，处理 TakeDamage/Heal/Die 逻辑，通过 EventDispatcherComponent 触发生命值变化事件。",
+      "tags": [
+        "component",
+        "damage",
+        "health",
+        "battle-entity",
+        "event-driven"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:DamageReceiverComponent",
+      "type": "class",
+      "name": "DamageReceiverComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "lineRange": [
+        6,
+        101
+      ],
+      "summary": "受伤组件，管理 Health/MaxHealth/IsDead/IsInvincible 状态，处理伤害、治疗和死亡逻辑。",
+      "tags": [
+        "component",
+        "damage",
+        "health",
+        "lifecycle"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:DamageReceiverComponent",
+      "type": "function",
+      "name": "DamageReceiverComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "lineRange": [
+        15,
+        24
+      ],
+      "summary": "构造函数：从实体获取 StatComponent 并初始化 MaxHealth。",
+      "tags": [
+        "constructor",
+        "damage",
+        "health",
+        "stat"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:TakeDamage",
+      "type": "function",
+      "name": "TakeDamage",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "lineRange": [
+        26,
+        64
+      ],
+      "summary": "处理伤害：扣减护甲后扣减生命，触发 FireHealthChanged 事件，生命归零时调用 Die。",
+      "tags": [
+        "damage",
+        "health",
+        "armor",
+        "event"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:Heal",
+      "type": "function",
+      "name": "Heal",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "lineRange": [
+        66,
+        80
+      ],
+      "summary": "治疗逻辑：从 StatComponent 获取当前/最大生命值，限制治疗量不超过最大值。",
+      "tags": [
+        "heal",
+        "health",
+        "clamp"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:Die",
+      "type": "function",
+      "name": "Die",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "lineRange": [
+        82,
+        85
+      ],
+      "summary": "设置 IsDead 标志并调用 FireHealthChanged。",
+      "tags": [
+        "death",
+        "health",
+        "flag"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:FireHealthChanged",
+      "type": "function",
+      "name": "FireHealthChanged",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "lineRange": [
+        87,
+        100
+      ],
+      "summary": "通过 EventDispatcherComponent 发布 HealthChangedEventData，携带新旧生命值与伤害来源信息。",
+      "tags": [
+        "event",
+        "health-changed",
+        "notification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "type": "file",
+      "name": "DeathComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "summary": "死亡组件，监听 HealthChangedEventData，当生命值归零时调用 IDeathHandler.OnDeath 并通过 IDeathSystem 执行全局死亡逻辑。同时定义 IDeathHandler 接口。",
+      "tags": [
+        "component",
+        "death",
+        "health",
+        "battle-entity",
+        "event-driven"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:IDeathHandler",
+      "type": "class",
+      "name": "IDeathHandler",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "lineRange": [
+        22,
+        25
+      ],
+      "summary": "死亡处理接口，定义 OnDeath(DeathInfo) 回调供 DeathComponent 在生命值归零时调用。",
+      "tags": [
+        "interface",
+        "death",
+        "callback"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:DeathComponent",
+      "type": "class",
+      "name": "DeathComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "lineRange": [
+        35,
+        70
+      ],
+      "summary": "死亡组件，订阅 HealthChangedEventData，在生命值归零时依次调用 IDeathHandler.OnDeath 和 IDeathSystem.ApplyDeath。",
+      "tags": [
+        "component",
+        "death",
+        "event-driven",
+        "lifecycle"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:DeathComponent",
+      "type": "function",
+      "name": "DeathComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "lineRange": [
+        41,
+        49
+      ],
+      "summary": "构造函数：缓存实体和死亡处理器，订阅 HealthChangedEventData。",
+      "tags": [
+        "constructor",
+        "death",
+        "event",
+        "subscription"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:OnHealthChanged",
+      "type": "function",
+      "name": "OnHealthChanged",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "lineRange": [
+        51,
+        69
+      ],
+      "summary": "监听生命值变化：新生命值 <= 0 时构建 DeathInfo，调用 IDeathHandler.OnDeath 和 IDeathSystem.ApplyDeath。",
+      "tags": [
+        "death",
+        "health",
+        "event-handler",
+        "lifecycle"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "type": "file",
+      "name": "EnemyDecisionLayer.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "summary": "敌人决策层，实现 IDecisionLayer，管理敌方 AI 的 SimpleFsm 状态机，初始化 Idle/Chase/Attack/Wander 四个状态并通过 LogicUpdate 驱动决策。",
+      "tags": [
+        "ai",
+        "decision-layer",
+        "fsm",
+        "enemy",
+        "battle-entity"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "使用 SimpleFsm 替代 IFsm 作为轻量级状态机，通过 InitializeFsm 创建并配置四个 AI 决策状态。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "type": "class",
+      "name": "EnemyDecisionLayer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        24,
+        133
+      ],
+      "summary": "敌人 AI 决策层，实现 IDecisionLayer，管理 SimpleFsm 状态机，通过 IssueCommand 向 CommandDispatcher 发出指令。",
+      "tags": [
+        "ai",
+        "decision-layer",
+        "fsm",
+        "enemy"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "type": "function",
+      "name": "EnemyDecisionLayer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        39,
+        51
+      ],
+      "summary": "构造函数：从实体获取 EnemyDetector 和 AttackController，初始化 SimpleFsm 状态机。",
+      "tags": [
+        "constructor",
+        "ai",
+        "initialization",
+        "fsm"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:IssueCommand",
+      "type": "function",
+      "name": "IssueCommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        57,
+        60
+      ],
+      "summary": "通过 CommandDispatcher 发出指令的便捷封装。",
+      "tags": [
+        "command",
+        "issue",
+        "ai"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:MakeDecision",
+      "type": "function",
+      "name": "MakeDecision",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        66,
+        72
+      ],
+      "summary": "驱动 SimpleFsm 的 FixedUpdate，推进 AI 决策状态机。",
+      "tags": [
+        "decision",
+        "fsm",
+        "update",
+        "ai"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        74,
+        77
+      ],
+      "summary": "每帧调用 MakeDecision 驱动 AI 逻辑。",
+      "tags": [
+        "update",
+        "logic",
+        "ai"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:Cleanup",
+      "type": "function",
+      "name": "Cleanup",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        83,
+        90
+      ],
+      "summary": "关闭 SimpleFsm 状态机并清理资源。",
+      "tags": [
+        "cleanup",
+        "fsm",
+        "ai",
+        "shutdown"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:InitializeFsm",
+      "type": "function",
+      "name": "InitializeFsm",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "lineRange": [
+        98,
+        132
+      ],
+      "summary": "创建并配置 SimpleFsm，添加 Idle/Chase/Attack/Wander 四个状态并设置各自的 AIStateConfig。",
+      "tags": [
+        "fsm",
+        "initialization",
+        "ai",
+        "state-config"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:AttackComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:AttackComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:AttackComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:AttackComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:CalculateDamage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs:CalculateDamage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:BattleEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:BattleEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterComponentAs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterComponentAs",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:RegisterByType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:Get",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:Get",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:TryGet",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:TryGet",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:Has",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:Has",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs:OnDestroy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:BuffContainerComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:BuffContainerComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:AddBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:AddBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:RemoveBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs:RemoveBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:BulletDamageCalculator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:BulletDamageCalculator",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:Calculate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:Calculate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CommandDispatcherComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CommandDispatcherComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CommandDispatcherComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CommandDispatcherComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RegisterExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RegisterExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:UnregisterExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:UnregisterExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Issue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Issue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RouteMove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Arbiter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:Activate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:CancelActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:DrainBuffer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:RouteExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:GetCommandType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:HasExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:HasExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:ClearBuffer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:ClearBuffer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:ForceClearActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs:ForceClearActive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs:DamageContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs:DamageContext",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:DamageReceiverComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:DamageReceiverComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:DamageReceiverComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:DamageReceiverComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:TakeDamage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:TakeDamage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:Heal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:Heal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:Die",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:Die",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs:FireHealthChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:IDeathHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:IDeathHandler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:DeathComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:DeathComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:DeathComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:DeathComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs:OnHealthChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:IssueCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:IssueCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:MakeDecision",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:MakeDecision",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:Cleanup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:Cleanup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:InitializeFsm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs:BulletDamageCalculator",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs:IDamageCalculator",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs:EnemyDecisionLayer",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs:IDecisionLayer",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

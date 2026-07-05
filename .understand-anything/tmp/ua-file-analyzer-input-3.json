@@ -1,0 +1,183 @@
+{
+  "projectRoot": "D:/Apps/Unity/Unity Project/GenBall_Impact",
+  "batchFiles": [
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "language": "csharp",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "language": "csharp",
+      "sizeLines": 102,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "language": "csharp",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "language": "csharp",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "language": "csharp",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "language": "csharp",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "language": "csharp",
+      "sizeLines": 68,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "language": "csharp",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "language": "csharp",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "language": "csharp",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "language": "csharp",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "language": "csharp",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "language": "csharp",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "language": "csharp",
+      "sizeLines": 373,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "language": "csharp",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "language": "csharp",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "language": "csharp",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "language": "csharp",
+      "sizeLines": 135,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs",
+      "language": "csharp",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "language": "csharp",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "language": "csharp",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "language": "csharp",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "language": "csharp",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "language": "csharp",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "language": "csharp",
+      "sizeLines": 200,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs": []
+  },
+  "neighborMap": {}
+}

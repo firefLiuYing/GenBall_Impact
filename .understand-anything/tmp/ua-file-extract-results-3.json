@@ -1,0 +1,3711 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 90,
+      "nonEmptyLines": 74,
+      "functions": [
+        {
+          "name": "WeaponAttackExecutor",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "playerEntity",
+            "weaponSpawnPoint"
+          ]
+        },
+        {
+          "name": "EquipWeapon",
+          "startLine": 31,
+          "endLine": 35,
+          "params": [
+            "weaponEntity"
+          ]
+        },
+        {
+          "name": "UnequipWeapon",
+          "startLine": 37,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "Attack",
+          "startLine": 49,
+          "endLine": 52,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "Cancel",
+          "startLine": 54,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "Reload",
+          "startLine": 71,
+          "endLine": 75,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "SwitchWeapon",
+          "startLine": 81,
+          "endLine": 88,
+          "params": [
+            "cmd"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponAttackExecutor",
+          "startLine": 16,
+          "endLine": 89,
+          "methods": [
+            "WeaponAttackExecutor",
+            "EquipWeapon",
+            "UnequipWeapon",
+            "Attack",
+            "Cancel",
+            "Reload",
+            "SwitchWeapon"
+          ],
+          "properties": [
+            "_weaponEntity",
+            "_trigger",
+            "_weaponSpawnPoint",
+            "_playerEntity",
+            "CurrentWeapon",
+            "IsAttacking",
+            "IsReloading",
+            "IsSwitching"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WeaponAttackExecutor",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "EquipWeapon",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "UnequipWeapon",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "CurrentWeapon",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "IsAttacking",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "Attack",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "Cancel",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "IsReloading",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "Reload",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "IsSwitching",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "SwitchWeapon",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponAttackExecutor",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EquipWeapon",
+          "callee": "_weaponEntity?.TryGet<IWeaponTrigger>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Attack",
+          "callee": "_trigger?.SetTriggerState",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Cancel",
+          "callee": "_trigger?.SetTriggerState",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Reload",
+          "callee": "_weaponEntity.TryGet<WeaponMagazineExecutor>",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Reload",
+          "callee": "mag.Reload",
+          "lineNumber": 74
+        },
+        {
+          "caller": "SwitchWeapon",
+          "callee": "Debug.Log",
+          "lineNumber": 87
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 101,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 34,
+          "endLine": 39,
+          "params": [
+            "playerGo"
+          ]
+        },
+        {
+          "name": "Attack",
+          "startLine": 43,
+          "endLine": 46,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "Cancel",
+          "startLine": 48,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "Reload",
+          "startLine": 52,
+          "endLine": 55,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "SwitchWeapon",
+          "startLine": 59,
+          "endLine": 63,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "Equip",
+          "startLine": 65,
+          "endLine": 71,
+          "params": [
+            "level"
+          ]
+        },
+        {
+          "name": "Equip",
+          "startLine": 73,
+          "endLine": 99,
+          "params": [
+            "info"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponExecutor",
+          "startLine": 19,
+          "endLine": 100,
+          "methods": [
+            "Init",
+            "Attack",
+            "Cancel",
+            "Reload",
+            "SwitchWeapon",
+            "Equip",
+            "Equip"
+          ],
+          "properties": [
+            "weaponSpawnPoint",
+            "WeaponSpawnPoint",
+            "_playerGo",
+            "_currentWeapon",
+            "_evolution",
+            "IsAttacking",
+            "IsReloading",
+            "IsSwitching"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WeaponSpawnPoint",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "IsAttacking",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "IsReloading",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "IsSwitching",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "Attack",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "Cancel",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "Reload",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "SwitchWeapon",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponExecutor",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "SystemRepository.Instance.GetSystem<IEvolutionSystem>",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Attack",
+          "callee": "_currentWeapon?.Trigger",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Reload",
+          "callee": "_currentWeapon?.Reload",
+          "lineNumber": 54
+        },
+        {
+          "caller": "SwitchWeapon",
+          "callee": "Equip",
+          "lineNumber": 62
+        },
+        {
+          "caller": "Equip",
+          "callee": "_evolution.GetEquipInfo",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Equip",
+          "callee": "Equip",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Equip",
+          "callee": "_currentWeapon.OnUnequip",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Equip",
+          "callee": "Object.Destroy",
+          "lineNumber": 78
+        },
+        {
+          "caller": "Equip",
+          "callee": "info.WeaponId.Create",
+          "lineNumber": 82
+        },
+        {
+          "caller": "Equip",
+          "callee": "_currentWeapon.transform.SetParent",
+          "lineNumber": 84
+        },
+        {
+          "caller": "Equip",
+          "callee": "_currentWeapon.gameObject.SetActive",
+          "lineNumber": 85
+        },
+        {
+          "caller": "Equip",
+          "callee": "_currentWeapon.Init",
+          "lineNumber": 86
+        },
+        {
+          "caller": "Equip",
+          "callee": "AccessoryModelConfigProvider.GetOrCreateConfig().GetModel",
+          "lineNumber": 92
+        },
+        {
+          "caller": "Equip",
+          "callee": "AccessoryModelConfigProvider.GetOrCreateConfig",
+          "lineNumber": 92
+        },
+        {
+          "caller": "Equip",
+          "callee": "new AccessoryModel",
+          "lineNumber": 94
+        },
+        {
+          "caller": "Equip",
+          "callee": "AccessoryObj.Create",
+          "lineNumber": 96
+        },
+        {
+          "caller": "Equip",
+          "callee": "_currentWeapon.AddAccessory",
+          "lineNumber": 97
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "WeaponVisibilityExecutor",
+          "startLine": 15,
+          "endLine": 18,
+          "params": [
+            "weaponGameObject"
+          ]
+        },
+        {
+          "name": "SetWeapon",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "weaponGameObject"
+          ]
+        },
+        {
+          "name": "Execute",
+          "startLine": 27,
+          "endLine": 32,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 34,
+          "endLine": 44,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WeaponVisibilityExecutor",
+          "startLine": 7,
+          "endLine": 45,
+          "methods": [
+            "WeaponVisibilityExecutor",
+            "SetWeapon",
+            "Execute",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_weaponGameObject",
+            "_transitionTimer",
+            "_targetVisible",
+            "_isTransitioning",
+            "TransitionDuration",
+            "IsTransitioning"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WeaponVisibilityExecutor",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "IsTransitioning",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "SetWeapon",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Execute",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponVisibilityExecutor",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogicUpdate",
+          "callee": "_weaponGameObject.SetActive",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "Execute",
+          "startLine": 19,
+          "endLine": 45,
+          "params": [
+            "cmd"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WheelExecutor",
+          "startLine": 11,
+          "endLine": 46,
+          "methods": [
+            "Execute"
+          ],
+          "properties": [
+            "_timeScaleHandle",
+            "_timeScaleSystem",
+            "_isWheeling",
+            "IsWheeling"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsWheeling",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Execute",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "WheelExecutor",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Execute",
+          "callee": "SystemRepository.Instance.GetSystem<ITimeScaleSystem>",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Execute",
+          "callee": "_timeScaleSystem?.Request",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Execute",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Execute",
+          "callee": "_timeScaleSystem?.ReleaseRequest",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Execute",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Execute",
+          "callee": "_timeScaleSystem?.ReleaseRequest",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Execute",
+          "callee": "CEventRouter.Instance.FireNow",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "OnEnter",
+          "startLine": 10,
+          "endLine": 21,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnFixedUpdate",
+          "startLine": 23,
+          "endLine": 44,
+          "params": [
+            "fsm",
+            "fixedDeltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AIDecisionAttackState",
+          "startLine": 6,
+          "endLine": 45,
+          "methods": [
+            "OnEnter",
+            "OnFixedUpdate"
+          ],
+          "properties": [
+            "_attackIssued"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AIDecisionAttackState",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "base.OnEnter",
+          "lineNumber": 12
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "IssueCommand",
+          "lineNumber": 17
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "new FaceDirectionCommand",
+          "lineNumber": 17
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "IssueCommand",
+          "lineNumber": 19
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "new AttackCommand",
+          "lineNumber": 19
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 31
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new FaceDirectionCommand",
+          "lineNumber": 31
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new AttackCommand",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "ChangeState<AIDecisionChaseState>",
+          "lineNumber": 36
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 42
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new FaceDirectionCommand",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "OnFixedUpdate",
+          "startLine": 8,
+          "endLine": 25,
+          "params": [
+            "fsm",
+            "fixedDeltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AIDecisionChaseState",
+          "startLine": 6,
+          "endLine": 26,
+          "methods": [
+            "OnFixedUpdate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AIDecisionChaseState",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "ChangeState<AIDecisionIdleState>",
+          "lineNumber": 12
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "ChangeState<AIDecisionAttackState>",
+          "lineNumber": 18
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 23
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new MoveCommand",
+          "lineNumber": 23
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 24
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new FaceDirectionCommand",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "OnEnter",
+          "startLine": 14,
+          "endLine": 27,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnFixedUpdate",
+          "startLine": 29,
+          "endLine": 58,
+          "params": [
+            "fsm",
+            "fixedDeltaTime"
+          ]
+        },
+        {
+          "name": "PickRandomDirection",
+          "startLine": 60,
+          "endLine": 65,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AIDecisionIdleState",
+          "startLine": 8,
+          "endLine": 66,
+          "methods": [
+            "OnEnter",
+            "OnFixedUpdate",
+            "PickRandomDirection"
+          ],
+          "properties": [
+            "_wanderDirection",
+            "_directionTimer",
+            "_directionChangeInterval"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AIDecisionIdleState",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "base.OnEnter",
+          "lineNumber": 16
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "PickRandomDirection",
+          "lineNumber": 25
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "ChangeState<AIDecisionChaseState>",
+          "lineNumber": 33
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "PickRandomDirection",
+          "lineNumber": 50
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 54
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new MoveCommand",
+          "lineNumber": 54
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 55
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new FaceDirectionCommand",
+          "lineNumber": 55
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "Random.Range",
+          "lineNumber": 62
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "new Vector3",
+          "lineNumber": 63
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "Mathf.Sin",
+          "lineNumber": 63
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "Mathf.Cos",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "OnEnter",
+          "startLine": 13,
+          "endLine": 19,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnFixedUpdate",
+          "startLine": 21,
+          "endLine": 37,
+          "params": [
+            "fsm",
+            "fixedDeltaTime"
+          ]
+        },
+        {
+          "name": "PickRandomDirection",
+          "startLine": 39,
+          "endLine": 44,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AIDecisionWanderState",
+          "startLine": 7,
+          "endLine": 45,
+          "methods": [
+            "OnEnter",
+            "OnFixedUpdate",
+            "PickRandomDirection"
+          ],
+          "properties": [
+            "_wanderDirection",
+            "_directionTimer",
+            "_directionChangeInterval"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AIDecisionWanderState",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "base.OnEnter",
+          "lineNumber": 15
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "PickRandomDirection",
+          "lineNumber": 18
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "ChangeState<AIDecisionChaseState>",
+          "lineNumber": 25
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "PickRandomDirection",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 35
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new MoveCommand",
+          "lineNumber": 35
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "IssueCommand",
+          "lineNumber": 36
+        },
+        {
+          "caller": "OnFixedUpdate",
+          "callee": "new FaceDirectionCommand",
+          "lineNumber": 36
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "Random.Range",
+          "lineNumber": 41
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "new Vector3",
+          "lineNumber": 42
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "Mathf.Sin",
+          "lineNumber": 42
+        },
+        {
+          "caller": "PickRandomDirection",
+          "callee": "Mathf.Cos",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "SetConfig",
+          "startLine": 16,
+          "endLine": 16,
+          "params": [
+            "config"
+          ]
+        },
+        {
+          "name": "OnEnter",
+          "startLine": 18,
+          "endLine": 21,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "ChangeState",
+          "startLine": 23,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "IssueCommand",
+          "startLine": 26,
+          "endLine": 26,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyDecisionStateBase",
+          "startLine": 8,
+          "endLine": 27,
+          "methods": [
+            "SetConfig",
+            "OnEnter",
+            "ChangeState",
+            "IssueCommand"
+          ],
+          "properties": [
+            "Fsm",
+            "Agent",
+            "Detect",
+            "AttackController",
+            "StateConfig"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "StateConfig",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "SetConfig",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyDecisionStateBase",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ChangeState",
+          "callee": "Fsm.ChangeState<T>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "IssueCommand",
+          "callee": "Agent.IssueCommand",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "AttackComponent",
+          "startLine": 10,
+          "endLine": 14,
+          "params": [
+            "entity",
+            "calculator"
+          ]
+        },
+        {
+          "name": "CalculateDamage",
+          "startLine": 19,
+          "endLine": 30,
+          "params": [
+            "weaponStats",
+            "bulletStats"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AttackComponent",
+          "startLine": 5,
+          "endLine": 34,
+          "methods": [
+            "AttackComponent",
+            "CalculateDamage"
+          ],
+          "properties": [
+            "_entity",
+            "_calculator",
+            "Calculator"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AttackComponent",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "CalculateDamage",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Calculator",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "AttackComponent",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CalculateDamage",
+          "callee": "new DamageContext",
+          "lineNumber": 21
+        },
+        {
+          "caller": "CalculateDamage",
+          "callee": "_entity.Get<StatComponent>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "CalculateDamage",
+          "callee": "_calculator.Calculate",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "RegisterComponent",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "component"
+          ]
+        },
+        {
+          "name": "RegisterComponentAs",
+          "startLine": 26,
+          "endLine": 29,
+          "params": [
+            "component"
+          ]
+        },
+        {
+          "name": "RegisterByType",
+          "startLine": 32,
+          "endLine": 48,
+          "params": [
+            "type",
+            "component"
+          ]
+        },
+        {
+          "name": "Get",
+          "startLine": 51,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "TryGet",
+          "startLine": 58,
+          "endLine": 67,
+          "params": [
+            "component"
+          ]
+        },
+        {
+          "name": "Has",
+          "startLine": 70,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "OnDestroy",
+          "startLine": 75,
+          "endLine": 93,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "BattleEntity",
+          "startLine": 9,
+          "endLine": 94,
+          "methods": [
+            "RegisterComponent",
+            "RegisterComponentAs",
+            "RegisterByType",
+            "Get",
+            "TryGet",
+            "Has",
+            "OnDestroy"
+          ],
+          "properties": [
+            "_components",
+            "_registeredUpdaters"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RegisterComponent",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "RegisterComponentAs",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Get",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "TryGet",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "Has",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "BattleEntity",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RegisterComponent",
+          "callee": "RegisterByType",
+          "lineNumber": 18
+        },
+        {
+          "caller": "RegisterComponentAs",
+          "callee": "RegisterByType",
+          "lineNumber": 28
+        },
+        {
+          "caller": "RegisterByType",
+          "callee": "_registeredUpdaters.Add",
+          "lineNumber": 37
+        },
+        {
+          "caller": "RegisterByType",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>",
+          "lineNumber": 39
+        },
+        {
+          "caller": "RegisterByType",
+          "callee": "updateSystem.AddFrameUpdate",
+          "lineNumber": 43
+        },
+        {
+          "caller": "RegisterByType",
+          "callee": "updateSystem.AddLogicUpdate",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Get",
+          "callee": "_components.TryGetValue",
+          "lineNumber": 53
+        },
+        {
+          "caller": "TryGet",
+          "callee": "_components.TryGetValue",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Has",
+          "callee": "_components.ContainsKey",
+          "lineNumber": 72
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "_components.TryGetValue",
+          "lineNumber": 78
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "decisionLayer.Cleanup",
+          "lineNumber": 79
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>",
+          "lineNumber": 81
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "updateSystem.RemoveFrameUpdate",
+          "lineNumber": 87
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "updateSystem.RemoveLogicUpdate",
+          "lineNumber": 89
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "_components.Clear",
+          "lineNumber": 92
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "AddBuff",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "buff"
+          ]
+        },
+        {
+          "name": "RemoveBuff",
+          "startLine": 29,
+          "endLine": 32,
+          "params": [
+            "buff"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BuffContainerComponent",
+          "startLine": 10,
+          "endLine": 33,
+          "methods": [
+            "AddBuff",
+            "RemoveBuff"
+          ],
+          "properties": [
+            "_buffs",
+            "Buffs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Buffs",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "AddBuff",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveBuff",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "BuffContainerComponent",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AddBuff",
+          "callee": "_buffs.Add",
+          "lineNumber": 26
+        },
+        {
+          "caller": "RemoveBuff",
+          "callee": "_buffs.Remove",
+          "lineNumber": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "Calculate",
+          "startLine": 5,
+          "endLine": 11,
+          "params": [
+            "context"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BulletDamageCalculator",
+          "startLine": 3,
+          "endLine": 12,
+          "methods": [
+            "Calculate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Calculate",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "BulletDamageCalculator",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Calculate",
+          "callee": "context.AttackerStats?.GetValue",
+          "lineNumber": 7
+        },
+        {
+          "caller": "Calculate",
+          "callee": "context.WeaponStats?.GetValue",
+          "lineNumber": 8
+        },
+        {
+          "caller": "Calculate",
+          "callee": "context.BulletStats?.GetValue",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 372,
+      "nonEmptyLines": 310,
+      "functions": [
+        {
+          "name": "CommandDispatcherComponent",
+          "startLine": 40,
+          "endLine": 43,
+          "params": [
+            "bufferWindowSeconds"
+          ]
+        },
+        {
+          "name": "RegisterExecutor",
+          "startLine": 55,
+          "endLine": 80,
+          "params": [
+            "executor"
+          ]
+        },
+        {
+          "name": "UnregisterExecutor",
+          "startLine": 86,
+          "endLine": 91,
+          "params": []
+        },
+        {
+          "name": "Issue",
+          "startLine": 98,
+          "endLine": 118,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 124,
+          "endLine": 140,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "RouteMove",
+          "startLine": 146,
+          "endLine": 156,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "RouteRotate",
+          "startLine": 158,
+          "endLine": 166,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "RouteFaceDirection",
+          "startLine": 168,
+          "endLine": 175,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "Arbiter",
+          "startLine": 181,
+          "endLine": 202,
+          "params": [
+            "newCmd"
+          ]
+        },
+        {
+          "name": "Activate",
+          "startLine": 204,
+          "endLine": 218,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "CancelActive",
+          "startLine": 220,
+          "endLine": 234,
+          "params": []
+        },
+        {
+          "name": "DrainBuffer",
+          "startLine": 240,
+          "endLine": 252,
+          "params": []
+        },
+        {
+          "name": "CleanExpiredBufferEntries",
+          "startLine": 254,
+          "endLine": 261,
+          "params": []
+        },
+        {
+          "name": "RouteExecutor",
+          "startLine": 267,
+          "endLine": 314,
+          "params": [
+            "cmdType",
+            "cmd"
+          ]
+        },
+        {
+          "name": "GetCommandType",
+          "startLine": 320,
+          "endLine": 336,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "HasExecutor",
+          "startLine": 348,
+          "endLine": 348,
+          "params": []
+        },
+        {
+          "name": "ClearBuffer",
+          "startLine": 350,
+          "endLine": 350,
+          "params": []
+        },
+        {
+          "name": "ForceClearActive",
+          "startLine": 352,
+          "endLine": 357,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CommandDispatcherComponent",
+          "startLine": 22,
+          "endLine": 370,
+          "methods": [
+            "CommandDispatcherComponent",
+            "RegisterExecutor",
+            "UnregisterExecutor",
+            "Issue",
+            "LogicUpdate",
+            "RouteMove",
+            "RouteRotate",
+            "RouteFaceDirection",
+            "Arbiter",
+            "Activate",
+            "CancelActive",
+            "DrainBuffer",
+            "CleanExpiredBufferEntries",
+            "RouteExecutor",
+            "GetCommandType",
+            "HasExecutor",
+            "ClearBuffer",
+            "ForceClearActive"
+          ],
+          "properties": [
+            "_bufferWindowSeconds",
+            "_executors",
+            "_completionChecks",
+            "_activeCommand",
+            "_activeCommandType",
+            "_activeCompletionCheck",
+            "_buffer",
+            "HasActiveAction",
+            "ActiveCommand",
+            "ActiveCommandType",
+            "BufferedCount",
+            "ExecutorCount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CommandDispatcherComponent",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "RegisterExecutor",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "UnregisterExecutor",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "Issue",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "HasActiveAction",
+          "line": 342,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveCommand",
+          "line": 343,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveCommandType",
+          "line": 344,
+          "isDefault": false
+        },
+        {
+          "name": "BufferedCount",
+          "line": 345,
+          "isDefault": false
+        },
+        {
+          "name": "ExecutorCount",
+          "line": 346,
+          "isDefault": false
+        },
+        {
+          "name": "HasExecutor",
+          "line": 348,
+          "isDefault": false
+        },
+        {
+          "name": "ClearBuffer",
+          "line": 350,
+          "isDefault": false
+        },
+        {
+          "name": "ForceClearActive",
+          "line": 352,
+          "isDefault": false
+        },
+        {
+          "name": "CommandDispatcherComponent",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UnregisterExecutor",
+          "callee": "_executors.Remove",
+          "lineNumber": 89
+        },
+        {
+          "caller": "UnregisterExecutor",
+          "callee": "_completionChecks.Remove",
+          "lineNumber": 90
+        },
+        {
+          "caller": "Issue",
+          "callee": "RouteMove",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Issue",
+          "callee": "RouteRotate",
+          "lineNumber": 107
+        },
+        {
+          "caller": "Issue",
+          "callee": "RouteFaceDirection",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Issue",
+          "callee": "Arbiter",
+          "lineNumber": 115
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "CleanExpiredBufferEntries",
+          "lineNumber": 126
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_activeCompletionCheck.Invoke",
+          "lineNumber": 132
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "DrainBuffer",
+          "lineNumber": 138
+        },
+        {
+          "caller": "RouteMove",
+          "callee": "_executors.TryGetValue",
+          "lineNumber": 148
+        },
+        {
+          "caller": "RouteMove",
+          "callee": "move.Move",
+          "lineNumber": 155
+        },
+        {
+          "caller": "RouteRotate",
+          "callee": "_executors.TryGetValue",
+          "lineNumber": 164
+        },
+        {
+          "caller": "RouteRotate",
+          "callee": "rotate.Rotate",
+          "lineNumber": 165
+        },
+        {
+          "caller": "RouteFaceDirection",
+          "callee": "_executors.TryGetValue",
+          "lineNumber": 173
+        },
+        {
+          "caller": "RouteFaceDirection",
+          "callee": "face.Face",
+          "lineNumber": 174
+        },
+        {
+          "caller": "Arbiter",
+          "callee": "Activate",
+          "lineNumber": 186
+        },
+        {
+          "caller": "Arbiter",
+          "callee": "Activate",
+          "lineNumber": 193
+        },
+        {
+          "caller": "Arbiter",
+          "callee": "_buffer.Enqueue",
+          "lineNumber": 200
+        },
+        {
+          "caller": "Arbiter",
+          "callee": "new BufferedEntry",
+          "lineNumber": 200
+        },
+        {
+          "caller": "Activate",
+          "callee": "CancelActive",
+          "lineNumber": 206
+        },
+        {
+          "caller": "Activate",
+          "callee": "GetCommandType",
+          "lineNumber": 209
+        },
+        {
+          "caller": "Activate",
+          "callee": "_completionChecks.TryGetValue",
+          "lineNumber": 210
+        },
+        {
+          "caller": "Activate",
+          "callee": "RouteMove",
+          "lineNumber": 214
+        },
+        {
+          "caller": "Activate",
+          "callee": "new MoveCommand",
+          "lineNumber": 214
+        },
+        {
+          "caller": "Activate",
+          "callee": "RouteExecutor",
+          "lineNumber": 217
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "_executors.TryGetValue",
+          "lineNumber": 223
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "attack.Cancel",
+          "lineNumber": 226
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "dash.Dash",
+          "lineNumber": 228
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "new DashCommand",
+          "lineNumber": 228
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "abilitySec.CancelAbilitySecondary",
+          "lineNumber": 230
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "wheel.Execute",
+          "lineNumber": 232
+        },
+        {
+          "caller": "CancelActive",
+          "callee": "new WheelCommand",
+          "lineNumber": 232
+        },
+        {
+          "caller": "DrainBuffer",
+          "callee": "_buffer.Dequeue",
+          "lineNumber": 244
+        },
+        {
+          "caller": "DrainBuffer",
+          "callee": "Activate",
+          "lineNumber": 249
+        },
+        {
+          "caller": "CleanExpiredBufferEntries",
+          "callee": "_buffer.Peek",
+          "lineNumber": 257
+        },
+        {
+          "caller": "CleanExpiredBufferEntries",
+          "callee": "_buffer.Dequeue",
+          "lineNumber": 259
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "_executors.TryGetValue",
+          "lineNumber": 269
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "attack.Attack",
+          "lineNumber": 275
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "jump.Jump",
+          "lineNumber": 279
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "dash.Dash",
+          "lineNumber": 283
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "reload.Reload",
+          "lineNumber": 287
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "switchWeapon.SwitchWeapon",
+          "lineNumber": 291
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "stun.Stun",
+          "lineNumber": 295
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "interact.Interact",
+          "lineNumber": 299
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "abilitySec.AbilitySecondary",
+          "lineNumber": 303
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "visibility.Execute",
+          "lineNumber": 307
+        },
+        {
+          "caller": "RouteExecutor",
+          "callee": "wheel.Execute",
+          "lineNumber": 311
+        },
+        {
+          "caller": "GetCommandType",
+          "callee": "cmd.GetType",
+          "lineNumber": 334
+        },
+        {
+          "caller": "HasExecutor",
+          "callee": "_executors.ContainsKey",
+          "lineNumber": 348
+        },
+        {
+          "caller": "ClearBuffer",
+          "callee": "_buffer.Clear",
+          "lineNumber": 350
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 14,
+        "functionCount": 18,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "DamageContext",
+          "startLine": 9,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "Attacker",
+            "Defender",
+            "AttackerStats",
+            "WeaponStats",
+            "BulletStats",
+            "Direction"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Attacker",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Defender",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "AttackerStats",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "WeaponStats",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "BulletStats",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "Direction",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "DamageContext",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 102,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "DamageReceiverComponent",
+          "startLine": 15,
+          "endLine": 24,
+          "params": [
+            "entity"
+          ]
+        },
+        {
+          "name": "TakeDamage",
+          "startLine": 26,
+          "endLine": 64,
+          "params": [
+            "damageInfo"
+          ]
+        },
+        {
+          "name": "Heal",
+          "startLine": 66,
+          "endLine": 80,
+          "params": [
+            "healAmount"
+          ]
+        },
+        {
+          "name": "Die",
+          "startLine": 82,
+          "endLine": 85,
+          "params": [
+            "deathInfo"
+          ]
+        },
+        {
+          "name": "FireHealthChanged",
+          "startLine": 87,
+          "endLine": 100,
+          "params": [
+            "oldHealth",
+            "newHealth",
+            "maxHealth",
+            "damageSource"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DamageReceiverComponent",
+          "startLine": 6,
+          "endLine": 101,
+          "methods": [
+            "DamageReceiverComponent",
+            "TakeDamage",
+            "Heal",
+            "Die",
+            "FireHealthChanged"
+          ],
+          "properties": [
+            "_entity",
+            "Health",
+            "MaxHealth",
+            "IsDead",
+            "IsInvincible"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Health",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "MaxHealth",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "IsDead",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "IsInvincible",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "DamageReceiverComponent",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "TakeDamage",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Heal",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "Die",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "DamageReceiverComponent",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DamageReceiverComponent",
+          "callee": "_entity.Get<StatComponent>",
+          "lineNumber": 19
+        },
+        {
+          "caller": "DamageReceiverComponent",
+          "callee": "stats.SetBase",
+          "lineNumber": 22
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "_entity.Get<StatComponent>",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "damageInfo.Damage.GetValue",
+          "lineNumber": 33
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.GetValue",
+          "lineNumber": 34
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.HasStat",
+          "lineNumber": 37
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.GetValue",
+          "lineNumber": 39
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.SetBase",
+          "lineNumber": 44
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.GetValue",
+          "lineNumber": 45
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "FireHealthChanged",
+          "lineNumber": 46
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.GetValue",
+          "lineNumber": 46
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.SetBase",
+          "lineNumber": 52
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.SetBase",
+          "lineNumber": 60
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "FireHealthChanged",
+          "lineNumber": 62
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.GetValue",
+          "lineNumber": 62
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "stats.GetValue",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Heal",
+          "callee": "_entity.Get<StatComponent>",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Heal",
+          "callee": "stats.GetValue",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Heal",
+          "callee": "stats.GetValue",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Heal",
+          "callee": "Mathf.Min",
+          "lineNumber": 75
+        },
+        {
+          "caller": "Heal",
+          "callee": "stats.SetBase",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Heal",
+          "callee": "FireHealthChanged",
+          "lineNumber": 79
+        },
+        {
+          "caller": "FireHealthChanged",
+          "callee": "_entity.Get<EventDispatcherComponent>",
+          "lineNumber": 89
+        },
+        {
+          "caller": "FireHealthChanged",
+          "callee": "ed.FireNow",
+          "lineNumber": 92
+        },
+        {
+          "caller": "FireHealthChanged",
+          "callee": "new HealthChangedEventData",
+          "lineNumber": 93
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "DeathComponent",
+          "startLine": 41,
+          "endLine": 49,
+          "params": [
+            "entity",
+            "handler"
+          ]
+        },
+        {
+          "name": "OnHealthChanged",
+          "startLine": 51,
+          "endLine": 69,
+          "params": [
+            "data"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "IDeathHandler",
+          "startLine": 22,
+          "endLine": 25,
+          "methods": [
+            "OnDeath"
+          ],
+          "properties": []
+        },
+        {
+          "name": "DeathComponent",
+          "startLine": 35,
+          "endLine": 70,
+          "methods": [
+            "DeathComponent",
+            "OnHealthChanged"
+          ],
+          "properties": [
+            "_entity",
+            "_handler",
+            "_dead"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IDeathHandler",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "DeathComponent",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "DeathComponent",
+          "line": 35,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DeathComponent",
+          "callee": "_entity.Get<EventDispatcherComponent>",
+          "lineNumber": 46
+        },
+        {
+          "caller": "DeathComponent",
+          "callee": "eventDispatcher?.Subscribe<HealthChangedEventData>",
+          "lineNumber": 47
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "DeathInfo.Create",
+          "lineNumber": 58
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "new List<string>",
+          "lineNumber": 60
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "_handler.OnDeath",
+          "lineNumber": 64
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "SystemRepository.Instance.GetSystem<IDeathSystem>",
+          "lineNumber": 67
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "deathSystem?.ApplyDeath",
+          "lineNumber": 68
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 134,
+      "nonEmptyLines": 118,
+      "functions": [
+        {
+          "name": "EnemyDecisionLayer",
+          "startLine": 39,
+          "endLine": 51,
+          "params": [
+            "entity",
+            "aiConfig"
+          ]
+        },
+        {
+          "name": "IssueCommand",
+          "startLine": 57,
+          "endLine": 60,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "MakeDecision",
+          "startLine": 66,
+          "endLine": 72,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 74,
+          "endLine": 77,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "Cleanup",
+          "startLine": 83,
+          "endLine": 90,
+          "params": []
+        },
+        {
+          "name": "InitializeFsm",
+          "startLine": 98,
+          "endLine": 132,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EnemyDecisionLayer",
+          "startLine": 24,
+          "endLine": 133,
+          "methods": [
+            "EnemyDecisionLayer",
+            "IssueCommand",
+            "MakeDecision",
+            "LogicUpdate",
+            "Cleanup",
+            "InitializeFsm"
+          ],
+          "properties": [
+            "_entity",
+            "_aiConfig",
+            "_fsm",
+            "Dispatcher",
+            "Detect",
+            "AttackController"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Dispatcher",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "Detect",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "AttackController",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyDecisionLayer",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "IssueCommand",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "MakeDecision",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "Cleanup",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "EnemyDecisionLayer",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EnemyDecisionLayer",
+          "callee": "entity?.Get<EnemyDetector>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "EnemyDecisionLayer",
+          "callee": "(entity?.Get<EnemyDashExecutor>() as IAttack) ?? entity?.Get<IAttack>",
+          "lineNumber": 45
+        },
+        {
+          "caller": "EnemyDecisionLayer",
+          "callee": "entity?.Get<EnemyDashExecutor>",
+          "lineNumber": 45
+        },
+        {
+          "caller": "EnemyDecisionLayer",
+          "callee": "InitializeFsm",
+          "lineNumber": 49
+        },
+        {
+          "caller": "IssueCommand",
+          "callee": "Dispatcher?.Issue",
+          "lineNumber": 59
+        },
+        {
+          "caller": "MakeDecision",
+          "callee": "_fsm.FixedUpdate",
+          "lineNumber": 70
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "MakeDecision",
+          "lineNumber": 76
+        },
+        {
+          "caller": "Cleanup",
+          "callee": "_fsm.Shutdown",
+          "lineNumber": 87
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "_aiConfig.CreateStatesForLayer",
+          "lineNumber": 102
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "Fsm<EnemyDecisionLayer>.Create",
+          "lineNumber": 103
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "GetHashCode",
+          "lineNumber": 103
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "_fsm.Start",
+          "lineNumber": 104
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIDecisionIdleState",
+          "lineNumber": 109
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "idleState.SetConfig",
+          "lineNumber": 110
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIStateConfig",
+          "lineNumber": 110
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIDecisionChaseState",
+          "lineNumber": 112
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "chaseState.SetConfig",
+          "lineNumber": 113
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIStateConfig",
+          "lineNumber": 113
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIDecisionAttackState",
+          "lineNumber": 115
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "attackState.SetConfig",
+          "lineNumber": 116
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIStateConfig",
+          "lineNumber": 116
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIDecisionWanderState",
+          "lineNumber": 118
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "wanderState.SetConfig",
+          "lineNumber": 119
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "new AIStateConfig",
+          "lineNumber": 119
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "Fsm<EnemyDecisionLayer>.Create",
+          "lineNumber": 129
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "GetHashCode",
+          "lineNumber": 129
+        },
+        {
+          "caller": "InitializeFsm",
+          "callee": "_fsm.Start<AIDecisionIdleState>",
+          "lineNumber": 130
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "EventDispatcherComponent",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "entity"
+          ]
+        },
+        {
+          "name": "Subscribe",
+          "startLine": 21,
+          "endLine": 21,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Subscribe",
+          "startLine": 22,
+          "endLine": 22,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Subscribe",
+          "startLine": 23,
+          "endLine": 23,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Subscribe",
+          "startLine": 24,
+          "endLine": 24,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Unsubscribe",
+          "startLine": 30,
+          "endLine": 30,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Unsubscribe",
+          "startLine": 31,
+          "endLine": 31,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Unsubscribe",
+          "startLine": 32,
+          "endLine": 32,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Unsubscribe",
+          "startLine": 33,
+          "endLine": 33,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "FireNow",
+          "startLine": 39,
+          "endLine": 39,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "FireNow",
+          "startLine": 40,
+          "endLine": 40,
+          "params": [
+            "id",
+            "a"
+          ]
+        },
+        {
+          "name": "FireNow",
+          "startLine": 41,
+          "endLine": 41,
+          "params": [
+            "id",
+            "a",
+            "b"
+          ]
+        },
+        {
+          "name": "FireNow",
+          "startLine": 42,
+          "endLine": 42,
+          "params": [
+            "id",
+            "a",
+            "b",
+            "c"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EventDispatcherComponent",
+          "startLine": 9,
+          "endLine": 45,
+          "methods": [
+            "EventDispatcherComponent",
+            "Subscribe",
+            "Subscribe",
+            "Subscribe",
+            "Subscribe",
+            "Unsubscribe",
+            "Unsubscribe",
+            "Unsubscribe",
+            "Unsubscribe",
+            "FireNow",
+            "FireNow",
+            "FireNow",
+            "FireNow"
+          ],
+          "properties": [
+            "_entity",
+            "_dispatcher"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EventDispatcherComponent",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Subscribe",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Subscribe",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Subscribe",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Subscribe",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "Unsubscribe",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "Unsubscribe",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "Unsubscribe",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Unsubscribe",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "FireNow",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "FireNow",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "FireNow",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "FireNow",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "EventDispatcherComponent",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Subscribe",
+          "callee": "_dispatcher.Subscribe",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Subscribe",
+          "callee": "_dispatcher.Subscribe",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Subscribe",
+          "callee": "_dispatcher.Subscribe",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Subscribe",
+          "callee": "_dispatcher.Subscribe",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Unsubscribe",
+          "callee": "_dispatcher.Unsubscribe",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Unsubscribe",
+          "callee": "_dispatcher.Unsubscribe",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Unsubscribe",
+          "callee": "_dispatcher.Unsubscribe",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Unsubscribe",
+          "callee": "_dispatcher.Unsubscribe",
+          "lineNumber": 33
+        },
+        {
+          "caller": "FireNow",
+          "callee": "_dispatcher.FireNow",
+          "lineNumber": 39
+        },
+        {
+          "caller": "FireNow",
+          "callee": "_dispatcher.FireNow",
+          "lineNumber": 40
+        },
+        {
+          "caller": "FireNow",
+          "callee": "_dispatcher.FireNow",
+          "lineNumber": 41
+        },
+        {
+          "caller": "FireNow",
+          "callee": "_dispatcher.FireNow",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 14,
+        "functionCount": 13,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "HitReactionComponent",
+          "startLine": 25,
+          "endLine": 39,
+          "params": [
+            "dispatcher",
+            "eventDispatcher",
+            "stunDuration"
+          ]
+        },
+        {
+          "name": "OnHealthChanged",
+          "startLine": 41,
+          "endLine": 53,
+          "params": [
+            "data"
+          ]
+        },
+        {
+          "name": "Stun",
+          "startLine": 55,
+          "endLine": 58,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 60,
+          "endLine": 66,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "HitReactionComponent",
+          "startLine": 14,
+          "endLine": 67,
+          "methods": [
+            "HitReactionComponent",
+            "OnHealthChanged",
+            "Stun",
+            "LogicUpdate"
+          ],
+          "properties": [
+            "_dispatcher",
+            "_stunDuration",
+            "_stunTimer",
+            "IsStunned"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsStunned",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "HitReactionComponent",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Stun",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "HitReactionComponent",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "HitReactionComponent",
+          "callee": "_dispatcher.RegisterExecutor<StunCommand>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "HitReactionComponent",
+          "callee": "eventDispatcher.Subscribe<HealthChangedEventData>",
+          "lineNumber": 37
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "_dispatcher.ClearBuffer",
+          "lineNumber": 51
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 52
+        },
+        {
+          "caller": "OnHealthChanged",
+          "callee": "new StunCommand",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "IDamageCalculator",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [
+            "Calculate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IDamageCalculator",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IDecisionLayer",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "MakeDecision"
+          ],
+          "properties": [
+            "Dispatcher"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IDecisionLayer",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "IPlayerInputEvents",
+          "startLine": 7,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "MoveDirection",
+            "ViewDelta"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IPlayerInputEvents",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 199,
+      "nonEmptyLines": 169,
+      "functions": [
+        {
+          "name": "PlayerDecisionLayer",
+          "startLine": 31,
+          "endLine": 49,
+          "params": [
+            "entity",
+            "inputEvents"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 55,
+          "endLine": 76,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "MakeDecision",
+          "startLine": 78,
+          "endLine": 83,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "HandleJump",
+          "startLine": 89,
+          "endLine": 108,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "HandleDash",
+          "startLine": 110,
+          "endLine": 121,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "HandleFire",
+          "startLine": 123,
+          "endLine": 128,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "HandleReload",
+          "startLine": 130,
+          "endLine": 135,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "HandleSwitchWeapon",
+          "startLine": 137,
+          "endLine": 142,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "HandleInteract",
+          "startLine": 144,
+          "endLine": 149,
+          "params": []
+        },
+        {
+          "name": "HandleScroll",
+          "startLine": 151,
+          "endLine": 157,
+          "params": [
+            "delta"
+          ]
+        },
+        {
+          "name": "HandleAbilitySecondary",
+          "startLine": 159,
+          "endLine": 164,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "HandleAbilityWheel",
+          "startLine": 166,
+          "endLine": 179,
+          "params": [
+            "state"
+          ]
+        },
+        {
+          "name": "ResolveDispatcher",
+          "startLine": 185,
+          "endLine": 189,
+          "params": []
+        },
+        {
+          "name": "IsOnGround",
+          "startLine": 191,
+          "endLine": 197,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerDecisionLayer",
+          "startLine": 19,
+          "endLine": 198,
+          "methods": [
+            "PlayerDecisionLayer",
+            "LogicUpdate",
+            "MakeDecision",
+            "HandleJump",
+            "HandleDash",
+            "HandleFire",
+            "HandleReload",
+            "HandleSwitchWeapon",
+            "HandleInteract",
+            "HandleScroll",
+            "HandleAbilitySecondary",
+            "HandleAbilityWheel",
+            "ResolveDispatcher",
+            "IsOnGround"
+          ],
+          "properties": [
+            "_entity",
+            "_input",
+            "_dispatcher",
+            "DashCooldown",
+            "DashSpeed",
+            "_dashCooldownTimer",
+            "Dispatcher"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Dispatcher",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerDecisionLayer",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "MakeDecision",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerDecisionLayer",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogicUpdate",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 57
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 63
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "new MoveCommand",
+          "lineNumber": 63
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_entity?.Get<IWheel>",
+          "lineNumber": 66
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 69
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "new RotateCommand",
+          "lineNumber": 69
+        },
+        {
+          "caller": "MakeDecision",
+          "callee": "LogicUpdate",
+          "lineNumber": 82
+        },
+        {
+          "caller": "HandleJump",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 91
+        },
+        {
+          "caller": "HandleJump",
+          "callee": "IsOnGround",
+          "lineNumber": 97
+        },
+        {
+          "caller": "HandleJump",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 99
+        },
+        {
+          "caller": "HandleJump",
+          "callee": "new JumpCommand",
+          "lineNumber": 99
+        },
+        {
+          "caller": "HandleJump",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 105
+        },
+        {
+          "caller": "HandleJump",
+          "callee": "new JumpCommand",
+          "lineNumber": 105
+        },
+        {
+          "caller": "HandleDash",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 112
+        },
+        {
+          "caller": "HandleDash",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 119
+        },
+        {
+          "caller": "HandleDash",
+          "callee": "new DashCommand",
+          "lineNumber": 119
+        },
+        {
+          "caller": "HandleFire",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 125
+        },
+        {
+          "caller": "HandleFire",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 127
+        },
+        {
+          "caller": "HandleFire",
+          "callee": "new AttackCommand",
+          "lineNumber": 127
+        },
+        {
+          "caller": "HandleReload",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 132
+        },
+        {
+          "caller": "HandleReload",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 134
+        },
+        {
+          "caller": "HandleReload",
+          "callee": "new ReloadCommand",
+          "lineNumber": 134
+        },
+        {
+          "caller": "HandleSwitchWeapon",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 139
+        },
+        {
+          "caller": "HandleSwitchWeapon",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 141
+        },
+        {
+          "caller": "HandleSwitchWeapon",
+          "callee": "new SwitchWeaponCommand",
+          "lineNumber": 141
+        },
+        {
+          "caller": "HandleInteract",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 146
+        },
+        {
+          "caller": "HandleInteract",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 148
+        },
+        {
+          "caller": "HandleInteract",
+          "callee": "new InteractCommand",
+          "lineNumber": 148
+        },
+        {
+          "caller": "HandleScroll",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 153
+        },
+        {
+          "caller": "HandleScroll",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 155
+        },
+        {
+          "caller": "HandleScroll",
+          "callee": "new InteractCommand",
+          "lineNumber": 155
+        },
+        {
+          "caller": "HandleAbilitySecondary",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 161
+        },
+        {
+          "caller": "HandleAbilitySecondary",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 163
+        },
+        {
+          "caller": "HandleAbilitySecondary",
+          "callee": "new AbilitySecondaryCommand",
+          "lineNumber": 163
+        },
+        {
+          "caller": "HandleAbilityWheel",
+          "callee": "ResolveDispatcher",
+          "lineNumber": 168
+        },
+        {
+          "caller": "HandleAbilityWheel",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 173
+        },
+        {
+          "caller": "HandleAbilityWheel",
+          "callee": "new WheelCommand",
+          "lineNumber": 173
+        },
+        {
+          "caller": "HandleAbilityWheel",
+          "callee": "_dispatcher.Issue",
+          "lineNumber": 177
+        },
+        {
+          "caller": "HandleAbilityWheel",
+          "callee": "new WheelCommand",
+          "lineNumber": 177
+        },
+        {
+          "caller": "ResolveDispatcher",
+          "callee": "Dispatcher ?? _entity?.Get<CommandDispatcherComponent>",
+          "lineNumber": 188
+        },
+        {
+          "caller": "IsOnGround",
+          "callee": "_entity?.Get<ICharacterGroundDetect>",
+          "lineNumber": 193
+        },
+        {
+          "caller": "IsOnGround",
+          "callee": "_entity?.GetComponentInChildren<ICharacterGroundDetect>",
+          "lineNumber": 196
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    }
+  ]
+}

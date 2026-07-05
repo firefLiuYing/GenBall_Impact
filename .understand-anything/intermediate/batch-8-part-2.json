@@ -1,0 +1,727 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/ISaveDataProvider.cs",
+      "type": "file",
+      "name": "ISaveDataProvider.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/ISaveDataProvider.cs",
+      "summary": "存档数据提供者接口，定义存档数据收集、应用和字段合并的标准协议，每个实现类通过 DataKey 标识其数据在 GameData 中的键。",
+      "tags": ["interface", "save-system", "data-provider"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/ISaveService.cs",
+      "type": "file",
+      "name": "ISaveService.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/ISaveService.cs",
+      "summary": "存档服务接口，定义持久化层的抽象契约，包括存档槽管理、存档数据读写和新存创建/删除等方法。",
+      "tags": ["interface", "save-system", "persistence"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/IUserSettingsStorage.cs",
+      "type": "file",
+      "name": "IUserSettingsStorage.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/IUserSettingsStorage.cs",
+      "summary": "用户设置存储接口，定义设置的异步保存和运行时应用方法，通过 Settings 属性暴露当前用户设置数据。",
+      "tags": ["interface", "user-settings", "persistence"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "type": "file",
+      "name": "SaveComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "summary": "旧体系存档组件（IComponent），实现 ISaveService 接口，通过文件 I/O 直接管理存档槽和存档文件的持久化，支持 JSON 序列化和异步写入。",
+      "tags": ["legacy", "save-system", "file-io", "serialization"],
+      "complexity": "complex",
+      "languageNotes": "旧框架 IComponent 实现，通过文件系统进行 JSON 持久化，正逐步迁移到 ISystem 体系的 SaveSystem。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:SaveComponent",
+      "type": "class",
+      "name": "SaveComponent",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [11, 335],
+      "summary": "IComponent 和 ISaveService 的旧框架实现，维护存档槽缓存映射，提供 SaveGameData/LoadGameData/CreateNewSave/DeleteSave 等完整的文件系统持久化功能。",
+      "tags": ["legacy", "save-implementation", "file-persistence"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:GetSaveSlotDatas",
+      "type": "function",
+      "name": "GetSaveSlotDatas",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [33, 44],
+      "summary": "获取所有存档槽数据列表，调用内部方法加载并返回缓存中的存档槽信息。",
+      "tags": ["save-slot", "query", "cache"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:LoadGameData",
+      "type": "function",
+      "name": "LoadGameData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [51, 62],
+      "summary": "加载指定存档槽的游戏数据，从文件系统读取 JSON 并反序列化为 GameData 对象。",
+      "tags": ["load", "deserialization", "file-io"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:SaveGameData",
+      "type": "function",
+      "name": "SaveGameData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [70, 81],
+      "summary": "保存游戏数据到指定存档槽，通过内部方法将 GameData 序列化为 JSON 并写入文件系统。",
+      "tags": ["save", "serialization", "file-io"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:CreateNewSave",
+      "type": "function",
+      "name": "CreateNewSave",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [87, 98],
+      "summary": "创建新的存档文件，生成空 GameData 并写入到新存档文件中，同时更新存档槽信息。",
+      "tags": ["save", "create", "file-io"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:DeleteSave",
+      "type": "function",
+      "name": "DeleteSave",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [100, 111],
+      "summary": "删除指定存档槽的存档文件，移除缓存条目并更新存档槽信息列表。",
+      "tags": ["delete", "save-management", "file-io"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalWriteSaveSlotInfo",
+      "type": "function",
+      "name": "InternalWriteSaveSlotInfo",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [130, 164],
+      "summary": "将存档槽信息（SaveSlotData 列表）序列化为 JSON 并写入存档槽索引文件，包含目录创建和错误处理逻辑。",
+      "tags": ["serialization", "file-io", "metadata"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalGetSaveSlotInfo",
+      "type": "function",
+      "name": "InternalGetSaveSlotInfo",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [166, 196],
+      "summary": "从文件系统读取存档槽索引文件，反序列化为 SaveSlotDataListJson，重建缓存映射并在文件不存在时创建默认文件。",
+      "tags": ["deserialization", "file-io", "metadata", "cache"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:UpdateCachedSaveSlotInfo",
+      "type": "function",
+      "name": "UpdateCachedSaveSlotInfo",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [198, 210],
+      "summary": "更新缓存的存档槽信息，为新存档或更新后的存档创建/更新 SaveSlotData 条目并写入缓存映射。",
+      "tags": ["cache", "metadata", "update"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalCreateSaveFile",
+      "type": "function",
+      "name": "InternalCreateSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [212, 239],
+      "summary": "创建新存档文件，生成初始 GameData 并 JSON 序列化后异步写入文件系统，同时更新缓存和索引文件。",
+      "tags": ["file-io", "create", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalUpdateSaveFile",
+      "type": "function",
+      "name": "InternalUpdateSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [241, 265],
+      "summary": "更新已有存档文件，验证存档槽存在后将 GameData 序列化为 JSON 并异步写入，同步更新缓存和索引。",
+      "tags": ["file-io", "update", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalGetSaveFile",
+      "type": "function",
+      "name": "InternalGetSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [267, 284],
+      "summary": "从文件系统读取指定存档文件，验证存档槽存在后读取 JSON 并反序列化为 GameData。",
+      "tags": ["file-io", "read", "deserialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalDeleteSaveFile",
+      "type": "function",
+      "name": "InternalDeleteSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "lineRange": [286, 309],
+      "summary": "删除指定存档文件，从文件系统移除存档文件、清理缓存映射条目并更新索引文件。",
+      "tags": ["file-io", "delete", "cleanup"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/SaveFieldKeys.cs",
+      "type": "file",
+      "name": "SaveFieldKeys.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveFieldKeys.cs",
+      "summary": "存档字段键常量定义类，集中管理所有存档数据字段的字符串键名，避免硬编码散布在各处。",
+      "tags": ["constants", "save-system", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/SaveSlotData.cs",
+      "type": "file",
+      "name": "SaveSlotData.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSlotData.cs",
+      "summary": "存档槽数据模型，定义 SaveSlotDataListJson 可序列化类，包含存档槽数组，用于存档槽索引文件的 JSON 序列化。",
+      "tags": ["data-model", "save-system", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "type": "file",
+      "name": "SaveSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "summary": "新体系存档系统（ISystem），实现 ISaveService 接口，通过文件系统进行存档的持久化管理，功能与旧 SaveComponent 并行但遵循新架构。",
+      "tags": ["system-implementation", "save-system", "file-io", "serialization"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:SaveSystem",
+      "type": "class",
+      "name": "SaveSystem",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [15, 304],
+      "summary": "ISystem 和 ISaveService 的新框架实现，通过 SystemRepository 获取配置依赖，提供完整的存档槽和存档文件的 CRUD 操作与 JSON 持久化。",
+      "tags": ["system-implementation", "save-system", "file-persistence"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [27, 38],
+      "summary": "初始化存档系统，通过 SystemRepository 检查并获取配置提供者，读取 AppSettingsConfig 中的最大存档数配置。",
+      "tags": ["initialization", "configuration", "system-setup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:GetSaveSlotDatas",
+      "type": "function",
+      "name": "GetSaveSlotDatas",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [45, 56],
+      "summary": "获取所有存档槽数据列表，调用内部方法从缓存读取存档槽元数据。",
+      "tags": ["query", "save-slot", "cache"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:LoadGameData",
+      "type": "function",
+      "name": "LoadGameData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [58, 69],
+      "summary": "加载指定存档槽的游戏数据，从文件系统读取并反序列化 JSON 为 GameData。",
+      "tags": ["load", "deserialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:SaveGameData",
+      "type": "function",
+      "name": "SaveGameData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [71, 82],
+      "summary": "保存游戏数据到指定存档槽，序列化 GameData 为 JSON 并写入文件。",
+      "tags": ["save", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:CreateNewSave",
+      "type": "function",
+      "name": "CreateNewSave",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [84, 95],
+      "summary": "创建新存档，生成空 GameData 写入新存档文件并将信息加入索引。",
+      "tags": ["create", "save"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:DeleteSave",
+      "type": "function",
+      "name": "DeleteSave",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [97, 108],
+      "summary": "删除指定存档，移除存档文件、清理缓存并更新索引文件。",
+      "tags": ["delete", "save-management"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalWriteSaveSlotInfo",
+      "type": "function",
+      "name": "InternalWriteSaveSlotInfo",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [129, 160],
+      "summary": "将存档槽索引信息序列化为 JSON 并写入文件系统，处理目录创建和异步写入。",
+      "tags": ["serialization", "file-io", "metadata"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalGetSaveSlotInfo",
+      "type": "function",
+      "name": "InternalGetSaveSlotInfo",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [162, 192],
+      "summary": "从文件系统读取存档槽索引文件并反序列化，重建缓存映射，文件不存在时创建默认空文件。",
+      "tags": ["deserialization", "metadata", "cache"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:UpdateCachedSaveSlotInfo",
+      "type": "function",
+      "name": "UpdateCachedSaveSlotInfo",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [194, 205],
+      "summary": "更新缓存中的存档槽元数据，为新存档创建 SaveSlotData 条目并写入缓存。",
+      "tags": ["cache", "metadata"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalCreateSaveFile",
+      "type": "function",
+      "name": "InternalCreateSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [207, 233],
+      "summary": "创建新存档文件，生成初始 GameData 序列化为 JSON 后异步写入，同步更新缓存和索引。",
+      "tags": ["create", "serialization", "file-io"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalUpdateSaveFile",
+      "type": "function",
+      "name": "InternalUpdateSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [235, 259],
+      "summary": "更新已有存档文件，验证存档槽后序列化 GameData 为 JSON 异步写入，同步更新缓存和索引。",
+      "tags": ["update", "serialization", "file-io"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalGetSaveFile",
+      "type": "function",
+      "name": "InternalGetSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [261, 278],
+      "summary": "读取指定存档文件，验证存档槽后读取 JSON 并反序列化为 GameData 返回。",
+      "tags": ["read", "deserialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalDeleteSaveFile",
+      "type": "function",
+      "name": "InternalDeleteSaveFile",
+      "filePath": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "lineRange": [280, 303],
+      "summary": "删除指定存档文件，从文件系统移除、清理缓存条目并更新索引文件。",
+      "tags": ["delete", "cleanup", "file-io"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/UserSettings.cs",
+      "type": "file",
+      "name": "UserSettings.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/UserSettings.cs",
+      "summary": "用户设置数据模型，定义可序列化的音量（主音量/音效/音乐）和灵敏度（水平/垂直）设置字段。",
+      "tags": ["data-model", "user-settings", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "type": "file",
+      "name": "UserSettingsStorage.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "summary": "用户设置存储实现，通过文件系统 JSON 序列化持久化用户设置，支持同步加载、异步保存和运行时应用。",
+      "tags": ["system-implementation", "user-settings", "file-io", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs:UserSettingsStorage",
+      "type": "class",
+      "name": "UserSettingsStorage",
+      "filePath": "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "lineRange": [13, 85],
+      "summary": "IUserSettingsStorage 的实现类，负责用户设置的加载、保存和应用，通过 PersistentDataPath 确定文件路径，支持同步加载和异步写入。",
+      "tags": ["system-implementation", "user-settings", "persistence"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs:SaveAsync",
+      "type": "function",
+      "name": "SaveAsync",
+      "filePath": "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "lineRange": [26, 44],
+      "summary": "异步保存用户设置到文件系统，序列化 UserSettings 为 JSON，确保目录存在后写入文件。",
+      "tags": ["save", "async", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs:LoadSync",
+      "type": "function",
+      "name": "LoadSync",
+      "filePath": "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "lineRange": [54, 75],
+      "summary": "同步加载用户设置，从文件系统读取 JSON 并反序列化，文件不存在或读取失败时创建默认设置。",
+      "tags": ["load", "sync", "deserialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs",
+      "type": "file",
+      "name": "BaseEventArgs.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs",
+      "summary": "事件参数基类，继承自 GameEventArgs 并实现 IReference 接口，提供事件 ID 属性和引用池清理方法 Clear。",
+      "tags": ["event-system", "base-class", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "type": "file",
+      "name": "EventPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "summary": "泛型事件池核心实现，提供类型安全的事件订阅/取消订阅/触发机制，支持队列延迟触发和立即触发两种模式，集成 ReferencePool 进行事件对象复用。",
+      "tags": ["event-system", "pub-sub", "object-pooling", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool",
+      "type": "class",
+      "name": "EventPool",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [7, 186],
+      "summary": "泛型事件池类，管理指定类型事件的订阅者列表，支持 Fire（延迟队列）和 FireNow（立即执行）两种分发模式，通过 EventPoolMode 控制重复订阅行为。",
+      "tags": ["event-system", "pub-sub", "framework-core"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Update",
+      "type": "function",
+      "name": "Update",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [27, 38],
+      "summary": "每帧更新，从延迟事件队列中取出事件并调用 HandleEvent 分发，处理完毕后释放事件对象回引用池。",
+      "tags": ["frame-update", "event-dispatch", "pooling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [66, 89],
+      "summary": "订阅事件，根据 EventPoolMode 检查是否允许重复订阅，将事件处理器添加到订阅者链表中并执行安全检查。",
+      "tags": ["event-system", "subscribe", "pub-sub"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Unsubscribe",
+      "type": "function",
+      "name": "Unsubscribe",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [91, 122],
+      "summary": "取消订阅事件，在链表中查找并移除指定处理器，使用临时列表处理遍历中的移除操作以保证安全性。",
+      "tags": ["event-system", "unsubscribe", "pub-sub"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire",
+      "type": "function",
+      "name": "Fire",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [130, 141],
+      "summary": "延迟触发事件，将事件对象加入队列，在下一帧 Update 中分发，适用于需要合并或延迟处理的事件。",
+      "tags": ["event-system", "fire", "deferred"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:HandleEvent",
+      "type": "function",
+      "name": "HandleEvent",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [158, 185],
+      "summary": "事件处理核心逻辑，遍历订阅者链表调用每个处理器，支持在遍历过程中安全移除已标记的节点，无订阅者时调用默认处理器。",
+      "tags": ["event-system", "dispatch", "handler-invocation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+      "type": "file",
+      "name": "EventPool.Event.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+      "summary": "EventPool 的嵌套 Event 类分部定义，实现 IReference 接口，提供 Create 工厂方法从 ReferencePool 获取事件实例。",
+      "tags": ["event-system", "reference-pool", "partial-class"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:SaveComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:GetSaveSlotDatas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:LoadGameData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:SaveGameData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:CreateNewSave",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:DeleteSave",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalWriteSaveSlotInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalGetSaveSlotInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:UpdateCachedSaveSlotInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalCreateSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalUpdateSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalGetSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveComponent.cs:InternalDeleteSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:SaveSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:GetSaveSlotDatas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:LoadGameData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:SaveGameData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:CreateNewSave",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:DeleteSave",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalWriteSaveSlotInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalGetSaveSlotInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:UpdateCachedSaveSlotInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalCreateSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalUpdateSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalGetSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/SaveSystem.cs:InternalDeleteSaveFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs:UserSettingsStorage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs:SaveAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs:LoadSync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Subscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Unsubscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:HandleEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ]
+}

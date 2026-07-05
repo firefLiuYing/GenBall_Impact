@@ -1,0 +1,733 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs",
+      "type": "file",
+      "name": "IAmmoSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs",
+      "summary": "弹药系统接口定义，定义 GetDisplayInfo 方法用于获取弹药显示信息（当前弹药、最大容量等）。",
+      "tags": ["weapon-ammo", "interface", "iammosystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "class",
+      "name": "IAmmoSystem",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs",
+      "lineRange": [4, 7],
+      "summary": "弹药系统通用接口，只定义 GetDisplayInfo 方法，由 HeatComponent、WeaponMagazineExecutor、InfiniteAmmoComponent 实现。",
+      "tags": ["weapon-ammo", "interface", "iammosystem"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs",
+      "type": "file",
+      "name": "InfiniteAmmoComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs",
+      "summary": "无限弹药组件，实现 IAmmoSystem 接口，始终返回无限弹药显示信息。",
+      "tags": ["weapon-ammo", "iammosystem", "component", "infinite-ammo"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs:InfiniteAmmoComponent",
+      "type": "class",
+      "name": "InfiniteAmmoComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs",
+      "lineRange": [3, 9],
+      "summary": "无限弹药实现，GetDisplayInfo 返回 IsInfinite=true 的 AmmoDisplayInfo。",
+      "tags": ["weapon-ammo", "iammosystem", "component", "infinite-ammo"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "type": "file",
+      "name": "WeaponMagazineExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "summary": "弹匣式弹药执行器，实现 IAmmoSystem 接口，管理弹药消耗、换弹计时和弹药显示信息。",
+      "tags": ["weapon-ammo", "iammosystem", "magazine", "reload", "executor"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:WeaponMagazineExecutor",
+      "type": "class",
+      "name": "WeaponMagazineExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "lineRange": [12, 72],
+      "summary": "弹匣弹药执行器，通过 StatComponent 读取弹药、容量、换弹时间属性，LogicUpdate 中处理换弹倒计时。",
+      "tags": ["weapon-ammo", "iammosystem", "magazine", "reload", "executor"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:Reload",
+      "type": "function",
+      "name": "Reload",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "lineRange": [33, 42],
+      "summary": "执行换弹操作，设置换弹计时器并通过 CEventRouter 触发武器信息更新事件。",
+      "tags": ["weapon-ammo", "reload", "event-trigger"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "lineRange": [48, 58],
+      "summary": "每逻辑帧更新换弹计时器，换弹完成时将弹药恢复至容量上限。",
+      "tags": ["weapon-ammo", "reload", "frame-update"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:GetDisplayInfo",
+      "type": "function",
+      "name": "GetDisplayInfo",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "lineRange": [62, 71],
+      "summary": "构建 AmmoDisplayInfo 结构体，包含当前弹药、容量和是否正在换弹的状态。",
+      "tags": ["weapon-ammo", "display-info", "ui-data"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "type": "file",
+      "name": "SpreadComponent.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "summary": "武器散布组件，实现 ISpreadProvider 接口，根据静止/移动状态返回不同的散布角度。",
+      "tags": ["weapon-spread", "accuracy", "component"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:ISpreadProvider",
+      "type": "class",
+      "name": "ISpreadProvider",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "lineRange": [5, 8],
+      "summary": "散布角度提供者接口，定义 GetSpreadAngle 方法，根据移动状态返回散布角。",
+      "tags": ["weapon-spread", "interface"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:SpreadComponent",
+      "type": "class",
+      "name": "SpreadComponent",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "lineRange": [10, 24],
+      "summary": "散布角度组件实现，通过 StatComponent 读取 SpreadBase 和 SpreadMoving 属性。",
+      "tags": ["weapon-spread", "accuracy", "component"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "type": "file",
+      "name": "ChargeTriggerBehavior.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "summary": "蓄力扳机行为，实现 ITriggerBehavior，根据蓄力时间比例计算伤害倍乘系数。",
+      "tags": ["weapon-trigger", "charge", "itriggerbehavior", "behavior"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:ChargeTriggerBehavior",
+      "type": "class",
+      "name": "ChargeTriggerBehavior",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "lineRange": [7, 40],
+      "summary": "蓄力扳机实现，在按住射击键时累积蓄力时间，松开时根据蓄力进度计算伤害倍率和发射请求。",
+      "tags": ["weapon-trigger", "charge", "itriggerbehavior", "behavior"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:Evaluate",
+      "type": "function",
+      "name": "Evaluate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "lineRange": [21, 39],
+      "summary": "评估扳机状态：蓄力中累积时间，松开时根据充能比例计算伤害倍率和弹丸数量，生成 FireRequest。",
+      "tags": ["weapon-trigger", "charge", "evaluate", "core-logic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs",
+      "type": "file",
+      "name": "FullAutoTriggerBehavior.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs",
+      "summary": "全自动扳机行为，按住射击键时每帧持续发射。",
+      "tags": ["weapon-trigger", "full-auto", "itriggerbehavior", "behavior"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs:FullAutoTriggerBehavior",
+      "type": "class",
+      "name": "FullAutoTriggerBehavior",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs",
+      "lineRange": [6, 14],
+      "summary": "全自动扳机，按住触发时生成标准 FireRequest 实现连续射击。",
+      "tags": ["weapon-trigger", "full-auto", "itriggerbehavior", "behavior"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs",
+      "type": "file",
+      "name": "ITriggerBehavior.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs",
+      "summary": "扳机行为接口，定义 Evaluate 方法用于根据当前状态和输入判断是否触发射击及发射参数。",
+      "tags": ["weapon-trigger", "interface", "itriggerbehavior", "strategy-pattern"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "class",
+      "name": "ITriggerBehavior",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs",
+      "lineRange": [6, 9],
+      "summary": "扳机行为策略接口，接收触发状态、时间增量和弹药信息，返回可空的 FireRequest。",
+      "tags": ["weapon-trigger", "interface", "itriggerbehavior", "strategy-pattern"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs",
+      "type": "file",
+      "name": "IWeaponTrigger.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs",
+      "summary": "武器扳机接口，定义 SetTriggerState 方法和 IsFiring 属性，由 WeaponFireDecision 使用。",
+      "tags": ["weapon-trigger", "interface", "iweapontrigger"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs:IWeaponTrigger",
+      "type": "class",
+      "name": "IWeaponTrigger",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs",
+      "lineRange": [5, 9],
+      "summary": "武器扳机接口，提供 IsFiring 只读属性和 SetTriggerState 方法。",
+      "tags": ["weapon-trigger", "interface", "iweapontrigger"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs",
+      "type": "file",
+      "name": "SemiAutoTriggerBehavior.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs",
+      "summary": "半自动扳机行为，只在按下瞬间发射一发，松开后需再次按下才能触发下一发。",
+      "tags": ["weapon-trigger", "semi-auto", "itriggerbehavior", "behavior"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs:SemiAutoTriggerBehavior",
+      "type": "class",
+      "name": "SemiAutoTriggerBehavior",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs",
+      "lineRange": [6, 14],
+      "summary": "半自动扳机，仅当 stateChangedThisFrame 且按下时发射单发。",
+      "tags": ["weapon-trigger", "semi-auto", "itriggerbehavior", "behavior"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs",
+      "type": "file",
+      "name": "ShotgunTriggerBehavior.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs",
+      "summary": "霰弹枪扳机行为，类似半自动但单次发射多个弹丸（pelletCount），每个弹丸有散布角度。",
+      "tags": ["weapon-trigger", "shotgun", "itriggerbehavior", "pellet", "behavior"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs:ShotgunTriggerBehavior",
+      "type": "class",
+      "name": "ShotgunTriggerBehavior",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs",
+      "lineRange": [6, 23],
+      "summary": "霰弹枪扳机，单次触发发射多个弹丸，携带散布角度参数传递给 FireRequest。",
+      "tags": ["weapon-trigger", "shotgun", "itriggerbehavior", "pellet", "behavior"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "type": "file",
+      "name": "WeaponFireDecision.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "summary": "武器射击决策核心组件，协调扳机输入、弹药检查和射击冷却，是武器发射流程的中枢。",
+      "tags": ["weapon-fire", "decision-making", "fire-control", "component", "core"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "type": "class",
+      "name": "WeaponFireDecision",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "lineRange": [14, 141],
+      "summary": "武器射击决策中枢：集成 IWeaponTrigger 状态、ITriggerBehavior 策略、弹药检查、冷却计时和 HeatComponent 热量管理。",
+      "tags": ["weapon-fire", "decision-making", "fire-control", "component", "core"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:SetTriggerState",
+      "type": "function",
+      "name": "SetTriggerState",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "lineRange": [41, 57],
+      "summary": "设置扳机按下/松开状态，检测状态变化并立即调用 ITriggerBehavior.Evaluate 判断是否触发射击。",
+      "tags": ["weapon-fire", "trigger-input", "state-change"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:LogicUpdate",
+      "type": "function",
+      "name": "LogicUpdate",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "lineRange": [64, 92],
+      "summary": "每逻辑帧更新：减少冷却计时器、检查弹药充足性、调用扳机行为 Evaluate 并执行发射。",
+      "tags": ["weapon-fire", "frame-update", "fire-loop"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:ExecuteFire",
+      "type": "function",
+      "name": "ExecuteFire",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "lineRange": [96, 126],
+      "summary": "执行射击：扣减弹药、增加热量、设置冷却、更新统计信息，最后委托 WeaponFireExecutor.Fire 生成子弹。",
+      "tags": ["weapon-fire", "execution", "ammo-consume", "heat-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "type": "file",
+      "name": "WeaponFireExecutor.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "summary": "武器射击执行器，负责子弹生成、散布计算和 IBulletSystem.FireBullet 调用，是射击流程的最终执行环节。",
+      "tags": ["weapon-fire", "executor", "bullet-spawn", "fire-execution"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:WeaponFireExecutor",
+      "type": "class",
+      "name": "WeaponFireExecutor",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "lineRange": [14, 99],
+      "summary": "射击执行器：管理子弹生成点、从 StatComponent 读取伤害/速度/半径等参数，计算散布方向并生成子弹。",
+      "tags": ["weapon-fire", "executor", "bullet-spawn", "fire-execution"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:Fire",
+      "type": "function",
+      "name": "Fire",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "lineRange": [37, 86],
+      "summary": "核心发射逻辑：从 StatComponent 获取所有射击参数，对每个弹丸计算散布方向，构造 BulletFireParams 并调用 IBulletSystem.FireBullet。",
+      "tags": ["weapon-fire", "bullet-spawn", "core-logic", "spread-calculation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:CalculateDirection",
+      "type": "function",
+      "name": "CalculateDirection",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "lineRange": [88, 98],
+      "summary": "根据基础方向、散布角度和弹丸索引计算每个弹丸的最终发射方向，通过随机旋转实现散布。",
+      "tags": ["weapon-fire", "spread-calculation", "math-utility"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs:InfiniteAmmoComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs:InfiniteAmmoComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs:InfiniteAmmoComponent",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:WeaponMagazineExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:Reload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:GetDisplayInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:WeaponMagazineExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:Reload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:GetDisplayInfo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:WeaponMagazineExecutor",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs:WeaponMagazineExecutor",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponComponentBase.cs:WeaponComponentBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:ISpreadProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:SpreadComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:ISpreadProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:SpreadComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:SpreadComponent",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs:ISpreadProvider",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:ChargeTriggerBehavior",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:Evaluate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:ChargeTriggerBehavior",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:Evaluate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs:ChargeTriggerBehavior",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs:FullAutoTriggerBehavior",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs:FullAutoTriggerBehavior",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs:FullAutoTriggerBehavior",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs:IWeaponTrigger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs:IWeaponTrigger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs:SemiAutoTriggerBehavior",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs:SemiAutoTriggerBehavior",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs:SemiAutoTriggerBehavior",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs:ShotgunTriggerBehavior",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs:ShotgunTriggerBehavior",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs:ShotgunTriggerBehavior",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:SetTriggerState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:LogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:ExecuteFire",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:SetTriggerState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:LogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs:IWeaponTrigger",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs:ITriggerBehavior",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs:IAmmoSystem",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs:HeatComponent",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:WeaponFireExecutor",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs:WeaponFireDecision",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:StatComponent",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:WeaponFireExecutor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:Fire",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:CalculateDirection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:WeaponFireExecutor",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:Fire",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs:WeaponFireExecutor",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs:StatComponent",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

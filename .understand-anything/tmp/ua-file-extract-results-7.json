@@ -1,0 +1,4271 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 132,
+      "nonEmptyLines": 120,
+      "functions": [
+        {
+          "name": "Awake",
+          "startLine": 18,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "MoveInput",
+          "startLine": 23,
+          "endLine": 29,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "ViewInput",
+          "startLine": 31,
+          "endLine": 37,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "FireInput",
+          "startLine": 39,
+          "endLine": 51,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "JumpInput",
+          "startLine": 53,
+          "endLine": 65,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "DashInput",
+          "startLine": 67,
+          "endLine": 79,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "UpgradeInput",
+          "startLine": 82,
+          "endLine": 92,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "ReloadInput",
+          "startLine": 94,
+          "endLine": 104,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "TempPauseInput",
+          "startLine": 106,
+          "endLine": 129,
+          "params": [
+            "context"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InputController",
+          "startLine": 13,
+          "endLine": 131,
+          "methods": [
+            "Awake",
+            "MoveInput",
+            "ViewInput",
+            "FireInput",
+            "JumpInput",
+            "DashInput",
+            "UpgradeInput",
+            "ReloadInput",
+            "TempPauseInput"
+          ],
+          "properties": [
+            "_eventManager",
+            "_tempIsPaused"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MoveInput",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ViewInput",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "FireInput",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "JumpInput",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "DashInput",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "UpgradeInput",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "ReloadInput",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "TempPauseInput",
+          "line": 106,
+          "isDefault": false
+        },
+        {
+          "name": "InputController",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Awake",
+          "callee": "GameEntry.GetModule<EventManager>",
+          "lineNumber": 20
+        },
+        {
+          "caller": "MoveInput",
+          "callee": "ReferencePool.Acquire<InputEventArgs<Vector2>>",
+          "lineNumber": 25
+        },
+        {
+          "caller": "MoveInput",
+          "callee": "context.ReadValue<Vector2>",
+          "lineNumber": 27
+        },
+        {
+          "caller": "MoveInput",
+          "callee": "_eventManager.Fire",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ViewInput",
+          "callee": "ReferencePool.Acquire<InputEventArgs<Vector2>>",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ViewInput",
+          "callee": "context.ReadValue<Vector2>",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ViewInput",
+          "callee": "_eventManager.Fire",
+          "lineNumber": 36
+        },
+        {
+          "caller": "FireInput",
+          "callee": "ReferencePool.Acquire<InputEventArgs<ButtonState>>",
+          "lineNumber": 41
+        },
+        {
+          "caller": "FireInput",
+          "callee": "_eventManager.Fire",
+          "lineNumber": 50
+        },
+        {
+          "caller": "JumpInput",
+          "callee": "ReferencePool.Acquire<InputEventArgs<ButtonState>>",
+          "lineNumber": 55
+        },
+        {
+          "caller": "JumpInput",
+          "callee": "_eventManager.Fire",
+          "lineNumber": 64
+        },
+        {
+          "caller": "DashInput",
+          "callee": "ReferencePool.Acquire<InputEventArgs<ButtonState>>",
+          "lineNumber": 69
+        },
+        {
+          "caller": "DashInput",
+          "callee": "_eventManager.Fire",
+          "lineNumber": 78
+        },
+        {
+          "caller": "UpgradeInput",
+          "callee": "GameEntry.Event.FireInputUpgrade",
+          "lineNumber": 91
+        },
+        {
+          "caller": "ReloadInput",
+          "callee": "GameEntry.Event.FireInputReload",
+          "lineNumber": 103
+        },
+        {
+          "caller": "TempPauseInput",
+          "callee": "SystemRepository.Instance.GetSystem<IPauseSystem>().PopPause",
+          "lineNumber": 119
+        },
+        {
+          "caller": "TempPauseInput",
+          "callee": "SystemRepository.Instance.GetSystem<IPauseSystem>",
+          "lineNumber": 119
+        },
+        {
+          "caller": "TempPauseInput",
+          "callee": "SystemRepository.Instance.GetSystem<IPauseSystem>().PushPause",
+          "lineNumber": 124
+        },
+        {
+          "caller": "TempPauseInput",
+          "callee": "SystemRepository.Instance.GetSystem<IPauseSystem>",
+          "lineNumber": 124
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "Clear",
+          "startLine": 13,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "GetHashCode",
+          "startLine": 18,
+          "endLine": 18,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 26,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "GetHashCode",
+          "startLine": 30,
+          "endLine": 30,
+          "params": [
+            "name"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InputEventArgs",
+          "startLine": 7,
+          "endLine": 19,
+          "methods": [
+            "Clear",
+            "GetHashCode"
+          ],
+          "properties": [
+            "Name",
+            "Id",
+            "Args"
+          ]
+        },
+        {
+          "name": "InputEventArgs",
+          "startLine": 21,
+          "endLine": 31,
+          "methods": [
+            "Clear",
+            "GetHashCode"
+          ],
+          "properties": [
+            "Id",
+            "Name"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Name",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Id",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Args",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "GetHashCode",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "InputEventArgs",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "Id",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "GetHashCode",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "InputEventArgs",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetHashCode",
+          "callee": "new TypeNamePair(typeof(InputEventArgs<T>),name).GetHashCode",
+          "lineNumber": 18
+        },
+        {
+          "caller": "GetHashCode",
+          "callee": "new TypeNamePair",
+          "lineNumber": 18
+        },
+        {
+          "caller": "GetHashCode",
+          "callee": "new TypeNamePair(typeof(InputEventArgs),name).GetHashCode",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetHashCode",
+          "callee": "new TypeNamePair",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 4,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 194,
+      "nonEmptyLines": 180,
+      "functions": [
+        {
+          "name": "OnDashInputChange",
+          "startLine": 35,
+          "endLine": 46,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnMoveInputChange",
+          "startLine": 47,
+          "endLine": 50,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnJumpInputChange",
+          "startLine": 54,
+          "endLine": 78,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnInteractInputChange",
+          "startLine": 80,
+          "endLine": 86,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnFireInputChange",
+          "startLine": 88,
+          "endLine": 99,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnReloadInputChange",
+          "startLine": 101,
+          "endLine": 111,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnSwitchWeaponInputChange",
+          "startLine": 113,
+          "endLine": 123,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnAbilitySecondaryInputChange",
+          "startLine": 125,
+          "endLine": 136,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnAbilityWheelInputChange",
+          "startLine": 138,
+          "endLine": 148,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "OnScrollInputChange",
+          "startLine": 151,
+          "endLine": 157,
+          "params": [
+            "context"
+          ]
+        },
+        {
+          "name": "Awake",
+          "startLine": 158,
+          "endLine": 161,
+          "params": []
+        },
+        {
+          "name": "FixedUpdate",
+          "startLine": 163,
+          "endLine": 174,
+          "params": []
+        },
+        {
+          "name": "ConsumeBufferedJump",
+          "startLine": 176,
+          "endLine": 184,
+          "params": []
+        },
+        {
+          "name": "OnLookInputChange",
+          "startLine": 187,
+          "endLine": 192,
+          "params": [
+            "context"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InputHandler",
+          "startLine": 10,
+          "endLine": 193,
+          "methods": [
+            "OnDashInputChange",
+            "OnMoveInputChange",
+            "OnJumpInputChange",
+            "OnInteractInputChange",
+            "OnFireInputChange",
+            "OnReloadInputChange",
+            "OnSwitchWeaponInputChange",
+            "OnAbilitySecondaryInputChange",
+            "OnAbilityWheelInputChange",
+            "OnScrollInputChange",
+            "Awake",
+            "FixedUpdate",
+            "ConsumeBufferedJump",
+            "OnLookInputChange"
+          ],
+          "properties": [
+            "jumpBufferedTime",
+            "MoveDirection",
+            "ViewDelta",
+            "IsJumpPressed",
+            "JumpHoldTime",
+            "IsDashPressed",
+            "IsFirePressed",
+            "IsReloadPressed",
+            "IsSwitchWeaponPressed",
+            "IsAbilitySecondaryPressed",
+            "IsAbilityWheelPressed",
+            "_moveInput",
+            "_cameraSystem",
+            "_lastJumpTime",
+            "_jumpInputActionPhase",
+            "OnInteract",
+            "OnScrollChange",
+            "OnViewInputChange"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MoveDirection",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "ViewDelta",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "IsJumpPressed",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "JumpHoldTime",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "IsDashPressed",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "IsFirePressed",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "IsReloadPressed",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "IsSwitchWeaponPressed",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "IsAbilitySecondaryPressed",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "IsAbilityWheelPressed",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "OnDashInputChange",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "OnMoveInputChange",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "OnJumpInputChange",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "OnInteract",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "OnInteractInputChange",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "OnFireInputChange",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "OnReloadInputChange",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "OnSwitchWeaponInputChange",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "OnAbilitySecondaryInputChange",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "OnAbilityWheelInputChange",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "OnScrollChange",
+          "line": 150,
+          "isDefault": false
+        },
+        {
+          "name": "OnScrollInputChange",
+          "line": 151,
+          "isDefault": false
+        },
+        {
+          "name": "ConsumeBufferedJump",
+          "line": 176,
+          "isDefault": false
+        },
+        {
+          "name": "OnViewInputChange",
+          "line": 186,
+          "isDefault": false
+        },
+        {
+          "name": "OnLookInputChange",
+          "line": 187,
+          "isDefault": false
+        },
+        {
+          "name": "InputHandler",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnDashInputChange",
+          "callee": "OnDash?.Invoke",
+          "lineNumber": 45
+        },
+        {
+          "caller": "OnMoveInputChange",
+          "callee": "context.ReadValue<Vector2>",
+          "lineNumber": 49
+        },
+        {
+          "caller": "OnJumpInputChange",
+          "callee": "OnJump?.Invoke",
+          "lineNumber": 77
+        },
+        {
+          "caller": "OnInteractInputChange",
+          "callee": "OnInteract?.Invoke",
+          "lineNumber": 84
+        },
+        {
+          "caller": "OnFireInputChange",
+          "callee": "OnFire?.Invoke",
+          "lineNumber": 98
+        },
+        {
+          "caller": "OnReloadInputChange",
+          "callee": "OnReload?.Invoke",
+          "lineNumber": 110
+        },
+        {
+          "caller": "OnSwitchWeaponInputChange",
+          "callee": "OnSwitchWeapon?.Invoke",
+          "lineNumber": 122
+        },
+        {
+          "caller": "OnAbilitySecondaryInputChange",
+          "callee": "OnAbilitySecondary?.Invoke",
+          "lineNumber": 135
+        },
+        {
+          "caller": "OnAbilityWheelInputChange",
+          "callee": "OnAbilityWheel?.Invoke",
+          "lineNumber": 147
+        },
+        {
+          "caller": "OnScrollInputChange",
+          "callee": "OnScrollChange?.Invoke",
+          "lineNumber": 155
+        },
+        {
+          "caller": "OnScrollInputChange",
+          "callee": "context.ReadValue<Vector2>",
+          "lineNumber": 155
+        },
+        {
+          "caller": "Awake",
+          "callee": "SystemRepository.Instance.GetSystem<ICameraSystem>",
+          "lineNumber": 160
+        },
+        {
+          "caller": "FixedUpdate",
+          "callee": "new Vector3",
+          "lineNumber": 172
+        },
+        {
+          "caller": "FixedUpdate",
+          "callee": "new Vector3",
+          "lineNumber": 173
+        },
+        {
+          "caller": "OnLookInputChange",
+          "callee": "context.ReadValue<Vector2>",
+          "lineNumber": 189
+        },
+        {
+          "caller": "OnLookInputChange",
+          "callee": "OnViewInputChange?.Invoke",
+          "lineNumber": 191
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 26,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/IPlayerSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "IPlayerSystem",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "CreatePlayer",
+            "CreatePlayer"
+          ],
+          "properties": [
+            "Player"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IPlayerSystem",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.Control.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "RegisterInputHandlers",
+          "startLine": 14,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "OnMoveInputChange",
+          "startLine": 23,
+          "endLine": 28,
+          "params": [
+            "sender",
+            "eventArgs"
+          ]
+        },
+        {
+          "name": "OnViewInputChange",
+          "startLine": 30,
+          "endLine": 35,
+          "params": [
+            "sender",
+            "eventArgs"
+          ]
+        },
+        {
+          "name": "OnDashInputChange",
+          "startLine": 37,
+          "endLine": 42,
+          "params": [
+            "sender",
+            "eventArgs"
+          ]
+        },
+        {
+          "name": "OnJumpInputChange",
+          "startLine": 44,
+          "endLine": 49,
+          "params": [
+            "sender",
+            "eventArgs"
+          ]
+        },
+        {
+          "name": "OnFireInputChange",
+          "startLine": 51,
+          "endLine": 55,
+          "params": [
+            "sender",
+            "eventArgs"
+          ]
+        },
+        {
+          "name": "OnUpgradeInputChange",
+          "startLine": 57,
+          "endLine": 64,
+          "params": [
+            "sender",
+            "eventArgs"
+          ]
+        },
+        {
+          "name": "OnVelocityChange",
+          "startLine": 65,
+          "endLine": 65,
+          "params": [
+            "velocity"
+          ]
+        },
+        {
+          "name": "OnViewRotationChange",
+          "startLine": 67,
+          "endLine": 67,
+          "params": [
+            "viewRotation"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 8,
+          "endLine": 68,
+          "methods": [
+            "RegisterInputHandlers",
+            "OnMoveInputChange",
+            "OnViewInputChange",
+            "OnDashInputChange",
+            "OnJumpInputChange",
+            "OnFireInputChange",
+            "OnUpgradeInputChange",
+            "OnVelocityChange",
+            "OnViewRotationChange"
+          ],
+          "properties": [
+            "playerConfigSo",
+            "EventManager"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Player",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "EventManager.Subscribe",
+          "lineNumber": 16
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "InputEventArgs<Vector2>.GetHashCode",
+          "lineNumber": 16
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "EventManager.Subscribe",
+          "lineNumber": 17
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "InputEventArgs<Vector2>.GetHashCode",
+          "lineNumber": 17
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "EventManager.Subscribe",
+          "lineNumber": 18
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "InputEventArgs<ButtonState>.GetHashCode",
+          "lineNumber": 18
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "EventManager.Subscribe",
+          "lineNumber": 19
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "InputEventArgs<ButtonState>.GetHashCode",
+          "lineNumber": 19
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "EventManager.Subscribe",
+          "lineNumber": 20
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "InputEventArgs<ButtonState>.GetHashCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "EventManager.Subscribe",
+          "lineNumber": 21
+        },
+        {
+          "caller": "RegisterInputHandlers",
+          "callee": "InputEventArgs<ButtonState>.GetHashCode",
+          "lineNumber": 21
+        },
+        {
+          "caller": "OnMoveInputChange",
+          "callee": "_fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 26
+        },
+        {
+          "caller": "OnMoveInputChange",
+          "callee": "moveInput.PostValue",
+          "lineNumber": 27
+        },
+        {
+          "caller": "OnViewInputChange",
+          "callee": "_fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 33
+        },
+        {
+          "caller": "OnViewInputChange",
+          "callee": "viewInput.PostValue",
+          "lineNumber": 34
+        },
+        {
+          "caller": "OnDashInputChange",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 40
+        },
+        {
+          "caller": "OnDashInputChange",
+          "callee": "dashInput.PostValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "OnJumpInputChange",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 47
+        },
+        {
+          "caller": "OnJumpInputChange",
+          "callee": "jumpInput.PostValue",
+          "lineNumber": 48
+        },
+        {
+          "caller": "OnFireInputChange",
+          "callee": "PhysicsWeaponTrigger",
+          "lineNumber": 54
+        },
+        {
+          "caller": "OnUpgradeInputChange",
+          "callee": "AccessoryController.Instance.Upgrade",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.Countdown.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "InitCountdown",
+          "startLine": 9,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "RegisterCountdowns",
+          "startLine": 14,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "CountdownUpdate",
+          "startLine": 19,
+          "endLine": 22,
+          "params": [
+            "deltaTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 5,
+          "endLine": 23,
+          "methods": [
+            "InitCountdown",
+            "RegisterCountdowns",
+            "CountdownUpdate"
+          ],
+          "properties": [
+            "Countdown"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Player",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InitCountdown",
+          "callee": "new CountdownController",
+          "lineNumber": 11
+        },
+        {
+          "caller": "InitCountdown",
+          "callee": "RegisterCountdowns",
+          "lineNumber": 12
+        },
+        {
+          "caller": "RegisterCountdowns",
+          "callee": "Countdown.AddCountdownEvent",
+          "lineNumber": 16
+        },
+        {
+          "caller": "CountdownUpdate",
+          "callee": "Countdown.Update",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 75,
+      "nonEmptyLines": 65,
+      "functions": [
+        {
+          "name": "SetCamera",
+          "startLine": 20,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "Initialize",
+          "startLine": 32,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "FrameUpdate",
+          "startLine": 49,
+          "endLine": 52,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 54,
+          "endLine": 57,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnDestroy",
+          "startLine": 59,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "RegisterEvents",
+          "startLine": 66,
+          "endLine": 72,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 15,
+          "endLine": 74,
+          "methods": [
+            "SetCamera",
+            "Initialize",
+            "FrameUpdate",
+            "LogicUpdate",
+            "OnDestroy",
+            "RegisterEvents"
+          ],
+          "properties": [
+            "mainCameraTransform"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Initialize",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "FrameUpdate",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "Player",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetCamera",
+          "callee": "new Exception",
+          "lineNumber": 24
+        },
+        {
+          "caller": "SetCamera",
+          "callee": "camTrans.SetParent",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Initialize",
+          "callee": "gameObject.SetActive",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Initialize",
+          "callee": "SetCamera",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Initialize",
+          "callee": "InitPhysics",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Initialize",
+          "callee": "InitFsm",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Initialize",
+          "callee": "InitHealth",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Initialize",
+          "callee": "InitCountdown",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Initialize",
+          "callee": "RegisterEvents",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Initialize",
+          "callee": "StartFsm",
+          "lineNumber": 41
+        },
+        {
+          "caller": "Initialize",
+          "callee": "EquipPhysicsWeapon<DefaultWeapon>",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Initialize",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Initialize",
+          "callee": "entitySystem.AddFrameUpdate",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Initialize",
+          "callee": "entitySystem.AddLogicUpdate",
+          "lineNumber": 46
+        },
+        {
+          "caller": "FrameUpdate",
+          "callee": "CountdownUpdate",
+          "lineNumber": 51
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "PhysicsUpdate",
+          "lineNumber": 56
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "SystemRepository.Instance.GetSystem<IEntityUpdateSystem>",
+          "lineNumber": 61
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "entitySystem?.RemoveFrameUpdate",
+          "lineNumber": 62
+        },
+        {
+          "caller": "OnDestroy",
+          "callee": "entitySystem?.RemoveLogicUpdate",
+          "lineNumber": 63
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "RegisterInputHandlers",
+          "lineNumber": 68
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<Vector3>>(\"Velocity\").Observe",
+          "lineNumber": 70
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<Vector3>>",
+          "lineNumber": 70
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<Quaternion>>(\"ViewRotation\").Observe",
+          "lineNumber": 71
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<Quaternion>>",
+          "lineNumber": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "InitFsm",
+          "startLine": 21,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "StartFsm",
+          "startLine": 28,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "CreateFsm",
+          "startLine": 32,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "RegisterFsmDatas",
+          "startLine": 36,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "OnSpawn",
+          "startLine": 58,
+          "endLine": 61,
+          "params": []
+        },
+        {
+          "name": "RegisterStates",
+          "startLine": 63,
+          "endLine": 69,
+          "params": []
+        },
+        {
+          "name": "TakeDamage",
+          "startLine": 71,
+          "endLine": 74,
+          "params": [
+            "damageInfo"
+          ]
+        },
+        {
+          "name": "AddEffect",
+          "startLine": 79,
+          "endLine": 85,
+          "params": [
+            "effect"
+          ]
+        },
+        {
+          "name": "RemoveEffect",
+          "startLine": 87,
+          "endLine": 92,
+          "params": [
+            "effect"
+          ]
+        },
+        {
+          "name": "Subscribe",
+          "startLine": 95,
+          "endLine": 95,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "Unsubscribe",
+          "startLine": 97,
+          "endLine": 97,
+          "params": [
+            "id",
+            "handler"
+          ]
+        },
+        {
+          "name": "FireEvent",
+          "startLine": 99,
+          "endLine": 99,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "FireNow",
+          "startLine": 101,
+          "endLine": 101,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 13,
+          "endLine": 104,
+          "methods": [
+            "InitFsm",
+            "StartFsm",
+            "CreateFsm",
+            "RegisterFsmDatas",
+            "OnSpawn",
+            "RegisterStates",
+            "TakeDamage",
+            "AddEffect",
+            "RemoveEffect",
+            "Subscribe",
+            "Unsubscribe",
+            "FireEvent",
+            "FireNow"
+          ],
+          "properties": [
+            "_fsm",
+            "_states",
+            "_onAttackDelegate",
+            "_effects",
+            "_eventPool",
+            "IsDead"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OnSpawn",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "TakeDamage",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "IsDead",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "AddEffect",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveEffect",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "Subscribe",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "Unsubscribe",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "FireEvent",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "FireNow",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "Player",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InitFsm",
+          "callee": "RegisterStates",
+          "lineNumber": 23
+        },
+        {
+          "caller": "InitFsm",
+          "callee": "CreateFsm",
+          "lineNumber": 24
+        },
+        {
+          "caller": "InitFsm",
+          "callee": "RegisterFsmDatas",
+          "lineNumber": 25
+        },
+        {
+          "caller": "StartFsm",
+          "callee": "_fsm.Start<PlayerInitState>",
+          "lineNumber": 30
+        },
+        {
+          "caller": "CreateFsm",
+          "callee": "GameEntry.GetModule<FsmManager>().CreateFsm",
+          "lineNumber": 34
+        },
+        {
+          "caller": "CreateFsm",
+          "callee": "GameEntry.GetModule<FsmManager>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<Vector2>>",
+          "lineNumber": 38
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 39
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<Vector3>>",
+          "lineNumber": 40
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 41
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<Vector2>>",
+          "lineNumber": 42
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 43
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<Quaternion>>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 45
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<bool>>",
+          "lineNumber": 46
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 47
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<ButtonState>>",
+          "lineNumber": 48
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 49
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<ButtonState>>",
+          "lineNumber": 50
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 51
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "ReferencePool.Acquire<Variable<bool>>",
+          "lineNumber": 52
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 53
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "LiveDelegate<OnAttackDelegate>.Create",
+          "lineNumber": 54
+        },
+        {
+          "caller": "RegisterFsmDatas",
+          "callee": "_fsm.SetData",
+          "lineNumber": 55
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "_states.Add",
+          "lineNumber": 65
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "new PlayerInitState",
+          "lineNumber": 65
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "_states.Add",
+          "lineNumber": 66
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "new PlayerMoveState",
+          "lineNumber": 66
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "_states.Add",
+          "lineNumber": 67
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "new PlayerJumpState",
+          "lineNumber": 67
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "_states.Add",
+          "lineNumber": 68
+        },
+        {
+          "caller": "RegisterStates",
+          "callee": "new PlayerDashState",
+          "lineNumber": 68
+        },
+        {
+          "caller": "AddEffect",
+          "callee": "_effects.Add",
+          "lineNumber": 84
+        },
+        {
+          "caller": "RemoveEffect",
+          "callee": "_effects.Remove",
+          "lineNumber": 89
+        },
+        {
+          "caller": "RemoveEffect",
+          "callee": "effect.Unapply",
+          "lineNumber": 90
+        },
+        {
+          "caller": "Subscribe",
+          "callee": "_eventPool.Subscribe",
+          "lineNumber": 95
+        },
+        {
+          "caller": "Unsubscribe",
+          "callee": "_eventPool.Unsubscribe",
+          "lineNumber": 97
+        },
+        {
+          "caller": "FireEvent",
+          "callee": "_eventPool.Fire",
+          "lineNumber": 99
+        },
+        {
+          "caller": "FireNow",
+          "callee": "_eventPool.FireNow",
+          "lineNumber": 101
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 13,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.Health.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 108,
+      "nonEmptyLines": 93,
+      "functions": [
+        {
+          "name": "InitHealth",
+          "startLine": 15,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "OnAttacked",
+          "startLine": 22,
+          "endLine": 36,
+          "params": [
+            "attackInfo"
+          ]
+        },
+        {
+          "name": "TakeDamage",
+          "startLine": 73,
+          "endLine": 81,
+          "params": [
+            "damage"
+          ]
+        },
+        {
+          "name": "Die",
+          "startLine": 83,
+          "endLine": 86,
+          "params": [
+            "deathInfo"
+          ]
+        },
+        {
+          "name": "Heal",
+          "startLine": 88,
+          "endLine": 92,
+          "params": [
+            "healAmount"
+          ]
+        },
+        {
+          "name": "AddArmor",
+          "startLine": 94,
+          "endLine": 98,
+          "params": [
+            "armorAmount"
+          ]
+        },
+        {
+          "name": "SubArmor",
+          "startLine": 100,
+          "endLine": 104,
+          "params": [
+            "armorAmount"
+          ]
+        },
+        {
+          "name": "OnMaxHealthChange",
+          "startLine": 106,
+          "endLine": 106,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 12,
+          "endLine": 107,
+          "methods": [
+            "InitHealth",
+            "OnAttacked",
+            "TakeDamage",
+            "Die",
+            "Heal",
+            "AddArmor",
+            "SubArmor",
+            "OnMaxHealthChange"
+          ],
+          "properties": [
+            "baseMaxHealth",
+            "Health",
+            "_health",
+            "MaxHealth",
+            "Armor",
+            "_armor",
+            "MaxArmor",
+            "MaxHealthStat"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OnAttacked",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Health",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "MaxHealth",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "Armor",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "MaxArmor",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "MaxHealthStat",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "TakeDamage",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "Die",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "Heal",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "AddArmor",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "SubArmor",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "Player",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InitHealth",
+          "callee": "MaxHealthStat.SetBaseValue",
+          "lineNumber": 18
+        },
+        {
+          "caller": "OnAttacked",
+          "callee": "SubArmor",
+          "lineNumber": 27
+        },
+        {
+          "caller": "OnAttacked",
+          "callee": "SubArmor",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnAttacked",
+          "callee": "TakeDamage",
+          "lineNumber": 33
+        },
+        {
+          "caller": "OnAttacked",
+          "callee": "AttackResult.Create",
+          "lineNumber": 35
+        },
+        {
+          "caller": "TakeDamage",
+          "callee": "Debug.Log",
+          "lineNumber": 79
+        },
+        {
+          "caller": "OnMaxHealthChange",
+          "callee": "GameEntry.Event.FirePlayerMaxHealth",
+          "lineNumber": 106
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.Physics.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "InitPhysics",
+          "startLine": 13,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "PhysicsUpdate",
+          "startLine": 18,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "GroundDetection",
+          "startLine": 26,
+          "endLine": 33,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 7,
+          "endLine": 34,
+          "methods": [
+            "InitPhysics",
+            "PhysicsUpdate",
+            "GroundDetection"
+          ],
+          "properties": [
+            "_rigidbody",
+            "_collider",
+            "_onGround",
+            "groundDetectLayerMask"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Player",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InitPhysics",
+          "callee": "GetComponent<Rigidbody>",
+          "lineNumber": 15
+        },
+        {
+          "caller": "InitPhysics",
+          "callee": "GetComponentInChildren<CapsuleCollider>",
+          "lineNumber": 16
+        },
+        {
+          "caller": "PhysicsUpdate",
+          "callee": "GroundDetection",
+          "lineNumber": 20
+        },
+        {
+          "caller": "PhysicsUpdate",
+          "callee": "GameEntry.Event.FirePlayerPosition",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "Physics.Raycast",
+          "lineNumber": 29
+        },
+        {
+          "caller": "GroundDetection",
+          "callee": "_onGround.PostValue",
+          "lineNumber": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/Player.Weapon.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 119,
+      "nonEmptyLines": 109,
+      "functions": [
+        {
+          "name": "PhysicsWeaponTrigger",
+          "startLine": 22,
+          "endLine": 22,
+          "params": [
+            "triggerState"
+          ]
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "startLine": 23,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "startLine": 33,
+          "endLine": 41,
+          "params": [
+            "type"
+          ]
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "startLine": 42,
+          "endLine": 50,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "startLine": 52,
+          "endLine": 60,
+          "params": [
+            "name",
+            "type"
+          ]
+        },
+        {
+          "name": "InternalEquipPhysicsWeapon",
+          "startLine": 61,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "InternalEquipPhysicsWeapon",
+          "startLine": 70,
+          "endLine": 77,
+          "params": [
+            "type"
+          ]
+        },
+        {
+          "name": "InternalEquipPhysicsWeapon",
+          "startLine": 78,
+          "endLine": 85,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "InternalEquipPhysicsWeapon",
+          "startLine": 87,
+          "endLine": 94,
+          "params": [
+            "name",
+            "type"
+          ]
+        },
+        {
+          "name": "InternalEquipPhysicsWeapon",
+          "startLine": 95,
+          "endLine": 104,
+          "params": [
+            "newWeapon"
+          ]
+        },
+        {
+          "name": "UnequipPhysicsWeapon",
+          "startLine": 106,
+          "endLine": 116,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Player",
+          "startLine": 11,
+          "endLine": 118,
+          "methods": [
+            "PhysicsWeaponTrigger",
+            "EquipPhysicsWeapon",
+            "EquipPhysicsWeapon",
+            "EquipPhysicsWeapon",
+            "EquipPhysicsWeapon",
+            "InternalEquipPhysicsWeapon",
+            "InternalEquipPhysicsWeapon",
+            "InternalEquipPhysicsWeapon",
+            "InternalEquipPhysicsWeapon",
+            "InternalEquipPhysicsWeapon",
+            "UnequipPhysicsWeapon"
+          ],
+          "properties": [
+            "WeaponPrefabPaths",
+            "_physicsWeapon",
+            "PhysicsWeapon",
+            "weaponSpawnPoint"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PhysicsWeapon",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "EquipPhysicsWeapon",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "Player",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PhysicsWeaponTrigger",
+          "callee": "_physicsWeapon?.Trigger",
+          "lineNumber": 22
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "UnequipPhysicsWeapon",
+          "lineNumber": 27
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon<TWeapon>",
+          "lineNumber": 29
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "UnequipPhysicsWeapon",
+          "lineNumber": 37
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon",
+          "lineNumber": 39
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "UnequipPhysicsWeapon",
+          "lineNumber": 46
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon<TWeapon>",
+          "lineNumber": 48
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "UnequipPhysicsWeapon",
+          "lineNumber": 56
+        },
+        {
+          "caller": "EquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon",
+          "lineNumber": 58
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 64
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "Instantiate",
+          "lineNumber": 65
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "go.GetComponent<IWeapon>",
+          "lineNumber": 66
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon",
+          "lineNumber": 67
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 73
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "Instantiate",
+          "lineNumber": 74
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "go.GetComponent<IWeapon>",
+          "lineNumber": 75
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon",
+          "lineNumber": 76
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 81
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "Instantiate",
+          "lineNumber": 82
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "go.GetComponent<IWeapon>",
+          "lineNumber": 83
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon",
+          "lineNumber": 84
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 90
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "Instantiate",
+          "lineNumber": 91
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "go.GetComponent<IWeapon>",
+          "lineNumber": 92
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "InternalEquipPhysicsWeapon",
+          "lineNumber": 93
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "new Exception",
+          "lineNumber": 99
+        },
+        {
+          "caller": "InternalEquipPhysicsWeapon",
+          "callee": "newWeapon.Equip",
+          "lineNumber": 103
+        },
+        {
+          "caller": "UnequipPhysicsWeapon",
+          "callee": "new Exception",
+          "lineNumber": 110
+        },
+        {
+          "caller": "UnequipPhysicsWeapon",
+          "callee": "_physicsWeapon.Unequip",
+          "lineNumber": 112
+        },
+        {
+          "caller": "UnequipPhysicsWeapon",
+          "callee": "Destroy",
+          "lineNumber": 114
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerConfig.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 30,
+      "classes": [
+        {
+          "name": "PlayerConfig",
+          "startLine": 5,
+          "endLine": 33,
+          "methods": [],
+          "properties": [
+            "speed",
+            "verticalSensitivity",
+            "horizontalSensitivity",
+            "shortPressJumpHeight",
+            "longPressJumpMaxHeight",
+            "longPressMaxTime",
+            "shortPressJustifyTime",
+            "gravityAcceleration",
+            "maxDropVelocity",
+            "coyoteTime",
+            "jumpInputBufferTime",
+            "invincibleTime",
+            "endingTime",
+            "dashSpeed",
+            "dashCountdownTime",
+            "coneHalfAngle",
+            "maxInteractDistance",
+            "interactableLayer"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "speed",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "verticalSensitivity",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "horizontalSensitivity",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "shortPressJumpHeight",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "longPressJumpMaxHeight",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "longPressMaxTime",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "shortPressJustifyTime",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "gravityAcceleration",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "maxDropVelocity",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "coyoteTime",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "jumpInputBufferTime",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "invincibleTime",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "endingTime",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "dashSpeed",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "dashCountdownTime",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "coneHalfAngle",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "maxInteractDistance",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "interactableLayer",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerConfig",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 19,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerConfigSo.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 60,
+      "classes": [
+        {
+          "name": "PlayerConfigSo",
+          "startLine": 7,
+          "endLine": 34,
+          "methods": [],
+          "properties": [
+            "speed",
+            "verticalSensitivity",
+            "horizontalSensitivity",
+            "shortPressJumpHeight",
+            "longPressJumpMaxHeight",
+            "longPressMaxTime",
+            "shortPressJustifyTime",
+            "gravityAcceleration",
+            "maxDropVelocity",
+            "coyoteTime",
+            "jumpInputBufferTime",
+            "invincibleTime",
+            "endingTime",
+            "dashSpeed",
+            "dashCountdownTime"
+          ]
+        },
+        {
+          "name": "PlayerConfigProvider",
+          "startLine": 36,
+          "endLine": 65,
+          "methods": [],
+          "properties": [
+            "PlayerConfigSoPath",
+            "_cachedConfig"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "speed",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "verticalSensitivity",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "horizontalSensitivity",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "shortPressJumpHeight",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "longPressJumpMaxHeight",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "longPressMaxTime",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "shortPressJustifyTime",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "gravityAcceleration",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "maxDropVelocity",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "coyoteTime",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "jumpInputBufferTime",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "invincibleTime",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "endingTime",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "dashSpeed",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "dashCountdownTime",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerConfigSo",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerConfigProvider",
+          "line": 36,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "AssetDatabase.FindAssets",
+          "lineNumber": 45
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "Debug.LogError",
+          "lineNumber": 48
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "AssetDatabase.GUIDToAssetPath",
+          "lineNumber": 53
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "AssetDatabase.LoadAssetAtPath<PlayerConfigSo>",
+          "lineNumber": 54
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "ScriptableObject.CreateInstance<PlayerConfigSo>",
+          "lineNumber": 57
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "AssetDatabase.CreateAsset",
+          "lineNumber": 58
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "AssetDatabase.SaveAssets",
+          "lineNumber": 59
+        },
+        {
+          "caller": "GetOrCreatePlayerConfigSo",
+          "callee": "Debug.Log",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerManager.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "CreatePlayer",
+          "startLine": 16,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "CreatePlayer",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "position",
+            "rotation"
+          ]
+        },
+        {
+          "name": "CreatePlayer",
+          "startLine": 28,
+          "endLine": 34,
+          "params": [
+            "spawnTransform"
+          ]
+        },
+        {
+          "name": "Init",
+          "startLine": 35,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "OnUnregister",
+          "startLine": 39,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "ComponentUpdate",
+          "startLine": 44,
+          "endLine": 47,
+          "params": [
+            "elapsedSeconds",
+            "realElapseSeconds"
+          ]
+        },
+        {
+          "name": "ComponentFixedUpdate",
+          "startLine": 49,
+          "endLine": 52,
+          "params": [
+            "fixedDeltaTime"
+          ]
+        },
+        {
+          "name": "Shutdown",
+          "startLine": 54,
+          "endLine": 57,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerManager",
+          "startLine": 8,
+          "endLine": 58,
+          "methods": [
+            "CreatePlayer",
+            "CreatePlayer",
+            "CreatePlayer",
+            "Init",
+            "OnUnregister",
+            "ComponentUpdate",
+            "ComponentFixedUpdate",
+            "Shutdown"
+          ],
+          "properties": [
+            "Priority",
+            "Player",
+            "defaultPlayerSpawnPoint",
+            "DefaultPlayerSpawnPoint"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Priority",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Player",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "DefaultPlayerSpawnPoint",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "CreatePlayer",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "CreatePlayer",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "CreatePlayer",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "OnUnregister",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "ComponentUpdate",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "ComponentFixedUpdate",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "Shutdown",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerManager",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CreatePlayer",
+          "callee": "SystemRepository.Instance.GetSystem<IPlayerSystem>",
+          "lineNumber": 18
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "sys.CreatePlayer",
+          "lineNumber": 21
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "SystemRepository.Instance.GetSystem<IPlayerSystem>().CreatePlayer",
+          "lineNumber": 26
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "SystemRepository.Instance.GetSystem<IPlayerSystem>",
+          "lineNumber": 26
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "SystemRepository.Instance.GetSystem<IPlayerSystem>()\n                .CreatePlayer",
+          "lineNumber": 32
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "SystemRepository.Instance.GetSystem<IPlayerSystem>",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerRotater.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "Rotate",
+          "startLine": 9,
+          "endLine": 28,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerRotater",
+          "startLine": 6,
+          "endLine": 29,
+          "methods": [
+            "Rotate"
+          ],
+          "properties": [
+            "mainCamera"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Rotate",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerRotater",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Rotate",
+          "callee": "Mathf.Clamp",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Rotate",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Rotate",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerSaveData.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "PlayerSaveData",
+          "startLine": 4,
+          "endLine": 9,
+          "methods": [],
+          "properties": [
+            "lastSavePointIndex",
+            "lastSceneName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "lastSavePointIndex",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "lastSceneName",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerSaveData",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "CollectSaveData",
+          "startLine": 19,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "ApplySaveData",
+          "startLine": 24,
+          "endLine": 30,
+          "params": [
+            "json"
+          ]
+        },
+        {
+          "name": "MergeSaveFields",
+          "startLine": 32,
+          "endLine": 43,
+          "params": [
+            "fields"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerSaveDataProvider",
+          "startLine": 7,
+          "endLine": 44,
+          "methods": [
+            "CollectSaveData",
+            "ApplySaveData",
+            "MergeSaveFields"
+          ],
+          "properties": [
+            "DataKey",
+            "_runtimeData",
+            "RuntimeData"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DataKey",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "RuntimeData",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "CollectSaveData",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "ApplySaveData",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "MergeSaveFields",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerSaveDataProvider",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CollectSaveData",
+          "callee": "JsonUtility.ToJson",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ApplySaveData",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ApplySaveData",
+          "callee": "JsonUtility.FromJson<PlayerSaveData>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ApplySaveData",
+          "callee": "new PlayerSaveData",
+          "lineNumber": 28
+        },
+        {
+          "caller": "MergeSaveFields",
+          "callee": "fields.TryGetValue",
+          "lineNumber": 34
+        },
+        {
+          "caller": "MergeSaveFields",
+          "callee": "int.TryParse",
+          "lineNumber": 35
+        },
+        {
+          "caller": "MergeSaveFields",
+          "callee": "fields.TryGetValue",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 21,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "UnInit",
+          "startLine": 29,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "CreatePlayer",
+          "startLine": 34,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "CreatePlayer",
+          "startLine": 39,
+          "endLine": 51,
+          "params": [
+            "position",
+            "rotation"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerSystemDefault",
+          "startLine": 12,
+          "endLine": 52,
+          "methods": [
+            "Init",
+            "UnInit",
+            "CreatePlayer",
+            "CreatePlayer"
+          ],
+          "properties": [
+            "Player",
+            "PlayerPrefabPath",
+            "_defaultSpawnPosition",
+            "_defaultSpawnRotation"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Player",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "UnInit",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "CreatePlayer",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "CreatePlayer",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "PlayerSystemDefault",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Init",
+          "callee": "configProvider?.GetConfig<AppSettingsConfig>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Init",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 26
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "CreatePlayer",
+          "lineNumber": 36
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "new Exception",
+          "lineNumber": 42
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "Object.Instantiate",
+          "lineNumber": 45
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>",
+          "lineNumber": 48
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "configProvider.GetConfig<PlayerConfig>",
+          "lineNumber": 49
+        },
+        {
+          "caller": "CreatePlayer",
+          "callee": "PlayerEntityFactory.AssemblePlayer",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 120,
+      "nonEmptyLines": 110,
+      "functions": [
+        {
+          "name": "InitConfigs",
+          "startLine": 23,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "OnEnter",
+          "startLine": 36,
+          "endLine": 50,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnExit",
+          "startLine": 52,
+          "endLine": 61,
+          "params": [
+            "fsm",
+            "isShutdown"
+          ]
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 63,
+          "endLine": 81,
+          "params": [
+            "fsm",
+            "elapsedTime",
+            "realElapseTime"
+          ]
+        },
+        {
+          "name": "InitArgs",
+          "startLine": 91,
+          "endLine": 101,
+          "params": []
+        },
+        {
+          "name": "ChangeVelocity",
+          "startLine": 102,
+          "endLine": 105,
+          "params": []
+        },
+        {
+          "name": "ChangeView",
+          "startLine": 106,
+          "endLine": 118,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerDashState",
+          "startLine": 10,
+          "endLine": 119,
+          "methods": [
+            "InitConfigs",
+            "OnEnter",
+            "OnExit",
+            "OnUpdate",
+            "InitArgs",
+            "ChangeVelocity",
+            "ChangeView"
+          ],
+          "properties": [
+            "_fsm",
+            "_invincibleTime",
+            "_endingTime",
+            "_dashSpeed",
+            "_direction",
+            "_viewInput",
+            "_viewRotation",
+            "_velocity",
+            "_onGround"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerDashState",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "InitConfigs",
+          "lineNumber": 40
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 42
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Quaternion>>",
+          "lineNumber": 43
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector3>>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<bool>>",
+          "lineNumber": 45
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "InitArgs",
+          "lineNumber": 46
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "_fsm.Owner.Countdown.Start",
+          "lineNumber": 49
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "ChangeView",
+          "lineNumber": 65
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "ChangeVelocity",
+          "lineNumber": 68
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "_fsm.ChangeState<PlayerMoveState>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "_fsm.ChangeState<PlayerJumpState>",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "_velocity.PostValue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "Mathf.Clamp",
+          "lineNumber": 116
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "_viewRotation.PostValue",
+          "lineNumber": 117
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 117
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/States/PlayerInitState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "OnEnter",
+          "startLine": 17,
+          "endLine": 22,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 24,
+          "endLine": 34,
+          "params": [
+            "fsm",
+            "elapsedTime",
+            "realElapseTime"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerInitState",
+          "startLine": 12,
+          "endLine": 35,
+          "methods": [
+            "OnEnter",
+            "OnUpdate"
+          ],
+          "properties": [
+            "_onGround",
+            "_fsm"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerInitState",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<bool>>",
+          "lineNumber": 20
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "AccessoryController.Instance.Init",
+          "lineNumber": 21
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "_fsm.ChangeState<PlayerMoveState>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "_fsm.ChangeState<PlayerJumpState>",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 256,
+      "nonEmptyLines": 239,
+      "functions": [
+        {
+          "name": "InitConfigs",
+          "startLine": 25,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "OnEnter",
+          "startLine": 53,
+          "endLine": 75,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 77,
+          "endLine": 81,
+          "params": [
+            "fsm",
+            "elapsedTime",
+            "realElapseTime"
+          ]
+        },
+        {
+          "name": "OnExit",
+          "startLine": 83,
+          "endLine": 89,
+          "params": [
+            "fsm",
+            "isShutdown"
+          ]
+        },
+        {
+          "name": "InitArgs",
+          "startLine": 97,
+          "endLine": 111,
+          "params": []
+        },
+        {
+          "name": "GetVerticalVelocityStrategyDefault",
+          "startLine": 112,
+          "endLine": 112,
+          "params": []
+        },
+        {
+          "name": "GetVerticalVelocity",
+          "startLine": 114,
+          "endLine": 152,
+          "params": []
+        },
+        {
+          "name": "RegisterEvents",
+          "startLine": 153,
+          "endLine": 160,
+          "params": []
+        },
+        {
+          "name": "UnRegisterEvents",
+          "startLine": 162,
+          "endLine": 169,
+          "params": []
+        },
+        {
+          "name": "OnDashInputChange",
+          "startLine": 170,
+          "endLine": 175,
+          "params": [
+            "dashInput"
+          ]
+        },
+        {
+          "name": "OnJumpInputChange",
+          "startLine": 195,
+          "endLine": 214,
+          "params": [
+            "jumpInput"
+          ]
+        },
+        {
+          "name": "OnGroundChange",
+          "startLine": 215,
+          "endLine": 229,
+          "params": [
+            "onGround"
+          ]
+        },
+        {
+          "name": "ChangeView",
+          "startLine": 230,
+          "endLine": 242,
+          "params": []
+        },
+        {
+          "name": "ChangeVelocity",
+          "startLine": 243,
+          "endLine": 254,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerJumpState",
+          "startLine": 10,
+          "endLine": 255,
+          "methods": [
+            "InitConfigs",
+            "OnEnter",
+            "OnUpdate",
+            "OnExit",
+            "InitArgs",
+            "GetVerticalVelocityStrategyDefault",
+            "GetVerticalVelocity",
+            "RegisterEvents",
+            "UnRegisterEvents",
+            "OnDashInputChange",
+            "OnJumpInputChange",
+            "OnGroundChange",
+            "ChangeView",
+            "ChangeVelocity"
+          ],
+          "properties": [
+            "_shortPressJumpHeight",
+            "_longPressJumpMaxHeight",
+            "_longPressMaxTime",
+            "_shortPressJustifyTime",
+            "_gravityAcceleration",
+            "_maxDropVelocity",
+            "_coyoteTime",
+            "_jumpInputBufferTime",
+            "_speed",
+            "_pressedAcceleration",
+            "_releasedAcceleration",
+            "_initialVelocity",
+            "_fsm",
+            "_velocity",
+            "_jumpInput",
+            "_moveInput",
+            "_viewInput",
+            "_viewRotation",
+            "_jumpPreInput",
+            "_lastJumpInputTime",
+            "_jumpToThisState",
+            "_releaseJumpButtonTime"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerJumpState",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "InitConfigs",
+          "lineNumber": 57
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "InitArgs",
+          "lineNumber": 58
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector3>>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 60
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 61
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 62
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Quaternion>>",
+          "lineNumber": 63
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<bool>>",
+          "lineNumber": 64
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "_jumpPreInput.SetValue",
+          "lineNumber": 72
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "RegisterEvents",
+          "lineNumber": 74
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "ChangeView",
+          "lineNumber": 79
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "ChangeVelocity",
+          "lineNumber": 80
+        },
+        {
+          "caller": "OnExit",
+          "callee": "UnRegisterEvents",
+          "lineNumber": 86
+        },
+        {
+          "caller": "GetVerticalVelocity",
+          "callee": "Mathf.Max",
+          "lineNumber": 119
+        },
+        {
+          "caller": "GetVerticalVelocity",
+          "callee": "Mathf.Max",
+          "lineNumber": 142
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>(\"OnGround\").Observe",
+          "lineNumber": 155
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>",
+          "lineNumber": 155
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"JumpInput\").Observe",
+          "lineNumber": 157
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 157
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"DashInput\").Observe",
+          "lineNumber": 159
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 159
+        },
+        {
+          "caller": "UnRegisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>(\"OnGround\").Unobserve",
+          "lineNumber": 164
+        },
+        {
+          "caller": "UnRegisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>",
+          "lineNumber": 164
+        },
+        {
+          "caller": "UnRegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"JumpInput\").Unobserve",
+          "lineNumber": 166
+        },
+        {
+          "caller": "UnRegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 166
+        },
+        {
+          "caller": "UnRegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"DashInput\").Unobserve",
+          "lineNumber": 168
+        },
+        {
+          "caller": "UnRegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 168
+        },
+        {
+          "caller": "OnDashInputChange",
+          "callee": "_fsm.Owner.Countdown.HasCountdownCompleted",
+          "lineNumber": 173
+        },
+        {
+          "caller": "OnDashInputChange",
+          "callee": "_fsm.ChangeState<PlayerDashState>",
+          "lineNumber": 174
+        },
+        {
+          "caller": "OnJumpInputChange",
+          "callee": "Mathf.Max",
+          "lineNumber": 200
+        },
+        {
+          "caller": "OnGroundChange",
+          "callee": "Debug.Log",
+          "lineNumber": 220
+        },
+        {
+          "caller": "OnGroundChange",
+          "callee": "_jumpPreInput.SetValue",
+          "lineNumber": 221
+        },
+        {
+          "caller": "OnGroundChange",
+          "callee": "_fsm.ChangeState<PlayerJumpState>",
+          "lineNumber": 222
+        },
+        {
+          "caller": "OnGroundChange",
+          "callee": "_fsm.ChangeState<PlayerMoveState>",
+          "lineNumber": 226
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "Mathf.Clamp",
+          "lineNumber": 240
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "_viewRotation.PostValue",
+          "lineNumber": 241
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 241
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "new Vector3",
+          "lineNumber": 246
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "new Vector3",
+          "lineNumber": 248
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "GetVerticalVelocity",
+          "lineNumber": 251
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "_velocity.PostValue",
+          "lineNumber": 253
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 136,
+      "nonEmptyLines": 121,
+      "functions": [
+        {
+          "name": "InitConfigs",
+          "startLine": 16,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "OnEnter",
+          "startLine": 29,
+          "endLine": 41,
+          "params": [
+            "fsm"
+          ]
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 43,
+          "endLine": 47,
+          "params": [
+            "fsm",
+            "elapsedTime",
+            "realElapseTime"
+          ]
+        },
+        {
+          "name": "OnExit",
+          "startLine": 49,
+          "endLine": 52,
+          "params": [
+            "fsm",
+            "isShutdown"
+          ]
+        },
+        {
+          "name": "RegisterEvents",
+          "startLine": 61,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "UnregisterEvents",
+          "startLine": 70,
+          "endLine": 77,
+          "params": []
+        },
+        {
+          "name": "OnJumpInputChange",
+          "startLine": 87,
+          "endLine": 91,
+          "params": [
+            "jumpInput"
+          ]
+        },
+        {
+          "name": "OnGroundChange",
+          "startLine": 92,
+          "endLine": 96,
+          "params": [
+            "onGround"
+          ]
+        },
+        {
+          "name": "OnDashInputChange",
+          "startLine": 98,
+          "endLine": 103,
+          "params": [
+            "dashInput"
+          ]
+        },
+        {
+          "name": "ChangeView",
+          "startLine": 113,
+          "endLine": 125,
+          "params": []
+        },
+        {
+          "name": "ChangeVelocity",
+          "startLine": 127,
+          "endLine": 134,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PlayerMoveState",
+          "startLine": 10,
+          "endLine": 135,
+          "methods": [
+            "InitConfigs",
+            "OnEnter",
+            "OnUpdate",
+            "OnExit",
+            "RegisterEvents",
+            "UnregisterEvents",
+            "OnJumpInputChange",
+            "OnGroundChange",
+            "OnDashInputChange",
+            "ChangeView",
+            "ChangeVelocity"
+          ],
+          "properties": [
+            "_speed",
+            "_verticalSensitivity",
+            "_horizontalSensitivity",
+            "_fsm",
+            "_moveInput",
+            "_viewInput",
+            "_velocity",
+            "_viewRotation",
+            "_jumpInput"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerMoveState",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnEnter",
+          "callee": "InitConfigs",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 33
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector2>>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Vector3>>",
+          "lineNumber": 35
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<Quaternion>>",
+          "lineNumber": 36
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 37
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "_viewRotation.SetValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "OnEnter",
+          "callee": "RegisterEvents",
+          "lineNumber": 40
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "ChangeView",
+          "lineNumber": 45
+        },
+        {
+          "caller": "OnUpdate",
+          "callee": "ChangeVelocity",
+          "lineNumber": 46
+        },
+        {
+          "caller": "OnExit",
+          "callee": "UnregisterEvents",
+          "lineNumber": 51
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>(\"OnGround\").Observe",
+          "lineNumber": 63
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>",
+          "lineNumber": 63
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"DashInput\").Observe",
+          "lineNumber": 65
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 65
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"JumpInput\").Observe",
+          "lineNumber": 66
+        },
+        {
+          "caller": "RegisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 66
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>(\"OnGround\").Unobserve",
+          "lineNumber": 72
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "_fsm.GetData<Variable<bool>>",
+          "lineNumber": 72
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"DashInput\").Unobserve",
+          "lineNumber": 74
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>(\"JumpInput\").Unobserve",
+          "lineNumber": 75
+        },
+        {
+          "caller": "UnregisterEvents",
+          "callee": "_fsm.GetData<Variable<ButtonState>>",
+          "lineNumber": 75
+        },
+        {
+          "caller": "OnJumpInputChange",
+          "callee": "_fsm.ChangeState<PlayerJumpState>",
+          "lineNumber": 90
+        },
+        {
+          "caller": "OnGroundChange",
+          "callee": "_fsm.ChangeState<PlayerJumpState>",
+          "lineNumber": 95
+        },
+        {
+          "caller": "OnDashInputChange",
+          "callee": "_fsm.Owner.Countdown.HasCountdownCompleted",
+          "lineNumber": 101
+        },
+        {
+          "caller": "OnDashInputChange",
+          "callee": "_fsm.ChangeState<PlayerDashState>",
+          "lineNumber": 102
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "Mathf.Clamp",
+          "lineNumber": 123
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "_viewRotation.PostValue",
+          "lineNumber": 124
+        },
+        {
+          "caller": "ChangeView",
+          "callee": "Quaternion.Euler",
+          "lineNumber": 124
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "new Vector3",
+          "lineNumber": 130
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "new Vector3",
+          "lineNumber": 132
+        },
+        {
+          "caller": "ChangeVelocity",
+          "callee": "_velocity.PostValue",
+          "lineNumber": 133
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "PlayerStateBase",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerStateBase",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Procedure/Execute/ILaunchSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "ILaunchSystem",
+          "startLine": 6,
+          "endLine": 12,
+          "methods": [
+            "SkipStartupLoading",
+            "StartGameWithContext"
+          ],
+          "properties": [
+            "Mode",
+            "StartSceneName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ILaunchSystem",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "SceneInitContext",
+          "startLine": 6,
+          "endLine": 12,
+          "methods": [],
+          "properties": [
+            "SpawnPosition",
+            "SpawnRotation"
+          ]
+        },
+        {
+          "name": "ISceneExecutorSystem",
+          "startLine": 14,
+          "endLine": 17,
+          "methods": [
+            "ExecuteSceneSetup"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SpawnPosition",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "SpawnRotation",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "SceneInitContext",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "ISceneExecutorSystem",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,3933 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 267,
+  "totalBatches": 11,
+  "exportsByPath": {
+    "Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs": [
+      "OnAdd",
+      "OnRemove",
+      "BulletDamageUpBuff"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffEventIds.cs": [
+      "DamageBeforeCauseBuffs",
+      "DamageBeforeTakeBuffs",
+      "DamageComplete",
+      "DeathBeforeDieBuffs",
+      "DeathConfirmed",
+      "DeathAfterKillBuffs",
+      "BuffEventIds"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffId.cs": [
+      "PlayerArmor",
+      "BulletDamageUp",
+      "BuffIdConstants"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs": [
+      "Init",
+      "GetBuffModel",
+      "GetBuffType",
+      "BuffModelConfig",
+      "BuffId",
+      "BuffType",
+      "DisplayName",
+      "CanMultiExist",
+      "Priority",
+      "Tags",
+      "Parameters",
+      "MaxStack",
+      "BuffModel"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs": [
+      "Model",
+      "BuffId",
+      "Priority",
+      "CanMultiExist",
+      "Tags",
+      "Caster",
+      "Carrier",
+      "Create",
+      "Tick",
+      "OnAdd",
+      "OnStack",
+      "OnUnstack",
+      "OnRemove",
+      "Clear",
+      "BuffObj"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs": [
+      "ActiveBuffs",
+      "Init",
+      "UnInit",
+      "AddBuff",
+      "RemoveBuff",
+      "BuffRegistry"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs": [
+      "Model",
+      "Caster",
+      "Carrier",
+      "AddStacks",
+      "Parameters",
+      "Create",
+      "Clear",
+      "AddBuffInfo"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs": [
+      "LogicUpdateScope",
+      "Init",
+      "UnInit",
+      "LogicUpdate",
+      "BuffTickSystem"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs": [
+      "IBuff",
+      "ITriggerBeforeFireBullet",
+      "ITriggerAfterFireBullet",
+      "ITriggerBeforeBulletBeFired",
+      "ITriggerAfterBulletBeFired",
+      "ITriggerBeforeDie",
+      "ITriggerAfterDie",
+      "ITriggerAfterKill",
+      "ITriggerBeforeCauseDamage",
+      "ITriggerAfterCauseDamage",
+      "ITriggerBeforeTakeDamage",
+      "ITriggerAfterTakeDamage",
+      "ITriggerBeforeAddBuff",
+      "ITriggerAfterAddBuff",
+      "ITriggerBeforeStackBuff",
+      "ITriggerAfterStackBuff",
+      "Compare",
+      "DefaultComparerBuff"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs": [
+      "IBuffContainer",
+      "GetBuffs",
+      "GetBuffs",
+      "GetBuffs",
+      "GetBuffs",
+      "ReleaseBuffList",
+      "BuffContainerExtensions"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs": [
+      "IBuffRegistry"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs": [
+      "IBuffTickSystem"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs": [
+      "Armor",
+      "OnArmorChange",
+      "MaxArmor",
+      "OnAdd",
+      "TriggerBeforeTakeDamage",
+      "Clear",
+      "ArmorBuff"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs": [
+      "ICommand"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs": [
+      "IAbilitySecondary"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs": [
+      "IArbitratedCommand"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IAttack.cs": [
+      "IAttack"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IDash.cs": [
+      "IDash"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IFaceDirection.cs": [
+      "IFaceDirection"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IInteract.cs": [
+      "IInteract"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IJump.cs": [
+      "IJump"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IMove.cs": [
+      "IMove"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs": [
+      "IReload"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs": [
+      "IRotate"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs": [
+      "IStun"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs": [
+      "ISwitchWeapon"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs": [
+      "IWeaponVisibility"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs": [
+      "IWheel"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Command/JumpCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/StunCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/SwitchWeaponCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/WeaponVisibilityCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Command/WheelCommand.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs": [
+      "SetActiveWeapon",
+      "IsAttacking",
+      "Attack",
+      "AbilitySecondary",
+      "CancelAbilitySecondary",
+      "Cancel",
+      "AbilityWeaponExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs": [
+      "CurrentPhase",
+      "IsAttacking",
+      "EnemyDashExecutor",
+      "Attack",
+      "Cancel",
+      "LogicUpdate",
+      "EnemyDashExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs": [
+      "EnemyFaceExecutor",
+      "Face",
+      "EnemyFaceExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs": [
+      "IsOnGround",
+      "EnemyGravityExecutor",
+      "LogicUpdate",
+      "EnemyGravityExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs": [
+      "IsJumping",
+      "EnemyJumpExecutor",
+      "Jump",
+      "Cancel",
+      "LogicUpdate",
+      "EnemyJumpExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs": [
+      "Velocity",
+      "EnemyJumpMoveExecutor",
+      "Move",
+      "LogicUpdate",
+      "EnemyJumpMoveExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs": [
+      "IsDashing",
+      "PlayerDashExecutor",
+      "Dash",
+      "LogicUpdate",
+      "PlayerDashExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs": [
+      "IsOnGround",
+      "CanJump",
+      "PlayerGravityExecutor",
+      "LogicUpdate",
+      "PlayerGravityExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs": [
+      "MoveDirection",
+      "ViewDelta",
+      "PlayerInputAdapter",
+      "PlayerInputAdapter"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs": [
+      "PlayerInteractExecutor",
+      "Interact",
+      "PlayerInteractExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs": [
+      "IsJumping",
+      "Cancel",
+      "PlayerJumpExecutor",
+      "Jump",
+      "LogicUpdate",
+      "PlayerJumpExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs": [
+      "Velocity",
+      "Init",
+      "Move",
+      "PlayerMoveExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs": [
+      "Init",
+      "Rotate",
+      "PlayerRotateExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs": [
+      "WeaponAttackExecutor",
+      "EquipWeapon",
+      "UnequipWeapon",
+      "CurrentWeapon",
+      "IsAttacking",
+      "Attack",
+      "Cancel",
+      "IsReloading",
+      "Reload",
+      "IsSwitching",
+      "SwitchWeapon",
+      "WeaponAttackExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs": [
+      "WeaponSpawnPoint",
+      "IsAttacking",
+      "IsReloading",
+      "IsSwitching",
+      "Init",
+      "Attack",
+      "Cancel",
+      "Reload",
+      "SwitchWeapon",
+      "WeaponExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs": [
+      "WeaponVisibilityExecutor",
+      "IsTransitioning",
+      "SetWeapon",
+      "Execute",
+      "LogicUpdate",
+      "WeaponVisibilityExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs": [
+      "IsWheeling",
+      "Execute",
+      "WheelExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs": [
+      "AIDecisionAttackState"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs": [
+      "AIDecisionChaseState"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs": [
+      "AIDecisionIdleState"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs": [
+      "AIDecisionWanderState"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs": [
+      "StateConfig",
+      "SetConfig",
+      "EnemyDecisionStateBase"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs": [
+      "AttackComponent",
+      "CalculateDamage",
+      "Calculator",
+      "AttackComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs": [
+      "RegisterComponent",
+      "RegisterComponentAs",
+      "Get",
+      "TryGet",
+      "Has",
+      "BattleEntity"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs": [
+      "Buffs",
+      "AddBuff",
+      "RemoveBuff",
+      "BuffContainerComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs": [
+      "Calculate",
+      "BulletDamageCalculator"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs": [
+      "CommandDispatcherComponent",
+      "RegisterExecutor",
+      "UnregisterExecutor",
+      "Issue",
+      "LogicUpdate",
+      "HasActiveAction",
+      "ActiveCommand",
+      "ActiveCommandType",
+      "BufferedCount",
+      "ExecutorCount",
+      "HasExecutor",
+      "ClearBuffer",
+      "ForceClearActive",
+      "CommandDispatcherComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs": [
+      "Attacker",
+      "Defender",
+      "AttackerStats",
+      "WeaponStats",
+      "BulletStats",
+      "Direction",
+      "DamageContext"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs": [
+      "Health",
+      "MaxHealth",
+      "IsDead",
+      "IsInvincible",
+      "DamageReceiverComponent",
+      "TakeDamage",
+      "Heal",
+      "Die",
+      "DamageReceiverComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs": [
+      "IDeathHandler",
+      "DeathComponent",
+      "DeathComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs": [
+      "Dispatcher",
+      "Detect",
+      "AttackController",
+      "EnemyDecisionLayer",
+      "IssueCommand",
+      "MakeDecision",
+      "LogicUpdate",
+      "Cleanup",
+      "EnemyDecisionLayer"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs": [
+      "EventDispatcherComponent",
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "EventDispatcherComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs": [
+      "IsStunned",
+      "HitReactionComponent",
+      "Stun",
+      "LogicUpdate",
+      "HitReactionComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs": [
+      "IDamageCalculator"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs": [
+      "IDecisionLayer"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs": [
+      "IPlayerInputEvents"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs": [
+      "Dispatcher",
+      "PlayerDecisionLayer",
+      "LogicUpdate",
+      "MakeDecision",
+      "PlayerDecisionLayer"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs": [
+      "Calculate",
+      "SimpleDamageCalculator"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs": [
+      "BaseValue",
+      "FinalValue",
+      "Stat",
+      "SetBaseValue",
+      "AddModifier",
+      "RemoveModifier",
+      "Stat"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs": [
+      "StatComponent",
+      "GetOrCreate",
+      "TryGet",
+      "SetBase",
+      "GetValue",
+      "AddModifier",
+      "RemoveModifier",
+      "HasStat",
+      "StatComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs": [
+      "Type",
+      "Value",
+      "StatModifier",
+      "StatModifier"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs": [
+      "Calculate",
+      "WeaponDamageCalculator"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryId.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModel.cs": [],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs": [
+      "Init",
+      "GetModel",
+      "AccessoryModelConfig",
+      "AccessoryModelConfigProvider"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs": [
+      "Model",
+      "OnAdd",
+      "OnRemove",
+      "Create",
+      "Clear",
+      "AccessoryObj"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs": [
+      "stageConfigs",
+      "EvolutionConfig",
+      "EvolutionConfigProvider"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs": [
+      "MaxEvolutionLevel",
+      "CurrentEvolutionLevel",
+      "KillPoints",
+      "CanEvolve",
+      "GetEquipInfo",
+      "Init",
+      "AddKillPoints",
+      "UnInit",
+      "EvolutionSystem",
+      "WeaponId",
+      "Accessories",
+      "EquipInfo"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs": [
+      "IEvolutionSystem"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs": [
+      "HeatComponent",
+      "CanFire",
+      "AddHeat",
+      "LogicUpdate",
+      "GetDisplayInfo",
+      "HeatComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs": [
+      "IAmmoSystem"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs": [
+      "GetDisplayInfo",
+      "InfiniteAmmoComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs": [
+      "WeaponMagazineExecutor",
+      "Reload",
+      "IsReloading",
+      "LogicUpdate",
+      "GetDisplayInfo",
+      "WeaponMagazineExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs": [
+      "ISpreadProvider",
+      "SpreadComponent",
+      "GetSpreadAngle",
+      "SpreadComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs": [
+      "ChargeTriggerBehavior",
+      "ChargeProgress",
+      "Evaluate",
+      "ChargeTriggerBehavior"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs": [
+      "Evaluate",
+      "FullAutoTriggerBehavior"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs": [
+      "ITriggerBehavior"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs": [
+      "IWeaponTrigger"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs": [
+      "Evaluate",
+      "SemiAutoTriggerBehavior"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs": [
+      "ShotgunTriggerBehavior",
+      "Evaluate",
+      "ShotgunTriggerBehavior"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs": [
+      "WeaponFireDecision",
+      "SetBehavior",
+      "SetTriggerState",
+      "IsFiring",
+      "LogicUpdate",
+      "WeaponFireDecision"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs": [
+      "WeaponFireExecutor",
+      "Fire",
+      "WeaponFireExecutor"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/DefaultWeapon.cs": [
+      "Stats",
+      "DefaultWeapon"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/Factory/WeaponEntityFactory.cs": [
+      "Create",
+      "CreateDefault",
+      "Assemble",
+      "WeaponEntityFactory"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/FireComponent.cs": [
+      "BulletType",
+      "Mode",
+      "SetBulletType",
+      "FireInterval",
+      "CanFire",
+      "SetBaseFireInterval",
+      "FireComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeapon.cs": [
+      "IWeapon"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponComponent.cs": [
+      "IWeaponComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponReloadController.cs": [
+      "IWeaponReloadController"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponStats.cs": [
+      "IWeaponStats"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponTriggerController.cs": [
+      "IWeaponTriggerController"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/MagazineComponent.cs": [
+      "SetBaseCapacity",
+      "Capacity",
+      "AmmunitionCount",
+      "Reload",
+      "CanFire",
+      "Fire",
+      "MagazineComponent"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalReloadController.cs": [
+      "RestBullets",
+      "Capacity",
+      "HaveBullets",
+      "Weapon",
+      "Init",
+      "CostBullet",
+      "Reload",
+      "AutoReload",
+      "NormalReloadController"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalTriggerController.cs": [
+      "Init",
+      "Trigger",
+      "NormalTriggerController"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponAssembly.cs": [
+      "Archetype",
+      "AmmoType",
+      "Damage",
+      "FireInterval",
+      "ShotgunPelletCount",
+      "ShotgunSpreadAngle",
+      "ChargeMaxTime",
+      "ChargeMaxDamageMult",
+      "SpreadBase",
+      "SpreadMoving",
+      "MagazineCapacity",
+      "ReloadTime",
+      "MaxHeat",
+      "HeatPerShot",
+      "HeatCoolRate",
+      "BulletSpawnPoint",
+      "BulletConfigId",
+      "BulletSpeed",
+      "BulletRadius",
+      "WeaponAssembly"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponBase.cs": [
+      "EntityUpdate",
+      "EntityFixedUpdate",
+      "OnRecycle",
+      "AddEffect",
+      "RemoveEffect",
+      "Owner",
+      "Trigger",
+      "Equip",
+      "Unequip",
+      "OnSpawn",
+      "Attack",
+      "GetWeaponComponent",
+      "Stats",
+      "Subscribe",
+      "Unsubscribe",
+      "FireEvent",
+      "FireNow",
+      "WeaponBase"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponComponentBase.cs": [
+      "Owner",
+      "Equip",
+      "Unequip",
+      "WeaponComponentBase"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponId.cs": [
+      "Register",
+      "WeaponRegister",
+      "Register",
+      "Create",
+      "WeaponIdExtension"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponState.cs": [
+      "PlayerGo",
+      "Stats",
+      "AddAccessory",
+      "OnUnequip",
+      "Init",
+      "Trigger",
+      "Reload",
+      "Buffs",
+      "AddBuff",
+      "RemoveBuff",
+      "LogicUpdate",
+      "WeaponState"
+    ],
+    "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponStats.cs": [
+      "Damage",
+      "FireInterval",
+      "ReloadTime",
+      "WeaponStats"
+    ],
+    "Assets/Scripts/GenBall/Entry/GameEntry.cs": [
+      "GetModule",
+      "GameEntry"
+    ],
+    "Assets/Scripts/GenBall/Entry/GameEntry.Register.cs": [
+      "Event",
+      "UI",
+      "Save",
+      "Fsm",
+      "Timeline",
+      "GameEntry"
+    ],
+    "Assets/Scripts/GenBall/Event/EventAdapter.cs": [
+      "eventId",
+      "parameters",
+      "EventEntry",
+      "Entries",
+      "EventId",
+      "Parameters",
+      "HasParameters",
+      "Fire",
+      "Clone",
+      "EventAdapter"
+    ],
+    "Assets/Scripts/GenBall/Event/EventParameterBase.cs": [
+      "IEventParameter",
+      "Dispatch",
+      "EventParameterBase"
+    ],
+    "Assets/Scripts/GenBall/Event/EventParamHintAttribute.cs": [
+      "EventId",
+      "EventParamHintAttribute",
+      "EventParamHintAttribute"
+    ],
+    "Assets/Scripts/GenBall/Event/GlobalEventId.cs": [],
+    "Assets/Scripts/GenBall/Event/ILocalEventManager.cs": [
+      "ILocalEventManager"
+    ],
+    "Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs": [
+      "accessoryId",
+      "Dispatch",
+      "GrantAccessoryParams"
+    ],
+    "Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs": [
+      "doorObjectId",
+      "openSpeed",
+      "Dispatch",
+      "OpenDoorParams"
+    ],
+    "Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs": [
+      "dialogueId",
+      "Dispatch",
+      "PlayDialogueParams"
+    ],
+    "Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs": [
+      "enemyType",
+      "spawnPosition",
+      "spawnRotation",
+      "patrolRadius",
+      "detectRadius",
+      "aiBehavior",
+      "Dispatch",
+      "SpawnEnemyParams"
+    ],
+    "Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs": [
+      "savePointId",
+      "Dispatch",
+      "UnlockSavePointParams"
+    ],
+    "Assets/Scripts/GenBall/Event/PlacedEventTable.cs": [
+      "entries",
+      "ValidateNoConflicts",
+      "PlacedEventTable",
+      "id",
+      "name",
+      "displayName",
+      "defaultParamType",
+      "PlacedEventEntry"
+    ],
+    "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs": [
+      "Initialize",
+      "RuntimeEventTrigger"
+    ],
+    "Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs": [
+      "OperationDescription",
+      "CanInteract",
+      "Interact",
+      "OnFocused",
+      "OnUnfocused",
+      "RuntimeInteractProxy"
+    ],
+    "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs": [
+      "Events",
+      "ValueEventTemplateConfig",
+      "Name",
+      "ValueType",
+      "Description",
+      "Module",
+      "ValueEventDefinition",
+      "FullName",
+      "TypeFullName",
+      "TypeName",
+      "TypeNamespace",
+      "ValueEventDefinition"
+    ],
+    "Assets/Scripts/GenBall/Event/TriggerMode.cs": [],
+    "Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs": [
+      "Id",
+      "Value",
+      "Name",
+      "Create",
+      "GetId",
+      "GetEventId",
+      "Clear",
+      "ValueChangeEventArgs"
+    ],
+    "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs": [
+      "Init",
+      "UnInit",
+      "GetConfig",
+      "AppConfigManager"
+    ],
+    "Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs": [
+      "maxSaveCount",
+      "startSceneName",
+      "runningMode",
+      "orderInterval",
+      "loadLayerCount",
+      "defaultPlayerSpawnPosition",
+      "defaultPlayerSpawnRotation",
+      "devMode",
+      "AppSettingsConfig"
+    ],
+    "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs": [
+      "Configs",
+      "Init",
+      "Get",
+      "TryGet",
+      "BulletConfigCollection",
+      "Id",
+      "DetectionMode",
+      "VisualPrefab",
+      "VisualBlendTime",
+      "MaxLifetime",
+      "HitBehaviors",
+      "MovementModifiers",
+      "BulletConfigEntry"
+    ],
+    "Assets/Scripts/GenBall/Framework/Config/IConfigProvider.cs": [
+      "IConfigProvider"
+    ],
+    "Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs": [
+      "FrameUpdateScope",
+      "LogicUpdateScope",
+      "Init",
+      "UnInit",
+      "AddFrameUpdate",
+      "RemoveFrameUpdate",
+      "AddLogicUpdate",
+      "RemoveLogicUpdate",
+      "FrameUpdate",
+      "LogicUpdate",
+      "EntityUpdateSystem"
+    ],
+    "Assets/Scripts/GenBall/Framework/Entity/IEntityFrameUpdate.cs": [
+      "IEntityFrameUpdate"
+    ],
+    "Assets/Scripts/GenBall/Framework/Entity/IEntityLogicUpdate.cs": [
+      "IEntityLogicUpdate"
+    ],
+    "Assets/Scripts/GenBall/Framework/Entity/IEntityUpdateSystem.cs": [
+      "IEntityUpdateSystem"
+    ],
+    "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs": [
+      "FrameworkDefault"
+    ],
+    "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs": [
+      "EffectiveScale",
+      "Request",
+      "ReleaseRequest",
+      "Init",
+      "UnInit",
+      "TimeScaleSystemDefault"
+    ],
+    "Assets/Scripts/GenBall/Player/ActorInfo.cs": [],
+    "Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs": [
+      "Initialize",
+      "PlayerArmorInitializer"
+    ],
+    "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs": [
+      "Initialize",
+      "PlayerCameraInitializer"
+    ],
+    "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs": [
+      "Initialize",
+      "PlayerUiInitializer"
+    ],
+    "Assets/Scripts/GenBall/Player/Input/InputController.cs": [
+      "MoveInput",
+      "ViewInput",
+      "FireInput",
+      "JumpInput",
+      "DashInput",
+      "UpgradeInput",
+      "ReloadInput",
+      "TempPauseInput",
+      "InputController"
+    ],
+    "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs": [
+      "Name",
+      "Id",
+      "Args",
+      "Clear",
+      "GetHashCode",
+      "InputEventArgs",
+      "Id",
+      "Name",
+      "Clear",
+      "GetHashCode",
+      "InputEventArgs"
+    ],
+    "Assets/Scripts/GenBall/Player/Input/InputHandler.cs": [
+      "MoveDirection",
+      "ViewDelta",
+      "IsJumpPressed",
+      "JumpHoldTime",
+      "IsDashPressed",
+      "IsFirePressed",
+      "IsReloadPressed",
+      "IsSwitchWeaponPressed",
+      "IsAbilitySecondaryPressed",
+      "IsAbilityWheelPressed",
+      "OnDashInputChange",
+      "OnMoveInputChange",
+      "OnJumpInputChange",
+      "OnInteract",
+      "OnInteractInputChange",
+      "OnFireInputChange",
+      "OnReloadInputChange",
+      "OnSwitchWeaponInputChange",
+      "OnAbilitySecondaryInputChange",
+      "OnAbilityWheelInputChange",
+      "OnScrollChange",
+      "OnScrollInputChange",
+      "ConsumeBufferedJump",
+      "OnViewInputChange",
+      "OnLookInputChange",
+      "InputHandler"
+    ],
+    "Assets/Scripts/GenBall/Player/IPlayerSystem.cs": [
+      "IPlayerSystem"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.Control.cs": [
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.Countdown.cs": [
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.cs": [
+      "Initialize",
+      "FrameUpdate",
+      "LogicUpdate",
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.Fsm.cs": [
+      "OnSpawn",
+      "TakeDamage",
+      "IsDead",
+      "AddEffect",
+      "RemoveEffect",
+      "Subscribe",
+      "Unsubscribe",
+      "FireEvent",
+      "FireNow",
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.Health.cs": [
+      "OnAttacked",
+      "Health",
+      "MaxHealth",
+      "Armor",
+      "MaxArmor",
+      "MaxHealthStat",
+      "TakeDamage",
+      "Die",
+      "Heal",
+      "AddArmor",
+      "SubArmor",
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.Physics.cs": [
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/Player.Weapon.cs": [
+      "PhysicsWeapon",
+      "EquipPhysicsWeapon",
+      "EquipPhysicsWeapon",
+      "EquipPhysicsWeapon",
+      "EquipPhysicsWeapon",
+      "Player"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerConfig.cs": [
+      "speed",
+      "verticalSensitivity",
+      "horizontalSensitivity",
+      "shortPressJumpHeight",
+      "longPressJumpMaxHeight",
+      "longPressMaxTime",
+      "shortPressJustifyTime",
+      "gravityAcceleration",
+      "maxDropVelocity",
+      "coyoteTime",
+      "jumpInputBufferTime",
+      "invincibleTime",
+      "endingTime",
+      "dashSpeed",
+      "dashCountdownTime",
+      "coneHalfAngle",
+      "maxInteractDistance",
+      "interactableLayer",
+      "PlayerConfig"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerConfigSo.cs": [
+      "speed",
+      "verticalSensitivity",
+      "horizontalSensitivity",
+      "shortPressJumpHeight",
+      "longPressJumpMaxHeight",
+      "longPressMaxTime",
+      "shortPressJustifyTime",
+      "gravityAcceleration",
+      "maxDropVelocity",
+      "coyoteTime",
+      "jumpInputBufferTime",
+      "invincibleTime",
+      "endingTime",
+      "dashSpeed",
+      "dashCountdownTime",
+      "PlayerConfigSo",
+      "PlayerConfigProvider"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerManager.cs": [
+      "Priority",
+      "Player",
+      "DefaultPlayerSpawnPoint",
+      "CreatePlayer",
+      "CreatePlayer",
+      "CreatePlayer",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "PlayerManager"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerRotater.cs": [
+      "Rotate",
+      "PlayerRotater"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerSaveData.cs": [
+      "lastSavePointIndex",
+      "lastSceneName",
+      "PlayerSaveData"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs": [
+      "DataKey",
+      "RuntimeData",
+      "CollectSaveData",
+      "ApplySaveData",
+      "MergeSaveFields",
+      "PlayerSaveDataProvider"
+    ],
+    "Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs": [
+      "Player",
+      "Init",
+      "UnInit",
+      "CreatePlayer",
+      "CreatePlayer",
+      "PlayerSystemDefault"
+    ],
+    "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs": [
+      "PlayerDashState"
+    ],
+    "Assets/Scripts/GenBall/Player/States/PlayerInitState.cs": [
+      "PlayerInitState"
+    ],
+    "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs": [
+      "PlayerJumpState"
+    ],
+    "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs": [
+      "PlayerMoveState"
+    ],
+    "Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs": [
+      "PlayerStateBase"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/ILaunchSystem.cs": [
+      "ILaunchSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs": [
+      "SpawnPosition",
+      "SpawnRotation",
+      "SceneInitContext",
+      "ISceneExecutorSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/ISceneLoadSystem.cs": [
+      "ISceneLoadSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs": [
+      "OnEnter",
+      "StartupLoadingState",
+      "OnEnter",
+      "StartFormState",
+      "OnEnter",
+      "LoadSceneState"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs": [
+      "Mode",
+      "StartSceneName",
+      "FrameUpdateScope",
+      "Init",
+      "UnInit",
+      "FrameUpdate",
+      "SkipStartupLoading",
+      "StartGameWithContext",
+      "LaunchSystemDefault"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs": [
+      "Init",
+      "UnInit",
+      "ExecuteSceneSetup",
+      "SceneExecutorSystemDefault"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs": [
+      "LoadProgress",
+      "IsLoading",
+      "TargetSceneName",
+      "FrameUpdateScope",
+      "Init",
+      "UnInit",
+      "LoadScene",
+      "FrameUpdate",
+      "SceneLoadSystemDefault"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs": [
+      "GameData",
+      "Mode",
+      "CurSaveIndex",
+      "Init",
+      "UnInit",
+      "RegisterSaveDataProvider",
+      "UnregisterSaveDataProvider",
+      "GetProvider",
+      "SaveGame",
+      "UpdateSaveFields",
+      "LoadGameData",
+      "GameManager"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Game/GameProcedure.cs": [],
+    "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs": [
+      "Init",
+      "UnInit",
+      "PrepareStartAsync",
+      "GameStartSystemDefault"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Game/IGameManagerSystem.cs": [
+      "IGameManagerSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Game/IGameStartSystem.cs": [
+      "Type",
+      "SaveIndex",
+      "GameStartRequest",
+      "TargetSceneName",
+      "TargetSavePointIndex",
+      "GameData",
+      "IsNewGame",
+      "GameStartContext",
+      "IGameStartSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Game/IPauseSystem.cs": [
+      "IPauseSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs": [
+      "IsLogicPaused",
+      "IsPhysicsPaused",
+      "StackDepth",
+      "Init",
+      "UnInit",
+      "PushPause",
+      "PopPause",
+      "PauseManager"
+    ],
+    "Assets/Scripts/GenBall/Procedure/GameData.cs": [
+      "CreateTime",
+      "LastUpdateTime",
+      "TotalTime",
+      "DataBlocks",
+      "GameData",
+      "GetData",
+      "SetData",
+      "HasData",
+      "ToString",
+      "GameData"
+    ],
+    "Assets/Scripts/GenBall/Procedure/ISaveDataProvider.cs": [
+      "ISaveDataProvider"
+    ],
+    "Assets/Scripts/GenBall/Procedure/ISaveService.cs": [
+      "ISaveService"
+    ],
+    "Assets/Scripts/GenBall/Procedure/IUserSettingsStorage.cs": [
+      "IUserSettingsStorage"
+    ],
+    "Assets/Scripts/GenBall/Procedure/SaveComponent.cs": [
+      "Priority",
+      "MaxSaveCount",
+      "GetSaveSlotDatas",
+      "LoadGameData",
+      "SaveGameData",
+      "CreateNewSave",
+      "DeleteSave",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "SaveComponent"
+    ],
+    "Assets/Scripts/GenBall/Procedure/SaveFieldKeys.cs": [
+      "SaveFieldKeys"
+    ],
+    "Assets/Scripts/GenBall/Procedure/SaveSlotData.cs": [
+      "slots",
+      "SaveSlotDataListJson"
+    ],
+    "Assets/Scripts/GenBall/Procedure/SaveSystem.cs": [
+      "MaxSaveCount",
+      "Init",
+      "UnInit",
+      "GetSaveSlotDatas",
+      "LoadGameData",
+      "SaveGameData",
+      "CreateNewSave",
+      "DeleteSave",
+      "SaveSystem"
+    ],
+    "Assets/Scripts/GenBall/Procedure/UserSettings.cs": [
+      "masterVolume",
+      "sfxVolume",
+      "musicVolume",
+      "horizontalSensitivity",
+      "verticalSensitivity",
+      "UserSettings"
+    ],
+    "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs": [
+      "Settings",
+      "Init",
+      "UnInit",
+      "SaveAsync",
+      "ApplyToRuntime",
+      "GetFilePath",
+      "UserSettingsStorage"
+    ],
+    "Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs": [
+      "BaseEventArgs",
+      "Id",
+      "Clear",
+      "BaseEventArgs"
+    ],
+    "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs": [
+      "EventPool",
+      "Update",
+      "Shutdown",
+      "Clear",
+      "Check",
+      "Subscribe",
+      "Unsubscribe",
+      "Fire",
+      "FireNow",
+      "SetDefaultHandler",
+      "EventPool"
+    ],
+    "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs": [
+      "EventPool"
+    ],
+    "Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs": [],
+    "Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs": [
+      "IReference"
+    ],
+    "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs": [
+      "Acquire",
+      "Acquire",
+      "Release",
+      "Add",
+      "Add",
+      "Remove",
+      "Remove",
+      "RemoveAll",
+      "RemoveAll",
+      "ReferencePool"
+    ],
+    "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs": [
+      "ReferencePool"
+    ],
+    "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs": [
+      "Type",
+      "Observe",
+      "Unobserve",
+      "Value",
+      "GetValue",
+      "SetValue",
+      "PostValue",
+      "PostValue",
+      "Create",
+      "Clear",
+      "Variable",
+      "Type",
+      "Value",
+      "GetValue",
+      "SetDelegate",
+      "SetValue",
+      "Create",
+      "Clear",
+      "LiveDelegate"
+    ],
+    "Assets/Scripts/Yueyn/Base/Variable/Variable.cs": [
+      "Variable",
+      "Type",
+      "GetValue",
+      "SetValue",
+      "Clear",
+      "Variable"
+    ],
+    "Assets/Scripts/Yueyn/Event/CEventRouter.cs": [
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Fire",
+      "Fire",
+      "Fire",
+      "Fire",
+      "Fire",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "Update",
+      "Check",
+      "SetDefaultHandler",
+      "Clear",
+      "Dispose",
+      "CEventRouter"
+    ],
+    "Assets/Scripts/Yueyn/Event/EventDispatcher.cs": [
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Subscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Unsubscribe",
+      "Fire",
+      "Fire",
+      "Fire",
+      "Fire",
+      "Fire",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "FireNow",
+      "Update",
+      "Check",
+      "SetDefaultHandler",
+      "Clear",
+      "Dispose",
+      "EventDispatcher"
+    ],
+    "Assets/Scripts/Yueyn/Event/EventManager.cs": [
+      "Priority",
+      "Subscribe",
+      "Unsubscribe",
+      "Fire",
+      "FireNow",
+      "SetDefaultHandler",
+      "Check",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "EventManager"
+    ],
+    "Assets/Scripts/Yueyn/Event/GameEventArgs.cs": [
+      "GameEventArgs"
+    ],
+    "Assets/Scripts/Yueyn/Fsm/Fsm.cs": [
+      "Name",
+      "Owner",
+      "OwnerType",
+      "IsRunning",
+      "IsDestroyed",
+      "CurrentStateTime",
+      "FullName",
+      "PrintLog",
+      "Clear",
+      "Create",
+      "Create",
+      "GetState",
+      "Start",
+      "Start",
+      "HasState",
+      "HasState",
+      "GetState",
+      "GetStates",
+      "GetAllStates",
+      "HasData",
+      "GetData",
+      "GetData",
+      "SetData",
+      "RemoveData",
+      "Update",
+      "FixedUpdate",
+      "IsPause",
+      "SetPause",
+      "Shutdown",
+      "Fsm"
+    ],
+    "Assets/Scripts/Yueyn/Fsm/FsmManager.cs": [
+      "Priority",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "GetFsm",
+      "GetFsm",
+      "GetFsm",
+      "GetFsm",
+      "GetAllFsms",
+      "GetAllFsms",
+      "HasFsm",
+      "HasFsm",
+      "HasFsm",
+      "HaFsm",
+      "CreateFsm",
+      "CreateFsm",
+      "CreateFsm",
+      "CreateFsm",
+      "DestroyFsm",
+      "DestroyFsm",
+      "DestroyFsm",
+      "DestroyFsm",
+      "DestroyFsm",
+      "DestroyFsm",
+      "FsmManager"
+    ],
+    "Assets/Scripts/Yueyn/Fsm/FsmState.cs": [
+      "FsmState",
+      "FsmState"
+    ],
+    "Assets/Scripts/Yueyn/Fsm/IFsm.cs": [
+      "IFsm"
+    ],
+    "Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs": [
+      "Context",
+      "CurrentStateTime",
+      "IsRunning",
+      "CurrentStateType",
+      "SimpleFsm",
+      "Start",
+      "ChangeState",
+      "Update",
+      "Shutdown",
+      "SimpleFsm",
+      "OnEnter",
+      "OnUpdate",
+      "OnExit",
+      "SimpleFsmState"
+    ],
+    "Assets/Scripts/Yueyn/Main/Entry/Entry.cs": [
+      "Update",
+      "FixedUpdate",
+      "GetComponent",
+      "Register",
+      "Initialize",
+      "Unregister",
+      "Entry"
+    ],
+    "Assets/Scripts/Yueyn/Main/FrameworkBase.cs": [
+      "FrameworkBase"
+    ],
+    "Assets/Scripts/Yueyn/Main/IComponent.cs": [
+      "IComponent"
+    ],
+    "Assets/Scripts/Yueyn/Main/IFrameUpdate.cs": [
+      "IFrameUpdate"
+    ],
+    "Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs": [
+      "ILateFrameUpdate"
+    ],
+    "Assets/Scripts/Yueyn/Main/ILogicUpdate.cs": [
+      "ILogicUpdate"
+    ],
+    "Assets/Scripts/Yueyn/Main/ISystem.cs": [
+      "ISystem"
+    ],
+    "Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs": [
+      "ITimeScaleSystem"
+    ],
+    "Assets/Scripts/Yueyn/Main/SystemRepository.cs": [
+      "RegisterSystem",
+      "UnregisterSystem",
+      "HasSystem",
+      "GetSystem",
+      "SystemRepository"
+    ],
+    "Assets/Scripts/Yueyn/Main/SystemScope.cs": [],
+    "Assets/Scripts/Yueyn/Main/SystemUpdater.cs": [
+      "RegisterLogicUpdate",
+      "RegisterFrameUpdate",
+      "RegisterLateFrameUpdate",
+      "UnregisterLogicUpdate",
+      "UnregisterFrameUpdate",
+      "UnregisterLateFrameUpdate",
+      "DoLogicUpdate",
+      "DoFrameUpdate",
+      "DoLateFrameUpdate",
+      "SystemUpdater"
+    ],
+    "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs": [
+      "RegisterSystem",
+      "UnregisterSystem",
+      "LogicUpdate",
+      "FrameUpdate",
+      "LateFrameUpdate",
+      "SetPause",
+      "Resume",
+      "SystemUpdaterManager"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs": [
+      "IObjectPool"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs": [
+      "CustomCanReleaseFlag",
+      "Name",
+      "Target",
+      "Locked",
+      "Priority",
+      "LastUsedTime",
+      "Clear",
+      "OnSpawn",
+      "OnDespawn",
+      "Release",
+      "ObjectBase"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs": [
+      "ObjectPoolBase",
+      "ObjectPoolBase",
+      "Name",
+      "Priority",
+      "ObjectType",
+      "FullName",
+      "Count",
+      "CanReleaseCount",
+      "Release",
+      "Release",
+      "ReleaseAllUnused",
+      "Update",
+      "Shutdown",
+      "ObjectPoolBase"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs": [
+      "Priority",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "GetAllObjectPools",
+      "DestroyObjectPool",
+      "DestroyObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "Release",
+      "ReleaseAllUnused",
+      "ObjectPoolManager"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs": [
+      "ObjectPoolManager"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs": [
+      "ObjectPoolManager"
+    ],
+    "Assets/Scripts/Yueyn/ObjectPool/ReleaseObjectFilterCallback.cs": [],
+    "Assets/Scripts/Yueyn/Pool/CPoolManager.cs": [
+      "Update",
+      "Shutdown",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateSingleSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "CreateMultiSpawnObjectPool",
+      "GetAllObjectPools",
+      "DestroyObjectPool",
+      "DestroyObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "HasObjectPool",
+      "Release",
+      "ReleaseAllUnused",
+      "CPoolManager"
+    ],
+    "Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs": [
+      "CPoolManager"
+    ],
+    "Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs": [
+      "CPoolManager"
+    ],
+    "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs": [
+      "Initialize",
+      "LoadBundle",
+      "LoadBundleAsync",
+      "UnloadBundle",
+      "LoadAsset",
+      "LoadAssetAsync",
+      "UnloadAll",
+      "AssetBundleLoader"
+    ],
+    "Assets/Scripts/Yueyn/Resource/CResourceManager.cs": [
+      "SetHelper",
+      "Load",
+      "Load",
+      "LoadSync",
+      "Unload",
+      "CResourceManager"
+    ],
+    "Assets/Scripts/Yueyn/Resource/IResourceHelper.cs": [
+      "IResourceHelper"
+    ],
+    "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs": [
+      "ResourceHelperAssetBundle",
+      "Load",
+      "Load",
+      "LoadSync",
+      "Unload",
+      "ResourceHelperAssetBundle"
+    ],
+    "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs": [
+      "Load",
+      "Load",
+      "LoadSync",
+      "Unload",
+      "ResourceHelperEditor"
+    ],
+    "Assets/Scripts/Yueyn/Resource/ResourceManager.cs": [
+      "Priority",
+      "LoadPrefab",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "ResourceManager"
+    ],
+    "Assets/Scripts/Yueyn/Timer/Timer.cs": [
+      "Subscribe",
+      "Pause",
+      "Resume",
+      "Reset",
+      "Trigger",
+      "Timer"
+    ],
+    "Assets/Scripts/Yueyn/Timer/Timer.Event.cs": [
+      "Timer"
+    ],
+    "Assets/Scripts/Yueyn/Timer/TimerManager.cs": [
+      "Priority",
+      "Init",
+      "OnUnregister",
+      "ComponentUpdate",
+      "ComponentFixedUpdate",
+      "Shutdown",
+      "TimerManager"
+    ],
+    "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs": [
+      "PrefabPath",
+      "FormType",
+      "InitParam",
+      "BoundForm",
+      "CloseForm",
+      "BusinessFormLogic"
+    ],
+    "Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs": [
+      "LogicId",
+      "OnCreate",
+      "OnDestroy",
+      "BusinessLogicBase"
+    ],
+    "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs": [
+      "CreateLogic",
+      "DestroyLogic",
+      "GetLogic",
+      "HasLogic",
+      "BusinessLogicManager"
+    ],
+    "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs": [
+      "Resolve",
+      "PartLogicTypeRegistry",
+      "PrefabPath",
+      "InitParam",
+      "ParentTransform",
+      "BoundView",
+      "PartGameObject",
+      "BusinessPartLogic",
+      "BoundView",
+      "BusinessPartLogic"
+    ],
+    "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs": [
+      "BusinessPartLogicContainer"
+    ],
+    "Assets/Scripts/Yueyn/UI/PartViewBase.cs": [
+      "PartViewBase",
+      "ViewData",
+      "SetViewData",
+      "PartViewBase"
+    ],
+    "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs": [
+      "UIBusinessFormBase",
+      "ViewData",
+      "SetViewData",
+      "UIBusinessFormBase"
+    ],
+    "Assets/Scripts/Yueyn/UI/UIComponent.cs": [
+      "Priority",
+      "IsInitialized",
+      "IsOpen",
+      "IsFocused",
+      "IsPaused",
+      "OnResolutionChanged",
+      "UIComponent"
+    ],
+    "Assets/Scripts/Yueyn/UI/UIFormScript.cs": [
+      "FadeDuration",
+      "FormId",
+      "PrefabPath",
+      "CanReuse",
+      "OpenTime",
+      "Param",
+      "FormType",
+      "IsInitialized",
+      "IsOpen",
+      "IsFocused",
+      "Canvas",
+      "AddComponent",
+      "RemoveComponent",
+      "UIFormScript"
+    ],
+    "Assets/Scripts/Yueyn/UI/UIFormType.cs": [],
+    "Assets/Scripts/Yueyn/UI/UIManager.cs": [
+      "UIEventRouter",
+      "UICamera",
+      "OpenForm",
+      "OpenFormAsync",
+      "CloseForm",
+      "CloseFormByPath",
+      "CloseAllPopups",
+      "CloseAllForms",
+      "GetForm",
+      "GetFormId",
+      "HasForm",
+      "HasFormByPath",
+      "UIManager"
+    ],
+    "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs": [
+      "CoroutineRunner"
+    ],
+    "Assets/Scripts/Yueyn/Utils/ListExpense.cs": [
+      "IsNullOrEmpty",
+      "ListExpense"
+    ],
+    "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs": [
+      "Instance",
+      "MonoSingleton"
+    ],
+    "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs": [
+      "Clear",
+      "Contains",
+      "Contains",
+      "TryGetValue",
+      "Add",
+      "Remove",
+      "RemoveAll",
+      "GetEnumerator",
+      "MultiDictionary"
+    ],
+    "Assets/Scripts/Yueyn/Utils/QueueExpense.cs": [
+      "IsNullOrEmpty",
+      "QueueExpense"
+    ],
+    "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs": [
+      "Count",
+      "Add",
+      "Remove",
+      "Clear",
+      "Contains",
+      "GetIterableSnapshot",
+      "GetMainList",
+      "SafeIterableList",
+      "Count",
+      "Set",
+      "Remove",
+      "Clear",
+      "TryGetValue",
+      "ContainsKey",
+      "GetIterableSnapshot",
+      "GetMainDict",
+      "SafeIterableDict"
+    ],
+    "Assets/Scripts/Yueyn/Utils/Singleton.cs": [
+      "Instance",
+      "Singleton"
+    ],
+    "Assets/Scripts/Yueyn/Utils/StringExpense.cs": [
+      "IsNullOrEmpty",
+      "IsNullOrWhiteSpace",
+      "StringExtensions"
+    ],
+    "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs": []
+  },
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+          "language": "csharp",
+          "sizeLines": 21,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffEventIds.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffId.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+          "language": "csharp",
+          "sizeLines": 77,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+          "language": "csharp",
+          "sizeLines": 93,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+          "language": "csharp",
+          "sizeLines": 111,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+          "language": "csharp",
+          "sizeLines": 53,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+          "language": "csharp",
+          "sizeLines": 125,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+          "language": "csharp",
+          "sizeLines": 151,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+          "language": "csharp",
+          "sizeLines": 86,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+          "language": "csharp",
+          "sizeLines": 62,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs",
+          "language": "csharp",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+          "language": "csharp",
+          "sizeLines": 80,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs",
+          "language": "csharp",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+          "language": "csharp",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IAttack.cs",
+          "language": "csharp",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IDash.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IFaceDirection.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IInteract.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IJump.cs",
+          "language": "csharp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IMove.cs",
+          "language": "csharp",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs",
+          "language": "csharp",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffEventIds.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffId.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IAttack.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IDash.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IFaceDirection.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IInteract.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IJump.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IMove.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs",
+          "language": "csharp",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/JumpCommand.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs",
+          "language": "csharp",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/StunCommand.cs",
+          "language": "csharp",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/SwitchWeaponCommand.cs",
+          "language": "csharp",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/WeaponVisibilityCommand.cs",
+          "language": "csharp",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Command/WheelCommand.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 436,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 64,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 60,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 124,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 107,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs",
+          "language": "csharp",
+          "sizeLines": 49,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 167,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 59,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 65,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/BattleSystem/Command/IReload.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IRotate.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IStun.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/ISwitchWeapon.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IWeaponVisibility.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/IWheel.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/JumpCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/ReloadCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/StunCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/SwitchWeaponCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/WeaponVisibilityCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Command/WheelCommand.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/AbilityWeaponExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyDashExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyFaceExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyGravityExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/EnemyJumpMoveExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerDashExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerGravityExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInputAdapter.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerInteractExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerJumpExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerMoveExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/PlayerRotateExecutor.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 3,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 91,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 102,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs",
+          "language": "csharp",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs",
+          "language": "csharp",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs",
+          "language": "csharp",
+          "sizeLines": 68,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs",
+          "language": "csharp",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs",
+          "language": "csharp",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs",
+          "language": "csharp",
+          "sizeLines": 96,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs",
+          "language": "csharp",
+          "sizeLines": 35,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs",
+          "language": "csharp",
+          "sizeLines": 14,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs",
+          "language": "csharp",
+          "sizeLines": 373,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs",
+          "language": "csharp",
+          "sizeLines": 103,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs",
+          "language": "csharp",
+          "sizeLines": 72,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs",
+          "language": "csharp",
+          "sizeLines": 135,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs",
+          "language": "csharp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs",
+          "language": "csharp",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs",
+          "language": "csharp",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs",
+          "language": "csharp",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs",
+          "language": "csharp",
+          "sizeLines": 200,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponAttackExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/WeaponVisibilityExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Executors/WheelExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionAttackState.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionChaseState.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionIdleState.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/AI/AIDecisionWanderState.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/AI/EnemyDecisionStateBase.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/AttackComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/BattleEntity.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/BuffContainerComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/BulletDamageCalculator.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/CommandDispatcherComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/DamageContext.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/DamageReceiverComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/DeathComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/EnemyDecisionLayer.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/EntityEventId.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/EventDispatcherComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/HitReactionComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/IDamageCalculator.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/IDecisionLayer.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/IPlayerInputEvents.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/PlayerDecisionLayer.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 4,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs",
+          "language": "csharp",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs",
+          "language": "csharp",
+          "sizeLines": 103,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs",
+          "language": "csharp",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryId.cs",
+          "language": "csharp",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModel.cs",
+          "language": "csharp",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs",
+          "language": "csharp",
+          "sizeLines": 64,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs",
+          "language": "csharp",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs",
+          "language": "csharp",
+          "sizeLines": 49,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs",
+          "language": "csharp",
+          "sizeLines": 91,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs",
+          "language": "csharp",
+          "sizeLines": 50,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs",
+          "language": "csharp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 74,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs",
+          "language": "csharp",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs",
+          "language": "csharp",
+          "sizeLines": 42,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs",
+          "language": "csharp",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs",
+          "language": "csharp",
+          "sizeLines": 143,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs",
+          "language": "csharp",
+          "sizeLines": 101,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/BattleSystem/Framework/SimpleDamageCalculator.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/Stat.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/StatComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/StatModifier.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Framework/WeaponDamageCalculator.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryId.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModel.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryModelConfig.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/AccessoryObj.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionConfig.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/EvolutionSystem.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Accessory/IEvolutionSystem.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/HeatComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/IAmmoSystem.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/InfiniteAmmoComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Ammo/WeaponMagazineExecutor.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Spread/SpreadComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ChargeTriggerBehavior.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/FullAutoTriggerBehavior.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ITriggerBehavior.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/IWeaponTrigger.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/SemiAutoTriggerBehavior.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/Trigger/ShotgunTriggerBehavior.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireDecision.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Components/WeaponFireExecutor.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 5,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/DefaultWeapon.cs",
+          "language": "csharp",
+          "sizeLines": 27,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/Factory/WeaponEntityFactory.cs",
+          "language": "csharp",
+          "sizeLines": 178,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/FireComponent.cs",
+          "language": "csharp",
+          "sizeLines": 113,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeapon.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponComponent.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponReloadController.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponStats.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponTriggerController.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/MagazineComponent.cs",
+          "language": "csharp",
+          "sizeLines": 75,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalReloadController.cs",
+          "language": "csharp",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalTriggerController.cs",
+          "language": "csharp",
+          "sizeLines": 94,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponAssembly.cs",
+          "language": "csharp",
+          "sizeLines": 66,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponBase.cs",
+          "language": "csharp",
+          "sizeLines": 142,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponComponentBase.cs",
+          "language": "csharp",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponId.cs",
+          "language": "csharp",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponState.cs",
+          "language": "csharp",
+          "sizeLines": 98,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponStats.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Entry/GameEntry.cs",
+          "language": "csharp",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Entry/GameEntry.Register.cs",
+          "language": "csharp",
+          "sizeLines": 32,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/CLAUDE.md",
+          "language": "markdown",
+          "sizeLines": 67,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/EventAdapter.cs",
+          "language": "csharp",
+          "sizeLines": 145,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/EventParameterBase.cs",
+          "language": "csharp",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/EventParamHintAttribute.cs",
+          "language": "csharp",
+          "sizeLines": 21,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/GlobalEventId.cs",
+          "language": "csharp",
+          "sizeLines": 64,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/ILocalEventManager.cs",
+          "language": "csharp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/DefaultWeapon.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/Factory/WeaponEntityFactory.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/FireComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeapon.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponReloadController.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponStats.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/IWeaponTriggerController.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/MagazineComponent.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalReloadController.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/NormalTriggerController.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponAssembly.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponBase.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponComponentBase.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponId.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponState.cs": [],
+        "Assets/Scripts/GenBall/BattleSystem/Weapons/WeaponStats.cs": [],
+        "Assets/Scripts/GenBall/Entry/GameEntry.cs": [],
+        "Assets/Scripts/GenBall/Entry/GameEntry.Register.cs": [],
+        "Assets/Scripts/GenBall/Event/CLAUDE.md": [],
+        "Assets/Scripts/GenBall/Event/EventAdapter.cs": [],
+        "Assets/Scripts/GenBall/Event/EventParameterBase.cs": [],
+        "Assets/Scripts/GenBall/Event/EventParamHintAttribute.cs": [],
+        "Assets/Scripts/GenBall/Event/GlobalEventId.cs": [],
+        "Assets/Scripts/GenBall/Event/ILocalEventManager.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 6,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs",
+          "language": "csharp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs",
+          "language": "csharp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs",
+          "language": "csharp",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs",
+          "language": "csharp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/PlacedEventTable.cs",
+          "language": "csharp",
+          "sizeLines": 50,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs",
+          "language": "csharp",
+          "sizeLines": 160,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs",
+          "language": "csharp",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs",
+          "language": "csharp",
+          "sizeLines": 105,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/TriggerMode.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs",
+          "language": "csharp",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs",
+          "language": "csharp",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs",
+          "language": "csharp",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs",
+          "language": "csharp",
+          "sizeLines": 141,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Config/IConfigProvider.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs",
+          "language": "csharp",
+          "sizeLines": 42,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Entity/IEntityFrameUpdate.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Entity/IEntityLogicUpdate.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/Entity/IEntityUpdateSystem.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs",
+          "language": "csharp",
+          "sizeLines": 100,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs",
+          "language": "csharp",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/ActorInfo.cs",
+          "language": "csharp",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs",
+          "language": "csharp",
+          "sizeLines": 32,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs",
+          "language": "csharp",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/Event/Params/GrantAccessoryParams.cs": [],
+        "Assets/Scripts/GenBall/Event/Params/OpenDoorParams.cs": [],
+        "Assets/Scripts/GenBall/Event/Params/PlayDialogueParams.cs": [],
+        "Assets/Scripts/GenBall/Event/Params/SpawnEnemyParams.cs": [],
+        "Assets/Scripts/GenBall/Event/Params/UnlockSavePointParams.cs": [],
+        "Assets/Scripts/GenBall/Event/PlacedEventTable.cs": [],
+        "Assets/Scripts/GenBall/Event/RuntimeEventTrigger.cs": [],
+        "Assets/Scripts/GenBall/Event/RuntimeInteractProxy.cs": [],
+        "Assets/Scripts/GenBall/Event/Templates/ValueEventTemplateConfig.cs": [],
+        "Assets/Scripts/GenBall/Event/TriggerMode.cs": [],
+        "Assets/Scripts/GenBall/Event/ValueChangeEventArgs.cs": [],
+        "Assets/Scripts/GenBall/Framework/Config/AppConfigManager.cs": [],
+        "Assets/Scripts/GenBall/Framework/Config/AppSettingsConfig.cs": [],
+        "Assets/Scripts/GenBall/Framework/Config/BulletConfig.cs": [],
+        "Assets/Scripts/GenBall/Framework/Config/IConfigProvider.cs": [],
+        "Assets/Scripts/GenBall/Framework/Entity/EntityUpdateSystem.cs": [],
+        "Assets/Scripts/GenBall/Framework/Entity/IEntityFrameUpdate.cs": [],
+        "Assets/Scripts/GenBall/Framework/Entity/IEntityLogicUpdate.cs": [],
+        "Assets/Scripts/GenBall/Framework/Entity/IEntityUpdateSystem.cs": [],
+        "Assets/Scripts/GenBall/Framework/FrameworkDefault.cs": [],
+        "Assets/Scripts/GenBall/Framework/TimeScale/TimeScaleSystemDefault.cs": [],
+        "Assets/Scripts/GenBall/Player/ActorInfo.cs": [],
+        "Assets/Scripts/GenBall/Player/Initializer/PlayerArmorInitializer.cs": [],
+        "Assets/Scripts/GenBall/Player/Initializer/PlayerCameraInitializer.cs": [],
+        "Assets/Scripts/GenBall/Player/Initializer/PlayerUiInitializer.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 7,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+          "language": "csharp",
+          "sizeLines": 132,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs",
+          "language": "csharp",
+          "sizeLines": 39,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+          "language": "csharp",
+          "sizeLines": 194,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/IPlayerSystem.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.Control.cs",
+          "language": "csharp",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.Countdown.cs",
+          "language": "csharp",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.cs",
+          "language": "csharp",
+          "sizeLines": 75,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+          "language": "csharp",
+          "sizeLines": 105,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.Health.cs",
+          "language": "csharp",
+          "sizeLines": 108,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.Physics.cs",
+          "language": "csharp",
+          "sizeLines": 35,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/Player.Weapon.cs",
+          "language": "csharp",
+          "sizeLines": 120,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerConfig.cs",
+          "language": "csharp",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerConfigSo.cs",
+          "language": "csharp",
+          "sizeLines": 66,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerManager.cs",
+          "language": "csharp",
+          "sizeLines": 59,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerRotater.cs",
+          "language": "csharp",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerSaveData.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs",
+          "language": "csharp",
+          "sizeLines": 46,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs",
+          "language": "csharp",
+          "sizeLines": 54,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs",
+          "language": "csharp",
+          "sizeLines": 120,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/States/PlayerInitState.cs",
+          "language": "csharp",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs",
+          "language": "csharp",
+          "sizeLines": 256,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs",
+          "language": "csharp",
+          "sizeLines": 136,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/ILaunchSystem.cs",
+          "language": "csharp",
+          "sizeLines": 14,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs",
+          "language": "csharp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/Player/Input/InputController.cs": [],
+        "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs": [],
+        "Assets/Scripts/GenBall/Player/Input/InputHandler.cs": [],
+        "Assets/Scripts/GenBall/Player/IPlayerSystem.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.Control.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.Countdown.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.Fsm.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.Health.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.Physics.cs": [],
+        "Assets/Scripts/GenBall/Player/Player.Weapon.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerConfig.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerConfigSo.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerManager.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerRotater.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerSaveData.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerSaveDataProvider.cs": [],
+        "Assets/Scripts/GenBall/Player/PlayerSystemDefault.cs": [],
+        "Assets/Scripts/GenBall/Player/States/PlayerDashState.cs": [],
+        "Assets/Scripts/GenBall/Player/States/PlayerInitState.cs": [],
+        "Assets/Scripts/GenBall/Player/States/PlayerJumpState.cs": [],
+        "Assets/Scripts/GenBall/Player/States/PlayerMoveState.cs": [],
+        "Assets/Scripts/GenBall/Player/States/PlayerStateBase.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Execute/ILaunchSystem.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Execute/ISceneExecutorSystem.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 8,
+      "files": [
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/ISceneLoadSystem.cs",
+          "language": "csharp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+          "language": "csharp",
+          "sizeLines": 152,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+          "language": "csharp",
+          "sizeLines": 98,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+          "language": "csharp",
+          "sizeLines": 281,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+          "language": "csharp",
+          "sizeLines": 104,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+          "language": "csharp",
+          "sizeLines": 158,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/GameProcedure.cs",
+          "language": "csharp",
+          "sizeLines": 1,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+          "language": "csharp",
+          "sizeLines": 159,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/IGameManagerSystem.cs",
+          "language": "csharp",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/IGameStartSystem.cs",
+          "language": "csharp",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/IPauseSystem.cs",
+          "language": "csharp",
+          "sizeLines": 21,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs",
+          "language": "csharp",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/GameData.cs",
+          "language": "csharp",
+          "sizeLines": 86,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/ISaveDataProvider.cs",
+          "language": "csharp",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/ISaveService.cs",
+          "language": "csharp",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/IUserSettingsStorage.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/SaveComponent.cs",
+          "language": "csharp",
+          "sizeLines": 337,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/SaveFieldKeys.cs",
+          "language": "csharp",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/SaveSlotData.cs",
+          "language": "csharp",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/SaveSystem.cs",
+          "language": "csharp",
+          "sizeLines": 306,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/UserSettings.cs",
+          "language": "csharp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs",
+          "language": "csharp",
+          "sizeLines": 87,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+          "language": "csharp",
+          "sizeLines": 187,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+          "language": "csharp",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/GenBall/Procedure/Execute/ISceneLoadSystem.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/GameProcedure.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/IGameManagerSystem.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/IGameStartSystem.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/IPauseSystem.cs": [],
+        "Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs": [],
+        "Assets/Scripts/GenBall/Procedure/GameData.cs": [],
+        "Assets/Scripts/GenBall/Procedure/ISaveDataProvider.cs": [],
+        "Assets/Scripts/GenBall/Procedure/ISaveService.cs": [],
+        "Assets/Scripts/GenBall/Procedure/IUserSettingsStorage.cs": [],
+        "Assets/Scripts/GenBall/Procedure/SaveComponent.cs": [],
+        "Assets/Scripts/GenBall/Procedure/SaveFieldKeys.cs": [],
+        "Assets/Scripts/GenBall/Procedure/SaveSlotData.cs": [],
+        "Assets/Scripts/GenBall/Procedure/SaveSystem.cs": [],
+        "Assets/Scripts/GenBall/Procedure/UserSettings.cs": [],
+        "Assets/Scripts/GenBall/Procedure/UserSettingsStorage.cs": [],
+        "Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs": [],
+        "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs": [],
+        "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 9,
+      "files": [
+        {
+          "path": "Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs",
+          "language": "csharp",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+          "language": "csharp",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+          "language": "csharp",
+          "sizeLines": 82,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+          "language": "csharp",
+          "sizeLines": 118,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+          "language": "csharp",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/CLAUDE.md",
+          "language": "markdown",
+          "sizeLines": 73,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+          "language": "csharp",
+          "sizeLines": 74,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+          "language": "csharp",
+          "sizeLines": 137,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Event/EventManager.cs",
+          "language": "csharp",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Event/GameEventArgs.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+          "language": "csharp",
+          "sizeLines": 262,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+          "language": "csharp",
+          "sizeLines": 179,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+          "language": "csharp",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Fsm/IFsm.cs",
+          "language": "csharp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+          "language": "csharp",
+          "sizeLines": 88,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+          "language": "csharp",
+          "sizeLines": 55,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+          "language": "csharp",
+          "sizeLines": 68,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/IComponent.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/IFrameUpdate.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/ILogicUpdate.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/ISystem.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs",
+          "language": "csharp",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+          "language": "csharp",
+          "sizeLines": 92,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs": [],
+        "Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs": [],
+        "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs": [],
+        "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs": [],
+        "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs": [],
+        "Assets/Scripts/Yueyn/Base/Variable/Variable.cs": [],
+        "Assets/Scripts/Yueyn/CLAUDE.md": [],
+        "Assets/Scripts/Yueyn/Event/CEventRouter.cs": [],
+        "Assets/Scripts/Yueyn/Event/EventDispatcher.cs": [],
+        "Assets/Scripts/Yueyn/Event/EventManager.cs": [],
+        "Assets/Scripts/Yueyn/Event/GameEventArgs.cs": [],
+        "Assets/Scripts/Yueyn/Fsm/Fsm.cs": [],
+        "Assets/Scripts/Yueyn/Fsm/FsmManager.cs": [],
+        "Assets/Scripts/Yueyn/Fsm/FsmState.cs": [],
+        "Assets/Scripts/Yueyn/Fsm/IFsm.cs": [],
+        "Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs": [],
+        "Assets/Scripts/Yueyn/Main/Entry/Entry.cs": [],
+        "Assets/Scripts/Yueyn/Main/FrameworkBase.cs": [],
+        "Assets/Scripts/Yueyn/Main/IComponent.cs": [],
+        "Assets/Scripts/Yueyn/Main/IFrameUpdate.cs": [],
+        "Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs": [],
+        "Assets/Scripts/Yueyn/Main/ILogicUpdate.cs": [],
+        "Assets/Scripts/Yueyn/Main/ISystem.cs": [],
+        "Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs": [],
+        "Assets/Scripts/Yueyn/Main/SystemRepository.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 10,
+      "files": [
+        {
+          "path": "Assets/Scripts/Yueyn/Main/SystemScope.cs",
+          "language": "csharp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+          "language": "csharp",
+          "sizeLines": 145,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+          "language": "csharp",
+          "sizeLines": 116,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs",
+          "language": "csharp",
+          "sizeLines": 37,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs",
+          "language": "csharp",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs",
+          "language": "csharp",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+          "language": "csharp",
+          "sizeLines": 314,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs",
+          "language": "csharp",
+          "sizeLines": 75,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs",
+          "language": "csharp",
+          "sizeLines": 273,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/ObjectPool/ReleaseObjectFilterCallback.cs",
+          "language": "csharp",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+          "language": "csharp",
+          "sizeLines": 313,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs",
+          "language": "csharp",
+          "sizeLines": 76,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs",
+          "language": "csharp",
+          "sizeLines": 274,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+          "language": "csharp",
+          "sizeLines": 308,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+          "language": "csharp",
+          "sizeLines": 84,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Resource/IResourceHelper.cs",
+          "language": "csharp",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+          "language": "csharp",
+          "sizeLines": 259,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+          "language": "csharp",
+          "sizeLines": 79,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Resource/ResourceManager.cs",
+          "language": "csharp",
+          "sizeLines": 46,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Timer/Timer.cs",
+          "language": "csharp",
+          "sizeLines": 88,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Timer/Timer.Event.cs",
+          "language": "csharp",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Timer/TimerManager.cs",
+          "language": "csharp",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+          "language": "csharp",
+          "sizeLines": 118,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+          "language": "csharp",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+          "language": "csharp",
+          "sizeLines": 83,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/Yueyn/Main/SystemScope.cs": [],
+        "Assets/Scripts/Yueyn/Main/SystemUpdater.cs": [],
+        "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs": [],
+        "Assets/Scripts/Yueyn/ObjectPool/ReleaseObjectFilterCallback.cs": [],
+        "Assets/Scripts/Yueyn/Pool/CPoolManager.cs": [],
+        "Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs": [],
+        "Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs": [],
+        "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs": [],
+        "Assets/Scripts/Yueyn/Resource/CResourceManager.cs": [],
+        "Assets/Scripts/Yueyn/Resource/IResourceHelper.cs": [],
+        "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs": [],
+        "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs": [],
+        "Assets/Scripts/Yueyn/Resource/ResourceManager.cs": [],
+        "Assets/Scripts/Yueyn/Timer/Timer.cs": [],
+        "Assets/Scripts/Yueyn/Timer/Timer.Event.cs": [],
+        "Assets/Scripts/Yueyn/Timer/TimerManager.cs": [],
+        "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs": [],
+        "Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs": [],
+        "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 11,
+      "files": [
+        {
+          "path": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+          "language": "csharp",
+          "sizeLines": 227,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+          "language": "csharp",
+          "sizeLines": 106,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+          "language": "csharp",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+          "language": "csharp",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/UIComponent.cs",
+          "language": "csharp",
+          "sizeLines": 169,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+          "language": "csharp",
+          "sizeLines": 482,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/UIFormType.cs",
+          "language": "csharp",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+          "language": "csharp",
+          "sizeLines": 464,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/ListExpense.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+          "language": "csharp",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+          "language": "csharp",
+          "sizeLines": 93,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/QueueExpense.cs",
+          "language": "csharp",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+          "language": "csharp",
+          "sizeLines": 173,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/Singleton.cs",
+          "language": "csharp",
+          "sizeLines": 32,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/StringExpense.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs",
+          "language": "csharp",
+          "sizeLines": 37,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs": [],
+        "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs": [],
+        "Assets/Scripts/Yueyn/UI/PartViewBase.cs": [],
+        "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs": [],
+        "Assets/Scripts/Yueyn/UI/UIComponent.cs": [],
+        "Assets/Scripts/Yueyn/UI/UIFormScript.cs": [],
+        "Assets/Scripts/Yueyn/UI/UIFormType.cs": [],
+        "Assets/Scripts/Yueyn/UI/UIManager.cs": [],
+        "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs": [],
+        "Assets/Scripts/Yueyn/Utils/ListExpense.cs": [],
+        "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs": [],
+        "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs": [],
+        "Assets/Scripts/Yueyn/Utils/QueueExpense.cs": [],
+        "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs": [],
+        "Assets/Scripts/Yueyn/Utils/Singleton.cs": [],
+        "Assets/Scripts/Yueyn/Utils/StringExpense.cs": [],
+        "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs": []
+      },
+      "neighborMap": {}
+    }
+  ]
+}

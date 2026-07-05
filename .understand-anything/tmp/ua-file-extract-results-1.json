@@ -1,0 +1,2360 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "OnAdd",
+          "startLine": 8,
+          "endLine": 13,
+          "params": [
+            "addBuffInfo"
+          ]
+        },
+        {
+          "name": "OnRemove",
+          "startLine": 15,
+          "endLine": 19,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "BulletDamageUpBuff",
+          "startLine": 5,
+          "endLine": 20,
+          "methods": [
+            "OnAdd",
+            "OnRemove"
+          ],
+          "properties": [
+            "_weapon"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OnAdd",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "OnRemove",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "BulletDamageUpBuff",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnAdd",
+          "callee": "base.OnAdd",
+          "lineNumber": 10
+        },
+        {
+          "caller": "OnAdd",
+          "callee": "addBuffInfo.Carrier.GetComponent<WeaponState>",
+          "lineNumber": 11
+        },
+        {
+          "caller": "OnAdd",
+          "callee": "_weapon.Stats.Damage.AddMultipleZone",
+          "lineNumber": 12
+        },
+        {
+          "caller": "OnRemove",
+          "callee": "base.OnRemove",
+          "lineNumber": 17
+        },
+        {
+          "caller": "OnRemove",
+          "callee": "_weapon.Stats.Damage.AddMultipleZone",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffEventIds.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "BuffEventIds",
+          "startLine": 3,
+          "endLine": 11,
+          "methods": [],
+          "properties": [
+            "DamageBeforeCauseBuffs",
+            "DamageBeforeTakeBuffs",
+            "DamageComplete",
+            "DeathBeforeDieBuffs",
+            "DeathConfirmed",
+            "DeathAfterKillBuffs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DamageBeforeCauseBuffs",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "DamageBeforeTakeBuffs",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "DamageComplete",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "DeathBeforeDieBuffs",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "DeathConfirmed",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "DeathAfterKillBuffs",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "BuffEventIds",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffId.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "BuffIdConstants",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [],
+          "properties": [
+            "PlayerArmor",
+            "BulletDamageUp"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PlayerArmor",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "BulletDamageUp",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "BuffIdConstants",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 13,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "GetBuffModel",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "buffId"
+          ]
+        },
+        {
+          "name": "GetBuffType",
+          "startLine": 36,
+          "endLine": 39,
+          "params": [
+            "buffId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BuffModelConfig",
+          "startLine": 7,
+          "endLine": 40,
+          "methods": [
+            "Init",
+            "GetBuffModel",
+            "GetBuffType"
+          ],
+          "properties": [
+            "buffModels",
+            "_buffDict",
+            "_buffTypeCache"
+          ]
+        },
+        {
+          "name": "BuffModel",
+          "startLine": 42,
+          "endLine": 62,
+          "methods": [],
+          "properties": [
+            "buffId",
+            "buffType",
+            "displayName",
+            "canMultiExist",
+            "priority",
+            "tags",
+            "parameters",
+            "maxStack",
+            "BuffId",
+            "BuffType",
+            "DisplayName",
+            "CanMultiExist",
+            "Priority",
+            "Tags",
+            "Parameters",
+            "MaxStack"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Init",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "GetBuffModel",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "GetBuffType",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "BuffModelConfig",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "BuffId",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "BuffType",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "CanMultiExist",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "Priority",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "Tags",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "Parameters",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "MaxStack",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "BuffModel",
+          "line": 42,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "_buffDict.Clear",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Init",
+          "callee": "_buffTypeCache.Clear",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Init",
+          "callee": "_buffDict.TryAdd",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Init",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Init",
+          "callee": "System.Type.GetType",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Init",
+          "callee": "_buffTypeCache.TryAdd",
+          "lineNumber": 25
+        },
+        {
+          "caller": "GetBuffModel",
+          "callee": "_buffDict.GetValueOrDefault",
+          "lineNumber": 33
+        },
+        {
+          "caller": "GetBuffType",
+          "callee": "_buffTypeCache.GetValueOrDefault",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 13,
+        "functionCount": 3,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 93,
+      "nonEmptyLines": 89,
+      "functions": [
+        {
+          "name": "Create",
+          "startLine": 29,
+          "endLine": 48,
+          "params": [
+            "addBuffInfo"
+          ]
+        },
+        {
+          "name": "Tick",
+          "startLine": 50,
+          "endLine": 54,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnUpdate",
+          "startLine": 55,
+          "endLine": 55,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnAdd",
+          "startLine": 60,
+          "endLine": 60,
+          "params": [
+            "addBuffInfo"
+          ]
+        },
+        {
+          "name": "OnStack",
+          "startLine": 66,
+          "endLine": 66,
+          "params": [
+            "addBuffInfo"
+          ]
+        },
+        {
+          "name": "OnUnstack",
+          "startLine": 72,
+          "endLine": 79,
+          "params": [
+            "unStackCount"
+          ]
+        },
+        {
+          "name": "OnRemove",
+          "startLine": 83,
+          "endLine": 83,
+          "params": []
+        },
+        {
+          "name": "Clear",
+          "startLine": 84,
+          "endLine": 91,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "BuffObj",
+          "startLine": 11,
+          "endLine": 92,
+          "methods": [
+            "Create",
+            "Tick",
+            "OnUpdate",
+            "OnAdd",
+            "OnStack",
+            "OnUnstack",
+            "OnRemove",
+            "Clear"
+          ],
+          "properties": [
+            "Model",
+            "BuffId",
+            "Priority",
+            "CanMultiExist",
+            "Tags",
+            "Caster",
+            "Carrier",
+            "Stacks",
+            "TickTimer"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Model",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "BuffId",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Priority",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "CanMultiExist",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Tags",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Caster",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Carrier",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Create",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Tick",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "OnAdd",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "OnStack",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "OnUnstack",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "OnRemove",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "BuffObj",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Create",
+          "callee": "Debug.LogError",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Create",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>()?.GetConfig<BuffModelConfig>()?.GetBuffType",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Create",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>()?.GetConfig<BuffModelConfig>",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Create",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Create",
+          "callee": "Debug.LogError",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Create",
+          "callee": "ReferencePool.Acquire",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Tick",
+          "callee": "OnUpdate",
+          "lineNumber": 53
+        },
+        {
+          "caller": "OnUnstack",
+          "callee": "SystemRepository.Instance.GetSystem<IBuffRegistry>()?.RemoveBuff",
+          "lineNumber": 77
+        },
+        {
+          "caller": "OnUnstack",
+          "callee": "SystemRepository.Instance.GetSystem<IBuffRegistry>",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 15,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 110,
+      "nonEmptyLines": 100,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 17,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "UnInit",
+          "startLine": 19,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "AddBuff",
+          "startLine": 30,
+          "endLine": 95,
+          "params": [
+            "info"
+          ]
+        },
+        {
+          "name": "RemoveBuff",
+          "startLine": 102,
+          "endLine": 108,
+          "params": [
+            "buffObj"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BuffRegistry",
+          "startLine": 10,
+          "endLine": 109,
+          "methods": [
+            "Init",
+            "UnInit",
+            "AddBuff",
+            "RemoveBuff"
+          ],
+          "properties": [
+            "_activeBuffs",
+            "_cachedBuffs",
+            "ActiveBuffs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ActiveBuffs",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "UnInit",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "AddBuff",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveBuff",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "BuffRegistry",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UnInit",
+          "callee": "_activeBuffs.Clear",
+          "lineNumber": 21
+        },
+        {
+          "caller": "UnInit",
+          "callee": "_cachedBuffs.Clear",
+          "lineNumber": 22
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "Debug.LogError",
+          "lineNumber": 34
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "ReferencePool.Release",
+          "lineNumber": 35
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "Debug.LogError",
+          "lineNumber": 40
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "ReferencePool.Release",
+          "lineNumber": 41
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "info.Carrier.GetComponent<IBuffContainer>",
+          "lineNumber": 45
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffContainer.GetBuffs",
+          "lineNumber": 46
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffContainer.GetBuffs<ITriggerBeforeStackBuff>",
+          "lineNumber": 50
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "beforeStackBuff.TriggerBeforeStackBuff",
+          "lineNumber": 53
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "beforeStackBuffs.ReleaseBuffList",
+          "lineNumber": 55
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "sameIdBuffs.First",
+          "lineNumber": 58
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "sameIdBuffs.ReleaseBuffList",
+          "lineNumber": 59
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "sameIdBuff?.OnStack",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffContainer.GetBuffs<ITriggerAfterStackBuff>",
+          "lineNumber": 62
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "afterStackBuff.TriggerAfterStackBuff",
+          "lineNumber": 65
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "afterStackBuffs.ReleaseBuffList",
+          "lineNumber": 67
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "ReferencePool.Release",
+          "lineNumber": 68
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "sameIdBuffs.ReleaseBuffList",
+          "lineNumber": 73
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffContainer.GetBuffs<ITriggerBeforeAddBuff>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "beforeAddBuff.TriggerBeforeAddBuff",
+          "lineNumber": 77
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "beforeAddBuffs.ReleaseBuffList",
+          "lineNumber": 79
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "BuffObj.Create",
+          "lineNumber": 81
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffContainer.AddBuff",
+          "lineNumber": 82
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "_activeBuffs.Add",
+          "lineNumber": 83
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffObj.OnAdd",
+          "lineNumber": 84
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "buffContainer.GetBuffs<ITriggerAfterAddBuff>",
+          "lineNumber": 86
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "afterAddBuff.TriggerAfterAddBuff",
+          "lineNumber": 89
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "afterAddBuffs.ReleaseBuffList",
+          "lineNumber": 91
+        },
+        {
+          "caller": "AddBuff",
+          "callee": "ReferencePool.Release",
+          "lineNumber": 92
+        },
+        {
+          "caller": "RemoveBuff",
+          "callee": "buffObj.Carrier.GetComponent<IBuffContainer>",
+          "lineNumber": 104
+        },
+        {
+          "caller": "RemoveBuff",
+          "callee": "buffContainer.RemoveBuff",
+          "lineNumber": 105
+        },
+        {
+          "caller": "RemoveBuff",
+          "callee": "_activeBuffs.Remove",
+          "lineNumber": 106
+        },
+        {
+          "caller": "RemoveBuff",
+          "callee": "ReferencePool.Release",
+          "lineNumber": 107
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "Create",
+          "startLine": 25,
+          "endLine": 41,
+          "params": [
+            "buffId",
+            "carrier",
+            "addStacks",
+            "param",
+            "caster"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 42,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AddBuffInfo",
+          "startLine": 14,
+          "endLine": 51,
+          "methods": [
+            "Create",
+            "Clear"
+          ],
+          "properties": [
+            "Model",
+            "Caster",
+            "Carrier",
+            "AddStacks",
+            "Parameters"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Model",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Caster",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Carrier",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "AddStacks",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Parameters",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Create",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "AddBuffInfo",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Create",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>()?.GetConfig<BuffModelConfig>()?.GetBuffModel",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Create",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>()?.GetConfig<BuffModelConfig>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Create",
+          "callee": "SystemRepository.Instance.GetSystem<IConfigProvider>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Create",
+          "callee": "Debug.LogError",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Create",
+          "callee": "ReferencePool.Acquire<AddBuffInfo>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Create",
+          "callee": "param?.ToList",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Clear",
+          "callee": "Parameters?.Clear",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 124,
+      "nonEmptyLines": 111,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 15,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "UnInit",
+          "startLine": 34,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "LogicUpdate",
+          "startLine": 52,
+          "endLine": 59,
+          "params": [
+            "deltaTime"
+          ]
+        },
+        {
+          "name": "OnDamageBeforeCauseBuffs",
+          "startLine": 63,
+          "endLine": 69,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnDamageBeforeTakeBuffs",
+          "startLine": 71,
+          "endLine": 77,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnDamageComplete",
+          "startLine": 79,
+          "endLine": 95,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnDeathBeforeDieBuffs",
+          "startLine": 97,
+          "endLine": 103,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnDeathConfirmed",
+          "startLine": 105,
+          "endLine": 114,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnDeathAfterKillBuffs",
+          "startLine": 116,
+          "endLine": 122,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BuffTickSystem",
+          "startLine": 8,
+          "endLine": 123,
+          "methods": [
+            "Init",
+            "UnInit",
+            "LogicUpdate",
+            "OnDamageBeforeCauseBuffs",
+            "OnDamageBeforeTakeBuffs",
+            "OnDamageComplete",
+            "OnDeathBeforeDieBuffs",
+            "OnDeathConfirmed",
+            "OnDeathAfterKillBuffs"
+          ],
+          "properties": [
+            "_registry",
+            "_cachedBuffs",
+            "LogicUpdateScope"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LogicUpdateScope",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Init",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "UnInit",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "LogicUpdate",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "BuffTickSystem",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "SystemRepository.Instance.GetSystem<IBuffRegistry>",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Init",
+          "callee": "router.Subscribe<DamageEvents.DamageBeforeCauseBuffsEvent>",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Init",
+          "callee": "router.Subscribe<DamageEvents.DamageBeforeTakeBuffsEvent>",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Init",
+          "callee": "router.Subscribe<DamageEvents.DamageCompleteEvent>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Init",
+          "callee": "router.Subscribe<DeathEvents.DeathBeforeDieBuffsEvent>",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Init",
+          "callee": "router.Subscribe<DeathEvents.DeathConfirmedEvent>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Init",
+          "callee": "router.Subscribe<DeathEvents.DeathAfterKillBuffsEvent>",
+          "lineNumber": 30
+        },
+        {
+          "caller": "UnInit",
+          "callee": "router.Unsubscribe<DamageEvents.DamageBeforeCauseBuffsEvent>",
+          "lineNumber": 37
+        },
+        {
+          "caller": "UnInit",
+          "callee": "router.Unsubscribe<DamageEvents.DamageBeforeTakeBuffsEvent>",
+          "lineNumber": 39
+        },
+        {
+          "caller": "UnInit",
+          "callee": "router.Unsubscribe<DamageEvents.DamageCompleteEvent>",
+          "lineNumber": 41
+        },
+        {
+          "caller": "UnInit",
+          "callee": "router.Unsubscribe<DeathEvents.DeathBeforeDieBuffsEvent>",
+          "lineNumber": 43
+        },
+        {
+          "caller": "UnInit",
+          "callee": "router.Unsubscribe<DeathEvents.DeathConfirmedEvent>",
+          "lineNumber": 45
+        },
+        {
+          "caller": "UnInit",
+          "callee": "router.Unsubscribe<DeathEvents.DeathAfterKillBuffsEvent>",
+          "lineNumber": 47
+        },
+        {
+          "caller": "UnInit",
+          "callee": "_cachedBuffs.Clear",
+          "lineNumber": 49
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_cachedBuffs.Clear",
+          "lineNumber": 54
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "_cachedBuffs.Add",
+          "lineNumber": 56
+        },
+        {
+          "caller": "LogicUpdate",
+          "callee": "buff.Tick",
+          "lineNumber": 58
+        },
+        {
+          "caller": "OnDamageBeforeCauseBuffs",
+          "callee": "e.AttackerBuffContainer.GetBuffs<ITriggerBeforeCauseDamage>",
+          "lineNumber": 66
+        },
+        {
+          "caller": "OnDamageBeforeCauseBuffs",
+          "callee": "buff.TriggerBeforeCauseDamage",
+          "lineNumber": 67
+        },
+        {
+          "caller": "OnDamageBeforeCauseBuffs",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 68
+        },
+        {
+          "caller": "OnDamageBeforeTakeBuffs",
+          "callee": "e.DefenderBuffContainer.GetBuffs<ITriggerBeforeTakeDamage>",
+          "lineNumber": 74
+        },
+        {
+          "caller": "OnDamageBeforeTakeBuffs",
+          "callee": "buff.TriggerBeforeTakeDamage",
+          "lineNumber": 75
+        },
+        {
+          "caller": "OnDamageBeforeTakeBuffs",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 76
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "e.Attacker?.GetComponent<IBuffContainer>",
+          "lineNumber": 81
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "attackerContainer.GetBuffs<ITriggerAfterCauseDamage>",
+          "lineNumber": 84
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "buff.TriggerAfterCauseDamage",
+          "lineNumber": 85
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 86
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "e.Defender?.GetComponent<IBuffContainer>",
+          "lineNumber": 88
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "defenderContainer.GetBuffs<ITriggerAfterTakeDamage>",
+          "lineNumber": 91
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "buff.TriggerAfterTakeDamage",
+          "lineNumber": 92
+        },
+        {
+          "caller": "OnDamageComplete",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 93
+        },
+        {
+          "caller": "OnDeathBeforeDieBuffs",
+          "callee": "e.VictimBuffContainer.GetBuffs<ITriggerBeforeDie>",
+          "lineNumber": 100
+        },
+        {
+          "caller": "OnDeathBeforeDieBuffs",
+          "callee": "buff.TriggerBeforeDie",
+          "lineNumber": 101
+        },
+        {
+          "caller": "OnDeathBeforeDieBuffs",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 102
+        },
+        {
+          "caller": "OnDeathConfirmed",
+          "callee": "e.Victim?.GetComponent<IBuffContainer>",
+          "lineNumber": 107
+        },
+        {
+          "caller": "OnDeathConfirmed",
+          "callee": "victimContainer.GetBuffs<ITriggerAfterDie>",
+          "lineNumber": 110
+        },
+        {
+          "caller": "OnDeathConfirmed",
+          "callee": "buff.TriggerAfterDie",
+          "lineNumber": 111
+        },
+        {
+          "caller": "OnDeathConfirmed",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 112
+        },
+        {
+          "caller": "OnDeathAfterKillBuffs",
+          "callee": "e.KillerBuffContainer.GetBuffs<ITriggerAfterKill>",
+          "lineNumber": 119
+        },
+        {
+          "caller": "OnDeathAfterKillBuffs",
+          "callee": "buff.TriggerAfterKill",
+          "lineNumber": 120
+        },
+        {
+          "caller": "OnDeathAfterKillBuffs",
+          "callee": "buffs.ReleaseBuffList",
+          "lineNumber": 121
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 151,
+      "nonEmptyLines": 132,
+      "functions": [
+        {
+          "name": "Compare",
+          "startLine": 142,
+          "endLine": 148,
+          "params": [
+            "x",
+            "y"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "IBuff",
+          "startLine": 6,
+          "endLine": 14,
+          "methods": [],
+          "properties": [
+            "Priority",
+            "CanMultiExist",
+            "Tags"
+          ]
+        },
+        {
+          "name": "ITriggerBeforeFireBullet",
+          "startLine": 22,
+          "endLine": 25,
+          "methods": [
+            "TriggerBeforeFireBullet"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterFireBullet",
+          "startLine": 30,
+          "endLine": 33,
+          "methods": [
+            "TriggerAfterFireBullet"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerBeforeBulletBeFired",
+          "startLine": 38,
+          "endLine": 41,
+          "methods": [
+            "TriggerBeforeBulletBeFired"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterBulletBeFired",
+          "startLine": 46,
+          "endLine": 49,
+          "methods": [
+            "TriggerAfterBulletBeFired"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerBeforeDie",
+          "startLine": 53,
+          "endLine": 56,
+          "methods": [
+            "TriggerBeforeDie"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterDie",
+          "startLine": 61,
+          "endLine": 64,
+          "methods": [
+            "TriggerAfterDie"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterKill",
+          "startLine": 69,
+          "endLine": 72,
+          "methods": [
+            "TriggerAfterKill"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerBeforeCauseDamage",
+          "startLine": 76,
+          "endLine": 79,
+          "methods": [
+            "TriggerBeforeCauseDamage"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterCauseDamage",
+          "startLine": 84,
+          "endLine": 87,
+          "methods": [
+            "TriggerAfterCauseDamage"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerBeforeTakeDamage",
+          "startLine": 92,
+          "endLine": 95,
+          "methods": [
+            "TriggerBeforeTakeDamage"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterTakeDamage",
+          "startLine": 100,
+          "endLine": 103,
+          "methods": [
+            "TriggerAfterTakeDamage"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerBeforeAddBuff",
+          "startLine": 109,
+          "endLine": 112,
+          "methods": [
+            "TriggerBeforeAddBuff"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterAddBuff",
+          "startLine": 117,
+          "endLine": 120,
+          "methods": [
+            "TriggerAfterAddBuff"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerBeforeStackBuff",
+          "startLine": 125,
+          "endLine": 128,
+          "methods": [
+            "TriggerBeforeStackBuff"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ITriggerAfterStackBuff",
+          "startLine": 133,
+          "endLine": 136,
+          "methods": [
+            "TriggerAfterStackBuff"
+          ],
+          "properties": []
+        },
+        {
+          "name": "DefaultComparerBuff",
+          "startLine": 140,
+          "endLine": 149,
+          "methods": [
+            "Compare"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IBuff",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeFireBullet",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterFireBullet",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeBulletBeFired",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterBulletBeFired",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeDie",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterDie",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterKill",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeCauseDamage",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterCauseDamage",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeTakeDamage",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterTakeDamage",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeAddBuff",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterAddBuff",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerBeforeStackBuff",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "ITriggerAfterStackBuff",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "Compare",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "DefaultComparerBuff",
+          "line": 140,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Compare",
+          "callee": "x.Priority.CompareTo",
+          "lineNumber": 147
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 1,
+        "classCount": 17
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 77,
+      "functions": [
+        {
+          "name": "GetBuffs",
+          "startLine": 34,
+          "endLine": 45,
+          "params": [
+            "buffContainer"
+          ]
+        },
+        {
+          "name": "GetBuffs",
+          "startLine": 47,
+          "endLine": 55,
+          "params": [
+            "buffContainer",
+            "buffs"
+          ]
+        },
+        {
+          "name": "GetBuffs",
+          "startLine": 57,
+          "endLine": 69,
+          "params": [
+            "buffContainer",
+            "buffId"
+          ]
+        },
+        {
+          "name": "GetBuffs",
+          "startLine": 71,
+          "endLine": 79,
+          "params": [
+            "buffContainer",
+            "buffId",
+            "buffs"
+          ]
+        },
+        {
+          "name": "ReleaseBuffList",
+          "startLine": 81,
+          "endLine": 84,
+          "params": [
+            "list"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "IBuffContainer",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [
+            "AddBuff",
+            "RemoveBuff"
+          ],
+          "properties": [
+            "Buffs"
+          ]
+        },
+        {
+          "name": "BuffContainerExtensions",
+          "startLine": 14,
+          "endLine": 85,
+          "methods": [
+            "GetBuffs",
+            "GetBuffs",
+            "GetBuffs",
+            "GetBuffs",
+            "ReleaseBuffList"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IBuffContainer",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "GetBuffs",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "GetBuffs",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "GetBuffs",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "GetBuffs",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "ReleaseBuffList",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "BuffContainerExtensions",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Rent",
+          "callee": "SPool.Pop",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Rent",
+          "callee": "new List<T>",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Rent",
+          "callee": "list.Clear",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Return",
+          "callee": "list.Clear",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Return",
+          "callee": "SPool.Push",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "BuffListPool<T>.Rent",
+          "lineNumber": 36
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "result.Add",
+          "lineNumber": 41
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "BuffListPool<T>.Rent",
+          "lineNumber": 49
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "buffs.Add",
+          "lineNumber": 53
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "buffContainer.GetBuffs<BuffObj>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "BuffListPool<BuffObj>.Rent",
+          "lineNumber": 60
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "result.Add",
+          "lineNumber": 65
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "BuffListPool<BuffObj>.Rent",
+          "lineNumber": 73
+        },
+        {
+          "caller": "GetBuffs",
+          "callee": "buffs.Add",
+          "lineNumber": 77
+        },
+        {
+          "caller": "ReleaseBuffList",
+          "callee": "BuffListPool<T>.Return",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 5,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "IBuffRegistry",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "AddBuff",
+            "RemoveBuff"
+          ],
+          "properties": [
+            "ActiveBuffs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IBuffRegistry",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "IBuffTickSystem",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IBuffTickSystem",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "OnAdd",
+          "startLine": 27,
+          "endLine": 34,
+          "params": [
+            "addBuffInfo"
+          ]
+        },
+        {
+          "name": "TriggerBeforeTakeDamage",
+          "startLine": 36,
+          "endLine": 49,
+          "params": [
+            "damageInfo"
+          ]
+        },
+        {
+          "name": "OnMaxHealthChange",
+          "startLine": 51,
+          "endLine": 54,
+          "params": [
+            "maxHealth"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 55,
+          "endLine": 60,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ArmorBuff",
+          "startLine": 10,
+          "endLine": 61,
+          "methods": [
+            "OnAdd",
+            "TriggerBeforeTakeDamage",
+            "OnMaxHealthChange",
+            "Clear"
+          ],
+          "properties": [
+            "_armor",
+            "_player",
+            "Armor",
+            "OnArmorChange",
+            "MaxArmor"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Armor",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "OnArmorChange",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "MaxArmor",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "OnAdd",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "TriggerBeforeTakeDamage",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "ArmorBuff",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnAdd",
+          "callee": "base.OnAdd",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OnAdd",
+          "callee": "Carrier.GetComponent<CharacterState>",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TriggerBeforeTakeDamage",
+          "callee": "damageInfo.Damage.GetValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "TriggerBeforeTakeDamage",
+          "callee": "damageInfo.Damage.AddDamage",
+          "lineNumber": 41
+        },
+        {
+          "caller": "TriggerBeforeTakeDamage",
+          "callee": "damageInfo.Damage.AddDamage",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Clear",
+          "callee": "base.Clear",
+          "lineNumber": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 70,
+      "classes": [
+        {
+          "name": "ICommand",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ICommand",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 22,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IAbilitySecondary",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "AbilitySecondary",
+            "CancelAbilitySecondary"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IAbilitySecondary",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "IArbitratedCommand",
+          "startLine": 7,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "InterruptPriority",
+            "AntiInterruptPriority",
+            "Bufferable",
+            "BlocksMove",
+            "BlocksRotate",
+            "BlocksGravity"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IArbitratedCommand",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IAttack.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "IAttack",
+          "startLine": 3,
+          "endLine": 8,
+          "methods": [
+            "Attack",
+            "Cancel"
+          ],
+          "properties": [
+            "IsAttacking"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IAttack",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IDash.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "IDash",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "Dash"
+          ],
+          "properties": [
+            "IsDashing"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IDash",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IFaceDirection.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "IFaceDirection",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "Face"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IFaceDirection",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IInteract.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "IInteract",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "Interact"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IInteract",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IJump.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "IJump",
+          "startLine": 3,
+          "endLine": 13,
+          "methods": [
+            "Jump",
+            "Cancel"
+          ],
+          "properties": [
+            "IsJumping"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IJump",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/IMove.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "IMove",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "Move"
+          ],
+          "properties": [
+            "Velocity"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IMove",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 29,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

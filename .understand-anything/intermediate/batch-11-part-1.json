@@ -1,0 +1,1101 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "type": "file",
+      "name": "BusinessPartLogic.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "summary": "UI Part 逻辑基类，通过反射缓存实现 PartView→PartLogic 类型自动解析，支持 Part 的加载、绑定、生命周期补偿和子 Part 发现。",
+      "tags": ["ui-framework", "part-logic", "reflection", "lifecycle", "binding"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "type": "file",
+      "name": "BusinessPartLogicContainer.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "summary": "子 Part Logic 容器，管理父 Part 下子 Part Logic 的注册、移除和自动发现，通过反射实例化并绑定子 Part。",
+      "tags": ["ui-framework", "part-logic", "container", "child-discovery", "lifecycle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "type": "file",
+      "name": "PartViewBase.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "summary": "Part View 的泛型基类和非泛型接口，定义 ViewData 绑定、视图刷新和业务启动的模板方法，作为 PartLogic 绑定约束。",
+      "tags": ["ui-framework", "view-base", "generic", "data-binding", "part"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "type": "file",
+      "name": "UIBusinessFormBase.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "summary": "Form View 的泛型基类和非泛型接口，定义 ViewData 绑定、视图刷新和业务启动的模板方法，作为 FormLogic 绑定约束。",
+      "tags": ["ui-framework", "view-base", "generic", "data-binding", "form"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/UIComponent.cs",
+      "type": "file",
+      "name": "UIComponent.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIComponent.cs",
+      "summary": "UI 组件基类，定义 Form 生命周期的完整回调链（Open/Close/Focus/Unfocus/Pause/Resume），包含业务层钩子和分辨率变化监听。",
+      "tags": ["ui-framework", "component", "lifecycle", "form-lifecycle", "hook"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "type": "file",
+      "name": "UIFormScript.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "summary": "Unity UI Form 核心脚本，管理 Canvas 初始化、UI 层级设置、淡入淡出动画、组件注册/移除调度及分辨率监控，是整个 UI 系统的运行时载体。",
+      "tags": ["ui-framework", "form-script", "canvas", "fade", "resolution-monitor"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/UIFormType.cs",
+      "type": "file",
+      "name": "UIFormType.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormType.cs",
+      "summary": "定义 UI Form 类型枚举，包含 Normal、Persistent、Popup、WorldSpace 四种类型，用于控制 Form 的层级归属和显示行为。",
+      "tags": ["ui-framework", "enum", "form-type", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "type": "file",
+      "name": "UIManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "summary": "UI 系统总管（Singleton），负责 Form 的同步/异步打开关闭、层级管理、UICamera/EventSystem 创建、Popup 排序，是整个 UI 框架的入口调度中心。",
+      "tags": ["ui-framework", "manager", "singleton", "entry-point", "form-lifecycle"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+      "type": "file",
+      "name": "CoroutineRunner.cs",
+      "filePath": "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+      "summary": "轻量 MonoBehaviour 包装器，为非 MonoBehaviour 类提供协程启动能力，主要用于 UI 异步加载流程。",
+      "tags": ["utility", "monobehaviour", "coroutine", "wrapper"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:PartLogicTypeRegistry",
+      "type": "class",
+      "name": "PartLogicTypeRegistry",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [16, 61],
+      "summary": "PartLogic 类型注册表，通过反射扫描所有程序集，建立 PartView 类型到对应泛型 PartLogic 类型的缓存映射，提供 Resolve 方法快速查找。",
+      "tags": ["registry", "reflection", "type-mapping", "cache"],
+      "complexity": "moderate",
+      "languageNotes": "使用 AppDomain.CurrentDomain.GetAssemblies() 反射扫描，通过泛型参数匹配建立 View→Logic 映射表。"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "type": "class",
+      "name": "BusinessPartLogic<TView, TViewData>",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [71, 208],
+      "summary": "Part 业务逻辑泛型基类，封装 Part 的完整生命周期：创建时加载并绑定 View、销毁时解绑并清理 GameObject、支持生命周期补偿和子 Part 自动发现。",
+      "tags": ["ui-framework", "part-logic", "generic", "lifecycle", "binding"],
+      "complexity": "complex",
+      "languageNotes": "泛型双参数 TView:PartViewBase<TViewData>, TViewData:new()，实现编译时类型安全的 View 绑定。"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "type": "class",
+      "name": "BusinessPartLogicContainer",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "lineRange": [11, 104],
+      "summary": "子 Part Logic 管理容器，内部维护 SafeIterableList 存储子 Part Logic，提供 Add/Remove/Clear 管理及 DiscoverChildPartLogics 自动发现。",
+      "tags": ["container", "part-logic", "child-management", "discovery"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase",
+      "type": "class",
+      "name": "PartViewBase",
+      "filePath": "Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "lineRange": [7, 9],
+      "summary": "PartView 非泛型接口，作为泛型约束基类，供 BusinessPartLogic 绑定使用。",
+      "tags": ["interface", "view-base", "part"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase_Generic",
+      "type": "class",
+      "name": "PartViewBase<TViewData>",
+      "filePath": "Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "lineRange": [16, 42],
+      "summary": "PartView 泛型基类，定义 ViewData 属性和 SetViewData/RefreshView/DoBusinessStart 模板方法，子类重写 RefreshView 实现数据驱动的视图更新。",
+      "tags": ["ui-framework", "view-base", "generic", "data-binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs:UIBusinessFormBase",
+      "type": "class",
+      "name": "UIBusinessFormBase",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "lineRange": [7, 10],
+      "summary": "FormView 非泛型接口，作为泛型约束基类，供 BusinessFormLogic 绑定使用。",
+      "tags": ["interface", "view-base", "form"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs:UIBusinessFormBase_Generic",
+      "type": "class",
+      "name": "UIBusinessFormBase<TViewData>",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "lineRange": [16, 45],
+      "summary": "FormView 泛型基类，定义 ViewData 属性和 SetViewData/RefreshView/DoBusinessStart 模板方法，子类重写 RefreshView 实现数据驱动的视图更新。",
+      "tags": ["ui-framework", "view-base", "generic", "data-binding"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/UIComponent.cs:UIComponent",
+      "type": "class",
+      "name": "UIComponent",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIComponent.cs",
+      "lineRange": [14, 167],
+      "summary": "UI 组件抽象基类，实现完整 Form 生命周期（Start/Open/Close/Focus/Unfocus/Pause/Resume），提供业务层虚拟钩子（DoBusinessXxx）供子类重写，支持按 Priority 排序和分辨率变化响应。",
+      "tags": ["ui-framework", "component", "lifecycle", "abstract-class", "hook"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "type": "class",
+      "name": "UIFormScript",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [19, 477],
+      "summary": "Unity UI Form 运行时脚本（MonoBehaviour），管理 Canvas 组件自动装配（Canvas/Scaler/Raycaster/Group）、UI 层级递归设置、淡入淡出动画、组件调度分发和分辨率变化监控。",
+      "tags": ["ui-framework", "monobehaviour", "canvas", "fade-animation", "component-management"],
+      "complexity": "complex",
+      "languageNotes": "Canvas 组件采用按需创建模式（GetComponent 或 AddComponent），FadeCoroutine 通过 CanvasGroup.alpha + Mathf.Lerp 实现淡入淡出。"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "type": "class",
+      "name": "UIManager",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [19, 462],
+      "summary": "UI 系统管理器（Singleton），提供 Form 的同步/异步打开关闭、按 FormType 分层管理（Persistent/Popup/Transition/WorldSpace）、UICamera 和 EventSystem 自动创建、Popup 按 OpenTime 排序。",
+      "tags": ["ui-framework", "manager", "singleton", "form-management", "layer-management"],
+      "complexity": "complex",
+      "languageNotes": "异步打开流程使用 CoroutineRunner + CResourceManager.Load（AsyncOperation），通过 WaitUntil 等待资源加载完成。"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs:CoroutineRunner",
+      "type": "class",
+      "name": "CoroutineRunner",
+      "filePath": "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+      "lineRange": [9, 15],
+      "summary": "轻量 MonoBehaviour 包装器，继承 MonoSingleton，为非 MonoBehaviour 类提供 StartCoroutine 能力，主要用于 UIManager 的异步加载流程。",
+      "tags": ["utility", "monobehaviour", "coroutine", "wrapper", "singleton"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "type": "function",
+      "name": "Resolve",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [24, 29],
+      "summary": "根据 PartView 类型解析对应的泛型 PartLogic 类型，首次调用时触发 BuildCache 反射扫描。",
+      "tags": ["registry", "type-resolution", "reflection", "cache"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BuildCache",
+      "type": "function",
+      "name": "BuildCache",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [31, 60],
+      "summary": "扫描所有程序集中继承 BusinessPartLogic<,> 的类型，建立 PartView 类型到 PartLogic 类型的缓存映射表。",
+      "tags": ["registry", "reflection", "assembly-scan", "cache"],
+      "complexity": "moderate",
+      "languageNotes": "通过 GetGenericTypeDefinition 匹配泛型基类，提取第二个泛型参数作为 View 类型键。"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:LoadAndBindPart",
+      "type": "function",
+      "name": "LoadAndBindPart",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [132, 174],
+      "summary": "加载 Part 的 View 或 Prefab：优先从父 Transform 查找已有 PartViewBase 组件，否则通过 CResourceManager 加载 Prefab 并实例化，最后执行生命周期补偿和绑定。",
+      "tags": ["ui-framework", "resource-loading", "prefab", "binding", "lifecycle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnCreateInternal",
+      "type": "function",
+      "name": "OnCreateInternal",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [102, 112],
+      "summary": "Part 创建入口：调用父类 OnCreateInternal，加载绑定 View，触发 OnPartCreated 回调，发现子 Part Logic。",
+      "tags": ["ui-framework", "lifecycle", "part-creation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnDestroyInternal",
+      "type": "function",
+      "name": "OnDestroyInternal",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "lineRange": [114, 128],
+      "summary": "Part 销毁入口：触发 OnPartDestroying 回调，解绑 View，销毁 Part GameObject，最后调用父类 OnDestroyInternal。",
+      "tags": ["ui-framework", "lifecycle", "part-destruction"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:DiscoverChildPartLogics",
+      "type": "function",
+      "name": "DiscoverChildPartLogics",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "lineRange": [55, 80],
+      "summary": "从指定根节点递归发现所有子 PartView，通过 PartLogicTypeRegistry.Resolve 反射创建对应的 PartLogic 实例并调用 OnCreate。",
+      "tags": ["container", "discovery", "reflection", "part-logic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:IsOwnedByOtherPart",
+      "type": "function",
+      "name": "IsOwnedByOtherPart",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "lineRange": [85, 95],
+      "summary": "判断指定 PartView 是否属于其他父 Part，向上遍历 Transform 层级查找 PartViewBase 组件以避免重复管理。",
+      "tags": ["container", "ownership-check", "hierarchy"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InitializeCanvas",
+      "type": "function",
+      "name": "InitializeCanvas",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [230, 303],
+      "summary": "初始化 Canvas 组件栈（Canvas/CanvasScaler/GraphicRaycaster/CanvasGroup），设置 UI 层级、渲染模式和分辨率适配参数，启动分辨率监控协程。",
+      "tags": ["canvas", "initialization", "ui-layer", "resolution"],
+      "complexity": "complex",
+      "languageNotes": "按需创建模式（GetComponent 优先，不存在则 AddComponent），支持 Overlay/Camera/WorldSpace 三种渲染模式。"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:AddComponent",
+      "type": "function",
+      "name": "AddComponent",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [414, 437],
+      "summary": "向 Form 注册 UIComponent，按 Priority 排序插入，并根据当前 Form 状态同步调用对应的生命周期方法。",
+      "tags": ["component-management", "lifecycle", "registration"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:RemoveComponent",
+      "type": "function",
+      "name": "RemoveComponent",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [442, 459],
+      "summary": "从 Form 注销 UIComponent，先调用 Unfocus/Close 生命周期回调再从内部列表移除。",
+      "tags": ["component-management", "lifecycle", "unregister"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalInit",
+      "type": "function",
+      "name": "InternalInit",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [126, 142],
+      "summary": "Form 初始化入口：初始化 Canvas、收集 UIComponent 子组件、按 Priority 排序后调用各组件 DoStart。",
+      "tags": ["form-lifecycle", "initialization", "component"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalOpen",
+      "type": "function",
+      "name": "InternalOpen",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [147, 160],
+      "summary": "Form 打开入口：激活 GameObject，调用所有 UIComponent 的 DoOpen，播放淡入动画。",
+      "tags": ["form-lifecycle", "open", "fade-in"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalClose",
+      "type": "function",
+      "name": "InternalClose",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [165, 183],
+      "summary": "Form 关闭入口：调用所有 UIComponent 的 DoClose，播放淡出动画，延迟 Deactivate GameObject 以等待动画完成。",
+      "tags": ["form-lifecycle", "close", "fade-out"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:MonitorResolution",
+      "type": "function",
+      "name": "MonitorResolution",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [332, 347],
+      "summary": "协程循环检测屏幕分辨率变化，当分辨率改变时通知所有 UIComponent 的 OnResolutionChanged 回调。",
+      "tags": ["resolution", "monitor", "coroutine", "ui"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeIn",
+      "type": "function",
+      "name": "PlayFadeIn",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [354, 363],
+      "summary": "播放 Form 淡入动画，通过 FadeCoroutine 将 CanvasGroup.alpha 从 0 过渡到 1。",
+      "tags": ["fade-animation", "canvas-group"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeOut",
+      "type": "function",
+      "name": "PlayFadeOut",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "lineRange": [368, 379],
+      "summary": "播放 Form 淡出动画，通过 FadeCoroutine 将 CanvasGroup.alpha 从 1 过渡到 0，完成时 Deactivate GameObject。",
+      "tags": ["fade-animation", "canvas-group"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [44, 65],
+      "summary": "UIManager 初始化：清空内部字典、创建 UI Root/UICamera/EventSystem、初始化各层 Form 列表。",
+      "tags": ["manager", "initialization", "ui-root"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenForm",
+      "type": "function",
+      "name": "OpenForm",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [76, 131],
+      "summary": "同步打开 Form：去重检查、通过 CResourceManager 同步加载 Prefab、实例化、设置 FormInfo、初始化、添加到层级、打开并聚焦，Popup 类型自动排序。",
+      "tags": ["form-management", "open", "resource-loading", "popup-sorting"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenFormAsyncCoroutine",
+      "type": "function",
+      "name": "OpenFormAsyncCoroutine",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [142, 221],
+      "summary": "异步打开 Form 的协程实现：去重检查、通过 CResourceManager.Load 异步加载资源、WaitUntil 等待完成、实例化并完成生命周期初始化，支持 onProgress/onComplete 回调。",
+      "tags": ["form-management", "async", "coroutine", "resource-loading"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CloseForm",
+      "type": "function",
+      "name": "CloseForm",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [228, 264],
+      "summary": "关闭指定 Form：Unfocus、Close、从层级和内部字典移除、更新 Popup 排序、销毁 GameObject（支持 immediate 模式跳过动画）。",
+      "tags": ["form-management", "close", "cleanup"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateUIRoot",
+      "type": "function",
+      "name": "CreateUIRoot",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [339, 366],
+      "summary": "创建 UI 根节点层级：创建 UI Root GameObject 并挂载到已有根节点下，依次创建 Persistent/Popup/Transition 层容器和 WorldSpace 根节点。",
+      "tags": ["ui-root", "layer-creation", "hierarchy"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateCamera",
+      "type": "function",
+      "name": "CreateCamera",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [380, 401],
+      "summary": "创建 UICamera：设置 UI 层级、正交投影、Clear Flags DepthOnly、Culling Mask 仅 UI 层。",
+      "tags": ["camera", "ui", "rendering"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateEventSystem",
+      "type": "function",
+      "name": "CreateEventSystem",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [403, 419],
+      "summary": "创建 Unity EventSystem 和 StandaloneInputModule，确保 UI 交互事件正常分发。",
+      "tags": ["event-system", "input", "ui-interaction"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:GetLayerRoot",
+      "type": "function",
+      "name": "GetLayerRoot",
+      "filePath": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "lineRange": [423, 433],
+      "summary": "根据 FormType 枚举返回对应的层级根 Transform，用于将 Form 实例放到正确的 UI 层级下。",
+      "tags": ["layer-management", "transform"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:PartLogicTypeRegistry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BuildCache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:LoadAndBindPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnCreateInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnDestroyInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:PartLogicTypeRegistry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:PartLogicTypeRegistry",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:PartLogicTypeRegistry",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BuildCache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnCreateInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnDestroyInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:LoadAndBindPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BuildCache",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:OnCreateInternal",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:LoadAndBindPart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:DiscoverChildPartLogics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:IsOwnedByOtherPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:DiscoverChildPartLogics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:IsOwnedByOtherPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:DiscoverChildPartLogics",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:IsOwnedByOtherPart",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:DiscoverChildPartLogics",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase_Generic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase_Generic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs:UIBusinessFormBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs:UIBusinessFormBase_Generic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs:UIBusinessFormBase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs:UIBusinessFormBase_Generic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIComponent.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIComponent.cs:UIComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIComponent.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIComponent.cs:UIComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InitializeCanvas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:AddComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:RemoveComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalInit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalOpen",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalClose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:MonitorResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeIn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeOut",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:AddComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:RemoveComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InitializeCanvas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:AddComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:RemoveComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalInit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalOpen",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalClose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:MonitorResolution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeIn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeOut",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalInit",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InitializeCanvas",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalOpen",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeIn",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InternalClose",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:PlayFadeOut",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:InitializeCanvas",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIFormScript.cs:MonitorResolution",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenFormAsyncCoroutine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CloseForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateUIRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateCamera",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateEventSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:GetLayerRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenForm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CloseForm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenFormAsyncCoroutine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CloseForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateUIRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateCamera",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateEventSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:GetLayerRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:Init",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateUIRoot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:Init",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateCamera",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:Init",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:CreateEventSystem",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenForm",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:GetLayerRoot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:OpenFormAsyncCoroutine",
+      "target": "function:Assets/Scripts/Yueyn/UI/UIManager.cs:GetLayerRoot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs:CoroutineRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+      "target": "class:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs:CoroutineRunner",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:BusinessPartLogic",
+      "target": "class:Assets/Scripts/Yueyn/UI/PartViewBase.cs:PartViewBase",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs:BusinessPartLogicContainer",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs:Resolve",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIComponent.cs:UIComponent",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/UIManager.cs:UIManager",
+      "target": "class:Assets/Scripts/Yueyn/UI/UIFormScript.cs:UIFormScript",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs:CoroutineRunner",
+      "target": "class:Assets/Scripts/Yueyn/Utils/MonoSingleton.cs:MonoSingleton",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    }
+  ]
+}

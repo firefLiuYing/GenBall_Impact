@@ -1,0 +1,3339 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 17,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 226,
+      "nonEmptyLines": 192,
+      "functions": [
+        {
+          "name": "Resolve",
+          "startLine": 24,
+          "endLine": 29,
+          "params": [
+            "partViewType"
+          ]
+        },
+        {
+          "name": "BuildCache",
+          "startLine": 31,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "OnCreateInternal",
+          "startLine": 102,
+          "endLine": 112,
+          "params": []
+        },
+        {
+          "name": "OnDestroyInternal",
+          "startLine": 114,
+          "endLine": 128,
+          "params": []
+        },
+        {
+          "name": "LoadAndBindPart",
+          "startLine": 132,
+          "endLine": 174,
+          "params": []
+        },
+        {
+          "name": "CompensateLifecycle",
+          "startLine": 180,
+          "endLine": 187,
+          "params": [
+            "view"
+          ]
+        },
+        {
+          "name": "BindView",
+          "startLine": 191,
+          "endLine": 194,
+          "params": [
+            "view"
+          ]
+        },
+        {
+          "name": "UnbindView",
+          "startLine": 196,
+          "endLine": 200,
+          "params": []
+        },
+        {
+          "name": "OnPartCreated",
+          "startLine": 204,
+          "endLine": 204,
+          "params": []
+        },
+        {
+          "name": "OnPartDestroying",
+          "startLine": 205,
+          "endLine": 205,
+          "params": []
+        },
+        {
+          "name": "OnViewBound",
+          "startLine": 206,
+          "endLine": 206,
+          "params": [
+            "view"
+          ]
+        },
+        {
+          "name": "OnViewUnbound",
+          "startLine": 207,
+          "endLine": 207,
+          "params": [
+            "view"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PartLogicTypeRegistry",
+          "startLine": 16,
+          "endLine": 61,
+          "methods": [
+            "Resolve",
+            "BuildCache"
+          ],
+          "properties": [
+            "_cache",
+            "_initialized"
+          ]
+        },
+        {
+          "name": "BusinessPartLogic",
+          "startLine": 71,
+          "endLine": 208,
+          "methods": [
+            "OnCreateInternal",
+            "OnDestroyInternal",
+            "LoadAndBindPart",
+            "CompensateLifecycle",
+            "BindView",
+            "UnbindView",
+            "OnPartCreated",
+            "OnPartDestroying",
+            "OnViewBound",
+            "OnViewUnbound"
+          ],
+          "properties": [
+            "PrefabPath",
+            "InitParam",
+            "ParentTransform",
+            "BoundView",
+            "PartGameObject"
+          ]
+        },
+        {
+          "name": "BusinessPartLogic",
+          "startLine": 219,
+          "endLine": 225,
+          "methods": [],
+          "properties": [
+            "BoundView"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Resolve",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "PartLogicTypeRegistry",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "PrefabPath",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "InitParam",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "ParentTransform",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "BoundView",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "PartGameObject",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "BusinessPartLogic",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "BoundView",
+          "line": 224,
+          "isDefault": false
+        },
+        {
+          "name": "BusinessPartLogic",
+          "line": 219,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Resolve",
+          "callee": "BuildCache",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Resolve",
+          "callee": "_cache.TryGetValue",
+          "lineNumber": 27
+        },
+        {
+          "caller": "BuildCache",
+          "callee": "new Dictionary<Type, Type>",
+          "lineNumber": 33
+        },
+        {
+          "caller": "BuildCache",
+          "callee": "AppDomain.CurrentDomain.GetAssemblies",
+          "lineNumber": 37
+        },
+        {
+          "caller": "BuildCache",
+          "callee": "asm.GetTypes",
+          "lineNumber": 40
+        },
+        {
+          "caller": "BuildCache",
+          "callee": "baseType.GetGenericTypeDefinition",
+          "lineNumber": 49
+        },
+        {
+          "caller": "BuildCache",
+          "callee": "baseType.GetGenericArguments",
+          "lineNumber": 51
+        },
+        {
+          "caller": "BuildCache",
+          "callee": "_cache.ContainsKey",
+          "lineNumber": 52
+        },
+        {
+          "caller": "OnCreateInternal",
+          "callee": "base.OnCreateInternal",
+          "lineNumber": 104
+        },
+        {
+          "caller": "OnCreateInternal",
+          "callee": "LoadAndBindPart",
+          "lineNumber": 105
+        },
+        {
+          "caller": "OnCreateInternal",
+          "callee": "OnPartCreated",
+          "lineNumber": 106
+        },
+        {
+          "caller": "OnCreateInternal",
+          "callee": "DiscoverChildPartLogics",
+          "lineNumber": 111
+        },
+        {
+          "caller": "OnDestroyInternal",
+          "callee": "OnPartDestroying",
+          "lineNumber": 116
+        },
+        {
+          "caller": "OnDestroyInternal",
+          "callee": "UnbindView",
+          "lineNumber": 119
+        },
+        {
+          "caller": "OnDestroyInternal",
+          "callee": "Object.Destroy",
+          "lineNumber": 123
+        },
+        {
+          "caller": "OnDestroyInternal",
+          "callee": "base.OnDestroyInternal",
+          "lineNumber": 127
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 136
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "GetType",
+          "lineNumber": 136
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "ParentTransform.GetComponent<PartViewBase>",
+          "lineNumber": 142
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "CompensateLifecycle",
+          "lineNumber": 145
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "BindView",
+          "lineNumber": 146
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 151
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 153
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "GetType",
+          "lineNumber": 153
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 157
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "Debug.LogError",
+          "lineNumber": 160
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "Object.Instantiate",
+          "lineNumber": 164
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "PartGameObject.GetComponent<PartViewBase>",
+          "lineNumber": 165
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "CompensateLifecycle",
+          "lineNumber": 169
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "BindView",
+          "lineNumber": 170
+        },
+        {
+          "caller": "LoadAndBindPart",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 173
+        },
+        {
+          "caller": "CompensateLifecycle",
+          "callee": "view.GetComponentInParent<UIFormScript>",
+          "lineNumber": 184
+        },
+        {
+          "caller": "CompensateLifecycle",
+          "callee": "formScript.AddComponent",
+          "lineNumber": 186
+        },
+        {
+          "caller": "BindView",
+          "callee": "OnViewBound",
+          "lineNumber": 193
+        },
+        {
+          "caller": "UnbindView",
+          "callee": "OnViewUnbound",
+          "lineNumber": 198
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 12,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 91,
+      "functions": [
+        {
+          "name": "AddPartLogic",
+          "startLine": 18,
+          "endLine": 24,
+          "params": [
+            "partLogic"
+          ]
+        },
+        {
+          "name": "RemovePartLogic",
+          "startLine": 29,
+          "endLine": 36,
+          "params": [
+            "partLogic"
+          ]
+        },
+        {
+          "name": "ClearPartLogics",
+          "startLine": 41,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "DiscoverChildPartLogics",
+          "startLine": 55,
+          "endLine": 80,
+          "params": [
+            "root"
+          ]
+        },
+        {
+          "name": "IsOwnedByOtherPart",
+          "startLine": 85,
+          "endLine": 95,
+          "params": [
+            "view",
+            "root"
+          ]
+        },
+        {
+          "name": "OnDestroyInternal",
+          "startLine": 99,
+          "endLine": 103,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "BusinessPartLogicContainer",
+          "startLine": 11,
+          "endLine": 104,
+          "methods": [
+            "AddPartLogic",
+            "RemovePartLogic",
+            "ClearPartLogics",
+            "DiscoverChildPartLogics",
+            "IsOwnedByOtherPart",
+            "OnDestroyInternal"
+          ],
+          "properties": [
+            "_partLogics"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BusinessPartLogicContainer",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AddPartLogic",
+          "callee": "_partLogics.Contains",
+          "lineNumber": 20
+        },
+        {
+          "caller": "AddPartLogic",
+          "callee": "_partLogics.Add",
+          "lineNumber": 23
+        },
+        {
+          "caller": "RemovePartLogic",
+          "callee": "_partLogics.Contains",
+          "lineNumber": 31
+        },
+        {
+          "caller": "RemovePartLogic",
+          "callee": "partLogic.OnDestroy",
+          "lineNumber": 34
+        },
+        {
+          "caller": "RemovePartLogic",
+          "callee": "_partLogics.Remove",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ClearPartLogics",
+          "callee": "_partLogics.GetIterableSnapshot",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ClearPartLogics",
+          "callee": "partLogic.OnDestroy",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ClearPartLogics",
+          "callee": "_partLogics.Clear",
+          "lineNumber": 46
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "root.GetComponentsInChildren<PartViewBase>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "IsOwnedByOtherPart",
+          "lineNumber": 63
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "PartLogicTypeRegistry.Resolve",
+          "lineNumber": 65
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "view.GetType",
+          "lineNumber": 65
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "Activator.CreateInstance",
+          "lineNumber": 70
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "partLogic.OnCreate",
+          "lineNumber": 72
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "AddPartLogic",
+          "lineNumber": 73
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "Debug.LogError",
+          "lineNumber": 77
+        },
+        {
+          "caller": "DiscoverChildPartLogics",
+          "callee": "view.GetType",
+          "lineNumber": 77
+        },
+        {
+          "caller": "IsOwnedByOtherPart",
+          "callee": "parent.GetComponent<PartViewBase>",
+          "lineNumber": 90
+        },
+        {
+          "caller": "OnDestroyInternal",
+          "callee": "ClearPartLogics",
+          "lineNumber": 101
+        },
+        {
+          "caller": "OnDestroyInternal",
+          "callee": "base.OnDestroyInternal",
+          "lineNumber": 102
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/PartViewBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "SetViewData",
+          "startLine": 26,
+          "endLine": 30,
+          "params": [
+            "data"
+          ]
+        },
+        {
+          "name": "RefreshView",
+          "startLine": 35,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "DoBusinessStart",
+          "startLine": 37,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PartViewBase",
+          "startLine": 7,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "PartViewBase",
+          "startLine": 16,
+          "endLine": 42,
+          "methods": [
+            "SetViewData",
+            "RefreshView",
+            "DoBusinessStart"
+          ],
+          "properties": [
+            "ViewData"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PartViewBase",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "ViewData",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "SetViewData",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "PartViewBase",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetViewData",
+          "callee": "RefreshView",
+          "lineNumber": 29
+        },
+        {
+          "caller": "DoBusinessStart",
+          "callee": "base.DoBusinessStart",
+          "lineNumber": 39
+        },
+        {
+          "caller": "DoBusinessStart",
+          "callee": "new TViewData",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "SetViewData",
+          "startLine": 26,
+          "endLine": 30,
+          "params": [
+            "data"
+          ]
+        },
+        {
+          "name": "RefreshView",
+          "startLine": 35,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "DoBusinessStart",
+          "startLine": 40,
+          "endLine": 44,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UIBusinessFormBase",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "UIBusinessFormBase",
+          "startLine": 16,
+          "endLine": 45,
+          "methods": [
+            "SetViewData",
+            "RefreshView",
+            "DoBusinessStart"
+          ],
+          "properties": [
+            "ViewData"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UIBusinessFormBase",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "ViewData",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "SetViewData",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "UIBusinessFormBase",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetViewData",
+          "callee": "RefreshView",
+          "lineNumber": 29
+        },
+        {
+          "caller": "DoBusinessStart",
+          "callee": "base.DoBusinessStart",
+          "lineNumber": 42
+        },
+        {
+          "caller": "DoBusinessStart",
+          "callee": "new TViewData",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/UIComponent.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 168,
+      "nonEmptyLines": 138,
+      "functions": [
+        {
+          "name": "DoStart",
+          "startLine": 51,
+          "endLine": 58,
+          "params": [
+            "form"
+          ]
+        },
+        {
+          "name": "DoOpen",
+          "startLine": 63,
+          "endLine": 69,
+          "params": []
+        },
+        {
+          "name": "DoClose",
+          "startLine": 74,
+          "endLine": 80,
+          "params": []
+        },
+        {
+          "name": "DoFocus",
+          "startLine": 85,
+          "endLine": 91,
+          "params": []
+        },
+        {
+          "name": "DoUnfocus",
+          "startLine": 96,
+          "endLine": 102,
+          "params": []
+        },
+        {
+          "name": "DoPause",
+          "startLine": 107,
+          "endLine": 113,
+          "params": []
+        },
+        {
+          "name": "DoResume",
+          "startLine": 118,
+          "endLine": 124,
+          "params": []
+        },
+        {
+          "name": "DoBusinessStart",
+          "startLine": 131,
+          "endLine": 131,
+          "params": []
+        },
+        {
+          "name": "DoBusinessOpen",
+          "startLine": 136,
+          "endLine": 136,
+          "params": []
+        },
+        {
+          "name": "DoBusinessClose",
+          "startLine": 141,
+          "endLine": 141,
+          "params": []
+        },
+        {
+          "name": "DoBusinessFocus",
+          "startLine": 146,
+          "endLine": 146,
+          "params": []
+        },
+        {
+          "name": "DoBusinessUnfocus",
+          "startLine": 151,
+          "endLine": 151,
+          "params": []
+        },
+        {
+          "name": "DoBusinessPause",
+          "startLine": 156,
+          "endLine": 156,
+          "params": []
+        },
+        {
+          "name": "DoBusinessResume",
+          "startLine": 161,
+          "endLine": 161,
+          "params": []
+        },
+        {
+          "name": "OnResolutionChanged",
+          "startLine": 166,
+          "endLine": 166,
+          "params": [
+            "resolution"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UIComponent",
+          "startLine": 14,
+          "endLine": 167,
+          "methods": [
+            "DoStart",
+            "DoOpen",
+            "DoClose",
+            "DoFocus",
+            "DoUnfocus",
+            "DoPause",
+            "DoResume",
+            "DoBusinessStart",
+            "DoBusinessOpen",
+            "DoBusinessClose",
+            "DoBusinessFocus",
+            "DoBusinessUnfocus",
+            "DoBusinessPause",
+            "DoBusinessResume",
+            "OnResolutionChanged"
+          ],
+          "properties": [
+            "Priority",
+            "Form",
+            "IsInitialized",
+            "IsOpen",
+            "IsFocused",
+            "IsPaused"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Priority",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "IsInitialized",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "IsOpen",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "IsFocused",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "IsPaused",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "OnResolutionChanged",
+          "line": 166,
+          "isDefault": false
+        },
+        {
+          "name": "UIComponent",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DoStart",
+          "callee": "DoBusinessStart",
+          "lineNumber": 56
+        },
+        {
+          "caller": "DoOpen",
+          "callee": "DoBusinessOpen",
+          "lineNumber": 67
+        },
+        {
+          "caller": "DoClose",
+          "callee": "DoBusinessClose",
+          "lineNumber": 78
+        },
+        {
+          "caller": "DoFocus",
+          "callee": "DoBusinessFocus",
+          "lineNumber": 89
+        },
+        {
+          "caller": "DoUnfocus",
+          "callee": "DoBusinessUnfocus",
+          "lineNumber": 100
+        },
+        {
+          "caller": "DoPause",
+          "callee": "DoBusinessPause",
+          "lineNumber": 111
+        },
+        {
+          "caller": "DoResume",
+          "callee": "DoBusinessResume",
+          "lineNumber": 122
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 15,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/UIFormScript.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 481,
+      "nonEmptyLines": 397,
+      "functions": [
+        {
+          "name": "SetFormInfo",
+          "startLine": 116,
+          "endLine": 121,
+          "params": [
+            "id",
+            "prefabPath",
+            "formType"
+          ]
+        },
+        {
+          "name": "InternalInit",
+          "startLine": 126,
+          "endLine": 142,
+          "params": [
+            "param"
+          ]
+        },
+        {
+          "name": "InternalOpen",
+          "startLine": 147,
+          "endLine": 160,
+          "params": []
+        },
+        {
+          "name": "InternalClose",
+          "startLine": 165,
+          "endLine": 183,
+          "params": []
+        },
+        {
+          "name": "InternalFocus",
+          "startLine": 188,
+          "endLine": 195,
+          "params": []
+        },
+        {
+          "name": "InternalUnfocus",
+          "startLine": 200,
+          "endLine": 207,
+          "params": []
+        },
+        {
+          "name": "InternalPause",
+          "startLine": 212,
+          "endLine": 215,
+          "params": []
+        },
+        {
+          "name": "InternalResume",
+          "startLine": 220,
+          "endLine": 223,
+          "params": []
+        },
+        {
+          "name": "InitializeCanvas",
+          "startLine": 230,
+          "endLine": 303,
+          "params": []
+        },
+        {
+          "name": "SetUILayerRecursively",
+          "startLine": 308,
+          "endLine": 318,
+          "params": []
+        },
+        {
+          "name": "SetLayerRecursive",
+          "startLine": 320,
+          "endLine": 327,
+          "params": [
+            "go",
+            "layer"
+          ]
+        },
+        {
+          "name": "MonitorResolution",
+          "startLine": 332,
+          "endLine": 347,
+          "params": []
+        },
+        {
+          "name": "PlayFadeIn",
+          "startLine": 354,
+          "endLine": 363,
+          "params": []
+        },
+        {
+          "name": "PlayFadeOut",
+          "startLine": 368,
+          "endLine": 379,
+          "params": []
+        },
+        {
+          "name": "FadeCoroutine",
+          "startLine": 384,
+          "endLine": 396,
+          "params": [
+            "from",
+            "to",
+            "duration",
+            "onComplete"
+          ]
+        },
+        {
+          "name": "CollectComponents",
+          "startLine": 403,
+          "endLine": 409,
+          "params": []
+        },
+        {
+          "name": "AddComponent",
+          "startLine": 414,
+          "endLine": 437,
+          "params": [
+            "component"
+          ]
+        },
+        {
+          "name": "RemoveComponent",
+          "startLine": 442,
+          "endLine": 459,
+          "params": [
+            "component"
+          ]
+        },
+        {
+          "name": "DispatchToComponents",
+          "startLine": 464,
+          "endLine": 476,
+          "params": [
+            "action"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UIFormScript",
+          "startLine": 19,
+          "endLine": 477,
+          "methods": [
+            "SetFormInfo",
+            "InternalInit",
+            "InternalOpen",
+            "InternalClose",
+            "InternalFocus",
+            "InternalUnfocus",
+            "InternalPause",
+            "InternalResume",
+            "InitializeCanvas",
+            "SetUILayerRecursively",
+            "SetLayerRecursive",
+            "MonitorResolution",
+            "PlayFadeIn",
+            "PlayFadeOut",
+            "FadeCoroutine",
+            "CollectComponents",
+            "AddComponent",
+            "RemoveComponent",
+            "DispatchToComponents"
+          ],
+          "properties": [
+            "_canReuse",
+            "_fadeDuration",
+            "FadeDuration",
+            "FormId",
+            "PrefabPath",
+            "CanReuse",
+            "OpenTime",
+            "Param",
+            "FormType",
+            "IsInitialized",
+            "IsOpen",
+            "IsFocused",
+            "Canvas",
+            "_canvasScaler",
+            "_raycaster",
+            "_canvasGroup",
+            "_components",
+            "_cachedComponents",
+            "_lastResolution",
+            "_resolutionMonitor"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FadeDuration",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "FormId",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "PrefabPath",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "CanReuse",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "OpenTime",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "Param",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "FormType",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "IsInitialized",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "IsOpen",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "IsFocused",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "Canvas",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "AddComponent",
+          "line": 414,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveComponent",
+          "line": 442,
+          "isDefault": false
+        },
+        {
+          "name": "UIFormScript",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InternalInit",
+          "callee": "InitializeCanvas",
+          "lineNumber": 133
+        },
+        {
+          "caller": "InternalInit",
+          "callee": "CollectComponents",
+          "lineNumber": 136
+        },
+        {
+          "caller": "InternalInit",
+          "callee": "DispatchToComponents",
+          "lineNumber": 139
+        },
+        {
+          "caller": "InternalInit",
+          "callee": "c.DoStart",
+          "lineNumber": 139
+        },
+        {
+          "caller": "InternalOpen",
+          "callee": "DispatchToComponents",
+          "lineNumber": 154
+        },
+        {
+          "caller": "InternalOpen",
+          "callee": "c.DoOpen",
+          "lineNumber": 154
+        },
+        {
+          "caller": "InternalOpen",
+          "callee": "PlayFadeIn",
+          "lineNumber": 157
+        },
+        {
+          "caller": "InternalClose",
+          "callee": "DispatchToComponents",
+          "lineNumber": 170
+        },
+        {
+          "caller": "InternalClose",
+          "callee": "c.DoClose",
+          "lineNumber": 170
+        },
+        {
+          "caller": "InternalClose",
+          "callee": "PlayFadeOut",
+          "lineNumber": 173
+        },
+        {
+          "caller": "InternalClose",
+          "callee": "StopCoroutine",
+          "lineNumber": 178
+        },
+        {
+          "caller": "InternalFocus",
+          "callee": "DispatchToComponents",
+          "lineNumber": 192
+        },
+        {
+          "caller": "InternalFocus",
+          "callee": "c.DoFocus",
+          "lineNumber": 192
+        },
+        {
+          "caller": "InternalUnfocus",
+          "callee": "DispatchToComponents",
+          "lineNumber": 204
+        },
+        {
+          "caller": "InternalUnfocus",
+          "callee": "c.DoUnfocus",
+          "lineNumber": 204
+        },
+        {
+          "caller": "InternalPause",
+          "callee": "DispatchToComponents",
+          "lineNumber": 214
+        },
+        {
+          "caller": "InternalPause",
+          "callee": "c.DoPause",
+          "lineNumber": 214
+        },
+        {
+          "caller": "InternalResume",
+          "callee": "DispatchToComponents",
+          "lineNumber": 222
+        },
+        {
+          "caller": "InternalResume",
+          "callee": "c.DoResume",
+          "lineNumber": 222
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "SetUILayerRecursively",
+          "lineNumber": 236
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "GetComponent<Canvas>",
+          "lineNumber": 240
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "gameObject.AddComponent<Canvas>",
+          "lineNumber": 243
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "GetComponent<CanvasScaler>",
+          "lineNumber": 261
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "gameObject.AddComponent<CanvasScaler>",
+          "lineNumber": 264
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "new Vector2",
+          "lineNumber": 267
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "GetComponent<GraphicRaycaster>",
+          "lineNumber": 275
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "gameObject.AddComponent<GraphicRaycaster>",
+          "lineNumber": 278
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "GetComponent<CanvasGroup>",
+          "lineNumber": 289
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "gameObject.AddComponent<CanvasGroup>",
+          "lineNumber": 292
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "StartCoroutine",
+          "lineNumber": 301
+        },
+        {
+          "caller": "InitializeCanvas",
+          "callee": "MonitorResolution",
+          "lineNumber": 301
+        },
+        {
+          "caller": "SetUILayerRecursively",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 310
+        },
+        {
+          "caller": "SetUILayerRecursively",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 313
+        },
+        {
+          "caller": "SetUILayerRecursively",
+          "callee": "SetLayerRecursive",
+          "lineNumber": 317
+        },
+        {
+          "caller": "SetLayerRecursive",
+          "callee": "SetLayerRecursive",
+          "lineNumber": 325
+        },
+        {
+          "caller": "MonitorResolution",
+          "callee": "new Vector2",
+          "lineNumber": 334
+        },
+        {
+          "caller": "MonitorResolution",
+          "callee": "new WaitForSeconds",
+          "lineNumber": 338
+        },
+        {
+          "caller": "MonitorResolution",
+          "callee": "new Vector2",
+          "lineNumber": 340
+        },
+        {
+          "caller": "MonitorResolution",
+          "callee": "DispatchToComponents",
+          "lineNumber": 344
+        },
+        {
+          "caller": "MonitorResolution",
+          "callee": "c.OnResolutionChanged",
+          "lineNumber": 344
+        },
+        {
+          "caller": "PlayFadeIn",
+          "callee": "gameObject.SetActive",
+          "lineNumber": 356
+        },
+        {
+          "caller": "PlayFadeIn",
+          "callee": "StopAllCoroutines",
+          "lineNumber": 360
+        },
+        {
+          "caller": "PlayFadeIn",
+          "callee": "StartCoroutine",
+          "lineNumber": 361
+        },
+        {
+          "caller": "PlayFadeIn",
+          "callee": "FadeCoroutine",
+          "lineNumber": 361
+        },
+        {
+          "caller": "PlayFadeOut",
+          "callee": "StopAllCoroutines",
+          "lineNumber": 372
+        },
+        {
+          "caller": "PlayFadeOut",
+          "callee": "StartCoroutine",
+          "lineNumber": 373
+        },
+        {
+          "caller": "PlayFadeOut",
+          "callee": "FadeCoroutine",
+          "lineNumber": 373
+        },
+        {
+          "caller": "PlayFadeOut",
+          "callee": "gameObject.SetActive",
+          "lineNumber": 373
+        },
+        {
+          "caller": "PlayFadeOut",
+          "callee": "gameObject.SetActive",
+          "lineNumber": 377
+        },
+        {
+          "caller": "FadeCoroutine",
+          "callee": "Mathf.Lerp",
+          "lineNumber": 390
+        },
+        {
+          "caller": "FadeCoroutine",
+          "callee": "onComplete?.Invoke",
+          "lineNumber": 395
+        },
+        {
+          "caller": "CollectComponents",
+          "callee": "_components.Clear",
+          "lineNumber": 405
+        },
+        {
+          "caller": "CollectComponents",
+          "callee": "GetComponentsInChildren",
+          "lineNumber": 406
+        },
+        {
+          "caller": "CollectComponents",
+          "callee": "_components.OrderBy(c => c.Priority).ToList",
+          "lineNumber": 408
+        },
+        {
+          "caller": "CollectComponents",
+          "callee": "_components.OrderBy",
+          "lineNumber": 408
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "_components.Contains",
+          "lineNumber": 416
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "_components.Add",
+          "lineNumber": 419
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "_components.OrderBy(c => c.Priority).ToList",
+          "lineNumber": 420
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "_components.OrderBy",
+          "lineNumber": 420
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "component.DoStart",
+          "lineNumber": 425
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "component.DoOpen",
+          "lineNumber": 430
+        },
+        {
+          "caller": "AddComponent",
+          "callee": "component.DoFocus",
+          "lineNumber": 435
+        },
+        {
+          "caller": "RemoveComponent",
+          "callee": "_components.Contains",
+          "lineNumber": 444
+        },
+        {
+          "caller": "RemoveComponent",
+          "callee": "component.DoUnfocus",
+          "lineNumber": 450
+        },
+        {
+          "caller": "RemoveComponent",
+          "callee": "component.DoClose",
+          "lineNumber": 455
+        },
+        {
+          "caller": "RemoveComponent",
+          "callee": "_components.Remove",
+          "lineNumber": 458
+        },
+        {
+          "caller": "DispatchToComponents",
+          "callee": "_cachedComponents.Clear",
+          "lineNumber": 466
+        },
+        {
+          "caller": "DispatchToComponents",
+          "callee": "_cachedComponents.AddRange",
+          "lineNumber": 467
+        },
+        {
+          "caller": "DispatchToComponents",
+          "callee": "action",
+          "lineNumber": 473
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 14,
+        "functionCount": 19,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/UIFormType.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 26,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/UI/UIManager.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 463,
+      "nonEmptyLines": 391,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 44,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "OpenForm",
+          "startLine": 76,
+          "endLine": 131,
+          "params": [
+            "prefabPath",
+            "formType",
+            "param"
+          ]
+        },
+        {
+          "name": "OpenFormAsync",
+          "startLine": 136,
+          "endLine": 140,
+          "params": [
+            "prefabPath",
+            "formType",
+            "param",
+            "onComplete",
+            "onProgress"
+          ]
+        },
+        {
+          "name": "OpenFormAsyncCoroutine",
+          "startLine": 142,
+          "endLine": 221,
+          "params": [
+            "prefabPath",
+            "formType",
+            "param",
+            "onComplete",
+            "onProgress"
+          ]
+        },
+        {
+          "name": "CloseForm",
+          "startLine": 228,
+          "endLine": 264,
+          "params": [
+            "formId",
+            "immediate"
+          ]
+        },
+        {
+          "name": "CloseFormByPath",
+          "startLine": 269,
+          "endLine": 275,
+          "params": [
+            "prefabPath",
+            "immediate"
+          ]
+        },
+        {
+          "name": "CloseAllPopups",
+          "startLine": 280,
+          "endLine": 287,
+          "params": [
+            "immediate"
+          ]
+        },
+        {
+          "name": "CloseAllForms",
+          "startLine": 292,
+          "endLine": 299,
+          "params": [
+            "immediate"
+          ]
+        },
+        {
+          "name": "GetForm",
+          "startLine": 306,
+          "endLine": 310,
+          "params": [
+            "formId"
+          ]
+        },
+        {
+          "name": "GetFormId",
+          "startLine": 315,
+          "endLine": 319,
+          "params": [
+            "prefabPath"
+          ]
+        },
+        {
+          "name": "HasForm",
+          "startLine": 324,
+          "endLine": 327,
+          "params": [
+            "formId"
+          ]
+        },
+        {
+          "name": "HasFormByPath",
+          "startLine": 332,
+          "endLine": 335,
+          "params": [
+            "prefabPath"
+          ]
+        },
+        {
+          "name": "CreateUIRoot",
+          "startLine": 339,
+          "endLine": 366,
+          "params": []
+        },
+        {
+          "name": "CreateLayerRoot",
+          "startLine": 368,
+          "endLine": 378,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "CreateCamera",
+          "startLine": 380,
+          "endLine": 401,
+          "params": []
+        },
+        {
+          "name": "CreateEventSystem",
+          "startLine": 403,
+          "endLine": 419,
+          "params": []
+        },
+        {
+          "name": "GetLayerRoot",
+          "startLine": 423,
+          "endLine": 433,
+          "params": [
+            "formType"
+          ]
+        },
+        {
+          "name": "AddToLayer",
+          "startLine": 435,
+          "endLine": 438,
+          "params": [
+            "form",
+            "formType"
+          ]
+        },
+        {
+          "name": "UpdatePopupSortOrder",
+          "startLine": 444,
+          "endLine": 453,
+          "params": []
+        },
+        {
+          "name": "RemoveFromLayer",
+          "startLine": 455,
+          "endLine": 461,
+          "params": [
+            "form"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UIManager",
+          "startLine": 19,
+          "endLine": 462,
+          "methods": [
+            "Init",
+            "OpenForm",
+            "OpenFormAsync",
+            "OpenFormAsyncCoroutine",
+            "CloseForm",
+            "CloseFormByPath",
+            "CloseAllPopups",
+            "CloseAllForms",
+            "GetForm",
+            "GetFormId",
+            "HasForm",
+            "HasFormByPath",
+            "CreateUIRoot",
+            "CreateLayerRoot",
+            "CreateCamera",
+            "CreateEventSystem",
+            "GetLayerRoot",
+            "AddToLayer",
+            "UpdatePopupSortOrder",
+            "RemoveFromLayer"
+          ],
+          "properties": [
+            "_allForms",
+            "_pathToFormId",
+            "_formsByType",
+            "_nextFormId",
+            "_uiRoot",
+            "_persistentRoot",
+            "_popupRoot",
+            "_transitionRoot",
+            "_worldUIRoot",
+            "_uiCamera",
+            "UIEventRouter",
+            "UICamera",
+            "_coroutineRunner"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UIEventRouter",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "UICamera",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "OpenForm",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "OpenFormAsync",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "CloseForm",
+          "line": 228,
+          "isDefault": false
+        },
+        {
+          "name": "CloseFormByPath",
+          "line": 269,
+          "isDefault": false
+        },
+        {
+          "name": "CloseAllPopups",
+          "line": 280,
+          "isDefault": false
+        },
+        {
+          "name": "CloseAllForms",
+          "line": 292,
+          "isDefault": false
+        },
+        {
+          "name": "GetForm",
+          "line": 306,
+          "isDefault": false
+        },
+        {
+          "name": "GetFormId",
+          "line": 315,
+          "isDefault": false
+        },
+        {
+          "name": "HasForm",
+          "line": 324,
+          "isDefault": false
+        },
+        {
+          "name": "HasFormByPath",
+          "line": 332,
+          "isDefault": false
+        },
+        {
+          "name": "UIManager",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "_allForms.Clear",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Init",
+          "callee": "_pathToFormId.Clear",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Init",
+          "callee": "CreateUIRoot",
+          "lineNumber": 52
+        },
+        {
+          "caller": "Init",
+          "callee": "CreateCamera",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Init",
+          "callee": "CreateEventSystem",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Init",
+          "callee": "new List<UIFormScript>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Init",
+          "callee": "new List<UIFormScript>",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Init",
+          "callee": "new List<UIFormScript>",
+          "lineNumber": 61
+        },
+        {
+          "caller": "Init",
+          "callee": "new List<UIFormScript>",
+          "lineNumber": 62
+        },
+        {
+          "caller": "Init",
+          "callee": "Debug.Log",
+          "lineNumber": 64
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "_pathToFormId.TryGetValue",
+          "lineNumber": 79
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 84
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "CResourceManager.Instance.LoadSync<GameObject>",
+          "lineNumber": 90
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "Debug.LogError",
+          "lineNumber": 93
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "GetLayerRoot",
+          "lineNumber": 98
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "UnityEngine.Object.Instantiate",
+          "lineNumber": 99
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "go.GetComponent<UIFormScript>",
+          "lineNumber": 100
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "Debug.LogError",
+          "lineNumber": 103
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "UnityEngine.Object.Destroy",
+          "lineNumber": 104
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "formScript.SetFormInfo",
+          "lineNumber": 110
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "formScript.InternalInit",
+          "lineNumber": 111
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "AddToLayer",
+          "lineNumber": 116
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "formScript.InternalOpen",
+          "lineNumber": 119
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "UpdatePopupSortOrder",
+          "lineNumber": 124
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "formScript.InternalFocus",
+          "lineNumber": 127
+        },
+        {
+          "caller": "OpenForm",
+          "callee": "Debug.Log",
+          "lineNumber": 129
+        },
+        {
+          "caller": "OpenFormAsync",
+          "callee": "_coroutineRunner.StartCoroutine",
+          "lineNumber": 139
+        },
+        {
+          "caller": "OpenFormAsync",
+          "callee": "OpenFormAsyncCoroutine",
+          "lineNumber": 139
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "_pathToFormId.TryGetValue",
+          "lineNumber": 146
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "Debug.LogWarning",
+          "lineNumber": 151
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "onComplete?.Invoke",
+          "lineNumber": 152
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "CResourceManager.Instance.Load",
+          "lineNumber": 161
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "Debug.LogError",
+          "lineNumber": 170
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "new WaitUntil",
+          "lineNumber": 177
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "onComplete?.Invoke",
+          "lineNumber": 181
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "GetLayerRoot",
+          "lineNumber": 186
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "UnityEngine.Object.Instantiate",
+          "lineNumber": 187
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "go.GetComponent<UIFormScript>",
+          "lineNumber": 188
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "Debug.LogError",
+          "lineNumber": 191
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "UnityEngine.Object.Destroy",
+          "lineNumber": 192
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "onComplete?.Invoke",
+          "lineNumber": 193
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "formScript.SetFormInfo",
+          "lineNumber": 199
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "formScript.InternalInit",
+          "lineNumber": 200
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "AddToLayer",
+          "lineNumber": 205
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "formScript.InternalOpen",
+          "lineNumber": 208
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "UpdatePopupSortOrder",
+          "lineNumber": 213
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "formScript.InternalFocus",
+          "lineNumber": 216
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "onComplete?.Invoke",
+          "lineNumber": 218
+        },
+        {
+          "caller": "OpenFormAsyncCoroutine",
+          "callee": "Debug.Log",
+          "lineNumber": 220
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "_allForms.TryGetValue",
+          "lineNumber": 230
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "form.InternalUnfocus",
+          "lineNumber": 236
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "form.InternalClose",
+          "lineNumber": 240
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "RemoveFromLayer",
+          "lineNumber": 243
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "_allForms.Remove",
+          "lineNumber": 246
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "_pathToFormId.Remove",
+          "lineNumber": 247
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "UpdatePopupSortOrder",
+          "lineNumber": 250
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "UnityEngine.Object.Destroy",
+          "lineNumber": 255
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "UnityEngine.Object.Destroy",
+          "lineNumber": 259
+        },
+        {
+          "caller": "CloseForm",
+          "callee": "Debug.Log",
+          "lineNumber": 262
+        },
+        {
+          "caller": "CloseFormByPath",
+          "callee": "_pathToFormId.TryGetValue",
+          "lineNumber": 271
+        },
+        {
+          "caller": "CloseFormByPath",
+          "callee": "CloseForm",
+          "lineNumber": 274
+        },
+        {
+          "caller": "CloseAllPopups",
+          "callee": "new List<UIFormScript>",
+          "lineNumber": 282
+        },
+        {
+          "caller": "CloseAllPopups",
+          "callee": "CloseForm",
+          "lineNumber": 285
+        },
+        {
+          "caller": "CloseAllForms",
+          "callee": "new List<UIFormScript>",
+          "lineNumber": 294
+        },
+        {
+          "caller": "CloseAllForms",
+          "callee": "CloseForm",
+          "lineNumber": 297
+        },
+        {
+          "caller": "GetForm",
+          "callee": "_allForms.TryGetValue",
+          "lineNumber": 308
+        },
+        {
+          "caller": "GetFormId",
+          "callee": "_pathToFormId.TryGetValue",
+          "lineNumber": 317
+        },
+        {
+          "caller": "HasForm",
+          "callee": "_allForms.ContainsKey",
+          "lineNumber": 326
+        },
+        {
+          "caller": "HasFormByPath",
+          "callee": "_pathToFormId.ContainsKey",
+          "lineNumber": 334
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "new GameObject",
+          "lineNumber": 341
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "uiRoot.AddComponent<RectTransform>",
+          "lineNumber": 344
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "GameObject.Find",
+          "lineNumber": 349
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "uiRoot.transform.SetParent",
+          "lineNumber": 352
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "CreateLayerRoot",
+          "lineNumber": 357
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "CreateLayerRoot",
+          "lineNumber": 358
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "CreateLayerRoot",
+          "lineNumber": 359
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "new GameObject",
+          "lineNumber": 362
+        },
+        {
+          "caller": "CreateUIRoot",
+          "callee": "Debug.Log",
+          "lineNumber": 365
+        },
+        {
+          "caller": "CreateLayerRoot",
+          "callee": "new GameObject",
+          "lineNumber": 370
+        },
+        {
+          "caller": "CreateLayerRoot",
+          "callee": "go.transform.SetParent",
+          "lineNumber": 371
+        },
+        {
+          "caller": "CreateLayerRoot",
+          "callee": "go.AddComponent<RectTransform>",
+          "lineNumber": 372
+        },
+        {
+          "caller": "CreateCamera",
+          "callee": "LayerMask.NameToLayer",
+          "lineNumber": 383
+        },
+        {
+          "caller": "CreateCamera",
+          "callee": "Debug.LogError",
+          "lineNumber": 386
+        },
+        {
+          "caller": "CreateCamera",
+          "callee": "new GameObject",
+          "lineNumber": 392
+        },
+        {
+          "caller": "CreateCamera",
+          "callee": "go.transform.SetParent",
+          "lineNumber": 393
+        },
+        {
+          "caller": "CreateCamera",
+          "callee": "go.AddComponent<Camera>",
+          "lineNumber": 394
+        },
+        {
+          "caller": "CreateCamera",
+          "callee": "Debug.Log",
+          "lineNumber": 400
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "UnityEngine.Object.FindObjectOfType<EventSystem>",
+          "lineNumber": 405
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "Debug.Log",
+          "lineNumber": 407
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "new GameObject",
+          "lineNumber": 411
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "go.transform.SetParent",
+          "lineNumber": 412
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "go.AddComponent<EventSystem>",
+          "lineNumber": 415
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "go.AddComponent<StandaloneInputModule>",
+          "lineNumber": 416
+        },
+        {
+          "caller": "CreateEventSystem",
+          "callee": "Debug.Log",
+          "lineNumber": 418
+        },
+        {
+          "caller": "AddToLayer",
+          "callee": "_formsByType[formType].Add",
+          "lineNumber": 437
+        },
+        {
+          "caller": "UpdatePopupSortOrder",
+          "callee": "popups.Sort",
+          "lineNumber": 448
+        },
+        {
+          "caller": "UpdatePopupSortOrder",
+          "callee": "a.OpenTime.CompareTo",
+          "lineNumber": 448
+        },
+        {
+          "caller": "RemoveFromLayer",
+          "callee": "list.Remove",
+          "lineNumber": 459
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 13,
+        "functionCount": 20,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 11,
+          "endLine": 14,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CoroutineRunner",
+          "startLine": 9,
+          "endLine": 15,
+          "methods": [
+            "Init"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CoroutineRunner",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Init",
+          "callee": "Debug.Log",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/ListExpense.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "IsNullOrEmpty",
+          "startLine": 7,
+          "endLine": 7,
+          "params": [
+            "list"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ListExpense",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "IsNullOrEmpty"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsNullOrEmpty",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "ListExpense",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "Awake",
+          "startLine": 24,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "OnDestroy",
+          "startLine": 37,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "Init",
+          "startLine": 41,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MonoSingleton",
+          "startLine": 10,
+          "endLine": 42,
+          "methods": [
+            "Awake",
+            "OnDestroy",
+            "Init"
+          ],
+          "properties": [
+            "_instance",
+            "Instance"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Instance",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "MonoSingleton",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Awake",
+          "callee": "Init",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Awake",
+          "callee": "Destroy",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 93,
+      "nonEmptyLines": 79,
+      "functions": [
+        {
+          "name": "Clear",
+          "startLine": 13,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "Contains",
+          "startLine": 18,
+          "endLine": 18,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "Contains",
+          "startLine": 19,
+          "endLine": 19,
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "TryGetValue",
+          "startLine": 20,
+          "endLine": 20,
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "Add",
+          "startLine": 22,
+          "endLine": 35,
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "Remove",
+          "startLine": 37,
+          "endLine": 44,
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "RemoveAll",
+          "startLine": 46,
+          "endLine": 54,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "GetEnumerator",
+          "startLine": 55,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "GetEnumerator",
+          "startLine": 58,
+          "endLine": 59,
+          "params": []
+        },
+        {
+          "name": "GetEnumerator",
+          "startLine": 61,
+          "endLine": 61,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MultiDictionary",
+          "startLine": 7,
+          "endLine": 92,
+          "methods": [
+            "Clear",
+            "Contains",
+            "Contains",
+            "TryGetValue",
+            "Add",
+            "Remove",
+            "RemoveAll",
+            "GetEnumerator",
+            "GetEnumerator",
+            "GetEnumerator"
+          ],
+          "properties": [
+            "_list",
+            "_dict"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Clear",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Contains",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Contains",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "TryGetValue",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Add",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Remove",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "RemoveAll",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "GetEnumerator",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "MultiDictionary",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Clear",
+          "callee": "_list.Clear",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Clear",
+          "callee": "_dict.Clear",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Contains",
+          "callee": "_dict.ContainsKey",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Contains",
+          "callee": "_dict.ContainsKey",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Contains",
+          "callee": "_dict[key].Contains",
+          "lineNumber": 19
+        },
+        {
+          "caller": "TryGetValue",
+          "callee": "_dict.TryGetValue",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Add",
+          "callee": "new LinkedListNode<TValue>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Add",
+          "callee": "_dict.TryGetValue",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Add",
+          "callee": "list.AddLast",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Add",
+          "callee": "new LinkedList<TValue>",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Add",
+          "callee": "list.AddLast",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Add",
+          "callee": "_dict.Add",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Remove",
+          "callee": "_dict.TryGetValue",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Remove",
+          "callee": "list.Remove",
+          "lineNumber": 41
+        },
+        {
+          "caller": "RemoveAll",
+          "callee": "_dict.Remove",
+          "lineNumber": 48
+        },
+        {
+          "caller": "RemoveAll",
+          "callee": "list.Clear",
+          "lineNumber": 50
+        },
+        {
+          "caller": "GetEnumerator",
+          "callee": "new Enumerator",
+          "lineNumber": 55
+        },
+        {
+          "caller": "GetEnumerator",
+          "callee": "GetEnumerator",
+          "lineNumber": 59
+        },
+        {
+          "caller": "GetEnumerator",
+          "callee": "GetEnumerator",
+          "lineNumber": 61
+        },
+        {
+          "caller": "Enumerator",
+          "callee": "nameof",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Enumerator",
+          "callee": "dict.GetEnumerator",
+          "lineNumber": 74
+        },
+        {
+          "caller": "MoveNext",
+          "callee": "_enumerator.MoveNext",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Reset",
+          "callee": "((IEnumerator<KeyValuePair<TKey, LinkedList<TValue>>>)_enumerator).Reset",
+          "lineNumber": 82
+        },
+        {
+          "caller": "Dispose",
+          "callee": "_enumerator.Dispose",
+          "lineNumber": 89
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/QueueExpense.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "IsNullOrEmpty",
+          "startLine": 8,
+          "endLine": 8,
+          "params": [
+            "queue"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "QueueExpense",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [
+            "IsNullOrEmpty"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsNullOrEmpty",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "QueueExpense",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 172,
+      "nonEmptyLines": 155,
+      "functions": [
+        {
+          "name": "Add",
+          "startLine": 25,
+          "endLine": 29,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "Remove",
+          "startLine": 34,
+          "endLine": 42,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 47,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "Contains",
+          "startLine": 56,
+          "endLine": 59,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "GetIterableSnapshot",
+          "startLine": 65,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "GetMainList",
+          "startLine": 79,
+          "endLine": 82,
+          "params": []
+        },
+        {
+          "name": "Set",
+          "startLine": 105,
+          "endLine": 109,
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "Remove",
+          "startLine": 114,
+          "endLine": 122,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 127,
+          "endLine": 131,
+          "params": []
+        },
+        {
+          "name": "TryGetValue",
+          "startLine": 136,
+          "endLine": 139,
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "ContainsKey",
+          "startLine": 144,
+          "endLine": 147,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "GetIterableSnapshot",
+          "startLine": 153,
+          "endLine": 162,
+          "params": []
+        },
+        {
+          "name": "GetMainDict",
+          "startLine": 167,
+          "endLine": 170,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SafeIterableList",
+          "startLine": 11,
+          "endLine": 83,
+          "methods": [
+            "Add",
+            "Remove",
+            "Clear",
+            "Contains",
+            "GetIterableSnapshot",
+            "GetMainList"
+          ],
+          "properties": [
+            "_mainList",
+            "_cacheList",
+            "_isDirty",
+            "Count"
+          ]
+        },
+        {
+          "name": "SafeIterableDict",
+          "startLine": 91,
+          "endLine": 171,
+          "methods": [
+            "Set",
+            "Remove",
+            "Clear",
+            "TryGetValue",
+            "ContainsKey",
+            "GetIterableSnapshot",
+            "GetMainDict"
+          ],
+          "properties": [
+            "_mainDict",
+            "_cacheList",
+            "_isDirty",
+            "Count"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Count",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Add",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Remove",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "Contains",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "GetIterableSnapshot",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "GetMainList",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "SafeIterableList",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Count",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "Set",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "Remove",
+          "line": 114,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "TryGetValue",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "ContainsKey",
+          "line": 144,
+          "isDefault": false
+        },
+        {
+          "name": "GetIterableSnapshot",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "GetMainDict",
+          "line": 167,
+          "isDefault": false
+        },
+        {
+          "name": "SafeIterableDict",
+          "line": 91,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Add",
+          "callee": "_mainList.Add",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Remove",
+          "callee": "_mainList.Remove",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Clear",
+          "callee": "_mainList.Clear",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Contains",
+          "callee": "_mainList.Contains",
+          "lineNumber": 58
+        },
+        {
+          "caller": "GetIterableSnapshot",
+          "callee": "_cacheList.Clear",
+          "lineNumber": 69
+        },
+        {
+          "caller": "GetIterableSnapshot",
+          "callee": "_cacheList.AddRange",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Remove",
+          "callee": "_mainDict.Remove",
+          "lineNumber": 116
+        },
+        {
+          "caller": "Clear",
+          "callee": "_mainDict.Clear",
+          "lineNumber": 129
+        },
+        {
+          "caller": "TryGetValue",
+          "callee": "_mainDict.TryGetValue",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ContainsKey",
+          "callee": "_mainDict.ContainsKey",
+          "lineNumber": 146
+        },
+        {
+          "caller": "GetIterableSnapshot",
+          "callee": "_cacheList.Clear",
+          "lineNumber": 157
+        },
+        {
+          "caller": "GetIterableSnapshot",
+          "callee": "_cacheList.AddRange",
+          "lineNumber": 158
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 13,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/Singleton.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "Init",
+          "startLine": 30,
+          "endLine": 30,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Singleton",
+          "startLine": 7,
+          "endLine": 31,
+          "methods": [
+            "Init"
+          ],
+          "properties": [
+            "_instance",
+            "Instance"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Instance",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Singleton",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/StringExpense.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "IsNullOrEmpty",
+          "startLine": 5,
+          "endLine": 5,
+          "params": [
+            "str"
+          ]
+        },
+        {
+          "name": "IsNullOrWhiteSpace",
+          "startLine": 6,
+          "endLine": 6,
+          "params": [
+            "str"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "StringExtensions",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "IsNullOrEmpty",
+            "IsNullOrWhiteSpace"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsNullOrEmpty",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "IsNullOrWhiteSpace",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "StringExtensions",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "IsNullOrEmpty",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 5
+        },
+        {
+          "caller": "IsNullOrWhiteSpace",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 6
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 32,
+      "callGraph": [
+        {
+          "caller": "TypeNamePair",
+          "callee": "new Exception",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Equals",
+          "callee": "Equals",
+          "lineNumber": 21
+        },
+        {
+          "caller": "GetHashCode",
+          "callee": "_type.GetHashCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GetHashCode",
+          "callee": "_name.GetHashCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ToString",
+          "callee": "new Exception",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

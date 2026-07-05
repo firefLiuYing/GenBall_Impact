@@ -1,0 +1,455 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "type": "file",
+      "name": "InputController.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "summary": "玩家输入控制器，将 Unity Input System 的原始输入事件转化为游戏内标准事件并派发到全局事件管理器。",
+      "tags": ["input", "event-handler", "controller", "player"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController",
+      "type": "class",
+      "name": "InputController",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [13, 131],
+      "summary": "接收 Unity Input Action 绑定回调，将输入上下文转换为 InputEventArgs 并通过 EventManager 派发。",
+      "tags": ["input", "event-dispatcher", "controller"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:FireInput",
+      "type": "function",
+      "name": "FireInput",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [39, 51],
+      "summary": "处理射击输入，将按钮状态转换为 InputEventArgs<ButtonState> 并派发。",
+      "tags": ["input-handler", "fire", "button-state"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:JumpInput",
+      "type": "function",
+      "name": "JumpInput",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [53, 65],
+      "summary": "处理跳跃输入，将按钮状态转换为 InputEventArgs<ButtonState> 并派发。",
+      "tags": ["input-handler", "jump", "button-state"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:DashInput",
+      "type": "function",
+      "name": "DashInput",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [67, 79],
+      "summary": "处理冲刺输入，将按钮状态转换为 InputEventArgs<ButtonState> 并派发。",
+      "tags": ["input-handler", "dash", "button-state"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:UpgradeInput",
+      "type": "function",
+      "name": "UpgradeInput",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [82, 92],
+      "summary": "处理升级输入，通过 GameEntry.Event.FireInputUpgrade 直接派发升级事件。",
+      "tags": ["input-handler", "upgrade", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:ReloadInput",
+      "type": "function",
+      "name": "ReloadInput",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [94, 104],
+      "summary": "处理装弹输入，通过 GameEntry.Event.FireInputReload 直接派发装弹事件。",
+      "tags": ["input-handler", "reload", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:TempPauseInput",
+      "type": "function",
+      "name": "TempPauseInput",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputController.cs",
+      "lineRange": [106, 129],
+      "summary": "处理临时暂停输入，通过 IPauseSystem 的 PushPause/PopPause 控制游戏暂停状态。",
+      "tags": ["input-handler", "pause", "system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs",
+      "type": "file",
+      "name": "InputEventArgs.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs",
+      "summary": "定义输入事件参数数据结构，包含泛型和非泛型两个版本，支持引用池回收。",
+      "tags": ["data-model", "input", "event-args", "pooling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs:InputEventArgs[T]",
+      "type": "class",
+      "name": "InputEventArgs<T>",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs",
+      "lineRange": [7, 19],
+      "summary": "泛型输入事件参数类，包含 Id、Name 和泛型 Args 属性，实现 IReference 用于对象池复用。",
+      "tags": ["data-model", "generic", "event-args", "pooling"],
+      "complexity": "simple",
+      "languageNotes": "C# 泛型事件参数模式，使用 TypeNamePair 生成唯一哈希码用于事件路由。"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs:InputEventArgs",
+      "type": "class",
+      "name": "InputEventArgs",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs",
+      "lineRange": [21, 31],
+      "summary": "非泛型输入事件参数类，仅包含 Id 和 Name，用于无额外数据的事件派发。",
+      "tags": ["data-model", "event-args", "pooling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "type": "file",
+      "name": "InputHandler.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "summary": "玩家输入处理器，监听 InputController 派发的输入事件，维护各输入按键的状态并暴露给 Player 控制系统。",
+      "tags": ["input", "event-handler", "player", "state-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler",
+      "type": "class",
+      "name": "InputHandler",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [10, 193],
+      "summary": "集中管理玩家所有输入按键的当前状态（移动方向、视角增量、跳跃/冲刺/射击等按键），在 FixedUpdate 中处理视角输入并通过事件回调通知外部。",
+      "tags": ["input", "state-management", "player-controller", "event-listener"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnDashInputChange",
+      "type": "function",
+      "name": "OnDashInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [35, 46],
+      "summary": "响应冲刺输入变化，更新 IsDashPressed 状态并触发 OnDash 回调事件。",
+      "tags": ["input-handler", "dash", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnJumpInputChange",
+      "type": "function",
+      "name": "OnJumpInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [54, 78],
+      "summary": "响应跳跃输入变化，实现跳起和释放的短按/长按判定逻辑，支持输入缓冲。",
+      "tags": ["input-handler", "jump", "buffer"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnFireInputChange",
+      "type": "function",
+      "name": "OnFireInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [88, 99],
+      "summary": "响应射击输入变化，更新 IsFirePressed 状态并触发 OnFire 回调事件。",
+      "tags": ["input-handler", "fire", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnReloadInputChange",
+      "type": "function",
+      "name": "OnReloadInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [101, 111],
+      "summary": "响应装弹输入变化，更新 IsReloadPressed 状态并触发 OnReload 回调事件。",
+      "tags": ["input-handler", "reload", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnSwitchWeaponInputChange",
+      "type": "function",
+      "name": "OnSwitchWeaponInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [113, 123],
+      "summary": "响应切换武器输入变化，更新 IsSwitchWeaponPressed 状态并触发回调。",
+      "tags": ["input-handler", "weapon-switch", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnAbilitySecondaryInputChange",
+      "type": "function",
+      "name": "OnAbilitySecondaryInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [125, 136],
+      "summary": "响应副技能输入变化，更新 IsAbilitySecondaryPressed 状态并触发回调。",
+      "tags": ["input-handler", "ability", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnAbilityWheelInputChange",
+      "type": "function",
+      "name": "OnAbilityWheelInputChange",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [138, 148],
+      "summary": "响应技能轮盘输入变化，更新 IsAbilityWheelPressed 状态并触发回调。",
+      "tags": ["input-handler", "ability-wheel", "event"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:FixedUpdate",
+      "type": "function",
+      "name": "FixedUpdate",
+      "filePath": "Assets/Scripts/GenBall/Player/Input/InputHandler.cs",
+      "lineRange": [163, 174],
+      "summary": "在物理更新帧中根据当前移动输入计算 MoveDirection 和 ViewDelta，驱动玩家移动和视角旋转。",
+      "tags": ["physics-update", "movement", "view", "fixed-update"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/IPlayerSystem.cs",
+      "type": "file",
+      "name": "IPlayerSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/IPlayerSystem.cs",
+      "summary": "定义玩家系统接口 IPlayerSystem，声明 Player 属性和 CreatePlayer 工厂方法。",
+      "tags": ["interface", "player", "system", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.Control.cs",
+      "type": "file",
+      "name": "Player.Control.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Control.cs",
+      "summary": "Player 类控制部分的 partial 实现，负责注册输入事件监听并将输入数据写入 FSM 变量。",
+      "tags": ["player", "control", "input-handler", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.Countdown.cs",
+      "type": "file",
+      "name": "Player.Countdown.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Countdown.cs",
+      "summary": "Player 类倒计时部分的 partial 实现，管理冲刺冷却等倒计时逻辑。",
+      "tags": ["player", "countdown", "cooldown", "partial-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.cs",
+      "type": "file",
+      "name": "Player.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.cs",
+      "summary": "Player 类主定义文件，包含初始化、帧更新、生命周期和事件注册等核心逻辑。",
+      "tags": ["player", "entry-point", "lifecycle", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Player/Player.cs:Player",
+      "type": "class",
+      "name": "Player",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.cs",
+      "lineRange": [15, 74],
+      "summary": "玩家实体主类，通过 partial 分散在多个文件中，聚合了控制、生命值、武器、物理、FSM 状态机等子系统。",
+      "tags": ["player", "entity", "partial-class", "composition", "facade"],
+      "complexity": "complex",
+      "languageNotes": "C# partial class 模式将大型玩家类按职责拆分为多个文件（Control/Health/Physics/Weapon/Fsm/Countdown）。"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.cs:SetCamera",
+      "type": "function",
+      "name": "SetCamera",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.cs",
+      "lineRange": [20, 30],
+      "summary": "设置玩家主摄像机引用，将摄像机挂在玩家 GameObject 下。",
+      "tags": ["player", "camera", "initialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.cs:Initialize",
+      "type": "function",
+      "name": "Initialize",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.cs",
+      "lineRange": [32, 47],
+      "summary": "玩家完整初始化流程：激活 GameObject、设置摄像机、初始化物理/FSM/生命值/倒计时、注册事件、启动状态机、装备默认武器、注册到 EntityUpdateSystem。",
+      "tags": ["player", "initialization", "lifecycle", "orchestration"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+      "type": "file",
+      "name": "Player.Fsm.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+      "summary": "Player 类 FSM 状态机部分的 partial 实现，负责创建有限状态机、注册状态和 FSM 数据变量。",
+      "tags": ["player", "fsm", "state-machine", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Fsm.cs:RegisterFsmDatas",
+      "type": "function",
+      "name": "RegisterFsmDatas",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+      "lineRange": [36, 56],
+      "summary": "注册 FSM 所需的所有数据变量（移动输入、速度、视角输入、视角旋转、OnGround、跳跃/冲刺输入等）。",
+      "tags": ["fsm", "data-registration", "variable", "initialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Fsm.cs:AddEffect",
+      "type": "function",
+      "name": "AddEffect",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+      "lineRange": [79, 85],
+      "summary": "添加状态效果到玩家效果列表并调用 effect.Apply。",
+      "tags": ["player", "effect", "state-management"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Fsm.cs:RemoveEffect",
+      "type": "function",
+      "name": "RemoveEffect",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Fsm.cs",
+      "lineRange": [87, 92],
+      "summary": "从玩家移除状态效果，调用 effect.Unapply 并清理效果。",
+      "tags": ["player", "effect", "state-management"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.Health.cs",
+      "type": "file",
+      "name": "Player.Health.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Health.cs",
+      "summary": "Player 类生命值/护甲部分的 partial 实现，处理受伤、死亡、治疗和护甲增减逻辑。",
+      "tags": ["player", "health", "armor", "damage", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Health.cs:OnAttacked",
+      "type": "function",
+      "name": "OnAttacked",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Health.cs",
+      "lineRange": [22, 36],
+      "summary": "处理攻击伤害：优先扣除护甲，护甲不足时扣除生命值，计算最终承受伤害并生成 AttackResult。",
+      "tags": ["player", "damage", "armor", "combat"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Health.cs:TakeDamage",
+      "type": "function",
+      "name": "TakeDamage",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Health.cs",
+      "lineRange": [73, 81],
+      "summary": "扣除生命值并判断死亡条件，生命值归零或以下时触发 Die。",
+      "tags": ["player", "damage", "health", "death"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.Physics.cs",
+      "type": "file",
+      "name": "Player.Physics.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Physics.cs",
+      "summary": "Player 类物理部分的 partial 实现，管理 Rigidbody 和地面检测（射线投射）。",
+      "tags": ["player", "physics", "ground-detection", "partial-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/Player.Weapon.cs",
+      "type": "file",
+      "name": "Player.Weapon.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Weapon.cs",
+      "summary": "Player 类武器部分的 partial 实现，支持多种武器装备方式（按类型/名称）、武器实例化和卸装。",
+      "tags": ["player", "weapon", "equip", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Weapon.cs:InternalEquipPhysicsWeapon",
+      "type": "function",
+      "name": "InternalEquipPhysicsWeapon",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Weapon.cs",
+      "lineRange": [95, 104],
+      "summary": "内部武器装备实现：接收已实例化的武器对象，检查重复、设置生成点并调用 Equip 完成装备。",
+      "tags": ["player", "weapon", "equip", "implementation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Player/Player.Weapon.cs:UnequipPhysicsWeapon",
+      "type": "function",
+      "name": "UnequipPhysicsWeapon",
+      "filePath": "Assets/Scripts/GenBall/Player/Player.Weapon.cs",
+      "lineRange": [106, 116],
+      "summary": "卸装当前武器：调用 Unequip 通知武器解除绑定并 Destroy 武器 GameObject。",
+      "tags": ["player", "weapon", "unequip", "cleanup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerConfig.cs",
+      "type": "file",
+      "name": "PlayerConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerConfig.cs",
+      "summary": "玩家配置数据类，定义移动速度、灵敏度、跳跃参数、重力、冲刺速度、交互范围等运行时数值参数。",
+      "tags": ["config", "player", "data-model", "parameters"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Player/PlayerConfigSo.cs",
+      "type": "file",
+      "name": "PlayerConfigSo.cs",
+      "filePath": "Assets/Scripts/GenBall/Player/PlayerConfigSo.cs",
+      "summary": "玩家配置 ScriptableObject 及 Editor 模式下自动创建/加载的 PlayerConfigProvider，将 SO 配置暴露给运行时系统。",
+      "tags": ["config", "scriptable-object", "player", "editor"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputController.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "target": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:FireInput", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "target": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:JumpInput", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "target": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:DashInput", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "target": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:UpgradeInput", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "target": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:ReloadInput", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "target": "function:Assets/Scripts/GenBall/Player/Input/InputController.cs:TempPauseInput", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputController.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputController.cs:InputController", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs:InputEventArgs[T]", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs:InputEventArgs", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs:InputEventArgs[T]", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputEventArgs.cs:InputEventArgs", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputHandler.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnDashInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnJumpInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnFireInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnReloadInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnSwitchWeaponInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnAbilitySecondaryInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:OnAbilityWheelInputChange", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "target": "function:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:FixedUpdate", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputHandler.cs", "target": "class:Assets/Scripts/GenBall/Player/Input/InputHandler.cs:InputHandler", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.cs", "target": "class:Assets/Scripts/GenBall/Player/Player.cs:Player", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Player.cs:Player", "target": "function:Assets/Scripts/GenBall/Player/Player.cs:SetCamera", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "class:Assets/Scripts/GenBall/Player/Player.cs:Player", "target": "function:Assets/Scripts/GenBall/Player/Player.cs:Initialize", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.cs", "target": "class:Assets/Scripts/GenBall/Player/Player.cs:Player", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Fsm.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Fsm.cs:RegisterFsmDatas", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Fsm.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Fsm.cs:AddEffect", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Fsm.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Fsm.cs:RemoveEffect", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Health.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Health.cs:OnAttacked", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Health.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Health.cs:TakeDamage", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Weapon.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Weapon.cs:InternalEquipPhysicsWeapon", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Weapon.cs", "target": "function:Assets/Scripts/GenBall/Player/Player.Weapon.cs:UnequipPhysicsWeapon", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Control.cs", "target": "file:Assets/Scripts/GenBall/Player/Player.cs", "type": "related", "direction": "forward", "weight": 0.5},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Countdown.cs", "target": "file:Assets/Scripts/GenBall/Player/Player.cs", "type": "related", "direction": "forward", "weight": 0.5},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Fsm.cs", "target": "file:Assets/Scripts/GenBall/Player/Player.cs", "type": "related", "direction": "forward", "weight": 0.5},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Health.cs", "target": "file:Assets/Scripts/GenBall/Player/Player.cs", "type": "related", "direction": "forward", "weight": 0.5},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Physics.cs", "target": "file:Assets/Scripts/GenBall/Player/Player.cs", "type": "related", "direction": "forward", "weight": 0.5},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Weapon.cs", "target": "file:Assets/Scripts/GenBall/Player/Player.cs", "type": "related", "direction": "forward", "weight": 0.5},
+
+    {"source": "file:Assets/Scripts/GenBall/Player/Input/InputController.cs", "target": "file:Assets/Scripts/GenBall/Player/Input/InputHandler.cs", "type": "depends_on", "direction": "forward", "weight": 0.6},
+    {"source": "file:Assets/Scripts/GenBall/Player/Player.Control.cs", "target": "file:Assets/Scripts/GenBall/Player/Input/InputHandler.cs", "type": "depends_on", "direction": "forward", "weight": 0.6},
+    {"source": "file:Assets/Scripts/GenBall/Player/PlayerConfigSo.cs", "target": "file:Assets/Scripts/GenBall/Player/PlayerConfig.cs", "type": "related", "direction": "forward", "weight": 0.5}
+  ]
+}

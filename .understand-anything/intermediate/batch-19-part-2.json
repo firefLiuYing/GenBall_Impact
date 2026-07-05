@@ -1,0 +1,437 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Singleton/ISingleton.cs",
+      "type": "file",
+      "name": "ISingleton.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Singleton/ISingleton.cs",
+      "summary": "定义 ISingleton 单例标记接口，用于标识可被 SingletonManager 管理的单例类型。",
+      "tags": ["singleton", "interface", "marker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs",
+      "type": "file",
+      "name": "SingletonManager.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs",
+      "summary": "单例管理器，维护一个类型到单例实例的字典，通过泛型 GetSingleton 方法按需创建并缓存单例对象。",
+      "tags": ["singleton", "manager", "factory"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:SingletonManager",
+      "type": "class",
+      "name": "SingletonManager",
+      "filePath": "Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs",
+      "lineRange": [6, 19],
+      "summary": "静态单例管理类，维护 ISingleton 实例字典，通过泛型 GetSingleton 方法实现惰性初始化（lazy initialization）的工厂模式。",
+      "tags": ["singleton", "manager", "lazy-init"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:GetSingleton",
+      "type": "function",
+      "name": "GetSingleton",
+      "filePath": "Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs",
+      "lineRange": [9, 18],
+      "summary": "泛型单例获取方法，检查字典中是否存在指定类型的单例，若不存在则通过 new T() 创建并缓存，返回单例实例。",
+      "tags": ["singleton", "factory", "lazy-init"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs",
+      "type": "file",
+      "name": "TriggerObject.cs",
+      "filePath": "Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs",
+      "summary": "通用触发器 MonoBehaviour 组件，监听 Unity 物理触发事件（OnTriggerEnter/Stay/Exit），通过 LayerMask 过滤目标层并触发对应回调，包含 LayerMask 扩展方法。",
+      "tags": ["trigger", "physics", "collision", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs:TriggerObject",
+      "type": "class",
+      "name": "TriggerObject",
+      "filePath": "Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs",
+      "lineRange": [6, 38],
+      "summary": "继承 MonoBehaviour 的触发器组件，监听 OnTriggerEnter/Stay/Exit 三个 Unity 物理事件，通过 targetLayerMask 过滤碰撞层后调用对应的 UnityEvent 回调。",
+      "tags": ["trigger", "monobehaviour", "physics"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs",
+      "type": "file",
+      "name": "BaseEventArgs.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs",
+      "summary": "定义事件参数基类 BaseEventArgs，实现 IReference 接口以支持对象池复用，包含事件 ID 属性和 Clear 清理方法。",
+      "tags": ["event", "reference-pool", "base-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs:BaseEventArgs",
+      "type": "class",
+      "name": "BaseEventArgs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs",
+      "lineRange": [6, 15],
+      "summary": "事件参数抽象基类，实现 IReference 接口，包含事件 ID 属性和将 ID 重置为默认值的 Clear 方法，供所有具体事件参数类继承。",
+      "tags": ["event", "base-class", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "type": "file",
+      "name": "EventPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "summary": "泛型事件池核心实现，支持事件的订阅、取消订阅、触发（Fire 入队延迟执行 / FireNow 立即执行）和默认处理器，通过 EventPoolMode 控制行为模式。",
+      "tags": ["event", "event-pool", "pub-sub", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool",
+      "type": "class",
+      "name": "EventPool",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [7, 186],
+      "summary": "GameFramework 事件池泛型类，管理 EventHandler 的双向链表缓存，提供 Check/Subscribe/Unsubscribe 订阅管理和 Fire（入队）/FireNow（立即）两种触发模式，Update 中处理延迟事件队列。",
+      "tags": ["event", "event-pool", "framework", "generic"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Update",
+      "type": "function",
+      "name": "Update",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [27, 38],
+      "summary": "帧更新方法，从事件队列中出队所有延迟事件并调用 HandleEvent 逐一处理，处理完成后通过 ReferencePool 释放 Event 对象。",
+      "tags": ["event", "update", "queue-processing"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [66, 89],
+      "summary": "订阅事件处理方法，根据 EventPoolMode 检查是否允许多处理器或重复处理器，将 handler 添加到事件处理链表中并管理缓存节点。",
+      "tags": ["event", "subscribe", "handler-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Unsubscribe",
+      "type": "function",
+      "name": "Unsubscribe",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [91, 122],
+      "summary": "取消订阅事件处理方法，遍历事件处理链表查找并移除指定 handler，清理缓存节点和临时列表，确保迭代安全。",
+      "tags": ["event", "unsubscribe", "handler-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire",
+      "type": "function",
+      "name": "Fire",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [130, 141],
+      "summary": "触发事件（延迟模式），创建 Event 对象并加入队列，在下一帧 Update 中异步处理，防止在处理过程中修改订阅列表导致的问题。",
+      "tags": ["event", "fire", "deferred"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:HandleEvent",
+      "type": "function",
+      "name": "HandleEvent",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs",
+      "lineRange": [158, 185],
+      "summary": "核心事件处理方法，查找对应事件 ID 的处理器链表并依次调用，若未找到且允许无处理器则调用默认处理器，处理完成后释放 Event 对象回池。",
+      "tags": ["event", "handler", "dispatch", "core"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+      "type": "file",
+      "name": "EventPool.Event.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+      "summary": "EventPool 的分部类文件，定义内部私有 Event 类实现 IReference 接口，封装事件发送者和参数，提供静态工厂 Create 方法和 Clear 清理方法。",
+      "tags": ["event", "partial-class", "reference-pool", "inner-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:EventPool",
+      "type": "class",
+      "name": "EventPool",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+      "lineRange": [5, 35],
+      "summary": "EventPool 的分部类声明，包含内部私有 Event 类的定义，该 Event 类封装发送者和事件参数并支持引用池复用。",
+      "tags": ["event", "partial-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:Event",
+      "type": "class",
+      "name": "Event",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs",
+      "lineRange": [7, 34],
+      "summary": "EventPool 内部的私有事件数据类，实现 IReference 接口，存储事件发送者和泛型事件参数，通过 ReferencePool.Acquire 工厂方法创建并支持池化复用。",
+      "tags": ["event", "data-class", "reference-pool", "inner-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs",
+      "type": "file",
+      "name": "EventPoolMode.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs",
+      "summary": "定义 EventPoolMode 标志枚举，控制事件池的行为模式：默认模式、允许无处理器、允许多处理器和允许重复处理器四种组合。",
+      "tags": ["event", "enum", "flags", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "type": "file",
+      "name": "IReference.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "summary": "定义 IReference 接口，要求实现类提供 Clear 方法用于引用池回收时重置对象状态。",
+      "tags": ["reference-pool", "interface", "marker"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "type": "file",
+      "name": "ReferencePool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "summary": "引用池核心管理类，提供泛型和非泛型的 Acquire（获取）/Release（释放）/Add（预分配）/Remove（移除）等对象池操作，内部通过 InternalPool 管理每种引用类型的池队列。",
+      "tags": ["reference-pool", "object-pool", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool",
+      "type": "class",
+      "name": "ReferencePool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "lineRange": [6, 81],
+      "summary": "静态引用池类，维护类型到 InternalPool 的字典映射，对外暴露泛型和非泛型两套 Acquire/Release/Add/Remove/RemoveAll 接口，通过 IsValidPoolType 校验类型合法性。",
+      "tags": ["reference-pool", "object-pool", "static-class", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:GetInternalPool",
+      "type": "function",
+      "name": "GetInternalPool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "lineRange": [64, 80],
+      "summary": "获取或创建指定类型的 InternalPool 实例，通过字典缓存实现每个引用类型独享一个内部池，确保类型安全的池化操作。",
+      "tags": ["reference-pool", "internal-pool", "cache", "type-safe"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "type": "file",
+      "name": "ReferencePool.InternalPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "summary": "ReferencePool 的分部类文件，定义内部私有 InternalPool 类，封装 Queue 队列管理单个引用类型的对象池、使用计数统计、线程安全的 Acquire/Release/Add/Remove 操作。",
+      "tags": ["reference-pool", "partial-class", "inner-class", "thread-safe"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool",
+      "type": "class",
+      "name": "ReferencePool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [7, 117],
+      "summary": "ReferencePool 的分部类声明，包含内部私有 InternalPool 类的完整定义和实现。",
+      "tags": ["reference-pool", "partial-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool",
+      "type": "class",
+      "name": "InternalPool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [9, 116],
+      "summary": "单个引用类型的内部对象池，使用 Queue<IReference> 管理空闲对象，通过 lock 保证线程安全，维护使用计数，支持泛型和非泛型 Acquire/Add/Remove/RemoveAll 操作。",
+      "tags": ["reference-pool", "inner-class", "thread-safe", "queue"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Acquire",
+      "type": "function",
+      "name": "Acquire",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [26, 38],
+      "summary": "泛型 Acquire 方法，校验引用类型后增加使用计数，从池队列中取出空闲对象或新建实例返回（通过 new T()），使用 lock 保证线程安全。",
+      "tags": ["reference-pool", "acquire", "generic", "thread-safe"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Release",
+      "type": "function",
+      "name": "Release",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [49, 65],
+      "summary": "释放引用对象回池，校验类型、调用 Clear 重置状态，检查是否已释放后入队，减少使用计数，使用 lock 保证线程安全。",
+      "tags": ["reference-pool", "release", "cleanup", "thread-safe"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Add",
+      "type": "function",
+      "name": "Add",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [67, 82],
+      "summary": "泛型预分配方法，校验类型后在 lock 保护下向池队列中添加指定数量的新实例，用于预热对象池减少运行时分配开销。",
+      "tags": ["reference-pool", "preallocate", "generic", "thread-safe"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Remove",
+      "type": "function",
+      "name": "Remove",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [96, 107],
+      "summary": "从池队列中移除指定数量的空闲对象，通过 Math.Min 确保不超过实际数量，使用 lock 保护出队操作。",
+      "tags": ["reference-pool", "remove", "cleanup", "thread-safe"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "type": "file",
+      "name": "GenericVariable.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "summary": "泛型变量系统实现，包含 Variable<T>（基于观察者列表的响应式变量）和 LiveDelegate<TDelegate>（基于委托的动态变量）两种变量类型，均实现 IReference 支持对象池复用。",
+      "tags": ["variable", "generic", "observer", "reference-pool", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable",
+      "type": "class",
+      "name": "Variable",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "lineRange": [6, 35],
+      "summary": "泛型响应式变量类，维护观察者委托列表，提供 Observe/Unobserve 订阅管理、GetValue/SetValue 读写和 PostValue 通知所有观察者的发布模式，支持 ReferencePool 池化。",
+      "tags": ["variable", "observer", "reactive", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate",
+      "type": "class",
+      "name": "LiveDelegate",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "lineRange": [37, 62],
+      "summary": "泛型委托变量类，通过 SetDelegate 绑定一个返回当前值的委托，GetValue 调用委托实时计算值，SetValue 仅校验非空但不存储，适用于动态计算型变量。",
+      "tags": ["variable", "delegate", "dynamic", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:SetValue",
+      "type": "function",
+      "name": "SetValue",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "lineRange": [45, 55],
+      "summary": "LiveDelegate 的 SetValue 方法，通过 Nullable 比较新旧值，若旧值为空且新值非空则调用 Create 从引用池获取实例，实现了变量值的委托化写入。",
+      "tags": ["variable", "setter", "delegate", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "type": "file",
+      "name": "Variable.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "summary": "定义 Variable 抽象基类，包含 Type 只读属性标识变量类型，声明 GetValue、SetValue 和 Clear 抽象方法，作为所有具体变量类的基类并实现 IReference 接口。",
+      "tags": ["variable", "abstract-class", "base-class", "reference-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable",
+      "type": "class",
+      "name": "Variable",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "lineRange": [6, 16],
+      "summary": "变量抽象基类，实现 IReference 接口，声明 Type 属性和 GetValue/SetValue/Clear 三个抽象方法，为 Variable<T> 和 LiveDelegate<TDelegate> 提供统一的多态接口。",
+      "tags": ["variable", "abstract-class", "polymorphism", "reference-pool"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    { "source": "file:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs", "target": "class:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:SingletonManager", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs", "target": "function:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:GetSingleton", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs", "target": "class:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:SingletonManager", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs", "target": "function:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:GetSingleton", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:SingletonManager", "target": "function:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:GetSingleton", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/GenBall/Utils/Singleton/SingletonManager.cs:SingletonManager", "target": "file:Assets/Scripts/GenBall/Utils/Singleton/ISingleton.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 },
+
+    { "source": "file:Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs", "target": "class:Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs:TriggerObject", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs", "target": "class:Assets/Scripts/GenBall/Utils/Trigger/TriggerObject.cs:TriggerObject", "type": "exports", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs:BaseEventArgs", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs:BaseEventArgs", "type": "exports", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Update", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Subscribe", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Unsubscribe", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:HandleEvent", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Update", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Subscribe", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Unsubscribe", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Update", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Subscribe", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Unsubscribe", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:HandleEvent", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:Fire", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:Event", "type": "calls", "direction": "forward", "weight": 0.8 },
+    { "source": "function:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:HandleEvent", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:Event", "type": "calls", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs:EventPool", "target": "file:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:EventPool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:Event", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:EventPool", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:EventPool", "target": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:Event", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs:Event", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "type": "calls", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:GetInternalPool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:GetInternalPool", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:GetInternalPool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "type": "calls", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Acquire", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Release", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Add", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Remove", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Acquire", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Release", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Add", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:InternalPool", "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:Remove", "type": "contains", "direction": "forward", "weight": 1.0 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "function:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:SetValue", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate", "type": "exports", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable", "target": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable", "type": "inherits", "direction": "forward", "weight": 0.9 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate", "target": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable", "type": "inherits", "direction": "forward", "weight": 0.9 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate", "target": "function:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:SetValue", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "type": "calls", "direction": "forward", "weight": 0.8 },
+    { "source": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate", "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool", "type": "calls", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs", "target": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable", "type": "contains", "direction": "forward", "weight": 1.0 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs", "target": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable", "type": "exports", "direction": "forward", "weight": 0.8 },
+
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.Event.cs", "target": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs", "target": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPool.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs", "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs", "type": "related", "direction": "forward", "weight": 0.5 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs", "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 },
+    { "source": "file:Assets/Scripts/Yueyn/Base/EventPool/BaseEventArgs.cs", "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs", "type": "depends_on", "direction": "forward", "weight": 0.6 }
+  ]
+}

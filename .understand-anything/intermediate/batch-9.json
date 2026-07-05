@@ -1,0 +1,1136 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs",
+      "type": "file",
+      "name": "EventPoolMode.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/EventPool/EventPoolMode.cs",
+      "summary": "定义事件池的运行模式枚举，控制事件分发时是否允许在事件处理过程中修改订阅列表。",
+      "tags": ["enum", "event-system", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "type": "file",
+      "name": "IReference.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "summary": "定义引用池中可复用对象的接口，要求实现 Clear 方法用于重置对象状态。",
+      "tags": ["interface", "object-pool", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs:IReference",
+      "type": "class",
+      "name": "IReference",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "lineRange": [3, 6],
+      "summary": "引用池对象的抽象接口，定义了 Clear 方法用于回收时重置对象状态。",
+      "tags": ["interface", "object-pool", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "type": "file",
+      "name": "ReferencePool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "summary": "泛型引用池的静态门面，提供 Acquire/Release/Add/Remove 等池操作，内部委托给 InternalPool 实现。",
+      "tags": ["object-pool", "utility", "static-class"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool",
+      "type": "class",
+      "name": "ReferencePool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "lineRange": [6, 81],
+      "summary": "静态泛型引用池门面类，管理多个 InternalPool 实例，提供类型安全的获取与归还操作。",
+      "tags": ["object-pool", "static-class", "utility"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:GetInternalPool",
+      "type": "function",
+      "name": "GetInternalPool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "lineRange": [64, 80],
+      "summary": "根据类型获取或创建内部池实例，负责池的懒初始化与类型校验。",
+      "tags": ["object-pool", "factory", "lazy-init"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "type": "file",
+      "name": "ReferencePool.InternalPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "summary": "ReferencePool 的 partial 类实现，包含 InternalPool 内部类，使用 Queue 实现对象池的核心存储与回收逻辑。",
+      "tags": ["object-pool", "partial-class", "implementation"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool",
+      "type": "class",
+      "name": "ReferencePool",
+      "filePath": "Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "lineRange": [7, 117],
+      "summary": "ReferencePool 的 partial 实现，其中的 InternalPool<T> 类封装了基于 Queue 的对象池核心逻辑。",
+      "tags": ["object-pool", "partial-class", "queue-based"],
+      "complexity": "moderate",
+      "languageNotes": "使用 C# partial class 将静态门面与内部池实现分离到两个文件中，提高代码组织性。"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "type": "file",
+      "name": "GenericVariable.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "summary": "定义泛型变量 Variable<T> 和委托型 LiveDelegate，支持观察者模式和通过委托动态计算值。",
+      "tags": ["variable", "observer-pattern", "data-binding", "generic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable",
+      "type": "class",
+      "name": "Variable",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "lineRange": [6, 35],
+      "summary": "泛型变量类，支持观察者模式的监听/取消监听，提供 PostValue 通知机制和引用池管理。",
+      "tags": ["variable", "observer-pattern", "generic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate",
+      "type": "class",
+      "name": "LiveDelegate",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "lineRange": [37, 62],
+      "summary": "委托型变量子类，通过委托函数动态提供值，适用于需要实时计算的场景。",
+      "tags": ["variable", "delegate", "live-value"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "type": "file",
+      "name": "Variable.cs",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "summary": "变量的抽象基类，定义了 Type/GetValue/SetValue/Clear 等核心接口，派生类需实现具体类型逻辑。",
+      "tags": ["variable", "abstract-class", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable",
+      "type": "class",
+      "name": "Variable",
+      "filePath": "Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "lineRange": [6, 16],
+      "summary": "变量的抽象基类，提供非泛型的 Type 属性和虚方法框架，为 Fsm 数据存储提供统一抽象。",
+      "tags": ["variable", "abstract-class", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "Assets/Scripts/Yueyn/CLAUDE.md",
+      "summary": "Yueyn 框架层的开发文档，涵盖核心架构、基础设施模块、ISystem 业务系统规范、更新接口和新旧体系迁移指南。",
+      "tags": ["documentation", "framework", "architecture", "development"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+      "type": "file",
+      "name": "CEventRouter.cs",
+      "filePath": "Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+      "summary": "全局事件路由器的 Singleton 门面，封装 EventDispatcher 提供 Subscribe/Unsubscribe/Fire/FireNow 等统一事件接口。",
+      "tags": ["event-system", "singleton", "facade", "pub-sub"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Event/CEventRouter.cs:CEventRouter",
+      "type": "class",
+      "name": "CEventRouter",
+      "filePath": "Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+      "lineRange": [7, 73],
+      "summary": "全局事件路由 Singleton，封装 EventDispatcher 为项目提供统一的事件发布订阅总线。",
+      "tags": ["event-system", "singleton", "facade", "pub-sub"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "type": "file",
+      "name": "EventDispatcher.cs",
+      "filePath": "Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "summary": "核心事件分发引擎，支持带泛型参数的 Fire（延迟队列）/FireNow（立即执行）和延迟更新机制。",
+      "tags": ["event-system", "pub-sub", "dispatch-engine", "core"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Event/EventDispatcher.cs:EventDispatcher",
+      "type": "class",
+      "name": "EventDispatcher",
+      "filePath": "Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "lineRange": [10, 135],
+      "summary": "核心事件分发引擎，内部维护订阅字典和待处理事件队列，支持 Fire 延迟分发和 FireNow 立即分发。",
+      "tags": ["event-system", "pub-sub", "dispatch-engine"],
+      "complexity": "complex",
+      "languageNotes": "使用 Delegate 泛型参数支持最多 4 个参数的强类型事件，Fire 将事件入队延迟到 Update 执行。"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Event/EventDispatcher.cs:InvokeAll",
+      "type": "function",
+      "name": "InvokeAll",
+      "filePath": "Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "lineRange": [122, 132],
+      "summary": "遍历指定事件 ID 的所有订阅处理器并执行，同时支持默认处理器回退。",
+      "tags": ["event-system", "dispatch", "invocation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Event/EventManager.cs",
+      "type": "file",
+      "name": "EventManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Event/EventManager.cs",
+      "summary": "旧框架 IComponent 事件管理器，封装 EventPool 并通过 Entry 组件系统进行帧更新调度。",
+      "tags": ["event-system", "legacy", "component"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Event/EventManager.cs:EventManager",
+      "type": "class",
+      "name": "EventManager",
+      "filePath": "Assets/Scripts/Yueyn/Event/EventManager.cs",
+      "lineRange": [8, 57],
+      "summary": "旧框架事件管理器组件，实现 IComponent 接口，通过 Entry 调度 EventPool 的 Update/Shutdown。",
+      "tags": ["event-system", "legacy", "component"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Event/GameEventArgs.cs",
+      "type": "file",
+      "name": "GameEventArgs.cs",
+      "filePath": "Assets/Scripts/Yueyn/Event/GameEventArgs.cs",
+      "summary": "游戏事件参数基类，继承自 BaseEventArgs，为所有游戏事件数据提供统一基类型。",
+      "tags": ["event-system", "type-definition", "base-class"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Event/GameEventArgs.cs:GameEventArgs",
+      "type": "class",
+      "name": "GameEventArgs",
+      "filePath": "Assets/Scripts/Yueyn/Event/GameEventArgs.cs",
+      "lineRange": [5, 8],
+      "summary": "游戏事件参数的抽象基类，所有具体游戏事件参数类型通过继承此类获得统一标识。",
+      "tags": ["event-system", "base-class", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "type": "file",
+      "name": "Fsm.cs",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "summary": "泛型有限状态机核心实现，支持状态注册/切换/数据存储/暂停/Update 调度，通过 ReferencePool 管理实例。",
+      "tags": ["fsm", "state-machine", "generic", "core"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Fsm",
+      "type": "class",
+      "name": "Fsm",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "lineRange": [12, 261],
+      "summary": "泛型有限状态机，管理状态字典、当前状态切换、变量数据存储和帧更新，通过 ReferencePool 池化。",
+      "tags": ["fsm", "state-machine", "generic"],
+      "complexity": "complex",
+      "languageNotes": "使用 C# 泛型约束 where T : class 确保 Owner 为引用类型；状态通过 Dictionary<Type, FsmState<T>> 管理。"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Create",
+      "type": "function",
+      "name": "Create",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "lineRange": [62, 95],
+      "summary": "静态工厂方法，从 ReferencePool 获取 Fsm 实例并初始化所有状态，是 FSM 的主要构造入口。",
+      "tags": ["fsm", "factory", "initialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Start",
+      "type": "function",
+      "name": "Start",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "lineRange": [111, 136],
+      "summary": "启动状态机并切换到指定初始状态，触发 OnEnter 回调并输出调试日志。",
+      "tags": ["fsm", "state-transition", "startup"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:ChangeState",
+      "type": "function",
+      "name": "ChangeState",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "lineRange": [240, 260],
+      "summary": "执行状态切换，先调用当前状态 OnExit 再调用新状态 OnEnter，支持调试日志输出。",
+      "tags": ["fsm", "state-transition", "core-logic"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:SetData",
+      "type": "function",
+      "name": "SetData",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "lineRange": [185, 202],
+      "summary": "向状态机存储命名变量数据，自动创建或替换已有 Variable 实例并使用 ReferencePool 管理旧值。",
+      "tags": ["fsm", "data-storage", "variable"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:GetState",
+      "type": "function",
+      "name": "GetState",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "lineRange": [96, 109],
+      "summary": "根据状态类型获取已注册的状态实例，包含类型转换校验。",
+      "tags": ["fsm", "state-lookup", "type-checking"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "type": "file",
+      "name": "FsmManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "summary": "旧框架 IComponent 状态机管理器，管理所有 Fsm 实例的生命周期（创建/查询/销毁）和帧更新调度。",
+      "tags": ["fsm", "legacy", "component", "manager"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:FsmManager",
+      "type": "class",
+      "name": "FsmManager",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "lineRange": [11, 178],
+      "summary": "旧框架状态机管理器组件，通过 Dictionary 管理多个 FSM 实例，提供创建/获取/销毁 API 和统一帧更新。",
+      "tags": ["fsm", "legacy", "component", "manager"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:CreateFsm",
+      "type": "function",
+      "name": "CreateFsm",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "lineRange": [118, 128],
+      "summary": "创建并注册一个新的 FSM 实例，检查重复后调用 Fsm<T>.Create 工厂并存入内部字典。",
+      "tags": ["fsm", "factory", "registration"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:ComponentUpdate",
+      "type": "function",
+      "name": "ComponentUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "lineRange": [26, 36],
+      "summary": "遍历所有活跃 FSM 调用 Update 进行帧更新，同时清理已销毁的 FSM 实例。",
+      "tags": ["fsm", "update-loop", "cleanup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+      "type": "file",
+      "name": "FsmState.cs",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+      "summary": "FSM 状态的抽象基类，定义 OnInit/OnEnter/OnExit/OnUpdate/OnFixedUpdate/OnDestroy 生命周期虚方法。",
+      "tags": ["fsm", "abstract-class", "state", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Fsm/FsmState.cs:FsmState",
+      "type": "class",
+      "name": "FsmState",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+      "lineRange": [3, 37],
+      "summary": "FSM 状态的抽象基类，提供完整的生命周期虚方法（初始化/进入/退出/更新/销毁）供具体状态覆写。",
+      "tags": ["fsm", "abstract-class", "state-lifecycle"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Fsm/IFsm.cs",
+      "type": "file",
+      "name": "IFsm.cs",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/IFsm.cs",
+      "summary": "有限状态机的非泛型接口，定义 FSM 的公共属性和方法契约。",
+      "tags": ["fsm", "interface", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Fsm/IFsm.cs:IFsm",
+      "type": "class",
+      "name": "IFsm",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/IFsm.cs",
+      "lineRange": [5, 18],
+      "summary": "FSM 的非泛型接口，暴露 OwnerType/Name/IsRunning 等属性和 Update/Shutdown 方法。",
+      "tags": ["fsm", "interface", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "type": "file",
+      "name": "SimpleFsm.cs",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "summary": "简化的非泛型有限状态机实现，通过枚举类型作为状态标识进行状态切换和生命周期管理。",
+      "tags": ["fsm", "state-machine", "simplified"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs:SimpleFsm",
+      "type": "class",
+      "name": "SimpleFsm",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "lineRange": [10, 76],
+      "summary": "简化的有限状态机，使用枚举状态类型和 SimpleFsmState 进行状态管理，适用于轻量级场景。",
+      "tags": ["fsm", "state-machine", "simplified"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs:SimpleFsmState",
+      "type": "class",
+      "name": "SimpleFsmState",
+      "filePath": "Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "lineRange": [81, 86],
+      "summary": "简化 FSM 状态的抽象基类，定义 OnEnter/OnUpdate/OnExit 三个生命周期虚方法。",
+      "tags": ["fsm", "abstract-class", "state-lifecycle"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+      "type": "file",
+      "name": "Entry.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+      "summary": "旧框架核心入口类，管理 IComponent 组件的注册/初始化/帧更新/注销，按优先级排序调度。",
+      "tags": ["entry-point", "legacy", "component-container", "lifecycle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/Entry/Entry.cs:Entry",
+      "type": "class",
+      "name": "Entry",
+      "filePath": "Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+      "lineRange": [7, 54],
+      "summary": "旧框架组件容器入口，负责 IComponent 的注册/初始化/优先级排序/帧更新调度和注销管理。",
+      "tags": ["entry-point", "legacy", "component-container", "lifecycle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "type": "file",
+      "name": "FrameworkBase.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "summary": "框架唯一的 MonoBehaviour 入口点，DontDestroyOnLoad，负责初始化资源管理、驱动 SystemUpdaterManager 和 CPoolManager。",
+      "tags": ["entry-point", "monobehaviour", "bootstrap", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/FrameworkBase.cs:FrameworkBase",
+      "type": "class",
+      "name": "FrameworkBase",
+      "filePath": "Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "lineRange": [10, 67],
+      "summary": "框架唯一 MonoBehaviour，DontDestroyOnLoad，在 Awake 中初始化资源助手和系统仓库，Update/FixedUpdate/LateUpdate 驱动框架循环。",
+      "tags": ["entry-point", "monobehaviour", "bootstrap", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/IComponent.cs",
+      "type": "file",
+      "name": "IComponent.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/IComponent.cs",
+      "summary": "旧框架组件接口（已废弃），定义 Init/OnUnregister/ComponentUpdate/ComponentFixedUpdate/Shutdown 和 Priority。",
+      "tags": ["interface", "legacy", "type-definition", "deprecated"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/IComponent.cs:IComponent",
+      "type": "class",
+      "name": "IComponent",
+      "filePath": "Assets/Scripts/Yueyn/Main/IComponent.cs",
+      "lineRange": [3, 11],
+      "summary": "旧框架组件接口（已废弃），定义 Entry 托管组件的标准生命周期和优先级排序。",
+      "tags": ["interface", "legacy", "type-definition", "deprecated"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/IFrameUpdate.cs",
+      "type": "file",
+      "name": "IFrameUpdate.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/IFrameUpdate.cs",
+      "summary": "帧更新接口（新框架），ISystem 可选实现以在每帧 Update 中执行逻辑。",
+      "tags": ["interface", "frame-update", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/IFrameUpdate.cs:IFrameUpdate",
+      "type": "class",
+      "name": "IFrameUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Main/IFrameUpdate.cs",
+      "lineRange": [3, 7],
+      "summary": "帧更新接口，ISystem 可选实现以接收每帧的 FrameUpdate 调用和指定的更新作用域。",
+      "tags": ["interface", "frame-update", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs",
+      "type": "file",
+      "name": "ILateFrameUpdate.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs",
+      "summary": "延迟帧更新接口（新框架），ISystem 可选实现以在 LateUpdate 中执行逻辑。",
+      "tags": ["interface", "late-update", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs:ILateFrameUpdate",
+      "type": "class",
+      "name": "ILateFrameUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs",
+      "lineRange": [3, 7],
+      "summary": "延迟帧更新接口，ISystem 可选实现以接收 LateFrameUpdate 调用。",
+      "tags": ["interface", "late-update", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/ILogicUpdate.cs",
+      "type": "file",
+      "name": "ILogicUpdate.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/ILogicUpdate.cs",
+      "summary": "逻辑更新接口（新框架），ISystem 可选实现以在 FixedUpdate 中执行固定时间步长的逻辑。",
+      "tags": ["interface", "logic-update", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/ILogicUpdate.cs:ILogicUpdate",
+      "type": "class",
+      "name": "ILogicUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Main/ILogicUpdate.cs",
+      "lineRange": [3, 7],
+      "summary": "逻辑更新接口，ISystem 可选实现以在 FixedUpdate 中接收固定帧间隔的逻辑更新。",
+      "tags": ["interface", "logic-update", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "type": "file",
+      "name": "ISystem.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "summary": "新框架最小系统接口，定义 Init/UnInit 生命周期，所有业务系统必须实现此接口。",
+      "tags": ["interface", "system", "type-definition", "core"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/ISystem.cs:ISystem",
+      "type": "class",
+      "name": "ISystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "lineRange": [3, 7],
+      "summary": "新框架最小系统接口，作为 IoC 容器中所有业务系统的基类型，定义 Init 和 UnInit 生命周期。",
+      "tags": ["interface", "system", "type-definition", "core"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs",
+      "type": "file",
+      "name": "ITimeScaleSystem.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs",
+      "summary": "时间缩放系统接口，允许请求和释放时间缩放因子，返回有效缩放值。",
+      "tags": ["interface", "time-scale", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs:ITimeScaleSystem",
+      "type": "class",
+      "name": "ITimeScaleSystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs",
+      "lineRange": [7, 18],
+      "summary": "时间缩放系统接口，提供 Request/ReleaseRequest 方法和 EffectiveScale 属性用于多源时间缩放管理。",
+      "tags": ["interface", "time-scale", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "type": "file",
+      "name": "SystemRepository.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "summary": "新框架 IoC 容器，管理 ISystem 的注册/获取/注销，自动调用 Init/UnInit 并注册到 SystemUpdaterManager。",
+      "tags": ["ioc-container", "system-registry", "dependency-injection", "core"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/SystemRepository.cs:SystemRepository",
+      "type": "class",
+      "name": "SystemRepository",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "lineRange": [11, 91],
+      "summary": "IoC 容器单例，管理 ISystem 实例的注册/查询/注销，自动处理生命周期回调并注册到 SystemUpdaterManager。",
+      "tags": ["ioc-container", "system-registry", "dependency-injection", "core"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemRepository.cs:RegisterSystem",
+      "type": "function",
+      "name": "RegisterSystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "lineRange": [25, 45],
+      "summary": "注册一个 ISystem 实例到容器中，检查重复后调用 Init 并注册到 SystemUpdaterManager。",
+      "tags": ["ioc-container", "registration", "lifecycle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemRepository.cs:UnregisterSystem",
+      "type": "function",
+      "name": "UnregisterSystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "lineRange": [51, 67],
+      "summary": "从容器中注销指定类型的 ISystem，先从 SystemUpdaterManager 移除再调用 UnInit。",
+      "tags": ["ioc-container", "unregistration", "lifecycle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemRepository.cs:GetSystem",
+      "type": "function",
+      "name": "GetSystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "lineRange": [82, 90],
+      "summary": "根据接口类型获取已注册的 ISystem 实例，未找到时输出错误日志并返回 default。",
+      "tags": ["ioc-container", "service-locator", "retrieval"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs:IReference",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/IReference.cs:IReference",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "target": "function:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:GetInternalPool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs:ReferencePool",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs:ReferencePool",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.InternalPool.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:Variable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs:LiveDelegate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "target": "class:Assets/Scripts/Yueyn/Base/Variable/Variable.cs:Variable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "target": "file:Assets/Scripts/Yueyn/Base/Variable/Variable.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/CLAUDE.md",
+      "target": "file:Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/CLAUDE.md",
+      "target": "file:Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/CLAUDE.md",
+      "target": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/CEventRouter.cs:CEventRouter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/CEventRouter.cs:CEventRouter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/CEventRouter.cs",
+      "target": "file:Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/EventDispatcher.cs:EventDispatcher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "target": "function:Assets/Scripts/Yueyn/Event/EventDispatcher.cs:InvokeAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/EventDispatcher.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/EventDispatcher.cs:EventDispatcher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/EventManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/EventManager.cs:EventManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/EventManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/EventManager.cs:EventManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/GameEventArgs.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/GameEventArgs.cs:GameEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Event/GameEventArgs.cs",
+      "target": "class:Assets/Scripts/Yueyn/Event/GameEventArgs.cs:GameEventArgs",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Fsm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Start",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:ChangeState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:SetData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/Fsm.cs:GetState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/Fsm.cs:Fsm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "file:Assets/Scripts/Yueyn/Base/Variable/GenericVariable.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "file:Assets/Scripts/Yueyn/Base/ReferencePool/ReferencePool.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "target": "file:Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:FsmManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:CreateFsm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:ComponentUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/FsmManager.cs:FsmManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Fsm/Fsm.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/FsmState.cs:FsmState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/FsmState.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/FsmState.cs:FsmState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/IFsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/IFsm.cs:IFsm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/IFsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/IFsm.cs:IFsm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs:SimpleFsm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs:SimpleFsmState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs:SimpleFsm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs",
+      "target": "class:Assets/Scripts/Yueyn/Fsm/SimpleFsm.cs:SimpleFsmState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/Entry/Entry.cs:Entry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/Entry/Entry.cs:Entry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/Entry/Entry.cs",
+      "target": "file:Assets/Scripts/Yueyn/Main/IComponent.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/FrameworkBase.cs:FrameworkBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/FrameworkBase.cs:FrameworkBase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/FrameworkBase.cs",
+      "target": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/IComponent.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/IComponent.cs:IComponent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/IComponent.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/IComponent.cs:IComponent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/IFrameUpdate.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/IFrameUpdate.cs:IFrameUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/IFrameUpdate.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/IFrameUpdate.cs:IFrameUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs:ILateFrameUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ILateFrameUpdate.cs:ILateFrameUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ILogicUpdate.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ILogicUpdate.cs:ILogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ILogicUpdate.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ILogicUpdate.cs:ILogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ISystem.cs:ISystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ISystem.cs:ISystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs:ITimeScaleSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/ITimeScaleSystem.cs:ITimeScaleSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/SystemRepository.cs:SystemRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemRepository.cs:RegisterSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemRepository.cs:UnregisterSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemRepository.cs:GetSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/SystemRepository.cs:SystemRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemRepository.cs",
+      "target": "file:Assets/Scripts/Yueyn/Main/ISystem.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

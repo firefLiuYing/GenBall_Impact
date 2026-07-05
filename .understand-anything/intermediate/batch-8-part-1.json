@@ -1,0 +1,633 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/ISceneLoadSystem.cs",
+      "type": "file",
+      "name": "ISceneLoadSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/ISceneLoadSystem.cs",
+      "summary": "场景加载系统接口，定义场景异步加载的属性和方法，包括加载进度、加载状态和目标场景名称。",
+      "tags": ["interface", "scene-loading", "system-contract"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "type": "file",
+      "name": "LaunchStates.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "summary": "游戏启动流程的状态机状态定义，包含启动加载、开始表单和加载场景三个阶段的状态逻辑，负责启动流程中的场景配置加载与执行调度。",
+      "tags": ["state-machine", "game-launch", "fsm-state"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:LoadSceneState",
+      "type": "class",
+      "name": "LoadSceneState",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "lineRange": [39, 150],
+      "summary": "加载场景状态，负责启动流程中最复杂的阶段：从配置系统获取场景配置，初始化地图模型，订阅场景加载完成事件，并触发场景执行器。",
+      "tags": ["fsm-state", "scene-loading", "configuration"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:OnEnter",
+      "type": "function",
+      "name": "OnEnter",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "lineRange": [41, 83],
+      "summary": "LoadSceneState 的入口方法，获取 GameManager 和 SceneState 系统，加载场景配置并初始化地图模型，订阅加载完成事件后启动场景异步加载。",
+      "tags": ["state-entry", "initialization", "scene-setup"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:OnLoadingComplete",
+      "type": "function",
+      "name": "OnLoadingComplete",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "lineRange": [85, 104],
+      "summary": "场景加载完成回调，取消订阅事件，构建 SceneInitContext 上下文，并调用场景执行器执行场景初始化设置。",
+      "tags": ["event-handler", "scene-loading", "execution"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:ConvertToMapModel",
+      "type": "function",
+      "name": "ConvertToMapModel",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "lineRange": [110, 149],
+      "summary": "将场景配置数据转换为 MapModel 运行时对象，遍历存档点和敌人单位配置，创建对应的模型对象并添加到地图模型中。",
+      "tags": ["data-conversion", "model-mapping", "configuration"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "type": "file",
+      "name": "LaunchSystemDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "summary": "启动系统的默认实现，管理游戏启动状态机（SimpleFsm），在 FrameUpdate 中驱动状态更新，支持跳过启动加载和带上下文开始游戏。",
+      "tags": ["system-implementation", "game-launch", "fsm"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs:LaunchSystemDefault",
+      "type": "class",
+      "name": "LaunchSystemDefault",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "lineRange": [11, 96],
+      "summary": "ILaunchSystem 的默认实现，维护 SimpleFsm 状态机，通过配置获取运行模式和起始场景，在帧更新中驱动状态流转并触发全局事件。",
+      "tags": ["system-implementation", "fsm-driver", "game-launch"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "lineRange": [31, 49],
+      "summary": "初始化启动系统，获取配置系统和游戏管理器依赖，创建 SimpleFsm 状态机并注册三个启动状态后开始运行。",
+      "tags": ["initialization", "system-setup", "fsm"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs:FrameUpdate",
+      "type": "function",
+      "name": "FrameUpdate",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "lineRange": [56, 70],
+      "summary": "每帧更新状态机，在开发模式下自动跳过启动加载直接切换到开始表单状态，并触发相应的启动界面事件。",
+      "tags": ["frame-update", "fsm", "dev-mode"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "type": "file",
+      "name": "SceneExecutorSystemDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "summary": "场景执行器系统的默认实现，负责场景初始化后的全部运行时设置，包括生成篝火存档点、场景触发器、动态可放置物清理、测试敌人生成和敌人单位加载。",
+      "tags": ["system-implementation", "scene-execution", "spawning"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SceneExecutorSystemDefault",
+      "type": "class",
+      "name": "SceneExecutorSystemDefault",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [19, 279],
+      "summary": "ISceneExecutorSystem 的默认实现，协调场景初始化后的所有运行时生成工作，包括玩家创建、篝火/触发器/敌人生成，以及场景事件编排器注册。",
+      "tags": ["system-implementation", "scene-orchestration", "entity-spawning"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:ExecuteSceneSetup",
+      "type": "function",
+      "name": "ExecuteSceneSetup",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [43, 92],
+      "summary": "执行完整的场景初始化流程：加载敌人单位、触发场景加载完成事件、根据上下文创建玩家、生成触发器、注册编排器、生成篝火并清理动态可放置物。",
+      "tags": ["scene-setup", "orchestration", "initialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SpawnBonfires",
+      "type": "function",
+      "name": "SpawnBonfires",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [107, 157],
+      "summary": "在场景中生成篝火（存档点），遍历场景中的 SavePointConfig 组件，从资源管理器加载预制体，根据已解锁存档点配置设置篝火状态。",
+      "tags": ["spawning", "save-point", "resource-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SpawnTriggers",
+      "type": "function",
+      "name": "SpawnTriggers",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [164, 187],
+      "summary": "根据场景配置中的事件条目生成运行时事件触发器 GameObject，为每个事件创建 RuntimeEventTrigger 组件并初始化。",
+      "tags": ["spawning", "event-trigger", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:CleanupDynamicPlaceables",
+      "type": "function",
+      "name": "CleanupDynamicPlaceables",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [192, 211],
+      "summary": "清理场景中所有实现 IScenePlaceable 接口的动态可放置物，通过禁用其 GameObject 来重置场景状态。",
+      "tags": ["cleanup", "scene-management", "dynamic-objects"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SpawnTestEnemy",
+      "type": "function",
+      "name": "SpawnTestEnemy",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [217, 244],
+      "summary": "在开发模式下生成测试敌人，从资源管理器加载敌人预制体，实例化后配置 EnemyConfigSo 并通过 EnemyEntityFactory 完成实体装配。",
+      "tags": ["spawning", "test", "dev-mode", "enemy"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:LoadEnemyUnit",
+      "type": "function",
+      "name": "LoadEnemyUnit",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "lineRange": [252, 278],
+      "summary": "加载场景中配置的敌人单位，从场景状态系统获取未击杀敌人列表，通过预制体注册表加载资源并完成实体装配。",
+      "tags": ["entity-loading", "enemy", "resource-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "type": "file",
+      "name": "SceneLoadSystemDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "summary": "场景加载系统的默认实现，封装 Unity SceneManager 的异步加载 API，提供加载进度追踪、超时检测和加载完成事件通知。",
+      "tags": ["system-implementation", "scene-loading", "async"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs:SceneLoadSystemDefault",
+      "type": "class",
+      "name": "SceneLoadSystemDefault",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "lineRange": [9, 102],
+      "summary": "ISceneLoadSystem 的默认实现，管理 Unity 异步场景加载操作，在帧更新中追踪进度、检测加载完成并触发事件通知。",
+      "tags": ["system-implementation", "async-loading", "progress-tracking"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs:LoadScene",
+      "type": "function",
+      "name": "LoadScene",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "lineRange": [38, 72],
+      "summary": "启动场景异步加载，根据模式（新游戏/加载存档）选择场景名称，处理已在加载中的保护逻辑，调用 SceneManager.LoadSceneAsync。",
+      "tags": ["async-loading", "scene-management"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs:FrameUpdate",
+      "type": "function",
+      "name": "FrameUpdate",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "lineRange": [74, 101],
+      "summary": "每帧更新加载进度，检测加载超时，在加载完成时触发场景加载完成事件通知其他系统。",
+      "tags": ["frame-update", "progress-tracking", "event-notification"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "type": "file",
+      "name": "GameManager.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "summary": "游戏管理器，实现 IGameManagerSystem 接口，负责存档数据提供者注册、游戏存档的保存/加载/更新，以及存档字段的合并管理。",
+      "tags": ["game-management", "save-system", "data-provider"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:GameManager",
+      "type": "class",
+      "name": "GameManager",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "lineRange": [10, 149],
+      "summary": "IGameManagerSystem 的实现类，维护 ISaveDataProvider 字典，协调游戏数据的收集、存储与恢复，通过 ISaveService 进行持久化操作。",
+      "tags": ["game-management", "save-coordination", "data-provider-registry"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:SaveGame",
+      "type": "function",
+      "name": "SaveGame",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "lineRange": [44, 68],
+      "summary": "执行游戏存档：创建新 GameData，遍历所有注册的 ISaveDataProvider 收集存档数据，通过 ISaveService 将数据写入持久化存储。",
+      "tags": ["save", "data-collection", "persistence"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:UpdateSaveFields",
+      "type": "function",
+      "name": "UpdateSaveFields",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "lineRange": [70, 118],
+      "summary": "更新指定提供者的存档字段：从存档服务加载现有数据，应用或合并字段值，然后重新写入持久化存储，用于增量存档更新。",
+      "tags": ["save", "field-update", "incremental"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:LoadGameData",
+      "type": "function",
+      "name": "LoadGameData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "lineRange": [120, 148],
+      "summary": "加载指定存档槽的游戏数据：从 ISaveService 加载 GameData，遍历所有提供者调用 ApplySaveData 将持久化数据恢复到运行时状态。",
+      "tags": ["load", "data-restoration", "persistence"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/GameProcedure.cs",
+      "type": "file",
+      "name": "GameProcedure.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameProcedure.cs",
+      "summary": "游戏流程空文件，仅包含命名空间声明，可能作为目录占位或预留扩展。",
+      "tags": ["placeholder", "namespace"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "type": "file",
+      "name": "GameStartSystemDefault.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "summary": "游戏开始系统的默认实现，处理新游戏、继续游戏和加载存档三种启动模式，构建 GameStartContext 并委托给启动系统执行。",
+      "tags": ["system-implementation", "game-start", "save-system"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:GameStartSystemDefault",
+      "type": "class",
+      "name": "GameStartSystemDefault",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "lineRange": [12, 157],
+      "summary": "IGameStartSystem 的默认实现，根据 GameStartRequest 的类型分发到新游戏/继续/加载流程，负责构建启动上下文并设置提供者默认值。",
+      "tags": ["system-implementation", "game-start", "save-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareStartAsync",
+      "type": "function",
+      "name": "PrepareStartAsync",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "lineRange": [31, 44],
+      "summary": "异步准备启动的入口方法，根据请求类型（NewGame/Continue/LoadGame）分发到对应的准备方法。",
+      "tags": ["entry-point", "dispatch", "game-start"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareNewGame",
+      "type": "function",
+      "name": "PrepareNewGame",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "lineRange": [46, 66],
+      "summary": "准备新游戏：设置提供者默认值，创建空 GameData，构建 IsNewGame=true 的启动上下文并委托给 LaunchSystem。",
+      "tags": ["new-game", "context-building", "initialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareContinueGame",
+      "type": "function",
+      "name": "PrepareContinueGame",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "lineRange": [68, 93],
+      "summary": "准备继续游戏：获取所有存档槽数据，按最后更新时间降序排列，选择最近存档加载并构建启动上下文。若无存档则降级为新游戏。",
+      "tags": ["continue-game", "save-loading", "fallback"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareLoadGame",
+      "type": "function",
+      "name": "PrepareLoadGame",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "lineRange": [95, 112],
+      "summary": "准备加载指定存档：调用 LoadSaveAndBuildContext 加载指定索引的存档数据并构建启动上下文，失败时降级为新游戏。",
+      "tags": ["load-game", "save-loading", "fallback"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:LoadSaveAndBuildContext",
+      "type": "function",
+      "name": "LoadSaveAndBuildContext",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "lineRange": [114, 140],
+      "summary": "加载存档并构建启动上下文：通过 GameManager 加载存档数据，从 PlayerSaveDataProvider 获取上次存档点信息，构建包含目标场景和存档点的 GameStartContext。",
+      "tags": ["save-loading", "context-building", "save-data"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/IGameManagerSystem.cs",
+      "type": "file",
+      "name": "IGameManagerSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/IGameManagerSystem.cs",
+      "summary": "游戏管理器接口，定义存档数据提供者注册、游戏数据存取和运行模式管理的契约方法。",
+      "tags": ["interface", "game-management", "system-contract"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/IGameStartSystem.cs",
+      "type": "file",
+      "name": "IGameStartSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/IGameStartSystem.cs",
+      "summary": "游戏开始系统接口及相关数据模型，定义 GameStartRequest（启动请求）、GameStartContext（启动上下文）和 IGameStartSystem 的异步准备方法。",
+      "tags": ["interface", "game-start", "data-model"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/IPauseSystem.cs",
+      "type": "file",
+      "name": "IPauseSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/IPauseSystem.cs",
+      "summary": "暂停系统接口，定义逻辑暂停/物理暂停状态的查询和栈式暂停控制的 Push/Pop 方法。",
+      "tags": ["interface", "pause", "system-contract"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs",
+      "type": "file",
+      "name": "PauseManager.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs",
+      "summary": "暂停管理器的默认实现，使用栈结构支持多层暂停嵌套，在暂停状态变化时通过 SystemUpdaterManager 控制更新并触发全局暂停事件。",
+      "tags": ["system-implementation", "pause", "stack-based"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs:PauseManager",
+      "type": "class",
+      "name": "PauseManager",
+      "filePath": "Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs",
+      "lineRange": [8, 46],
+      "summary": "IPauseSystem 的实现类，使用 Stack 管理多层暂停请求，Push/Pop 时通过 SystemUpdaterManager.Instance.SetPause 控制逻辑/物理更新，并通过 CEventRouter 广播暂停状态变化。",
+      "tags": ["pause-management", "stack", "event-notification"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/Procedure/GameData.cs",
+      "type": "file",
+      "name": "GameData.cs",
+      "filePath": "Assets/Scripts/GenBall/Procedure/GameData.cs",
+      "summary": "游戏数据容器，支持以键值对形式存储任意类型的存档数据块，提供序列化支持（JsonUtility），包含创建时间、更新时间和总游戏时长等元数据。",
+      "tags": ["data-model", "save-data", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/Procedure/GameData.cs:GameData",
+      "type": "class",
+      "name": "GameData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/GameData.cs",
+      "lineRange": [8, 84],
+      "summary": "可序列化的游戏数据容器类，内部使用 DataBlock 列表存储键值对，提供 GetData/SetData/HasData 方法，记录创建时间和最后更新时间等时间戳。",
+      "tags": ["data-model", "key-value-store", "serialization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/Procedure/GameData.cs:SetData",
+      "type": "function",
+      "name": "SetData",
+      "filePath": "Assets/Scripts/GenBall/Procedure/GameData.cs",
+      "lineRange": [50, 61],
+      "summary": "设置键值数据，若键已存在则更新值，否则添加新的 DataBlock 条目，并在每次写入时自动更新 LastUpdateTime 时间戳。",
+      "tags": ["data-mutation", "key-value", "timestamp"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:LoadSceneState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:OnEnter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:OnLoadingComplete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchStates.cs:ConvertToMapModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs:LaunchSystemDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/LaunchSystemDefault.cs:FrameUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SceneExecutorSystemDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:ExecuteSceneSetup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SpawnBonfires",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SpawnTriggers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:CleanupDynamicPlaceables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:SpawnTestEnemy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneExecutorSystemDefault.cs:LoadEnemyUnit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs:SceneLoadSystemDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs:LoadScene",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Execute/SceneLoadSystemDefault.cs:FrameUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:GameManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:SaveGame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:UpdateSaveFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameManager.cs:LoadGameData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:GameStartSystemDefault",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareStartAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareNewGame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareContinueGame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:PrepareLoadGame",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/Game/GameStartSystemDefault.cs:LoadSaveAndBuildContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/Game/PauseManager.cs:PauseManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/GameData.cs",
+      "target": "class:Assets/Scripts/GenBall/Procedure/GameData.cs:GameData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/Procedure/GameData.cs",
+      "target": "function:Assets/Scripts/GenBall/Procedure/GameData.cs:SetData",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ]
+}

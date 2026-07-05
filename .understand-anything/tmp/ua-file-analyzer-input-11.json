@@ -1,0 +1,41 @@
+{
+  "projectRoot": "D:/Apps/Unity/Unity Project/GenBall_Impact",
+  "batchFiles": [
+    {"path": "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs", "language": "csharp", "sizeLines": 227, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs", "language": "csharp", "sizeLines": 106, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/PartViewBase.cs", "language": "csharp", "sizeLines": 44, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs", "language": "csharp", "sizeLines": 47, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/UIComponent.cs", "language": "csharp", "sizeLines": 169, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/UIFormScript.cs", "language": "csharp", "sizeLines": 482, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/UIFormType.cs", "language": "csharp", "sizeLines": 30, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/UI/UIManager.cs", "language": "csharp", "sizeLines": 464, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs", "language": "csharp", "sizeLines": 17, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/ListExpense.cs", "language": "csharp", "sizeLines": 9, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs", "language": "csharp", "sizeLines": 43, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs", "language": "csharp", "sizeLines": 93, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/QueueExpense.cs", "language": "csharp", "sizeLines": 10, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs", "language": "csharp", "sizeLines": 173, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/Singleton.cs", "language": "csharp", "sizeLines": 32, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/StringExpense.cs", "language": "csharp", "sizeLines": 8, "fileCategory": "code"},
+    {"path": "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs", "language": "csharp", "sizeLines": 37, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "Assets/Scripts/Yueyn/UI/BusinessPartLogic.cs": [],
+    "Assets/Scripts/Yueyn/UI/BusinessPartLogicContainer.cs": [],
+    "Assets/Scripts/Yueyn/UI/PartViewBase.cs": [],
+    "Assets/Scripts/Yueyn/UI/UIBusinessFormBase.cs": [],
+    "Assets/Scripts/Yueyn/UI/UIComponent.cs": [],
+    "Assets/Scripts/Yueyn/UI/UIFormScript.cs": [],
+    "Assets/Scripts/Yueyn/UI/UIFormType.cs": [],
+    "Assets/Scripts/Yueyn/UI/UIManager.cs": [],
+    "Assets/Scripts/Yueyn/Utils/CoroutineRunner.cs": [],
+    "Assets/Scripts/Yueyn/Utils/ListExpense.cs": [],
+    "Assets/Scripts/Yueyn/Utils/MonoSingleton.cs": [],
+    "Assets/Scripts/Yueyn/Utils/MultiDictionary.cs": [],
+    "Assets/Scripts/Yueyn/Utils/QueueExpense.cs": [],
+    "Assets/Scripts/Yueyn/Utils/SafeIterableCollection.cs": [],
+    "Assets/Scripts/Yueyn/Utils/Singleton.cs": [],
+    "Assets/Scripts/Yueyn/Utils/StringExpense.cs": [],
+    "Assets/Scripts/Yueyn/Utils/TypeNamePair.cs": []
+  }
+}

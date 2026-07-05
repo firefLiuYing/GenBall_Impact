@@ -1,0 +1,497 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/SystemScope.cs",
+      "type": "file",
+      "name": "SystemScope.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemScope.cs",
+      "summary": "定义系统更新范围枚举，区分 Game（游戏业务系统）和 Framework（框架基建系统），用于 SystemUpdater 决定将系统放入哪个更新队列。",
+      "tags": ["enum-definition", "framework", "system-lifecycle"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "type": "file",
+      "name": "SystemUpdater.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "summary": "核心系统更新调度器，维护 Framework 和 Game 两组队列（Logic/Frame/LateFrame），负责系统的注册、注销和批量驱动更新。",
+      "tags": ["framework", "update-loop", "scheduler", "system-lifecycle"],
+      "complexity": "moderate",
+      "languageNotes": "使用 SafeIterableList 确保遍历时安全增删；区分 Game 与 Framework 两组队列支持独立暂停控制。"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "type": "file",
+      "name": "SystemUpdaterManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "summary": "系统更新管理器，持有两个 SystemUpdater 实例分别管理 Game 和 Framework 系统，根据 ISystem 的 SystemScope 自动路由注册，支持暂停和恢复。",
+      "tags": ["framework", "update-loop", "scheduler", "pause-control"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs",
+      "type": "file",
+      "name": "IObjectPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs",
+      "summary": "对象池接口定义，规范了 Spawn/Despawn/Register/Release 等核心操作，支持单次生成和多次生成两种模式。",
+      "tags": ["interface", "object-pool", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs",
+      "type": "file",
+      "name": "ObjectBase.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs",
+      "summary": "对象池中托管对象的基类，封装了 Target、Locked、Priority、LastUsedTime 等状态，提供 OnSpawn/OnDespawn 生命周期钩子。",
+      "tags": ["object-pool", "base-class", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs",
+      "type": "file",
+      "name": "ObjectPoolBase.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs",
+      "summary": "对象池抽象基类，提供 Name/Priority/ObjectType/Count 等属性和 Release/Update/Shutdown 方法的契约定义，由具体对象池实现。",
+      "tags": ["object-pool", "abstract-class", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "type": "file",
+      "name": "ObjectPoolManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "summary": "老旧对象池管理器（IComponent 架构），提供数十个 CreateSingleSpawn/CreateMultiSpawn 重载方法，通过字典维护所有对象池实例的生命周期。",
+      "tags": ["object-pool", "manager", "deprecated-component", "framework"],
+      "complexity": "complex",
+      "languageNotes": "大量重载方法用于提供灵活的对象池创建参数组合；使用 TypeNamePair 作为池的唯一标识；已逐步被 CPoolManager 替代。"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs",
+      "type": "file",
+      "name": "ObjectPoolManager.Object.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs",
+      "summary": "ObjectPoolManager 的 partial 扩展，定义内部 Object<T> 类型，封装单个池对象的状态和生命周期，通过 ReferencePool 管理对象复用。",
+      "tags": ["object-pool", "partial-class", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs",
+      "type": "file",
+      "name": "ObjectPoolManager.ObjectPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs",
+      "summary": "ObjectPoolManager 的 partial 扩展，定义 ObjectPool<T> 泛型类型，实现 IObjectPool<T> 接口，管理同一类型对象的注册、生成、回收和过期释放策略。",
+      "tags": ["object-pool", "partial-class", "generic", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/ObjectPool/ReleaseObjectFilterCallback.cs",
+      "type": "file",
+      "name": "ReleaseObjectFilterCallback.cs",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ReleaseObjectFilterCallback.cs",
+      "summary": "定义对象池释放过滤回调委托类型，用于在自动释放时筛选候选对象。",
+      "tags": ["delegate", "object-pool", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "type": "file",
+      "name": "CPoolManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "summary": "新一代对象池管理器（Singleton 模式），提供数十个 CreateSingleSpawn/CreateMultiSpawn 重载方法，集中管理 GameObject 对象池的生命周期。",
+      "tags": ["object-pool", "singleton", "manager", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs",
+      "type": "file",
+      "name": "CPoolManager.Object.cs",
+      "filePath": "Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs",
+      "summary": "CPoolManager 的 partial 扩展，定义内部 Object<T> 类型，封装单个池对象的状态和生命周期。",
+      "tags": ["object-pool", "partial-class", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs",
+      "type": "file",
+      "name": "CPoolManager.ObjectPool.cs",
+      "filePath": "Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs",
+      "summary": "CPoolManager 的 partial 扩展，定义 ObjectPool<T> 泛型类型，实现完整的对象池逻辑，包括对象注册、生成、回收、自动过期释放和引用过滤回调。",
+      "tags": ["object-pool", "partial-class", "generic", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:SystemUpdater",
+      "type": "class",
+      "name": "SystemUpdater",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "lineRange": [10, 143],
+      "summary": "系统更新调度器，维护 Framework 和 Game 两组三级队列（Logic/Frame/LateFrame），提供注册/注销和批量更新驱动，使用 SafeIterableList 保障遍历安全。",
+      "tags": ["scheduler", "update-loop", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:SystemUpdaterManager",
+      "type": "class",
+      "name": "SystemUpdaterManager",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "lineRange": [8, 114],
+      "summary": "系统更新管理器，持有两个 SystemUpdater 实例，根据系统 Scope 自动路由注册到对应队列，支持暂停和恢复控制。",
+      "tags": ["scheduler", "update-loop", "pause-control", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs:IObjectPool",
+      "type": "class",
+      "name": "IObjectPool<T>",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs",
+      "lineRange": [6, 36],
+      "summary": "泛型对象池接口，定义 Spawn/Despawn/Register/Release 等核心操作，支持配置容量、过期时间、优先级和自动释放间隔。",
+      "tags": ["interface", "object-pool", "generic", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs:ObjectBase",
+      "type": "class",
+      "name": "ObjectBase",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs",
+      "lineRange": [6, 62],
+      "summary": "对象池托管对象的基类，封装 Target/Locked/Priority/LastUsedTime 状态，提供 Initialize/Clear/OnSpawn/OnDespawn/Release 生命周期方法。",
+      "tags": ["object-pool", "base-class", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs:ObjectPoolBase",
+      "type": "class",
+      "name": "ObjectPoolBase",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs",
+      "lineRange": [6, 27],
+      "summary": "对象池抽象基类，定义 Name/Priority/ObjectType/Count 等核心属性和 Release/Update/Shutdown 方法的抽象契约。",
+      "tags": ["object-pool", "abstract-class", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs:ObjectPoolManager",
+      "type": "class",
+      "name": "ObjectPoolManager",
+      "filePath": "Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "lineRange": [10, 313],
+      "summary": "老旧对象池管理器（IComponent），通过字典维护所有 ObjectPool<T> 实例，提供丰富的 CreateSingleSpawn/CreateMultiSpawn 重载和生命周期管理。",
+      "tags": ["object-pool", "manager", "deprecated", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Pool/CPoolManager.cs:CPoolManager",
+      "type": "class",
+      "name": "CPoolManager",
+      "filePath": "Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "lineRange": [14, 312],
+      "summary": "新一代对象池管理器（Singleton），提供与 ObjectPoolManager 相同的 API 风格但采用 Singleton 模式，是 GameObject 对象池的主要入口。",
+      "tags": ["object-pool", "singleton", "manager", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoLogicUpdate",
+      "type": "function",
+      "name": "DoLogicUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "lineRange": [78, 98],
+      "summary": "按顺序驱动 Framework 和 Game 的 ILogicUpdate 系统更新，先 Framework 后 Game，使用 SafeIterableList 快照遍历避免集合修改异常。",
+      "tags": ["update-loop", "logic-update", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoFrameUpdate",
+      "type": "function",
+      "name": "DoFrameUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "lineRange": [100, 120],
+      "summary": "按顺序驱动 Framework 和 Game 的 IFrameUpdate 系统更新，用于每帧渲染前更新逻辑。",
+      "tags": ["update-loop", "frame-update", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoLateFrameUpdate",
+      "type": "function",
+      "name": "DoLateFrameUpdate",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "lineRange": [122, 142],
+      "summary": "按顺序驱动 Framework 和 Game 的 ILateFrameUpdate 系统更新，在帧末尾执行，适合摄像机跟随等后处理逻辑。",
+      "tags": ["update-loop", "late-frame-update", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:RegisterSystem",
+      "type": "function",
+      "name": "RegisterSystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "lineRange": [24, 43],
+      "summary": "注册系统到更新调度器，根据 ISystem 的 SystemScope 自动选择 Framework 或 Game 队列，按系统实现的更新接口分别注册。",
+      "tags": ["registration", "system-lifecycle", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:UnregisterSystem",
+      "type": "function",
+      "name": "UnregisterSystem",
+      "filePath": "Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "lineRange": [48, 67],
+      "summary": "注销系统，从对应的 Framework 或 Game 更新队列中移除所有更新接口注册。",
+      "tags": ["registration", "system-lifecycle", "framework"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemScope.cs",
+      "target": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:SystemUpdater",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:SystemUpdater",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoLogicUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:SystemUpdater",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoFrameUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:SystemUpdater",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoLateFrameUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoLogicUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoFrameUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:DoLateFrameUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:SystemUpdaterManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:SystemUpdaterManager",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:RegisterSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:SystemUpdaterManager",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:UnregisterSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:RegisterSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "target": "function:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:UnregisterSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs:SystemUpdaterManager",
+      "target": "class:Assets/Scripts/Yueyn/Main/SystemUpdater.cs:SystemUpdater",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Main/SystemUpdater.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Main/SystemUpdaterManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Main/SystemScope.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs:IObjectPool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectBase.cs:ObjectBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs:ObjectPoolBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs:ObjectPoolManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs:ObjectPoolManager",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolBase.cs:ObjectPoolBase",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs:ObjectPoolManager",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs:IObjectPool",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.Object.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs:ObjectPoolManager",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs:ObjectPoolManager",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.ObjectPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs:IObjectPool",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/ObjectPool/ReleaseObjectFilterCallback.cs",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs:IObjectPool",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Pool/CPoolManager.cs:CPoolManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.Object.cs",
+      "target": "class:Assets/Scripts/Yueyn/Pool/CPoolManager.cs:CPoolManager",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.ObjectPool.cs",
+      "target": "class:Assets/Scripts/Yueyn/Pool/CPoolManager.cs:CPoolManager",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Pool/CPoolManager.cs:CPoolManager",
+      "target": "class:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs:IObjectPool",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/ObjectPool/ObjectPoolManager.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Pool/CPoolManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/ObjectPool/IObjectPool.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

@@ -1,0 +1,773 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "type": "file",
+      "name": "AssetBundleLoader.cs",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "summary": "AssetBundle 底层加载器，负责 AssetBundle 的同步/异步加载、依赖解析、引用计数和卸载管理，通过 AssetBundleManifest 维护依赖关系图。",
+      "tags": ["resource", "asset-bundle", "loader", "dependency-management"],
+      "complexity": "complex",
+      "languageNotes": "使用引用计数管理 AssetBundle 生命周期；支持递归依赖加载；提供同步和异步两种加载路径。"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "type": "file",
+      "name": "CResourceManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "summary": "统一资源管理器（Singleton），通过 IResourceHelper 接口委托实际加载逻辑，支持在 Editor 和 AssetBundle 实现之间切换。",
+      "tags": ["resource", "singleton", "strategy-pattern", "framework"],
+      "complexity": "moderate",
+      "languageNotes": "策略模式：通过 SetHelper 切换运行时实现；编译宏选择初始化 Editor 或 AssetBundle Helper。"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs",
+      "type": "file",
+      "name": "IResourceHelper.cs",
+      "filePath": "Assets/Scripts/Yueyn/Resource/IResourceHelper.cs",
+      "summary": "资源加载抽象接口，定义 Load/LoadSync/Unload 方法，由 Editor 和 AssetBundle 两种 Helper 实现。",
+      "tags": ["interface", "resource", "strategy-pattern", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "type": "file",
+      "name": "ResourceHelperAssetBundle.cs",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "summary": "IResourceHelper 的 AssetBundle 实现，封装 AssetBundleLoader，提供协程异步加载、路径到 Bundle 的映射推断和平台适配。",
+      "tags": ["resource", "asset-bundle", "coroutine", "platform-adaptation"],
+      "complexity": "complex",
+      "languageNotes": "通过协程实现异步加载流程；InferBundleNameFromPath 根据路径前缀推断所属 Bundle；GetPlatformName 提供多平台支持。"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "type": "file",
+      "name": "ResourceHelperEditor.cs",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "summary": "IResourceHelper 的 Editor 模式实现，直接使用 AssetDatabase.LoadAssetAtPath 加载资源，跳过 AssetBundle 构建流程以加速开发迭代。",
+      "tags": ["resource", "editor", "development-tool", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Resource/ResourceManager.cs",
+      "type": "file",
+      "name": "ResourceManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceManager.cs",
+      "summary": "老旧资源管理器（IComponent 架构），提供 LoadPrefab 等基本加载方法，已逐步被 CResourceManager 替代。",
+      "tags": ["resource", "deprecated-component", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "type": "file",
+      "name": "Timer.cs",
+      "filePath": "Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "summary": "定时器系统，支持按事件名订阅倒计时回调，提供 Pause/Resume/Reset/Trigger 操作，通过 ReferencePool 管理 Timer.Event 对象复用。",
+      "tags": ["timer", "event-driven", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Timer/Timer.Event.cs",
+      "type": "file",
+      "name": "Timer.Event.cs",
+      "filePath": "Assets/Scripts/Yueyn/Timer/Timer.Event.cs",
+      "summary": "Timer 的 partial 扩展，定义内部 Event 类型，实现 IReference，封装单个定时事件的倒计时逻辑、回调触发和重复计数。",
+      "tags": ["timer", "partial-class", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/Timer/TimerManager.cs",
+      "type": "file",
+      "name": "TimerManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/Timer/TimerManager.cs",
+      "summary": "Timer 的管理器（IComponent 架构），负责在 ComponentUpdate 中驱动 Timer 的 Update，按游戏时间推进所有活跃定时器。",
+      "tags": ["timer", "manager", "deprecated-component", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "type": "file",
+      "name": "BusinessFormLogic.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "summary": "UI Form 业务逻辑基类，继承 BusinessLogicBase，负责管理 Form 的生命周期——通过 UIManager 打开/关闭 Form，绑定和解绑 UIFormScript，支持子 PartLogic 发现。",
+      "tags": ["ui", "mvp", "form-lifecycle", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+      "type": "file",
+      "name": "BusinessLogicBase.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+      "summary": "业务逻辑最底层基类，提供 LogicId 标识和 OnCreate/OnDestroy 生命周期管理，通过 SetLogicId 分配唯一 ID，支持创建/销毁防重入保护。",
+      "tags": ["ui", "base-class", "lifecycle", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "type": "file",
+      "name": "BusinessLogicManager.cs",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "summary": "业务逻辑管理器（Singleton），通过 SafeIterableDict 维护所有 BusinessLogicBase 实例，提供 CreateLogic/DestroyLogic/GetLogic/HasLogic 统一管理。",
+      "tags": ["ui", "singleton", "manager", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "type": "class",
+      "name": "AssetBundleLoader",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [12, 306],
+      "summary": "AssetBundle 底层加载器，通过 AssetBundleManifest 管理依赖关系图，支持同步/异步加载、引用计数和批量卸载。",
+      "tags": ["resource", "asset-bundle", "loader", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:CResourceManager",
+      "type": "class",
+      "name": "CResourceManager",
+      "filePath": "Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "lineRange": [11, 82],
+      "summary": "统一资源管理器（Singleton），通过 IResourceHelper 策略接口委托实际加载，支持 Load/LoadSync/Unload 操作。",
+      "tags": ["resource", "singleton", "strategy-pattern", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs:IResourceHelper",
+      "type": "class",
+      "name": "IResourceHelper",
+      "filePath": "Assets/Scripts/Yueyn/Resource/IResourceHelper.cs",
+      "lineRange": [8, 29],
+      "summary": "资源加载策略接口，定义 Load/LoadSync/Unload 方法签名，支持 Editor 和 AssetBundle 两种运行时实现。",
+      "tags": ["interface", "resource", "strategy-pattern", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "type": "class",
+      "name": "ResourceHelperAssetBundle",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "lineRange": [14, 257],
+      "summary": "IResourceHelper 的 AssetBundle 实现，封装 AssetBundleLoader，提供协程异步加载、路径解析和平台适配。",
+      "tags": ["resource", "asset-bundle", "coroutine", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:ResourceHelperEditor",
+      "type": "class",
+      "name": "ResourceHelperEditor",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "lineRange": [14, 77],
+      "summary": "IResourceHelper 的 Editor 实现，直接使用 AssetDatabase API 加载资源，跳过 AssetBundle 构建流程以加速开发。",
+      "tags": ["resource", "editor", "development-tool", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Resource/ResourceManager.cs:ResourceManager",
+      "type": "class",
+      "name": "ResourceManager",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceManager.cs",
+      "lineRange": [8, 45],
+      "summary": "老旧资源管理器（IComponent），提供 LoadPrefab 方法和标准 IComponent 生命周期，已逐步被 CResourceManager 替代。",
+      "tags": ["resource", "deprecated-component", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/Timer/Timer.cs:Timer",
+      "type": "class",
+      "name": "Timer",
+      "filePath": "Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "lineRange": [9, 87],
+      "summary": "定时器系统，维护 ActiveEvents 和 PausedEvents 字典，支持按名称订阅倒计时、暂停/恢复/重置/手动触发，通过 ReferencePool 管理 Event 对象复用。",
+      "tags": ["timer", "event-driven", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:BusinessFormLogic",
+      "type": "class",
+      "name": "BusinessFormLogic",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "lineRange": [12, 116],
+      "summary": "UI Form 业务逻辑基类，管理 Form 完整生命周期——打开/关闭 Form、绑定 UIFormScript、发现子 PartLogic，子类需覆写 OnFormCreated/OnFormDestroying 等钩子。",
+      "tags": ["ui", "mvp", "form-lifecycle", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs:BusinessLogicBase",
+      "type": "class",
+      "name": "BusinessLogicBase",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+      "lineRange": [10, 61],
+      "summary": "业务逻辑最底层基类，提供 LogicId 标识和 OnCreate/OnDestroy 生命周期钩子，内置创建/销毁状态保护防止重复调用。",
+      "tags": ["ui", "base-class", "lifecycle", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:BusinessLogicManager",
+      "type": "class",
+      "name": "BusinessLogicManager",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "lineRange": [14, 81],
+      "summary": "业务逻辑管理器（Singleton），维护所有 BusinessLogicBase 实例的生命周期，提供泛型 CreateLogic/DestroyLogic/GetLogic/HasLogic CRUD 操作。",
+      "tags": ["ui", "singleton", "manager", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:Initialize",
+      "type": "function",
+      "name": "Initialize",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [32, 66],
+      "summary": "初始化 AssetBundle 加载器，加载 Manifest Bundle 并解析 AssetBundleManifest 以建立依赖关系图。",
+      "tags": ["resource", "initialization", "asset-bundle"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadBundle",
+      "type": "function",
+      "name": "LoadBundle",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [71, 117],
+      "summary": "同步加载 AssetBundle，自动解析和加载所有依赖 Bundle，使用引用计数管理生命周期。",
+      "tags": ["resource", "asset-bundle", "sync-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadBundleAsync",
+      "type": "function",
+      "name": "LoadBundleAsync",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [122, 176],
+      "summary": "异步加载 AssetBundle，递归加载依赖后通过回调通知完成，支持加载完成回调和错误处理。",
+      "tags": ["resource", "asset-bundle", "async-loading"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:UnloadBundle",
+      "type": "function",
+      "name": "UnloadBundle",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [181, 211],
+      "summary": "卸载 AssetBundle，减少引用计数，仅在引用计数归零时真正卸载并递归卸载不再被引用的依赖。",
+      "tags": ["resource", "asset-bundle", "unloading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadAsset",
+      "type": "function",
+      "name": "LoadAsset",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [216, 242],
+      "summary": "从已加载的 AssetBundle 中同步加载指定类型的资源，包含错误检查和非目标类型警告。",
+      "tags": ["resource", "asset-bundle", "sync-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadAssetAsync",
+      "type": "function",
+      "name": "LoadAssetAsync",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [247, 268],
+      "summary": "从已加载的 AssetBundle 中异步加载指定类型的资源，通过回调返回结果。",
+      "tags": ["resource", "asset-bundle", "async-loading"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:UnloadAll",
+      "type": "function",
+      "name": "UnloadAll",
+      "filePath": "Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "lineRange": [293, 305],
+      "summary": "卸载所有已加载的 AssetBundle，清空所有缓存字典和引用计数。",
+      "tags": ["resource", "asset-bundle", "cleanup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "lineRange": [26, 52],
+      "summary": "初始化 AssetBundle Helper，创建 AssetBundleLoader 并根据平台获取 Bundle 根路径，同时初始化资源到 Bundle 的映射字典。",
+      "tags": ["resource", "initialization", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:LoadSync",
+      "type": "function",
+      "name": "LoadSync",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "lineRange": [76, 107],
+      "summary": "同步加载资源：解析路径获取 Bundle 名和资源名，先加载 Bundle 再从 Bundle 中加载指定资源。",
+      "tags": ["resource", "sync-loading", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:LoadAssetCoroutine",
+      "type": "function",
+      "name": "LoadAssetCoroutine",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "lineRange": [119, 166],
+      "summary": "协程异步加载资源：支持进度回调，先异步加载 Bundle 再异步加载资源，完成后回调 onLoadSuccess。",
+      "tags": ["resource", "coroutine", "async-loading", "framework"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResolveAssetPath",
+      "type": "function",
+      "name": "ResolveAssetPath",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "lineRange": [171, 197],
+      "summary": "解析资源路径，先从映射字典查找，未命中时通过 InferBundleNameFromPath 推断所属 Bundle 并加入缓存。",
+      "tags": ["resource", "path-resolution", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:InferBundleNameFromPath",
+      "type": "function",
+      "name": "InferBundleNameFromPath",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "lineRange": [202, 231],
+      "summary": "根据资源路径前缀（如 Assets/AssetBundles/xxx）推断所属 AssetBundle 名称，支持多级路径匹配。",
+      "tags": ["resource", "path-resolution", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:Load",
+      "type": "function",
+      "name": "Load",
+      "filePath": "Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "lineRange": [32, 41],
+      "summary": "异步加载资源（无进度回调版本），委托给 IResourceHelper 实现，失败时调用 onLoadFailed。",
+      "tags": ["resource", "async-loading", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:LoadSync",
+      "type": "function",
+      "name": "LoadSync",
+      "filePath": "Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "lineRange": [60, 68],
+      "summary": "同步加载泛型资源，委托给 IResourceHelper.LoadSync，失败时打印错误日志。",
+      "tags": ["resource", "sync-loading", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:Load",
+      "type": "function",
+      "name": "Load",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "lineRange": [16, 41],
+      "summary": "Editor 模式下模拟异步加载：使用 AssetDatabase.LoadAssetAtPath 同步加载，通过回调通知结果，支持 GameObject 和非 GameObject 类型。",
+      "tags": ["resource", "editor", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:LoadSync",
+      "type": "function",
+      "name": "LoadSync",
+      "filePath": "Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "lineRange": [50, 71],
+      "summary": "Editor 模式同步加载，使用 AssetDatabase.LoadAssetAtPath 带缓存的泛型加载，包含非目标类型警告。",
+      "tags": ["resource", "editor", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Timer/Timer.cs:Subscribe",
+      "type": "function",
+      "name": "Subscribe",
+      "filePath": "Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "lineRange": [29, 38],
+      "summary": "订阅定时器事件，指定倒计时时间和重复次数，从 ReferencePool 获取 Event 对象并加入 ActiveEvents。",
+      "tags": ["timer", "subscription", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/Timer/Timer.cs:Update",
+      "type": "function",
+      "name": "Update",
+      "filePath": "Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "lineRange": [15, 27],
+      "summary": "驱动所有活跃定时器事件，更新倒计时并按条件触发回调，完成后自动从 ActiveEvents 移除并回收到 ReferencePool。",
+      "tags": ["timer", "update-loop", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:OnCreateInternal",
+      "type": "function",
+      "name": "OnCreateInternal",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "lineRange": [36, 48],
+      "summary": "Form 创建时内部逻辑：先调用基类方法，通过 UIManager 打开 Form，绑定 UIFormScript，触发 OnFormCreated 回调，最后 DiscoverChildPartLogics。",
+      "tags": ["ui", "lifecycle", "form", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:OnDestroyInternal",
+      "type": "function",
+      "name": "OnDestroyInternal",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "lineRange": [50, 60],
+      "summary": "Form 销毁时内部逻辑：触发 OnFormDestroying，解绑 Form，关闭 UIFormScript，最后调用基类方法。",
+      "tags": ["ui", "lifecycle", "form", "framework"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:CreateLogic",
+      "type": "function",
+      "name": "CreateLogic",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "lineRange": [32, 44],
+      "summary": "创建业务逻辑实例：分配唯一 LogicId，调用 configure 委托进行初始化配置，注册到字典，最后调用 OnCreate 生命周期。",
+      "tags": ["ui", "factory", "manager", "framework"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:DestroyLogic",
+      "type": "function",
+      "name": "DestroyLogic",
+      "filePath": "Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "lineRange": [51, 60],
+      "summary": "销毁业务逻辑实例：从字典中找到对应逻辑，调用 OnDestroy 生命周期，从字典中移除并打印销毁日志。",
+      "tags": ["ui", "lifecycle", "manager", "framework"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs",
+      "target": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:Initialize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadBundleAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:UnloadBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadAsset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:LoadAssetAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "target": "function:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:UnloadAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:CResourceManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:CResourceManager",
+      "target": "function:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:Load",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:CResourceManager",
+      "target": "function:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:LoadSync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/CResourceManager.cs:CResourceManager",
+      "target": "class:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs:IResourceHelper",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs",
+      "target": "class:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs:IResourceHelper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "target": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:LoadSync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:LoadAssetCoroutine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResolveAssetPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:InferBundleNameFromPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "class:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs:IResourceHelper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs:ResourceHelperAssetBundle",
+      "target": "class:Assets/Scripts/Yueyn/Resource/AssetBundleLoader.cs:AssetBundleLoader",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "target": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:ResourceHelperEditor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:ResourceHelperEditor",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:Load",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:ResourceHelperEditor",
+      "target": "function:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:LoadSync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs:ResourceHelperEditor",
+      "target": "class:Assets/Scripts/Yueyn/Resource/IResourceHelper.cs:IResourceHelper",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/ResourceManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Resource/ResourceManager.cs:ResourceManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Resource/ResourceManager.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Resource/ResourceHelperAssetBundle.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Resource/CResourceManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Resource/ResourceHelperEditor.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "target": "class:Assets/Scripts/Yueyn/Timer/Timer.cs:Timer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Timer/Timer.cs:Timer",
+      "target": "function:Assets/Scripts/Yueyn/Timer/Timer.cs:Subscribe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/Timer/Timer.cs:Timer",
+      "target": "function:Assets/Scripts/Yueyn/Timer/Timer.cs:Update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Timer/Timer.Event.cs",
+      "target": "class:Assets/Scripts/Yueyn/Timer/Timer.cs:Timer",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Timer/Timer.Event.cs",
+      "target": "file:Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Timer/TimerManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/Timer/Timer.cs:Timer",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/Timer/TimerManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/Timer/Timer.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:BusinessFormLogic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:BusinessFormLogic",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:OnCreateInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:BusinessFormLogic",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:OnDestroyInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs:BusinessFormLogic",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs:BusinessLogicBase",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs:BusinessLogicBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:BusinessLogicManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:BusinessLogicManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:CreateLogic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:BusinessLogicManager",
+      "target": "function:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:DestroyLogic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:BusinessLogicManager",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs:BusinessLogicBase",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "target": "class:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs:BusinessLogicManager",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessFormLogic.cs",
+      "target": "file:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/Yueyn/UI/BusinessLogicManager.cs",
+      "target": "file:Assets/Scripts/Yueyn/UI/BusinessLogicBase.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

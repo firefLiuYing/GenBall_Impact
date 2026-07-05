@@ -1,0 +1,1083 @@
+{
+  "nodes": [
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+      "type": "file",
+      "name": "BulletDamageUpBuff.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+      "summary": "子弹伤害提升Buff实现，继承BuffObj，在添加时获取武器状态并增加伤害倍率区，移除时撤销增益。",
+      "tags": ["buff", "accessory", "damage", "bullet", "gameplay"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffEventIds.cs",
+      "type": "file",
+      "name": "BuffEventIds.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffEventIds.cs",
+      "summary": "定义Buff系统相关的事件ID常量，包括伤害前/后、死亡前/后的Buff触发事件标识。",
+      "tags": ["event", "constants", "buff", "id-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffId.cs",
+      "type": "file",
+      "name": "BuffId.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffId.cs",
+      "summary": "定义Buff ID常量，目前包含玩家护甲和子弹伤害提升两种Buff类型标识。",
+      "tags": ["constants", "buff", "id-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "type": "file",
+      "name": "BuffModelConfig.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "summary": "Buff模型配置系统，通过ScriptableObject加载Buff数据模型，提供BuffId到BuffModel/BuffType的查询，支持反射解析类型。",
+      "tags": ["config", "buff", "data-model", "scriptable-object"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "type": "file",
+      "name": "BuffObj.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "summary": "Buff对象基类，管理Buff的生命周期（创建、叠层、移除、Tick更新），通过SystemRepository获取配置并支持对象池回收。",
+      "tags": ["buff", "base-class", "lifecycle", "object-pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "type": "file",
+      "name": "BuffRegistry.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "summary": "Buff注册中心，实现IBuffRegistry接口，管理所有活跃Buff的添加/移除，处理叠层逻辑和Buff事件触发链（BeforeAdd/AfterAdd/BeforeStack/AfterStack）。",
+      "tags": ["buff", "registry", "lifecycle", "event", "service"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "type": "file",
+      "name": "BuffSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "summary": "定义AddBuffInfo结构体，封装Buff创建的上下文信息（模型、施法者、载体、参数），提供从配置创建和对象池回收的静态方法。",
+      "tags": ["buff", "data-structure", "factory", "object-pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "type": "file",
+      "name": "BuffTickSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "summary": "Buff Tick系统，实现ILogicUpdate和IBuffTickSystem，每帧遍历活跃Buff执行Tick，订阅全局事件（伤害、死亡）触发对应Buff回调链。",
+      "tags": ["buff", "system", "tick", "event-handler", "isystem"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "type": "file",
+      "name": "IBuff.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "summary": "Buff接口体系定义：IBuff核心接口（优先级、多实例、标签）及15个触发器接口（ITriggerBeforeFireBullet、ITriggerBeforeCauseDamage等），覆盖战斗全流程的事件回调。",
+      "tags": ["interface", "buff", "trigger", "type-definition", "event"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "type": "file",
+      "name": "IBuffContainer.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "summary": "Buff容器接口和扩展方法：IBuffContainer定义Add/Remove和Buffs属性，BuffContainerExtensions提供泛型/ID过滤查询和列表池管理。",
+      "tags": ["interface", "buff", "container", "extension", "pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "type": "file",
+      "name": "IBuffRegistry.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "summary": "IBuffRegistry接口，定义全局Buff注册中心的最小契约：ActiveBuffs属性、AddBuff和RemoveBuff方法。",
+      "tags": ["interface", "buff", "registry", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+      "type": "file",
+      "name": "IBuffTickSystem.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+      "summary": "IBuffTickSystem标记接口，继承ISystem，标识Buff Tick系统的类型契约。",
+      "tags": ["interface", "buff", "system", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "type": "file",
+      "name": "ArmorBuff.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "summary": "玩家护甲Buff，继承BuffObj，实现ITriggerBeforeTakeDamage。护甲优先吸收伤害，破甲后剩余伤害穿透至生命值，提供Armor变化事件。",
+      "tags": ["buff", "player", "armor", "damage", "gameplay"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs",
+      "type": "file",
+      "name": "AbilitySecondaryCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs",
+      "summary": "技能副键命令结构体，实现IArbitratedCommand，传递按键状态和优先级参数，属于动作指令（不阻止移动/旋转，优先级2）。",
+      "tags": ["command", "ability", "struct", "input"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "type": "file",
+      "name": "CharacterCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "summary": "角色基础命令定义：ICommand标记接口、MoveCommand（移动，带优先级）、RotateCommand（旋转）、AttackCommand（攻击，实现IArbitratedCommand）、FaceDirectionCommand（面朝方向）。",
+      "tags": ["command", "input", "movement", "attack", "struct"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs",
+      "type": "file",
+      "name": "DashCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs",
+      "summary": "冲刺命令结构体，实现IArbitratedCommand（优先级5/5），不可缓冲，阻止移动、旋转和重力。",
+      "tags": ["command", "dash", "movement", "struct"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "type": "file",
+      "name": "IAbilitySecondary.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "summary": "技能副键接口，定义AbilitySecondary和CancelAbilitySecondary两个方法契约。",
+      "tags": ["interface", "ability", "command", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+      "type": "file",
+      "name": "IArbitratedCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+      "summary": "可仲裁命令接口，定义命令优先级仲裁所需属性：InterruptPriority、AntiInterruptPriority、Bufferable，以及移动/旋转/重力的阻止标志。",
+      "tags": ["interface", "command", "arbitration", "priority", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IAttack.cs",
+      "type": "file",
+      "name": "IAttack.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IAttack.cs",
+      "summary": "攻击执行器接口，定义Attack、Cancel方法和IsAttacking属性。",
+      "tags": ["interface", "attack", "executor", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IDash.cs",
+      "type": "file",
+      "name": "IDash.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IDash.cs",
+      "summary": "冲刺执行器接口，定义Dash方法和IsDashing属性。",
+      "tags": ["interface", "dash", "executor", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IFaceDirection.cs",
+      "type": "file",
+      "name": "IFaceDirection.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IFaceDirection.cs",
+      "summary": "面朝方向执行器接口，定义Face方法用于控制角色朝向。",
+      "tags": ["interface", "face-direction", "executor", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IInteract.cs",
+      "type": "file",
+      "name": "IInteract.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IInteract.cs",
+      "summary": "交互执行器接口，定义Interact方法用于处理场景交互逻辑。",
+      "tags": ["interface", "interact", "executor", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IJump.cs",
+      "type": "file",
+      "name": "IJump.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IJump.cs",
+      "summary": "跳跃执行器接口，定义Jump、Cancel方法和IsJumping属性。",
+      "tags": ["interface", "jump", "executor", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/IMove.cs",
+      "type": "file",
+      "name": "IMove.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IMove.cs",
+      "summary": "移动执行器接口，定义Move方法（连续指令，不被仲裁）和Velocity属性。",
+      "tags": ["interface", "movement", "executor", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs",
+      "type": "file",
+      "name": "InteractCommand.cs",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs",
+      "summary": "交互命令结构体，实现IArbitratedCommand（优先级0/0），定义InteractAction枚举（Trigger/Next/Previous），瞬时指令不缓冲。",
+      "tags": ["command", "interact", "struct", "input"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs:BulletDamageUpBuff",
+      "type": "class",
+      "name": "BulletDamageUpBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+      "lineRange": [5, 20],
+      "summary": "子弹伤害提升Buff，继承BuffObj，添加时获取武器的WeaponState并增加Damage倍率增益，移除时撤销。",
+      "tags": ["buff", "damage", "weapon", "accessory"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:BuffModelConfig",
+      "type": "class",
+      "name": "BuffModelConfig",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "lineRange": [7, 40],
+      "summary": "Buff模型配置管理类，通过ScriptableObject列表加载Buff数据，维护BuffId→BuffModel字典和BuffType缓存，支持反射类型解析。",
+      "tags": ["config", "buff", "scriptable-object", "data-model"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "lineRange": [13, 29],
+      "summary": "初始化Buff模型配置，遍历buffModels列表构建BuffId字典和BuffType缓存，通过反射解析BuffType字符串为System.Type。",
+      "tags": ["initialization", "config", "buff", "reflection"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:BuffModel",
+      "type": "class",
+      "name": "BuffModel",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "lineRange": [42, 62],
+      "summary": "Buff数据模型，包含BuffId、BuffType、DisplayName、优先级、多实例标志、标签、参数字典和最大叠层数等完整Buff配置字段。",
+      "tags": ["data-model", "buff", "config", "serializable"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:BuffObj",
+      "type": "class",
+      "name": "BuffObj",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "lineRange": [11, 92],
+      "summary": "Buff对象基类，管理Buff完整生命周期：通过AddBuffInfo创建实例、Tick计时更新、OnAdd/OnStack/OnUnstack/OnRemove回调，支持对象池回收。",
+      "tags": ["buff", "base-class", "lifecycle", "object-pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:Create",
+      "type": "function",
+      "name": "Create",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "lineRange": [29, 48],
+      "summary": "静态工厂方法，从对象池获取BuffObj实例，通过SystemRepository获取配置填充Model/BuffId/Priority/Tags/Caster/Carrier等属性并初始化叠层。",
+      "tags": ["factory", "buff", "object-pool", "create"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:BuffRegistry",
+      "type": "class",
+      "name": "BuffRegistry",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "lineRange": [10, 109],
+      "summary": "全局Buff注册中心，实现IBuffRegistry接口，管理所有活跃Buff列表，AddBuff处理叠层逻辑并触发BeforeAdd/AfterAdd/BeforeStack/AfterStack事件回调链。",
+      "tags": ["buff", "registry", "service", "lifecycle", "isystem"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:AddBuff",
+      "type": "function",
+      "name": "AddBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "lineRange": [30, 95],
+      "summary": "核心Buff添加方法：校验输入→查询载体上同ID Buff→触发BeforeStack/BeforeAdd→执行叠层或创建新实例→调用OnAdd→触发AfterStack/AfterAdd。",
+      "tags": ["buff", "add", "lifecycle", "event", "stacking"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs:AddBuffInfo",
+      "type": "class",
+      "name": "AddBuffInfo",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "lineRange": [14, 51],
+      "summary": "Buff添加信息结构体，封装创建Buff所需的全部上下文：Model/BuffId、Caster/Carrier引用、追加叠层数和自定义参数字典，支持对象池。",
+      "tags": ["buff", "data-structure", "factory", "object-pool"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs:Create",
+      "type": "function",
+      "name": "Create",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "lineRange": [25, 41],
+      "summary": "静态工厂方法，通过SystemRepository获取BuffModelConfig配置，填充Model/Caster/Carrier/AddStacks/Parameters，从对象池获取AddBuffInfo实例。",
+      "tags": ["factory", "buff", "create", "config"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:BuffTickSystem",
+      "type": "class",
+      "name": "BuffTickSystem",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "lineRange": [8, 123],
+      "summary": "Buff Tick系统，实现ILogicUpdate和IBuffTickSystem，Init订阅6个全局事件（伤害/死亡相关），LogicUpdate遍历活跃Buff执行Tick，事件处理器触发对应Buff回调。",
+      "tags": ["buff", "system", "tick", "event-handler", "isystem"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:Init",
+      "type": "function",
+      "name": "Init",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "lineRange": [15, 32],
+      "summary": "初始化BuffTickSystem，获取IBuffRegistry引用并订阅CEventRouter的6个全局事件：DamageBeforeCause/DamageBeforeTake/DamageComplete/DeathBeforeDie/DeathConfirmed/DeathAfterKill。",
+      "tags": ["initialization", "buff", "event", "subscribe"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:UnInit",
+      "type": "function",
+      "name": "UnInit",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "lineRange": [34, 50],
+      "summary": "反初始化，从CEventRouter取消所有6个事件订阅并清空缓存列表。",
+      "tags": ["cleanup", "buff", "event", "unsubscribe"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:OnDamageComplete",
+      "type": "function",
+      "name": "OnDamageComplete",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "lineRange": [79, 95],
+      "summary": "伤害完成事件处理：分别获取攻击者和防御者的IBuffContainer，触发ITriggerAfterCauseDamage和ITriggerAfterTakeDamage回调链。",
+      "tags": ["event-handler", "buff", "damage", "trigger"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:OnDeathConfirmed",
+      "type": "function",
+      "name": "OnDeathConfirmed",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "lineRange": [105, 114],
+      "summary": "死亡确认事件处理：获取受害者的IBuffContainer，触发ITriggerAfterDie回调链（死亡后效果结算）。",
+      "tags": ["event-handler", "buff", "death", "trigger"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:IBuff",
+      "type": "class",
+      "name": "IBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "lineRange": [6, 14],
+      "summary": "Buff核心接口，定义Priority（优先级）、CanMultiExist（是否允许多实例）、Tags（标签集合）三个基础属性。所有Buff和触发器接口均派生自此。",
+      "tags": ["interface", "buff", "core", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:DefaultComparerBuff",
+      "type": "class",
+      "name": "DefaultComparerBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "lineRange": [140, 149],
+      "summary": "Buff默认比较器，实现IComparer<IBuff>，按Priority升序排列，用于Buff容器的排序集合。",
+      "tags": ["comparer", "buff", "sorting", "utility"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:IBuffContainer",
+      "type": "class",
+      "name": "IBuffContainer",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "lineRange": [7, 12],
+      "summary": "Buff容器核心接口，定义AddBuff/RemoveBuff方法和Buffs可枚举属性，所有可承载Buff的实体（角色、武器等）实现此接口。",
+      "tags": ["interface", "buff", "container", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:BuffContainerExtensions",
+      "type": "class",
+      "name": "BuffContainerExtensions",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "lineRange": [14, 85],
+      "summary": "Buff容器扩展方法类，提供泛型过滤查询（GetBuffs<T>）、BuffId过滤查询和列表对象池（BuffListPool）管理，简化Buff检索和内存分配。",
+      "tags": ["extension", "buff", "container", "query", "pool"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:GetBuffs",
+      "type": "function",
+      "name": "GetBuffs<T>",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "lineRange": [34, 45],
+      "summary": "泛型Buff查询（返回新列表）：从容器Buffs集合中筛选出类型为T的所有Buff，使用BuffListPool租赁列表返回。",
+      "tags": ["query", "buff", "generic", "extension"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:GetBuffsById",
+      "type": "function",
+      "name": "GetBuffsById",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "lineRange": [57, 69],
+      "summary": "按BuffId查询（返回新列表）：先获取所有BuffObj，再按buffId筛选匹配的Buff实例，使用BuffListPool租赁列表返回。",
+      "tags": ["query", "buff", "filter", "extension"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:ArmorBuff",
+      "type": "class",
+      "name": "ArmorBuff",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "lineRange": [10, 61],
+      "summary": "玩家护甲Buff，继承BuffObj并实现ITriggerBeforeTakeDamage。护甲值随MaxHealth联动，伤害先扣护甲再穿透至生命，提供Armor变化事件通知UI更新。",
+      "tags": ["buff", "player", "armor", "damage", "gameplay"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:TriggerBeforeTakeDamage",
+      "type": "function",
+      "name": "TriggerBeforeTakeDamage",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "lineRange": [36, 49],
+      "summary": "伤害前触发器：护甲优先吸收伤害，扣除等量护甲值；若护甲不足，剩余伤害穿透至生命值。通过NegativeDamage机制修改最终伤害量。",
+      "tags": ["trigger", "armor", "damage", "absorb"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs:ICommand",
+      "type": "class",
+      "name": "ICommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "lineRange": [7, 10],
+      "summary": "命令标记接口，所有角色命令（MoveCommand、RotateCommand、FaceDirectionCommand等）的统一类型标识，用于CommandDispatcher路由。",
+      "tags": ["interface", "command", "marker", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs:AttackCommand",
+      "type": "class",
+      "name": "AttackCommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "lineRange": [45, 68],
+      "summary": "攻击命令结构体，实现IArbitratedCommand（默认优先级2/2），携带AttackId和ButtonState，可缓冲，阻止移动但不阻止旋转和重力。",
+      "tags": ["command", "attack", "struct", "arbitration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs:DashCommand",
+      "type": "class",
+      "name": "DashCommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs",
+      "lineRange": [7, 24],
+      "summary": "冲刺命令结构体，实现IArbitratedCommand（高优先级5/5），携带方向和速度，不可缓冲，阻止移动、旋转和重力。",
+      "tags": ["command", "dash", "struct", "movement", "arbitration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs:AbilitySecondaryCommand",
+      "type": "class",
+      "name": "AbilitySecondaryCommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs",
+      "lineRange": [7, 23],
+      "summary": "技能副键命令结构体，实现IArbitratedCommand（默认优先级2/2），传递ButtonState，可缓冲，不阻止移动/旋转/重力。",
+      "tags": ["command", "ability", "struct", "arbitration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "class",
+      "name": "IArbitratedCommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+      "lineRange": [7, 21],
+      "summary": "可仲裁命令接口，定义命令优先级仲裁体系的核心属性：中断优先级/反中断优先级/可缓冲标志，以及是否阻止移动/旋转/重力的行为屏蔽标志。",
+      "tags": ["interface", "command", "arbitration", "priority", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs:InteractCommand",
+      "type": "class",
+      "name": "InteractCommand",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs",
+      "lineRange": [17, 32],
+      "summary": "交互命令结构体，实现IArbitratedCommand（低优先级0/0），携带InteractAction（Trigger/Next/Previous），不可缓冲，阻止移动。瞬时指令按一次触发一次。",
+      "tags": ["command", "interact", "struct", "arbitration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "class",
+      "name": "IBuffRegistry",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "lineRange": [6, 11],
+      "summary": "全局Buff注册中心接口契约，定义ActiveBuffs可枚举属性和AddBuff/RemoveBuff方法，由BuffRegistry实现。",
+      "tags": ["interface", "buff", "registry", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs:IBuffTickSystem",
+      "type": "class",
+      "name": "IBuffTickSystem",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+      "lineRange": [5, 7],
+      "summary": "Buff Tick系统标记接口，继承ISystem，标识Buff tick更新系统的类型契约。",
+      "tags": ["interface", "buff", "system", "type-definition"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs:IAbilitySecondary",
+      "type": "class",
+      "name": "IAbilitySecondary",
+      "filePath": "Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "lineRange": [3, 7],
+      "summary": "技能副键执行器接口契约，定义AbilitySecondary和CancelAbilitySecondary方法。",
+      "tags": ["interface", "ability", "executor", "type-definition"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs:BulletDamageUpBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs:BulletDamageUpBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs:BulletDamageUpBuff",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:BuffObj",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Accessory/BulletDamageUpBuff.cs:BulletDamageUpBuff",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:IBuff",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:BuffModelConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:BuffModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:BuffModelConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffModelConfig.cs:BuffModel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:BuffObj",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:Create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:BuffObj",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:Create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:BuffObj",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:IBuff",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:BuffRegistry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:AddBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:BuffRegistry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:AddBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:BuffRegistry",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs:AddBuff",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:Create",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffRegistry.cs",
+      "target": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs:AddBuffInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs:Create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs:AddBuffInfo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffSystem.cs:Create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:BuffTickSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:Init",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:UnInit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:OnDamageComplete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:OnDeathConfirmed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:BuffTickSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:Init",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:UnInit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs:BuffTickSystem",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs:IBuffTickSystem",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/BuffTickSystem.cs",
+      "target": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:IBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:DefaultComparerBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:IBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:DefaultComparerBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:IBuffContainer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:BuffContainerExtensions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:GetBuffs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:GetBuffsById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:IBuffContainer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:BuffContainerExtensions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:GetBuffs",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffContainer.cs:GetBuffsById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:ArmorBuff",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:TriggerBeforeTakeDamage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:ArmorBuff",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs",
+      "target": "function:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:TriggerBeforeTakeDamage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:ArmorBuff",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/BuffObj.cs:BuffObj",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Buff/Player/ArmorBuff.cs:ArmorBuff",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuff.cs:IBuff",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs:AbilitySecondaryCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Command/AbilitySecondaryCommand.cs:AbilitySecondaryCommand",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs:ICommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs:AttackCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs:ICommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Command/CharacterCommand.cs:AttackCommand",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs:DashCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Command/DashCommand.cs:DashCommand",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs:IAbilitySecondary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs:InteractCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:Assets/Scripts/GenBall/BattleSystem/Command/InteractCommand.cs:InteractCommand",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IArbitratedCommand.cs:IArbitratedCommand",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffRegistry.cs:IBuffRegistry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs:IBuffTickSystem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Buff/IBuffTickSystem.cs:IBuffTickSystem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs:IAbilitySecondary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs",
+      "target": "class:Assets/Scripts/GenBall/BattleSystem/Command/IAbilitySecondary.cs:IAbilitySecondary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}
