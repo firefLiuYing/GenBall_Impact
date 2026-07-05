@@ -15,18 +15,23 @@ namespace GenBall.UI
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
+            View = BoundForm.GetComponentInChildren<GMConsoleFormView>();
         }
 
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<GMConsoleFormView>();
         }
 
         protected override void OnFormUnbound(UIFormScript form)
         {
             View = null;
             base.OnFormUnbound(form);
+        }
+
+        protected override void OnFormDestroying()
+        {
+            base.OnFormDestroying();
         }
 
         public static GMConsoleFormLogic Open()

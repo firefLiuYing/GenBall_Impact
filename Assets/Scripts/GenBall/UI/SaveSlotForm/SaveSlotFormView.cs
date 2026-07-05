@@ -26,9 +26,6 @@ namespace GenBall.UI
 
         // ### GENERATED_BINDINGS_END ###
 
-        /// <summary>Fired when a non-empty slot is clicked. Parameter is save index.</summary>
-        public event Action<int> SlotClicked;
-
         private readonly List<GameObject> _slotEntries = new();
 
         protected override void DoBusinessStart()
@@ -74,11 +71,11 @@ namespace GenBall.UI
             var entryGo = new GameObject($"Slot_{info.SaveIndex}", typeof(RectTransform));
             entryGo.transform.SetParent(RectSlotContainer, false);
             var entryRt = entryGo.GetComponent<RectTransform>();
-            entryRt.sizeDelta = new Vector2(0, 80);
+            entryRt.sizeDelta = new Vector2(0, 64);
             entryRt.anchorMin = new Vector2(0, 1);
             entryRt.anchorMax = new Vector2(1, 1);
             entryRt.pivot = new Vector2(0.5f, 1);
-            entryRt.anchoredPosition = new Vector2(0, -index * 90);
+            entryRt.anchoredPosition = new Vector2(0, -index * 80);
 
             // Background
             var bgGo = new GameObject("Background", typeof(RectTransform), typeof(Image));
@@ -88,8 +85,8 @@ namespace GenBall.UI
             bgRt.anchorMax = Vector2.one;
             bgRt.sizeDelta = Vector2.zero;
             bgGo.GetComponent<Image>().color = info.IsEmpty
-                ? new Color(0.15f, 0.15f, 0.15f, 0.5f)
-                : new Color(0.2f, 0.2f, 0.2f, 0.8f);
+                ? new Color(0.102f, 0.102f, 0.18f, 0.5f)   // #1a1a2e80
+                : new Color(0.102f, 0.102f, 0.18f, 0.8f);  // #1a1a2eCC
 
             // Index Text
             var indexGo = new GameObject("TxtIndex", typeof(RectTransform), typeof(Text));
@@ -102,8 +99,10 @@ namespace GenBall.UI
             var indexTxt = indexGo.GetComponent<Text>();
             indexTxt.text = info.IsEmpty ? $"存档 {info.SaveIndex + 1}（空槽位）" : $"存档 {info.SaveIndex + 1}";
             indexTxt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            indexTxt.fontSize = info.IsEmpty ? 20 : 24;
-            indexTxt.color = info.IsEmpty ? Color.gray : Color.white;
+            indexTxt.fontSize = 22;
+            indexTxt.color = info.IsEmpty
+                ? new Color(0.6f, 0.6f, 0.667f)   // #9999aa
+                : new Color(0.886f, 0.886f, 0.886f);  // #e2e2e2
             indexTxt.alignment = TextAnchor.MiddleLeft;
             indexTxt.raycastTarget = false;
 
@@ -118,13 +117,13 @@ namespace GenBall.UI
             if (info.IsEmpty)
             {
                 infoTxt.text = "空槽位";
-                infoTxt.color = Color.gray;
+                infoTxt.color = new Color(0.6f, 0.6f, 0.667f);  // #9999aa
             }
             else
             {
                 var scene = string.IsNullOrEmpty(info.SceneName) ? "未知场景" : info.SceneName;
                 infoTxt.text = $"{scene}  |  游戏时间: {info.PlayTimeText}";
-                infoTxt.color = new Color(0.8f, 0.8f, 0.8f);
+                infoTxt.color = new Color(0.886f, 0.886f, 0.886f);  // #e2e2e2
             }
             infoTxt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             infoTxt.fontSize = 16;
@@ -141,8 +140,8 @@ namespace GenBall.UI
             var timeTxt = timeGo.GetComponent<Text>();
             timeTxt.text = info.IsEmpty ? "" : $"创建时间: {info.CreateTimeText}";
             timeTxt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            timeTxt.fontSize = 14;
-            timeTxt.color = new Color(0.6f, 0.6f, 0.6f);
+            timeTxt.fontSize = 12;
+            timeTxt.color = new Color(0.333f, 0.333f, 0.4f);  // #555566
             timeTxt.alignment = TextAnchor.MiddleLeft;
             timeTxt.raycastTarget = false;
 
@@ -158,7 +157,8 @@ namespace GenBall.UI
             if (!info.IsEmpty)
             {
                 var saveIndex = info.SaveIndex;
-                btn.onClick.AddListener(() => SlotClicked?.Invoke(saveIndex));
+                btn.onClick.AddListener(() =>
+                    Yueyn.UI.UIManager.Instance.UIEventRouter.FireNow((int)UIEventKey.SaveSlotForm_SlotSelected, saveIndex));
             }
             else
             {

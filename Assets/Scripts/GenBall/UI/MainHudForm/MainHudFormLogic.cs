@@ -17,15 +17,17 @@ namespace GenBall.UI
 
         // ### GENERATED_BINDINGS_END ###
 
+        private readonly MainHudFormViewData _viewData = new();
+
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
+            View = BoundForm.GetComponentInChildren<MainHudFormView>();
         }
 
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<MainHudFormView>();
 
             CEventRouter.Instance.Subscribe<int>((int)GlobalEventId.HealthChanged, OnHealthChanged);
             CEventRouter.Instance.Subscribe<int>((int)GlobalEventId.ArmorChanged, OnArmorChanged);
@@ -48,12 +50,22 @@ namespace GenBall.UI
             base.OnFormUnbound(form);
         }
 
+        protected override void OnFormDestroying()
+        {
+            // 兜底取消订阅
+            CEventRouter.Instance.Unsubscribe<int>((int)GlobalEventId.HealthChanged, OnHealthChanged);
+            CEventRouter.Instance.Unsubscribe<int>((int)GlobalEventId.ArmorChanged, OnArmorChanged);
+            CEventRouter.Instance.Unsubscribe<int>((int)GlobalEventId.MaxHealthChanged, OnMaxHealthChanged);
+            CEventRouter.Instance.Unsubscribe<int>((int)GlobalEventId.KillPointsChanged, OnKillPointsChanged);
+            CEventRouter.Instance.Unsubscribe<int>((int)GlobalEventId.LevelChanged, OnWeaponLevelChanged);
+            CEventRouter.Instance.Unsubscribe<AmmoDisplayInfo>((int)GlobalEventId.MagazineInfoChange, OnMagazineInfoChanged);
+            base.OnFormDestroying();
+        }
+
         public static MainHudFormLogic Open()
         {
             return BusinessLogicManager.Instance.CreateLogic<MainHudFormLogic>();
         }
-
-        private readonly MainHudFormViewData _viewData = new MainHudFormViewData();
 
         private void OnHealthChanged(int health)
         {

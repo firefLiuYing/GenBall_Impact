@@ -8,7 +8,7 @@ namespace GenBall.UI
         public override string PrefabPath =>
             "Assets/AssetBundles/UI/LoadingForm/LoadingForm.prefab";
 
-        public override UIFormType FormType => UIFormType.Popup;
+        public override UIFormType FormType => UIFormType.Transition;
 
         public LoadingFormView View { get; private set; }
 
@@ -17,12 +17,12 @@ namespace GenBall.UI
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
+            View = BoundForm.GetComponentInChildren<LoadingFormView>();
         }
 
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<LoadingFormView>();
 
             // 订阅 UI 事件
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe<float>(
@@ -36,6 +36,11 @@ namespace GenBall.UI
 
         protected override void OnFormUnbound(UIFormScript form)
         {
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe<float>(
+                (int)UIEventKey.LoadingForm_ProgressUpdate, OnProgressUpdate);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
+                (int)UIEventKey.LoadingForm_CloseRequest, OnCloseRequest);
+
             View = null;
             base.OnFormUnbound(form);
         }
@@ -54,6 +59,8 @@ namespace GenBall.UI
             base.OnFormDestroying();
         }
 
+        private readonly LoadingFormViewData _viewData = new();
+
         public static LoadingFormLogic Open()
         {
             return BusinessLogicManager.Instance.CreateLogic<LoadingFormLogic>();
@@ -64,10 +71,8 @@ namespace GenBall.UI
         /// </summary>
         public void SetProgress(float progress)
         {
-            if (View != null)
-            {
-                View.SetViewData(new LoadingFormViewData { Progress = progress });
-            }
+            _viewData.Progress = progress;
+            View?.SetViewData(_viewData);
         }
 
         private void OnProgressUpdate(float progress)

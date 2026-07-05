@@ -22,33 +22,27 @@ namespace GenBall.UI
         // ### GENERATED_BINDINGS_END ###
 
         private Action<int> _slotSelectedCallback;
-        private static Action<int> _pendingCallback;
 
         /// <summary>Open the save slot selection form.</summary>
         public static SaveSlotFormLogic Open(Action<int> onSlotSelected)
         {
-            _pendingCallback = onSlotSelected;
-            return BusinessLogicManager.Instance.CreateLogic<SaveSlotFormLogic>();
+            var logic = BusinessLogicManager.Instance.CreateLogic<SaveSlotFormLogic>();
+            logic._slotSelectedCallback = onSlotSelected;
+            return logic;
         }
 
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
-            if (_pendingCallback != null)
-            {
-                _slotSelectedCallback = _pendingCallback;
-                _pendingCallback = null;
-            }
+            View = BoundForm.GetComponentInChildren<SaveSlotFormView>();
         }
 
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<SaveSlotFormView>();
 
-            if (View != null)
-                View.SlotClicked += OnSlotClicked;
-
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe<int>(
+                (int)UIEventKey.SaveSlotForm_SlotSelected, OnSlotSelected);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe(
                 (int)UIEventKey.SaveSlotForm_Back, OnBack);
 
@@ -57,14 +51,23 @@ namespace GenBall.UI
 
         protected override void OnFormUnbound(UIFormScript form)
         {
-            if (View != null)
-                View.SlotClicked -= OnSlotClicked;
-
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe<int>(
+                (int)UIEventKey.SaveSlotForm_SlotSelected, OnSlotSelected);
             Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
                 (int)UIEventKey.SaveSlotForm_Back, OnBack);
 
             View = null;
             base.OnFormUnbound(form);
+        }
+
+        protected override void OnFormDestroying()
+        {
+            // 兜底取消订阅
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe<int>(
+                (int)UIEventKey.SaveSlotForm_SlotSelected, OnSlotSelected);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe(
+                (int)UIEventKey.SaveSlotForm_Back, OnBack);
+            base.OnFormDestroying();
         }
 
         private async Task LoadSlotDataAsync()
@@ -122,7 +125,7 @@ namespace GenBall.UI
             return $"{time.Minutes:D2}:{time.Seconds:D2}";
         }
 
-        private void OnSlotClicked(int saveIndex)
+        private void OnSlotSelected(int saveIndex)
         {
             _slotSelectedCallback?.Invoke(saveIndex);
             CloseForm();

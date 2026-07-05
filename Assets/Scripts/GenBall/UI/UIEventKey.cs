@@ -39,6 +39,9 @@ namespace GenBall.UI
         /// <summary>SaveSlotForm 返回按钮</summary>
         SaveSlotForm_Back = 30,
 
+        /// <summary>SaveSlotForm 槽位选中，参数 int saveIndex</summary>
+        SaveSlotForm_SlotSelected = 31,
+
         // ===== GM Console (20-22) =====
 
         /// <summary>GM Console 提交命令</summary>

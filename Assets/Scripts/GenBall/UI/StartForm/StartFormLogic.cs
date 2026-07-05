@@ -19,15 +19,17 @@ namespace GenBall.UI
 
         // ### GENERATED_BINDINGS_END ###
 
+        private readonly StartFormViewData _viewData = new();
+
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
+            View = BoundForm.GetComponentInChildren<StartFormView>();
         }
 
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<StartFormView>();
 
             // 订阅 UI 事件（View 按钮点击 → UIEventBus → Logic）
             Yueyn.UI.UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.StartForm_NewGame, OnNewGame);
@@ -48,6 +50,16 @@ namespace GenBall.UI
 
             View = null;
             base.OnFormUnbound(form);
+        }
+
+        protected override void OnFormDestroying()
+        {
+            // 兜底取消订阅
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_NewGame, OnNewGame);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_Continue, OnContinue);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_LoadGame, OnLoadGame);
+            Yueyn.UI.UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.StartForm_CloseRequest, OnCloseRequest);
+            base.OnFormDestroying();
         }
 
         public static StartFormLogic Open()
@@ -106,8 +118,8 @@ namespace GenBall.UI
                 if (!slot.isEmpty) { canContinue = true; break; }
             }
 
-            if (View != null)
-                View.SetViewData(new StartFormViewData { CanContinue = canContinue });
+            _viewData.CanContinue = canContinue;
+            View?.SetViewData(_viewData);
         }
 
         private void OnCloseRequest()

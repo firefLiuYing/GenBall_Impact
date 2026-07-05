@@ -33,13 +33,15 @@ namespace GenBall.UI
         protected override void OnFormCreated()
         {
             base.OnFormCreated();
+            View = BoundForm.GetComponentInChildren<AbilityWheelFormView>();
         }
 
         protected override void OnFormBound(UIFormScript form)
         {
             base.OnFormBound(form);
-            View = form.GetComponentInChildren<AbilityWheelFormView>();
 
+            // 注：CursorOffsetChanged 是高频输入流（每帧），使用 C# event 避免 UIEventRouter 开销。
+            // 这是 View→Logic 高频数据流的特殊情况，不同于按钮点击。
             View.CursorOffsetChanged += OnCursorOffset;
 
             CEventRouter.Instance.Subscribe((int)GlobalEventId.WheelConfirmed, OnWheelConfirmed);
@@ -66,6 +68,14 @@ namespace GenBall.UI
 
             View = null;
             base.OnFormUnbound(form);
+        }
+
+        protected override void OnFormDestroying()
+        {
+            // 兜底取消订阅
+            View.CursorOffsetChanged -= OnCursorOffset;
+            CEventRouter.Instance.Unsubscribe((int)GlobalEventId.WheelConfirmed, OnWheelConfirmed);
+            base.OnFormDestroying();
         }
 
         public static AbilityWheelFormLogic Open()
