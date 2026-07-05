@@ -115,6 +115,9 @@ class UnityBridge:
                 f"Connected to Unity Editor at {self.host}:{self.port}")
             self._receive_task = asyncio.create_task(self._receive_loop())
             self._heartbeat_task = asyncio.create_task(self._heartbeat_loop())
+            # Warmup: wait briefly for Unity's ReceiveLoop thread to start
+            # so the first command doesn't time out.
+            await asyncio.sleep(1.0)
             return True
         except (ConnectionRefusedError, OSError) as e:
             logger.debug(f"Connection failed: {e}")

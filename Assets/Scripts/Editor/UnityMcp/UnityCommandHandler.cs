@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using GenBall.Utils.CodeGenerator.UI;
+using GenBall.Utils.CodeGenerator.UI.Editor;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
+using UnityEngine.UI;
+using Yueyn.UI;
 
 namespace Yueyn.Editor.UnityMcp
 {
@@ -77,6 +82,22 @@ namespace Yueyn.Editor.UnityMcp
                 RefreshAssets);
             CommandHandlerRegistry.Register("import_asset",
                 ImportAsset);
+            CommandHandlerRegistry.Register("create_prefab",
+                CreatePrefab);
+            CommandHandlerRegistry.Register("add_gameobject",
+                AddGameObject);
+            CommandHandlerRegistry.Register("remove_gameobject",
+                RemoveGameObject);
+            CommandHandlerRegistry.Register("delete_prefab",
+                DeletePrefab);
+            CommandHandlerRegistry.Register("add_component",
+                AddComponent);
+            CommandHandlerRegistry.Register("remove_component",
+                RemoveComponent);
+            CommandHandlerRegistry.Register("set_component_property",
+                SetComponentProperty);
+            CommandHandlerRegistry.Register("generate_ui_code",
+                GenerateUiCode);
         }
 
         /// <summary>Public entry point for UnityMcpBridge.</summary>
@@ -307,6 +328,1066 @@ namespace Yueyn.Editor.UnityMcp
                 ["status"] = "imported",
                 ["path"] = assetPath,
             });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  create_prefab — programmatic prefab creation
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult CreatePrefab(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("path", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            if (!prefabPath.StartsWith("Assets/",
+                    StringComparison.Ordinal))
+                return CmdResult.Err(
+                    "path must be under Assets/");
+
+            if (!prefabPath.EndsWith(".prefab",
+                    StringComparison.OrdinalIgnoreCase))
+                return CmdResult.Err(
+                    "path must end with .prefab");
+
+            // viewType: "Form" (default) or "Part".
+            args.TryGetValue("viewType", out var viewTypeStr);
+            var isPart = viewTypeStr == "Part";
+
+            // Only relevant for Form.
+            args.TryGetValue("canvasType", out var canvasTypeStr);
+            var renderMode = RenderMode.ScreenSpaceOverlay;
+            if (!string.IsNullOrEmpty(canvasTypeStr))
+            {
+                switch (canvasTypeStr)
+                {
+                    case "ScreenSpaceCamera":
+                        renderMode = RenderMode.ScreenSpaceCamera;
+                        break;
+                    case "WorldSpace":
+                        renderMode = RenderMode.WorldSpace;
+                        break;
+                }
+            }
+
+            // formType: only for Form.
+            args.TryGetValue("formType", out var formTypeStr);
+            if (string.IsNullOrEmpty(formTypeStr))
+                formTypeStr = "Popup";
+
+            try
+            {
+                var dir = Path.GetDirectoryName(prefabPath);
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                var prefabName = Path.GetFileNameWithoutExtension(
+                    prefabPath);
+
+                GameObject go;
+                var components = new List<string>();
+
+                if (isPart)
+                {
+                    // ── Part: RectTransform + UiViewBinding only ──
+                    // No Canvas/CanvasScaler/GraphicRaycaster/UIFormScript.
+                    // Unity auto-adds a temporary parent Canvas in prefab
+                    // view; it is NOT part of the prefab.
+                    go = new GameObject(prefabName,
+                        typeof(RectTransform));
+
+                    var binding = go.AddComponent<UiViewBinding>();
+                    binding.viewType = UiViewBinding.ViewType.Part;
+                    binding.formName = "";
+                    binding.namespaceName = "GenBall.UI";
+                    components.Add("UiViewBinding");
+                }
+                else
+                {
+                    // ── Form: full Canvas + UIFormScript stack ──
+                    go = new GameObject(prefabName);
+
+                    var canvas = go.AddComponent<Canvas>();
+                    canvas.renderMode = renderMode;
+                    components.Add("Canvas");
+
+                    // ScreenSpace only.
+                    if (renderMode != RenderMode.WorldSpace)
+                    {
+                        var scaler =
+                            go.AddComponent<CanvasScaler>();
+                        scaler.uiScaleMode = CanvasScaler
+                            .ScaleMode.ScaleWithScreenSize;
+                        scaler.referenceResolution =
+                            new Vector2(1920, 1080);
+                        scaler.screenMatchMode = CanvasScaler
+                            .ScreenMatchMode
+                            .MatchWidthOrHeight;
+                        scaler.matchWidthOrHeight = 0.5f;
+                        components.Add("CanvasScaler");
+
+                        go.AddComponent<GraphicRaycaster>();
+                        components.Add("GraphicRaycaster");
+                    }
+
+                    go.AddComponent<UIFormScript>();
+                    components.Add("UIFormScript");
+
+                    var binding =
+                        go.AddComponent<UiViewBinding>();
+                    binding.viewType = UiViewBinding.ViewType.Form;
+                    binding.formType = ParseFormType(formTypeStr);
+                    binding.formName = "";
+                    binding.namespaceName = "GenBall.UI";
+                    components.Add("UiViewBinding");
+                }
+
+                // Save.
+                PrefabUtility.SaveAsPrefabAsset(go, prefabPath);
+                UnityEngine.Object.DestroyImmediate(go);
+
+                var prefab =
+                    AssetDatabase.LoadAssetAtPath<GameObject>(
+                        prefabPath);
+                if (prefab == null)
+                    return CmdResult.Err(
+                        $"Created but failed to load: {prefabPath}");
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "created",
+                    ["prefabPath"] = prefabPath,
+                    ["prefabName"] = prefabName,
+                    ["viewType"] = isPart ? "Part" : "Form",
+                    ["canvasType"] = isPart
+                        ? ""
+                        : renderMode.ToString(),
+                    ["hierarchy"] = BuildTree(prefab.transform),
+                    ["components"] = components,
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to create prefab: {ex.Message}");
+            }
+        }
+
+        private static UiViewBinding.FormTypeEnum ParseFormType(
+            string formType)
+        {
+            switch (formType)
+            {
+                case "Persistent":
+                    return UiViewBinding.FormTypeEnum.Persistent;
+                case "Transition":
+                    return UiViewBinding.FormTypeEnum.Transition;
+                case "WorldSpace":
+                    return UiViewBinding.FormTypeEnum.WorldSpace;
+                default:
+                    return UiViewBinding.FormTypeEnum.Popup;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  add_gameobject — programmatic child control creation
+        // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Prefix → component type full names. Mirrors
+        /// UiViewBindingEditor.DefaultMappings. Longest-prefix-first
+        /// to resolve Scrollbar vs Scroll conflicts.
+        /// Compounds: Btn adds Button+Image, Input adds InputField+Image,
+        /// Scrollbar adds Scrollbar+Image. All others single-component.
+        /// Rect prefix adds no extra component (RectTransform always exists).
+        /// </summary>
+        private static readonly (string prefix, string[] typeNames)[]
+            PrefixComponents =
+            {
+                ("CanvasGroup", new[] { "UnityEngine.CanvasGroup" }),
+                ("LayoutElem", new[] { "UnityEngine.UI.LayoutElement" }),
+                ("Scrollbar", new[] { "UnityEngine.UI.Scrollbar", "UnityEngine.UI.Image" }),
+                ("Dropdown", new[] { "UnityEngine.UI.Dropdown" }),
+                ("HLayout", new[] { "UnityEngine.UI.HorizontalLayoutGroup" }),
+                ("VLayout", new[] { "UnityEngine.UI.VerticalLayoutGroup" }),
+                ("RawImg", new[] { "UnityEngine.UI.RawImage" }),
+                ("Scroll", new[] { "UnityEngine.UI.ScrollRect" }),
+                ("Slider", new[] { "UnityEngine.UI.Slider" }),
+                ("Toggle", new[] { "UnityEngine.UI.Toggle" }),
+                ("Fitter", new[] { "UnityEngine.UI.ContentSizeFitter" }),
+                ("Input", new[] { "UnityEngine.UI.InputField", "UnityEngine.UI.Image" }),
+                ("Grid", new[] { "UnityEngine.UI.GridLayoutGroup" }),
+                ("Rect", new string[] { }),
+                ("Btn", new[] { "UnityEngine.UI.Button", "UnityEngine.UI.Image" }),
+                ("Img", new[] { "UnityEngine.UI.Image" }),
+                ("Txt", new[] { "UnityEngine.UI.Text" }),
+            };
+
+        private static CmdResult AddGameObject(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("prefabPath", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: prefabPath");
+
+            args.TryGetValue("name", out var name);
+            if (string.IsNullOrEmpty(name))
+                return CmdResult.Err("Missing parameter: name");
+
+            args.TryGetValue("parentPath", out var parentPath);
+
+            // Validate prefab exists.
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath)
+                    == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            try
+            {
+                var contents =
+                    PrefabUtility.LoadPrefabContents(prefabPath);
+
+                // Locate parent.
+                Transform parent;
+                if (string.IsNullOrEmpty(parentPath))
+                {
+                    parent = contents.transform;
+                }
+                else
+                {
+                    parent = contents.transform.Find(parentPath);
+                    if (parent == null)
+                    {
+                        PrefabUtility.UnloadPrefabContents(contents);
+                        return CmdResult.Err(
+                            $"Parent not found: {parentPath}");
+                    }
+                }
+
+                // Create child with RectTransform (UI context).
+                var child = new GameObject(name, typeof(RectTransform));
+                child.transform.SetParent(parent, false);
+
+                // Prefix → component matching.
+                var added = AddComponentsByPrefix(child, name);
+
+                // Save.
+                PrefabUtility.SaveAsPrefabAsset(contents, prefabPath);
+                PrefabUtility.UnloadPrefabContents(contents);
+
+                // Build child path.
+                var childPath = string.IsNullOrEmpty(parentPath)
+                    ? name
+                    : parentPath + "/" + name;
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "added",
+                    ["prefabPath"] = prefabPath,
+                    ["gameObject"] = name,
+                    ["path"] = childPath,
+                    ["components"] = added,
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to add game object: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Match a GameObject name against prefix conventions and add
+        /// the corresponding Unity components. Returns the short type
+        /// names of all added components.
+        /// </summary>
+        private static List<string> AddComponentsByPrefix(
+            GameObject go, string name)
+        {
+            var added = new List<string>();
+
+            // Longest-prefix-first (resolves Scrollbar vs Scroll).
+            foreach (var (prefix, typeNames) in PrefixComponents)
+            {
+                if (!name.StartsWith(prefix, StringComparison.Ordinal))
+                    continue;
+
+                foreach (var fullName in typeNames)
+                {
+                    var t = FindType(fullName);
+                    if (t == null) continue;
+
+                    go.AddComponent(t);
+
+                    // Short display name (last segment).
+                    var shortName = fullName.Substring(
+                        fullName.LastIndexOf('.') + 1);
+                    added.Add(shortName);
+                }
+                break; // first (longest) match wins
+            }
+
+            // If no prefix matched, still have an empty list — caller
+            // can see that only RectTransform exists.
+            return added;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  delete_prefab — delete a .prefab asset (with .meta)
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult DeletePrefab(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("path", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            if (!prefabPath.EndsWith(".prefab",
+                    StringComparison.OrdinalIgnoreCase))
+                return CmdResult.Err(
+                    "path must end with .prefab");
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath)
+                    == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            try
+            {
+                AssetDatabase.DeleteAsset(prefabPath);
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "deleted",
+                    ["path"] = prefabPath,
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to delete prefab: {ex.Message}");
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  remove_gameobject — delete a child from a prefab
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult RemoveGameObject(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("prefabPath", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: prefabPath");
+
+            args.TryGetValue("path", out var childPath);
+            if (string.IsNullOrEmpty(childPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath)
+                    == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            try
+            {
+                var contents =
+                    PrefabUtility.LoadPrefabContents(prefabPath);
+
+                var target = contents.transform.Find(childPath);
+                if (target == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"GameObject not found: {childPath}");
+                }
+
+                if (target == contents.transform)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        "Cannot remove the prefab root.");
+                }
+
+                UnityEngine.Object.DestroyImmediate(
+                    target.gameObject);
+
+                PrefabUtility.SaveAsPrefabAsset(contents, prefabPath);
+                PrefabUtility.UnloadPrefabContents(contents);
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "removed",
+                    ["prefabPath"] = prefabPath,
+                    ["path"] = childPath,
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to remove game object: {ex.Message}");
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  add_component — add a component by type name
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult AddComponent(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("prefabPath", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: prefabPath");
+
+            args.TryGetValue("path", out var childPath);
+            if (string.IsNullOrEmpty(childPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            args.TryGetValue("componentType", out var compTypeName);
+            if (string.IsNullOrEmpty(compTypeName))
+                return CmdResult.Err(
+                    "Missing parameter: componentType");
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath)
+                    == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            try
+            {
+                var contents =
+                    PrefabUtility.LoadPrefabContents(prefabPath);
+
+                var target = contents.transform.Find(childPath);
+                if (target == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"GameObject not found: {childPath}");
+                }
+
+                // Try full name first, then common namespace variants.
+                var t = FindType(compTypeName)
+                    ?? FindType(compTypeName + ", UnityEngine.UI")
+                    ?? FindType(compTypeName + ", UnityEngine");
+
+                if (t == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"Unknown component type: {compTypeName}");
+                }
+
+                target.gameObject.AddComponent(t);
+
+                PrefabUtility.SaveAsPrefabAsset(contents, prefabPath);
+                PrefabUtility.UnloadPrefabContents(contents);
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "added",
+                    ["prefabPath"] = prefabPath,
+                    ["path"] = childPath,
+                    ["component"] = t.Name,
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to add component: {ex.Message}");
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  remove_component — remove a component by type name
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult RemoveComponent(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("prefabPath", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: prefabPath");
+
+            args.TryGetValue("path", out var childPath);
+            if (string.IsNullOrEmpty(childPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            args.TryGetValue("componentType", out var compTypeName);
+            if (string.IsNullOrEmpty(compTypeName))
+                return CmdResult.Err(
+                    "Missing parameter: componentType");
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath)
+                    == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            try
+            {
+                var contents =
+                    PrefabUtility.LoadPrefabContents(prefabPath);
+
+                var target = contents.transform.Find(childPath);
+                if (target == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"GameObject not found: {childPath}");
+                }
+
+                // Short name matching (e.g. "Image", "Button").
+                Component found = null;
+                foreach (var c in target.GetComponents<Component>())
+                {
+                    if (c == null) continue;
+                    var tn = c.GetType().Name;
+                    var fn = c.GetType().FullName;
+                    if (tn == compTypeName || fn == compTypeName)
+                    {
+                        found = c;
+                        break;
+                    }
+                }
+
+                if (found == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"Component not found: {compTypeName}"
+                        + $" on {childPath}");
+                }
+
+                // Prevent removing mandatory components.
+                var mandatory = new HashSet<string>
+                    { "Transform", "RectTransform" };
+                if (mandatory.Contains(found.GetType().Name))
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"Cannot remove mandatory component: "
+                        + found.GetType().Name);
+                }
+
+                UnityEngine.Object.DestroyImmediate(found);
+
+                PrefabUtility.SaveAsPrefabAsset(contents, prefabPath);
+                PrefabUtility.UnloadPrefabContents(contents);
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "removed",
+                    ["prefabPath"] = prefabPath,
+                    ["path"] = childPath,
+                    ["component"] = found.GetType().Name,
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to remove component: {ex.Message}");
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  set_component_property — set a serialized property value
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult SetComponentProperty(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("prefabPath", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: prefabPath");
+
+            args.TryGetValue("path", out var childPath);
+            if (string.IsNullOrEmpty(childPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            args.TryGetValue("componentType", out var compTypeName);
+            if (string.IsNullOrEmpty(compTypeName))
+                return CmdResult.Err(
+                    "Missing parameter: componentType");
+
+            args.TryGetValue("property", out var propName);
+            if (string.IsNullOrEmpty(propName))
+                return CmdResult.Err("Missing parameter: property");
+
+            args.TryGetValue("value", out var valueStr);
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath)
+                    == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            try
+            {
+                var contents =
+                    PrefabUtility.LoadPrefabContents(prefabPath);
+
+                var target = contents.transform.Find(childPath);
+                if (target == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"GameObject not found: {childPath}");
+                }
+
+                Component comp = null;
+                foreach (var c in target.GetComponents<Component>())
+                {
+                    if (c == null) continue;
+                    var tn = c.GetType().Name;
+                    var fn = c.GetType().FullName;
+                    if (tn == compTypeName || fn == compTypeName)
+                    {
+                        comp = c;
+                        break;
+                    }
+                }
+
+                if (comp == null)
+                {
+                    PrefabUtility.UnloadPrefabContents(contents);
+                    return CmdResult.Err(
+                        $"Component not found: {compTypeName}"
+                        + $" on {childPath}");
+                }
+
+                using (var so = new SerializedObject(comp))
+                {
+                    var sp = so.FindProperty(propName);
+                    if (sp == null)
+                    {
+                        PrefabUtility.UnloadPrefabContents(contents);
+                        return CmdResult.Err(
+                            $"Property not found: {propName} on "
+                            + compTypeName);
+                    }
+
+                    var ok = TrySetSerializedProperty(
+                        sp, valueStr);
+                    if (!ok)
+                    {
+                        PrefabUtility.UnloadPrefabContents(contents);
+                        return CmdResult.Err(
+                            $"Failed to set {propName} to "
+                            + $"'{valueStr}' (type={sp.propertyType})");
+                    }
+
+                    so.ApplyModifiedProperties();
+                }
+
+                PrefabUtility.SaveAsPrefabAsset(contents, prefabPath);
+                PrefabUtility.UnloadPrefabContents(contents);
+
+                return CmdResult.Ok(new Dictionary<string, object>
+                {
+                    ["status"] = "property_set",
+                    ["prefabPath"] = prefabPath,
+                    ["path"] = childPath,
+                    ["component"] = comp.GetType().Name,
+                    ["property"] = propName,
+                    ["value"] = valueStr ?? "",
+                });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to set property: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Parse a string value into the appropriate SerializedProperty
+        /// type. Supports integer, float, bool, string, Vector2/3/4,
+        /// Color, Rect, and enum (by name or int).
+        /// </summary>
+        private static bool TrySetSerializedProperty(
+            SerializedProperty sp, string value)
+        {
+            switch (sp.propertyType)
+            {
+                case SerializedPropertyType.Integer:
+                    if (int.TryParse(value, out var iv))
+                    { sp.intValue = iv; return true; }
+                    return false;
+
+                case SerializedPropertyType.Float:
+                    if (float.TryParse(value,
+                            System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo
+                                .InvariantCulture,
+                            out var fv))
+                    { sp.floatValue = fv; return true; }
+                    return false;
+
+                case SerializedPropertyType.Boolean:
+                    if (bool.TryParse(value, out var bv))
+                    { sp.boolValue = bv; return true; }
+                    return false;
+
+                case SerializedPropertyType.String:
+                    sp.stringValue = value ?? "";
+                    return true;
+
+                case SerializedPropertyType.Color:
+                    if (ColorUtility.TryParseHtmlString(
+                            value, out var col))
+                    { sp.colorValue = col; return true; }
+                    return false;
+
+                case SerializedPropertyType.Vector2:
+                    var v2 = ParseVector2(value);
+                    if (v2.HasValue)
+                    { sp.vector2Value = v2.Value; return true; }
+                    return false;
+
+                case SerializedPropertyType.Vector3:
+                    var v3 = ParseVector3(value);
+                    if (v3.HasValue)
+                    { sp.vector3Value = v3.Value; return true; }
+                    return false;
+
+                case SerializedPropertyType.Vector4:
+                    var v4 = ParseVector4(value);
+                    if (v4.HasValue)
+                    { sp.vector4Value = v4.Value; return true; }
+                    return false;
+
+                case SerializedPropertyType.Rect:
+                    var r = ParseRect(value);
+                    if (r.HasValue)
+                    { sp.rectValue = r.Value; return true; }
+                    return false;
+
+                case SerializedPropertyType.Enum:
+                    // Try integer index first, then name.
+                    if (int.TryParse(value, out var ei))
+                    { sp.enumValueIndex = ei; return true; }
+                    return false;
+
+                case SerializedPropertyType.ObjectReference:
+                    if (string.IsNullOrEmpty(value)
+                            || value == "null")
+                    {
+                        sp.objectReferenceValue = null;
+                        return true;
+                    }
+                    return false;
+
+                default:
+                    return false;
+            }
+        }
+
+        private static Vector2? ParseVector2(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return null;
+            var parts = value.Trim('(', ')', ' ')
+                .Split(',', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2
+                && float.TryParse(parts[0],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var x)
+                && float.TryParse(parts[1],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var y))
+                return new Vector2(x, y);
+            return null;
+        }
+
+        private static Vector3? ParseVector3(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return null;
+            var parts = value.Trim('(', ')', ' ')
+                .Split(',', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 3
+                && float.TryParse(parts[0],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var x)
+                && float.TryParse(parts[1],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var y)
+                && float.TryParse(parts[2],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var z))
+                return new Vector3(x, y, z);
+            return null;
+        }
+
+        private static Vector4? ParseVector4(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return null;
+            var parts = value.Trim('(', ')', ' ')
+                .Split(',', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 4
+                && float.TryParse(parts[0],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var x)
+                && float.TryParse(parts[1],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var y)
+                && float.TryParse(parts[2],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var z)
+                && float.TryParse(parts[3],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var w))
+                return new Vector4(x, y, z, w);
+            return null;
+        }
+
+        private static Rect? ParseRect(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return null;
+            var parts = value.Trim('(', ')', ' ')
+                .Split(',', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 4
+                && float.TryParse(parts[0],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var x)
+                && float.TryParse(parts[1],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var y)
+                && float.TryParse(parts[2],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var w)
+                && float.TryParse(parts[3],
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo
+                        .InvariantCulture,
+                    out var h))
+                return new Rect(x, y, w, h);
+            return null;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  generate_ui_code — scan prefab + generate View/Logic/ViewData
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult GenerateUiCode(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("prefabPath", out var prefabPath);
+            if (string.IsNullOrEmpty(prefabPath))
+                return CmdResult.Err("Missing parameter: prefabPath");
+
+            var prefab =
+                AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null)
+                return CmdResult.Err(
+                    $"Prefab not found at: {prefabPath}");
+
+            args.TryGetValue("formName", out var formName);
+            if (string.IsNullOrEmpty(formName))
+                formName = Path.GetFileNameWithoutExtension(
+                    prefabPath);
+
+            args.TryGetValue("viewType", out var viewTypeStr);
+            var viewType = viewTypeStr == "Part"
+                ? UiViewBinding.ViewType.Part
+                : UiViewBinding.ViewType.Form;
+
+            args.TryGetValue("formType", out var formType);
+            if (string.IsNullOrEmpty(formType))
+                formType = "Popup";
+
+            args.TryGetValue("namespace", out var ns);
+            if (string.IsNullOrEmpty(ns))
+                ns = "GenBall.UI";
+
+            args.TryGetValue("outputPath", out var outputDir);
+            if (string.IsNullOrEmpty(outputDir))
+                outputDir =
+                    $"Assets/Scripts/GenBall/UI/{formName}";
+
+            try
+            {
+                // 1. Get or build config (fallback to defaults).
+                var config = GetOrCreateBindingConfig();
+
+                // 2. Scan the prefab.
+                var scanResult = UiPrefabScanner.Scan(
+                    prefab, config, prefabPath);
+                scanResult.formName = formName;
+
+                // 3. Determine base classes.
+                string viewBase, logicBase;
+                if (viewType == UiViewBinding.ViewType.Part)
+                {
+                    viewBase = "Yueyn.UI.PartViewBase";
+                    logicBase = "Yueyn.UI.BusinessPartLogic";
+                }
+                else
+                {
+                    viewBase = "Yueyn.UI.UIBusinessFormBase";
+                    logicBase = "Yueyn.UI.BusinessFormLogic";
+                }
+
+                // 4. Generate code files.
+                UiBindingCodeGenerator.GenerateAll(
+                    scanResult, formName, formType,
+                    outputDir, ns,
+                    viewBase, logicBase, viewType);
+
+                // 5. Collect generated files.
+                var files = new List<string>();
+                var viewFile = Path.Combine(outputDir,
+                    UiBindingCodeGenerator.GetViewFileName(
+                        formName));
+                var logicFile = Path.Combine(outputDir,
+                    UiBindingCodeGenerator.GetLogicFileName(
+                        formName));
+                var viewDataFile = Path.Combine(outputDir,
+                    UiBindingCodeGenerator.GetViewDataFileName(
+                        formName));
+                if (File.Exists(viewFile))
+                    files.Add(viewFile.Replace("\\", "/"));
+                if (File.Exists(logicFile))
+                    files.Add(logicFile.Replace("\\", "/"));
+                if (File.Exists(viewDataFile))
+                    files.Add(viewDataFile.Replace("\\", "/"));
+
+                return CmdResult.Ok(
+                    new Dictionary<string, object>
+                    {
+                        ["status"] = "generated",
+                        ["prefabPath"] = prefabPath,
+                        ["formName"] = formName,
+                        ["viewType"] = viewTypeStr,
+                        ["formType"] = formType,
+                        ["outputDir"] = outputDir,
+                        ["files"] = files,
+                        ["bindingCount"] =
+                            scanResult.bindings.Count,
+                        ["warnings"] = scanResult.warnings,
+                    });
+            }
+            catch (Exception ex)
+            {
+                return CmdResult.Err(
+                    $"Failed to generate code: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Get or build a UiBindingConfig. Tries to find one in the
+        /// project first; falls back to a temporary config built from
+        /// the hardcoded default 17 mappings.
+        /// </summary>
+        private static UiBindingConfig GetOrCreateBindingConfig()
+        {
+            // Try project first.
+            var guids = AssetDatabase.FindAssets(
+                "t:UiBindingConfig");
+            if (guids.Length > 0)
+                return AssetDatabase.LoadAssetAtPath<
+                    UiBindingConfig>(
+                    AssetDatabase.GUIDToAssetPath(guids[0]));
+
+            // Fallback: build from DefaultMappings.
+            var config = ScriptableObject
+                .CreateInstance<UiBindingConfig>();
+
+            var defaults = new (string, string, string, string,
+                string, int)[]
+            {
+                ("Btn", "Button",
+                    "UnityEngine.UI.Button", "UnityEngine.UI",
+                    "interactive", 10),
+                ("Txt", "Text",
+                    "UnityEngine.UI.Text", "UnityEngine.UI",
+                    "display", 20),
+                ("Img", "Image",
+                    "UnityEngine.UI.Image", "UnityEngine.UI",
+                    "display", 30),
+                ("RawImg", "RawImage",
+                    "UnityEngine.UI.RawImage", "UnityEngine.UI",
+                    "display", 35),
+                ("Rect", "RectTransform",
+                    "UnityEngine.RectTransform", "UnityEngine",
+                    "layout", 40),
+                ("Input", "InputField",
+                    "UnityEngine.UI.InputField", "UnityEngine.UI",
+                    "interactive", 50),
+                ("Slider", "Slider",
+                    "UnityEngine.UI.Slider", "UnityEngine.UI",
+                    "interactive", 60),
+                ("Toggle", "Toggle",
+                    "UnityEngine.UI.Toggle", "UnityEngine.UI",
+                    "interactive", 70),
+                ("Scroll", "ScrollRect",
+                    "UnityEngine.UI.ScrollRect", "UnityEngine.UI",
+                    "interactive", 80),
+                ("Dropdown", "Dropdown",
+                    "UnityEngine.UI.Dropdown", "UnityEngine.UI",
+                    "interactive", 90),
+                ("Scrollbar", "Scrollbar",
+                    "UnityEngine.UI.Scrollbar", "UnityEngine.UI",
+                    "interactive", 100),
+                ("CanvasGroup", "CanvasGroup",
+                    "UnityEngine.CanvasGroup", "UnityEngine",
+                    "layout", 110),
+                ("LayoutElem", "LayoutElement",
+                    "UnityEngine.UI.LayoutElement",
+                    "UnityEngine.UI", "layout", 120),
+                ("Fitter", "ContentSizeFitter",
+                    "UnityEngine.UI.ContentSizeFitter",
+                    "UnityEngine.UI", "layout", 130),
+                ("HLayout", "HorizontalLayoutGroup",
+                    "UnityEngine.UI.HorizontalLayoutGroup",
+                    "UnityEngine.UI", "layout", 140),
+                ("VLayout", "VerticalLayoutGroup",
+                    "UnityEngine.UI.VerticalLayoutGroup",
+                    "UnityEngine.UI", "layout", 150),
+                ("Grid", "GridLayoutGroup",
+                    "UnityEngine.UI.GridLayoutGroup",
+                    "UnityEngine.UI", "layout", 160),
+            };
+
+            foreach (var (prefix, compType, fullName,
+                         useNs, cat, pri) in defaults)
+            {
+                config.prefixMappings.Add(new PrefixMapping
+                {
+                    prefix = prefix,
+                    componentType = compType,
+                    fullName = fullName,
+                    usingNamespace = useNs,
+                    category = cat,
+                    priority = pri,
+                });
+            }
+
+            return config;
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -582,6 +1663,66 @@ namespace Yueyn.Editor.UnityMcp
             for (int i = 0; i < t.childCount; i++)
                 n += CountAll(t.GetChild(i));
             return n;
+        }
+
+        /// <summary>
+        /// Resolve a type name (full or short) to a System.Type.
+        /// Examples: "UnityEngine.UI.Button", "Button", "Text",
+        /// "ContentSizeFitter", "LayoutElement".
+        /// </summary>
+        private static Type FindType(string name)
+        {
+            // Try as a full name via Type.GetType with common assemblies.
+            var type = Type.GetType($"{name}, UnityEngine.UI");
+            if (type != null) return type;
+
+            type = Type.GetType($"{name}, UnityEngine");
+            if (type != null) return type;
+
+            type = Type.GetType(name);
+            if (type != null) return type;
+
+            // Try appending Unity namespaces.
+            foreach (var ns in new[]
+                     {
+                         "UnityEngine.UI",
+                         "UnityEngine",
+                         "UnityEditor",
+                     })
+            {
+                type = Type.GetType($"{ns}.{name}, UnityEngine.UI");
+                if (type != null) return type;
+                type = Type.GetType($"{ns}.{name}, UnityEngine");
+                if (type != null) return type;
+            }
+
+            // Brute-force search by full name across assemblies.
+            foreach (var asm in AppDomain.CurrentDomain
+                         .GetAssemblies())
+            {
+                type = asm.GetType(name);
+                if (type != null) return type;
+            }
+
+            // Brute-force search by short name (last resort).
+            foreach (var asm in AppDomain.CurrentDomain
+                         .GetAssemblies())
+            {
+                try
+                {
+                    foreach (var t in asm.GetTypes())
+                    {
+                        if (t.Name == name || t.FullName == name)
+                            return t;
+                    }
+                }
+                catch
+                {
+                    // Some assemblies throw on GetTypes().
+                }
+            }
+
+            return null;
         }
 
         /// <summary>Public path for external readers (Python).</summary>

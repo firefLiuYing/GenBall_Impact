@@ -158,7 +158,7 @@ async def _tool_compile(bridge: UnityBridge, _arguments: dict) -> dict:
     """
     COMPILE_TIMEOUT = 120.0
     POLL_INTERVAL = 2.0
-    full_rebuild = bool(arguments.get("fullRebuild", False))
+    full_rebuild = bool(_arguments.get("fullRebuild", False))
 
     bridge.pause_heartbeat()
 
@@ -384,6 +384,552 @@ async def _tool_list_hierarchy(bridge: UnityBridge, arguments: dict) -> dict:
             "prefabPath": prefab_path,
             "hierarchy": result.get("hierarchy", {}),
             "totalObjects": result.get("totalObjects", 0),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_create_prefab",
+    (
+        "Create a new UI prefab with the correct component stack. "
+        "For Form: Canvas + CanvasScaler + GraphicRaycaster + "
+        "UIFormScript + UiViewBinding. "
+        "For Part: RectTransform + UiViewBinding (no Canvas — "
+        "Unity auto-adds a temporary Canvas in prefab view only)."
+    ),
+    {
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": (
+                    "Project-relative path for the new .prefab file, "
+                    "e.g. 'Assets/AssetBundles/UI/ShopForm/ShopForm.prefab'"
+                ),
+            },
+            "viewType": {
+                "type": "string",
+                "description": (
+                    "'Form' (default) for full-screen UI pages; "
+                    "'Part' for reusable UI sub-components. "
+                    "Part prefabs have no Canvas/CanvasScaler/"
+                    "GraphicRaycaster/UIFormScript."
+                ),
+            },
+            "canvasType": {
+                "type": "string",
+                "description": (
+                    "Canvas render mode (Form only): "
+                    "'ScreenSpaceOverlay' (default), "
+                    "'ScreenSpaceCamera', or 'WorldSpace'"
+                ),
+            },
+        },
+        "required": ["path"],
+    },
+)
+async def _tool_create_prefab(bridge: UnityBridge, arguments: dict) -> dict:
+    """Create a new UI prefab with standard components."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("path", "")
+    view_type = arguments.get("viewType", "Form")
+    canvas_type = arguments.get("canvasType", "ScreenSpaceOverlay")
+
+    try:
+        response = await bridge.send_command("create_prefab", {
+            "path": prefab_path,
+            "viewType": view_type,
+            "canvasType": canvas_type,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", prefab_path),
+            "prefabName": result.get("prefabName", ""),
+            "viewType": result.get("viewType", view_type),
+            "canvasType": result.get("canvasType", canvas_type),
+            "hierarchy": result.get("hierarchy", {}),
+            "components": result.get("components", []),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_add_gameobject",
+    (
+        "Add a child GameObject to a UI prefab with automatic component "
+        "matching based on naming prefix. "
+        "Prefixes: Btn→Button+Image, Txt→Text, Img→Image, "
+        "RawImg→RawImage, Input→InputField+Image, Slider→Slider, "
+        "Toggle→Toggle, Scroll→ScrollRect, Dropdown→Dropdown, "
+        "Scrollbar→Scrollbar+Image, CanvasGroup→CanvasGroup, "
+        "LayoutElem→LayoutElement, Fitter→ContentSizeFitter, "
+        "HLayout→HorizontalLayoutGroup, VLayout→VerticalLayoutGroup, "
+        "Grid→GridLayoutGroup, Rect→no extra component."
+    ),
+    {
+        "type": "object",
+        "properties": {
+            "prefabPath": {
+                "type": "string",
+                "description": (
+                    "Project-relative path to the .prefab file"
+                ),
+            },
+            "name": {
+                "type": "string",
+                "description": (
+                    "GameObject name with prefix, "
+                    "e.g. 'BtnConfirm', 'TxtTitle', 'ImgIcon'"
+                ),
+            },
+            "parentPath": {
+                "type": "string",
+                "description": (
+                    "Parent node path using '/' separator, "
+                    "relative to prefab root. "
+                    "Empty or omitted = root. "
+                    "e.g. 'Panel/ButtonRow'"
+                ),
+            },
+        },
+        "required": ["prefabPath", "name"],
+    },
+)
+async def _tool_add_gameobject(bridge: UnityBridge, arguments: dict) -> dict:
+    """Add a child GameObject to a UI prefab."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("prefabPath", "")
+    name = arguments.get("name", "")
+    parent_path = arguments.get("parentPath", "")
+
+    try:
+        response = await bridge.send_command("add_gameobject", {
+            "prefabPath": prefab_path,
+            "name": name,
+            "parentPath": parent_path,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", prefab_path),
+            "gameObject": result.get("gameObject", name),
+            "path": result.get("path", name),
+            "components": result.get("components", []),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_delete_prefab",
+    "Delete a .prefab asset from the project (deletes both .prefab and "
+    ".meta files). Use with caution — this cannot be undone.",
+    {
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": (
+                    "Project-relative path to the .prefab file, "
+                    "e.g. 'Assets/AssetBundles/UI/ShopForm/ShopForm.prefab'"
+                ),
+            },
+        },
+        "required": ["path"],
+    },
+)
+async def _tool_delete_prefab(bridge: UnityBridge, arguments: dict) -> dict:
+    """Delete a .prefab asset."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("path", "")
+
+    try:
+        response = await bridge.send_command("delete_prefab", {
+            "path": prefab_path,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "path": result.get("path", prefab_path),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_remove_gameobject",
+    "Remove a child GameObject from a UI prefab by its path. "
+    "The path uses '/' separator relative to prefab root, "
+    "e.g. 'Panel/OldButton'.",
+    {
+        "type": "object",
+        "properties": {
+            "prefabPath": {
+                "type": "string",
+                "description": "Project-relative path to the .prefab file",
+            },
+            "path": {
+                "type": "string",
+                "description": (
+                    "Path to the GameObject to remove, "
+                    "using '/' separator, relative to prefab root"
+                ),
+            },
+        },
+        "required": ["prefabPath", "path"],
+    },
+)
+async def _tool_remove_gameobject(bridge: UnityBridge, arguments: dict) -> dict:
+    """Remove a child GameObject from a prefab."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("prefabPath", "")
+    child_path = arguments.get("path", "")
+
+    try:
+        response = await bridge.send_command("remove_gameobject", {
+            "prefabPath": prefab_path,
+            "path": child_path,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", prefab_path),
+            "path": result.get("path", child_path),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_add_component",
+    "Add a component to a GameObject in a prefab. "
+    "Examples: 'Text', 'Image', 'Button', 'LayoutElement', "
+    "'ContentSizeFitter', 'HorizontalLayoutGroup'.",
+    {
+        "type": "object",
+        "properties": {
+            "prefabPath": {
+                "type": "string",
+                "description": "Project-relative path to the .prefab file",
+            },
+            "path": {
+                "type": "string",
+                "description": (
+                    "Path to the target GameObject, "
+                    "using '/' separator, relative to prefab root"
+                ),
+            },
+            "componentType": {
+                "type": "string",
+                "description": (
+                    "Component type name (short or full), "
+                    "e.g. 'Image', 'UnityEngine.UI.Image', 'Button'"
+                ),
+            },
+        },
+        "required": ["prefabPath", "path", "componentType"],
+    },
+)
+async def _tool_add_component(bridge: UnityBridge, arguments: dict) -> dict:
+    """Add a component to a GameObject in a prefab."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("prefabPath", "")
+    child_path = arguments.get("path", "")
+    comp_type = arguments.get("componentType", "")
+
+    try:
+        response = await bridge.send_command("add_component", {
+            "prefabPath": prefab_path,
+            "path": child_path,
+            "componentType": comp_type,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", prefab_path),
+            "path": result.get("path", child_path),
+            "component": result.get("component", comp_type),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_remove_component",
+    "Remove a component from a GameObject in a prefab. "
+    "Cannot remove mandatory components (Transform, RectTransform).",
+    {
+        "type": "object",
+        "properties": {
+            "prefabPath": {
+                "type": "string",
+                "description": "Project-relative path to the .prefab file",
+            },
+            "path": {
+                "type": "string",
+                "description": (
+                    "Path to the target GameObject, "
+                    "using '/' separator, relative to prefab root"
+                ),
+            },
+            "componentType": {
+                "type": "string",
+                "description": (
+                    "Component type name, e.g. 'Image', 'Button', 'Text'"
+                ),
+            },
+        },
+        "required": ["prefabPath", "path", "componentType"],
+    },
+)
+async def _tool_remove_component(bridge: UnityBridge, arguments: dict) -> dict:
+    """Remove a component from a GameObject in a prefab."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("prefabPath", "")
+    child_path = arguments.get("path", "")
+    comp_type = arguments.get("componentType", "")
+
+    try:
+        response = await bridge.send_command("remove_component", {
+            "prefabPath": prefab_path,
+            "path": child_path,
+            "componentType": comp_type,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", prefab_path),
+            "path": result.get("path", child_path),
+            "component": result.get("component", comp_type),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_set_component_property",
+    "Set a serialized property on a component in a prefab. "
+    "Supports: int, float, bool, string, Color (#hex), "
+    "Vector2/3/4 '(x,y,...)', Rect '(x,y,w,h)', enum (int index).",
+    {
+        "type": "object",
+        "properties": {
+            "prefabPath": {
+                "type": "string",
+                "description": "Project-relative path to the .prefab file",
+            },
+            "path": {
+                "type": "string",
+                "description": (
+                    "Path to the target GameObject, "
+                    "using '/' separator, relative to prefab root"
+                ),
+            },
+            "componentType": {
+                "type": "string",
+                "description": (
+                    "Component type name, e.g. 'Text', 'Image', "
+                    "'LayoutElement', 'ContentSizeFitter'"
+                ),
+            },
+            "property": {
+                "type": "string",
+                "description": (
+                    "Serialized property name, e.g. 'm_Text', "
+                    "'m_Color', 'preferredWidth', 'm_FontSize'"
+                ),
+            },
+            "value": {
+                "type": "string",
+                "description": (
+                    "String representation of the value. "
+                    "Numbers: '42', '3.14'. Booleans: 'true'/'false'. "
+                    "Colors: '#FF0000FF'. Vectors: '(1, 2, 3)'. "
+                    "Rect: '(0, 0, 100, 100)'. "
+                    "Enum: integer index."
+                ),
+            },
+        },
+        "required": ["prefabPath", "path", "componentType", "property"],
+    },
+)
+async def _tool_set_property(bridge: UnityBridge, arguments: dict) -> dict:
+    """Set a component property in a prefab."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    prefab_path = arguments.get("prefabPath", "")
+    child_path = arguments.get("path", "")
+    comp_type = arguments.get("componentType", "")
+    prop_name = arguments.get("property", "")
+    value = arguments.get("value", "")
+
+    try:
+        response = await bridge.send_command("set_component_property", {
+            "prefabPath": prefab_path,
+            "path": child_path,
+            "componentType": comp_type,
+            "property": prop_name,
+            "value": value,
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", prefab_path),
+            "path": result.get("path", child_path),
+            "component": result.get("component", comp_type),
+            "property": result.get("property", prop_name),
+            "value": result.get("value", value),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
+
+
+@ToolRegistry.register(
+    "unity_generate_ui_code",
+    (
+        "Generate UI code from a prefab. "
+        "Scans child GameObjects for UI controls matching prefix "
+        "conventions, then generates View.cs + Logic.cs + ViewData.cs. "
+        "Uses UiPrefabScanner + UiBindingCodeGenerator."
+    ),
+    {
+        "type": "object",
+        "properties": {
+            "prefabPath": {
+                "type": "string",
+                "description": (
+                    "Project-relative path to the .prefab file, "
+                    "e.g. 'Assets/AssetBundles/UI/ShopForm/ShopForm.prefab'"
+                ),
+            },
+            "formName": {
+                "type": "string",
+                "description": (
+                    "Form name (without suffix). "
+                    "Defaults to prefab filename."
+                ),
+            },
+            "viewType": {
+                "type": "string",
+                "description": (
+                    "'Form' (default) or 'Part'. "
+                    "Determines base classes and generated file structure."
+                ),
+            },
+            "formType": {
+                "type": "string",
+                "description": (
+                    "Form type (Form only): 'Popup' (default), "
+                    "'Persistent', 'Transition', 'WorldSpace'"
+                ),
+            },
+            "namespace": {
+                "type": "string",
+                "description": (
+                    "C# namespace for generated code. "
+                    "Default: 'GenBall.UI'"
+                ),
+            },
+            "outputPath": {
+                "type": "string",
+                "description": (
+                    "Output directory for generated files. "
+                    "Default: 'Assets/Scripts/GenBall/UI/{formName}'"
+                ),
+            },
+        },
+        "required": ["prefabPath"],
+    },
+)
+async def _tool_generate_ui_code(bridge: UnityBridge, arguments: dict) -> dict:
+    """Generate UI binding code from a prefab."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    try:
+        response = await bridge.send_command("generate_ui_code", {
+            "prefabPath": arguments.get("prefabPath", ""),
+            "formName": arguments.get("formName", ""),
+            "viewType": arguments.get("viewType", "Form"),
+            "formType": arguments.get("formType", "Popup"),
+            "namespace": arguments.get("namespace", "GenBall.UI"),
+            "outputPath": arguments.get("outputPath", ""),
+        })
+
+        if "error" in response:
+            return {"error": response["error"]}
+
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "prefabPath": result.get("prefabPath", ""),
+            "formName": result.get("formName", ""),
+            "viewType": result.get("viewType", "Form"),
+            "formType": result.get("formType", "Popup"),
+            "outputDir": result.get("outputDir", ""),
+            "files": result.get("files", []),
+            "bindingCount": result.get("bindingCount", 0),
+            "warnings": result.get("warnings", []),
         }
     except RuntimeError as e:
         return {"error": str(e)}
