@@ -14,8 +14,8 @@ namespace Yueyn.Editor.UnityMcp
 {
     /// <summary>
     /// TCP server that listens for connections from the Python MCP bridge.
-    /// Receives commands on background threads, executes them on the main thread,
-    /// and sends responses back.
+    /// Receives commands on background threads, executes them on the main
+    /// thread, and sends responses back.
     ///
     /// Auto-starts on Unity Editor load via [InitializeOnLoad].
     /// </summary>
@@ -32,8 +32,10 @@ namespace Yueyn.Editor.UnityMcp
         private static CancellationTokenSource _cts;
 
         // Thread-safe queues
-        private static readonly ConcurrentQueue<string> IncomingMessages = new();
-        private static readonly BlockingCollection<string> OutgoingMessages = new();
+        private static readonly ConcurrentQueue<string> IncomingMessages =
+            new();
+        private static readonly BlockingCollection<string> OutgoingMessages =
+            new();
 
         private static bool _compileEventsSubscribed;
 
@@ -41,18 +43,34 @@ namespace Yueyn.Editor.UnityMcp
         {
             EditorApplication.update += OnEditorUpdate;
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
-            StartServer();
+
+            // Don't start the server if we're in a domain reload that's
+            // part of entering Play Mode. The EnteredEditMode handler will
+            // start it when we return to Edit Mode.
+            if (!EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                StartServer();
+            }
         }
 
         private static void OnPlayModeChanged(PlayModeStateChange state)
         {
-            if (state == PlayModeStateChange.ExitingEditMode)
+            switch (state)
             {
-                Disconnect();
-            }
-            else if (state == PlayModeStateChange.EnteredEditMode)
-            {
-                StartServer();
+                case PlayModeStateChange.ExitingEditMode:
+                    Disconnect();
+                    break;
+
+                case PlayModeStateChange.EnteredPlayMode:
+                    Disconnect();
+                    break;
+
+                case PlayModeStateChange.ExitingPlayMode:
+                    break;
+
+                case PlayModeStateChange.EnteredEditMode:
+                    StartServer();
+                    break;
             }
         }
 
@@ -70,23 +88,24 @@ namespace Yueyn.Editor.UnityMcp
                 _listener = null;
             }
 
-            // After domain reload, the old AppDomain's background thread may still
-            // hold port 9876 in a blocking Accept. Connect to it briefly to unblock
-            // the old thread, causing it to crash (its user-code methods are gone)
-            // and release the port.
+            // After domain reload, the old AppDomain's background thread
+            // may still hold port 9876 in a blocking Accept. Connect to
+            // it briefly to unblock the old thread, causing it to crash
+            // (its user-code methods are gone) and release the port.
             for (int i = 0; i < 3; i++)
             {
                 try
                 {
                     using (var knock = new TcpClient("127.0.0.1", Port))
                     {
-                        // Connected — old thread's AcceptTcpClient returned, and it
-                        // will crash when trying to call ReceiveLoop (unloaded assembly).
+                        // Connected — old thread's AcceptTcpClient
+                        // returned, and it will crash when trying to
+                        // call ReceiveLoop (unloaded assembly).
                     }
                 }
                 catch
                 {
-                    // Port is not connectable → old listener is already gone
+                    // Port is not connectable → old listener is gone
                     break;
                 }
                 Thread.Sleep(500);
@@ -112,22 +131,32 @@ namespace Yueyn.Editor.UnityMcp
                 try
                 {
                     listener = new TcpListener(IPAddress.Loopback, Port);
-                    listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    listener.Server.SetSocketOption(
+                        SocketOptionLevel.Socket,
+                        SocketOptionName.ReuseAddress, true);
                     listener.Start();
                     _listener = listener;
                     _isRunning = true;
+#if UNITY_MCP_VERBOSE
                     Debug.Log($"[UnityMcp] Listening on port {Port}");
+#endif
                     break;
                 }
                 catch (SocketException ex)
                 {
-                    Debug.LogWarning($"[UnityMcp] Bind attempt {retry + 1}/5: {ex.Message}");
+                    Debug.LogWarning(
+                        $"[UnityMcp] Bind attempt {retry + 1}/5: "
+                        + ex.Message);
                     try { listener?.Server?.Close(); } catch { }
                     listener = null;
                     if (retry < 4)
                     {
-                        // Try to knock the old listener and wait for port release
-                        try { using (var _ = new TcpClient("127.0.0.1", Port)) { } } catch { }
+                        try
+                        {
+                            using (var _ = new TcpClient(
+                                "127.0.0.1", Port)) { }
+                        }
+                        catch { }
                         Thread.Sleep(1000);
                     }
                 }
@@ -135,7 +164,9 @@ namespace Yueyn.Editor.UnityMcp
 
             if (listener == null)
             {
-                Debug.LogError($"[UnityMcp] Failed to listen on port {Port} after 5 attempts.");
+                Debug.LogError(
+                    $"[UnityMcp] Failed to listen on port {Port} "
+                    + "after 5 attempts.");
                 _isRunning = false;
                 return;
             }
@@ -147,8 +178,6 @@ namespace Yueyn.Editor.UnityMcp
                     TcpClient newClient = null;
                     try
                     {
-                        // Non-blocking poll — avoids permanent block in native accept(),
-                        // allowing shutdown signals and domain reloads to be noticed.
                         if (_listener.Pending())
                             newClient = _listener.AcceptTcpClient();
                     }
@@ -163,28 +192,33 @@ namespace Yueyn.Editor.UnityMcp
                         {
                             if (_client != null)
                             {
-                                Debug.LogWarning("[UnityMcp] Rejecting new connection: already connected");
+                                Debug.LogWarning(
+                                    "[UnityMcp] Rejecting new connection: "
+                                    + "already connected");
                                 newClient.Close();
                                 continue;
                             }
                             _client = newClient;
                         }
 
-                        // Set timeouts to detect stale connections
                         newClient.ReceiveTimeout = 60000;
                         newClient.SendTimeout = 30000;
 
+#if UNITY_MCP_VERBOSE
                         Debug.Log("[UnityMcp] Client connected");
+#endif
 
-                        // Per-connection cancellation
-                        using (var connCts = new CancellationTokenSource())
+                        using (var connCts =
+                            new CancellationTokenSource())
                         {
-                            var receiveThread = new Thread(() => ReceiveLoop(newClient, connCts.Token))
+                            var receiveThread = new Thread(() =>
+                                ReceiveLoop(newClient, connCts.Token))
                             {
                                 IsBackground = true,
                                 Name = "UnityMcp-Receive"
                             };
-                            var sendThread = new Thread(() => SendLoop(newClient, connCts.Token))
+                            var sendThread = new Thread(() =>
+                                SendLoop(newClient, connCts.Token))
                             {
                                 IsBackground = true,
                                 Name = "UnityMcp-Send"
@@ -193,7 +227,7 @@ namespace Yueyn.Editor.UnityMcp
                             receiveThread.Start();
                             sendThread.Start();
 
-                            // Wait for receive to finish (means client disconnected)
+                            // Wait for receive to finish
                             receiveThread.Join();
 
                             // Signal send thread to stop
@@ -210,19 +244,18 @@ namespace Yueyn.Editor.UnityMcp
                             _client = null;
                         }
 
+#if UNITY_MCP_VERBOSE
                         Debug.Log("[UnityMcp] Client disconnected");
+#endif
                     }
                     else
                     {
-                        // No pending connection — brief sleep to avoid busy-waiting
                         Thread.Sleep(100);
                     }
                 }
             }
             finally
             {
-                // Only clean up our own listener — StartServer may have been called
-                // again (e.g. after domain reload) with a new listener already.
                 if (ReferenceEquals(_listener, listener))
                 {
                     _isRunning = false;
@@ -235,12 +268,14 @@ namespace Yueyn.Editor.UnityMcp
 
         // ── Receive / Send loops ──────────────────────────────────────
 
-        private static void ReceiveLoop(TcpClient client, CancellationToken ct)
+        private static void ReceiveLoop(
+            TcpClient client, CancellationToken ct)
         {
             try
             {
                 using (var stream = client.GetStream())
-                using (var reader = new StreamReader(stream, Encoding.UTF8, false, MaxMessageSize))
+                using (var reader = new StreamReader(
+                    stream, Encoding.UTF8, false, MaxMessageSize))
                 {
                     while (!ct.IsCancellationRequested)
                     {
@@ -252,7 +287,7 @@ namespace Yueyn.Editor.UnityMcp
                         catch (IOException) { break; }
                         catch (ObjectDisposedException) { break; }
 
-                        if (line == null) break; // stream closed
+                        if (line == null) break;
                         if (string.IsNullOrWhiteSpace(line)) continue;
 
                         IncomingMessages.Enqueue(line);
@@ -261,23 +296,28 @@ namespace Yueyn.Editor.UnityMcp
             }
             catch (Exception ex)
             {
-                Debug.Log($"[UnityMcp] Receive error: {ex.Message}");
+                Debug.LogWarning(
+                    $"[UnityMcp] Receive error: {ex.Message}");
             }
         }
 
-        private static void SendLoop(TcpClient client, CancellationToken ct)
+        private static void SendLoop(
+            TcpClient client, CancellationToken ct)
         {
             try
             {
                 using (var stream = client.GetStream())
-                using (var writer = new StreamWriter(stream, Encoding.UTF8, MaxMessageSize) { AutoFlush = false })
+                using (var writer = new StreamWriter(
+                    stream, Encoding.UTF8, MaxMessageSize)
+                    { AutoFlush = false })
                 {
                     while (!ct.IsCancellationRequested)
                     {
                         string line;
                         try
                         {
-                            if (!OutgoingMessages.TryTake(out line, 500, ct))
+                            if (!OutgoingMessages.TryTake(
+                                out line, 500, ct))
                                 continue;
                         }
                         catch (OperationCanceledException) { break; }
@@ -295,7 +335,8 @@ namespace Yueyn.Editor.UnityMcp
             }
             catch (Exception ex)
             {
-                Debug.Log($"[UnityMcp] Send error: {ex.Message}");
+                Debug.LogWarning(
+                    $"[UnityMcp] Send error: {ex.Message}");
             }
         }
 
@@ -323,11 +364,17 @@ namespace Yueyn.Editor.UnityMcp
         {
             try
             {
-                var requestId = ExtractString(json, "id");
-                var method = ExtractString(json, "method");
-                var args = ExtractParams(json, "params");
+                // ── Parse request envelope via JsonUtility ──
+                var envelope = JsonUtility.FromJson<JsonRpcEnvelope>(json);
+                var requestId = envelope.id ?? "";
+                var method = envelope.method ?? "";
 
+                // ── Parse params into Dictionary<string, string> ──
+                var args = ExtractParamsDict(json);
+
+#if UNITY_MCP_VERBOSE
                 Debug.Log($"[UnityMcp] ← {method}");
+#endif
 
                 var result = UnityCommandHandler.Execute(method, args);
 
@@ -350,29 +397,33 @@ namespace Yueyn.Editor.UnityMcp
 
                 var responseJson = sb.ToString();
 
-                // Queue the response on the background send thread first.
-                // For compile: add response, give the send thread a moment
-                // to flush, then trigger AssetDatabase.Refresh.
-                OutgoingMessages.Add(responseJson);
-
                 if (method == "compile")
                 {
-                    // Give the background SendLoop thread time to flush before
-                    // the domain reload (triggered by AssetDatabase.Refresh) kills it.
-                    Thread.Sleep(100);
+                    // Compile triggers domain reload via
+                    // AssetDatabase.Refresh. Use synchronous send on the
+                    // main thread so the response is guaranteed to reach
+                    // the client before the reload kills the background
+                    // SendLoop thread.
+                    SendResponseSync(responseJson);
                     UnityCommandHandler.TriggerCompileRefresh();
+                }
+                else
+                {
+                    OutgoingMessages.Add(responseJson);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[UnityMcp] Command processing error: {ex}");
+                Debug.LogError(
+                    $"[UnityMcp] Command processing error: {ex}");
             }
         }
 
         /// <summary>
-        /// Synchronously writes a response line to the TCP stream on the current thread.
-        /// Used for commands (like compile) that trigger domain reload, where the
-        /// background SendLoop thread may not flush in time.
+        /// Synchronously writes a response line to the TCP stream on the
+        /// current thread. Used for commands (like compile) that trigger
+        /// domain reload, where the background SendLoop thread may not
+        /// flush in time.
         /// </summary>
         private static void SendResponseSync(string response)
         {
@@ -388,81 +439,239 @@ namespace Yueyn.Editor.UnityMcp
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogWarning($"[UnityMcp] Failed to send sync response: {ex.Message}");
+                    Debug.LogWarning(
+                        "[UnityMcp] Failed to send sync response: "
+                        + ex.Message);
                 }
             }
         }
 
-        // ── Minimal JSON helpers (no library dependency) ──────────────
+        // ═══════════════════════════════════════════════════════════════
+        //  JSON helpers
+        // ═══════════════════════════════════════════════════════════════
 
-        private static string ExtractString(string json, string key)
-        {
-            // Search for "key" then skip optional whitespace, colon, and optional whitespace
-            var keySearch = $"\"{key}\"";
-            var idx = json.IndexOf(keySearch, StringComparison.Ordinal);
-            if (idx < 0) return "";
-            idx += keySearch.Length;
-            // Skip whitespace, colon, whitespace
-            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
-            if (idx < json.Length && json[idx] == ':') idx++;
-            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
-            if (idx >= json.Length || json[idx] != '"') return "";
-            idx++; // skip opening quote
-            var end = idx;
-            while (end < json.Length)
-            {
-                if (json[end] == '\\') { end += 2; continue; }
-                if (json[end] == '"') break;
-                end++;
-            }
-            return json.Substring(idx, end - idx);
-        }
-
-        private static Dictionary<string, string> ExtractParams(string json, string key)
+        /// <summary>
+        /// Extract the "params" JSON substring and parse it into a flat
+        /// <c>Dictionary&lt;string, string&gt;</c>.
+        ///
+        /// Uses balanced-brace counting so it correctly handles nested
+        /// objects/arrays inside the params block (unlike the old
+        /// character-by-character scanner).
+        /// </summary>
+        private static Dictionary<string, string> ExtractParamsDict(
+            string json)
         {
             var result = new Dictionary<string, string>();
-            // Search for "key" then skip optional whitespace, colon, whitespace, opening brace
-            var keySearch = $"\"{key}\"";
-            var idx = json.IndexOf(keySearch, StringComparison.Ordinal);
-            if (idx < 0) return result;
+            var paramsJson = ExtractJsonSubstring(json, "params");
+            if (string.IsNullOrEmpty(paramsJson))
+                return result;
 
-            idx += keySearch.Length;
-            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
-            if (idx < json.Length && json[idx] == ':') idx++;
-            while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\t')) idx++;
-            if (idx >= json.Length || json[idx] != '{') return result;
-            idx++; // skip {
-            while (idx < json.Length && json[idx] != '}')
+            return ParseFlatStringDict(paramsJson);
+        }
+
+        /// <summary>
+        /// Extract a named JSON object substring using balanced-brace
+        /// counting.  Correctly tracks string state so braces/colons
+        /// inside string literals are ignored.
+        ///
+        /// Example: given <c>{"params":{"key":"val"}}</c> and key
+        /// <c>"params"</c>, returns <c>{"key":"val"}</c>.
+        /// </summary>
+        public static string ExtractJsonSubstring(
+            string json, string key)
+        {
+            var search = $"\"{key}\"";
+            var idx = json.IndexOf(search, StringComparison.Ordinal);
+            if (idx < 0) return null;
+
+            idx += search.Length;
+            // Skip whitespace and colon
+            while (idx < json.Length)
             {
-                while (idx < json.Length && (json[idx] == ' ' || json[idx] == ',' || json[idx] == '\n'))
-                    idx++;
-                if (idx >= json.Length || json[idx] == '}') break;
+                var c = json[idx];
+                if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+                { idx++; continue; }
+                if (c == ':') { idx++; break; }
+                // Unexpected character
+                return null;
+            }
+            // Skip whitespace after colon
+            while (idx < json.Length)
+            {
+                var c = json[idx];
+                if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+                { idx++; continue; }
+                break;
+            }
+            if (idx >= json.Length || json[idx] != '{')
+                return null;
 
-                if (json[idx] != '"') break;
-                idx++;
-                var keyStart = idx;
-                while (idx < json.Length && json[idx] != '"') idx++;
-                var paramKey = json.Substring(keyStart, idx - keyStart);
-                idx++;
-                idx++;
+            return ExtractBalancedBraces(json, idx);
+        }
 
-                while (idx < json.Length && (json[idx] == ' ' || json[idx] == '\n')) idx++;
-                if (json[idx] == '"')
+        /// <summary>
+        /// Extract a balanced-brace substring starting at <c>start</c>
+        /// (which must point to '{').  Tracks string/escape state so
+        /// braces inside string literals are ignored.
+        /// </summary>
+        private static string ExtractBalancedBraces(
+            string json, int start)
+        {
+            if (json[start] != '{') return null;
+
+            int depth = 1;
+            int i = start + 1;
+            bool inString = false;
+
+            while (i < json.Length && depth > 0)
+            {
+                char c = json[i];
+                if (inString)
                 {
-                    idx++;
-                    var valStart = idx;
-                    while (idx < json.Length)
-                    {
-                        if (json[idx] == '\\') { idx += 2; continue; }
-                        if (json[idx] == '"') break;
-                        idx++;
-                    }
-                    result[paramKey] = json.Substring(valStart, idx - valStart);
-                    idx++;
+                    if (c == '\\') i++; // skip escaped char
+                    else if (c == '"') inString = false;
+                }
+                else
+                {
+                    if (c == '"') inString = true;
+                    else if (c == '{') depth++;
+                    else if (c == '}') depth--;
+                }
+                i++;
+            }
+
+            return json.Substring(start, i - start);
+        }
+
+        /// <summary>
+        /// Parse a flat JSON object whose values are all strings into a
+        /// <c>Dictionary&lt;string, string&gt;</c>.  Handles escape
+        /// sequences (<c>\\</c>, <c>\"</c>, <c>\n</c>, <c>\r</c>,
+        /// <c>\t</c>, <c>\uXXXX</c>).
+        /// </summary>
+        private static Dictionary<string, string> ParseFlatStringDict(
+            string json)
+        {
+            var result = new Dictionary<string, string>();
+            if (json.Length < 2 || json[0] != '{')
+                return result;
+
+            int i = 1;
+            while (i < json.Length)
+            {
+                // Skip whitespace, commas, newlines
+                while (i < json.Length)
+                {
+                    var c = json[i];
+                    if (c == ' ' || c == '\t' || c == '\n' || c == '\r'
+                        || c == ',')
+                    { i++; continue; }
+                    break;
+                }
+                if (i >= json.Length || json[i] == '}')
+                    break;
+
+                // Read key (must be a string)
+                if (json[i] != '"') break;
+                i++;
+                var key = ReadJsonString(json, ref i);
+                if (key == null) break;
+
+                // Skip colon
+                while (i < json.Length)
+                {
+                    var c = json[i];
+                    if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+                    { i++; continue; }
+                    if (c == ':') { i++; break; }
+                    break;
+                }
+
+                // Skip whitespace after colon
+                while (i < json.Length)
+                {
+                    var c = json[i];
+                    if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+                    { i++; continue; }
+                    break;
+                }
+
+                // Read value — currently only string values are supported
+                // for the Dictionary<string, string> interface.
+                if (i < json.Length && json[i] == '"')
+                {
+                    i++;
+                    var value = ReadJsonString(json, ref i);
+                    if (value != null)
+                        result[key] = value;
+                }
+                else
+                {
+                    // Skip non-string values (numbers, booleans, null,
+                    // nested objects, arrays) — they can't go into
+                    // Dictionary<string, string>.
+                    break;
                 }
             }
+
             return result;
         }
+
+        /// <summary>
+        /// Read a JSON string starting just after the opening quote.
+        /// Advances <c>i</c> past the closing quote.  Returns null on
+        /// parse failure.  Handles escape sequences.
+        /// </summary>
+        private static string ReadJsonString(string json, ref int i)
+        {
+            var sb = new StringBuilder();
+            while (i < json.Length)
+            {
+                var c = json[i];
+                if (c == '\\')
+                {
+                    i++;
+                    if (i >= json.Length) return null;
+                    var esc = json[i];
+                    switch (esc)
+                    {
+                        case '"': sb.Append('"'); break;
+                        case '\\': sb.Append('\\'); break;
+                        case '/': sb.Append('/'); break;
+                        case 'n': sb.Append('\n'); break;
+                        case 'r': sb.Append('\r'); break;
+                        case 't': sb.Append('\t'); break;
+                        case 'u':
+                            // \uXXXX
+                            if (i + 4 >= json.Length) return null;
+                            var hex = json.Substring(i + 1, 4);
+                            if (int.TryParse(hex,
+                                System.Globalization.NumberStyles.HexNumber,
+                                null, out var codePoint))
+                            {
+                                sb.Append((char)codePoint);
+                                i += 4;
+                            }
+                            else return null;
+                            break;
+                        default: return null;
+                    }
+                }
+                else if (c == '"')
+                {
+                    i++; // skip closing quote
+                    return sb.ToString();
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+                i++;
+            }
+            return null; // unterminated string
+        }
+
+        // ── JSON serialization (response building) ────────────────────
 
         private static string ToJson(object obj)
         {
@@ -506,20 +715,26 @@ namespace Yueyn.Editor.UnityMcp
             if (obj is bool b) return b ? "true" : "false";
             if (obj is int ii) return ii.ToString();
             if (obj is long l) return l.ToString();
-            if (obj is float f) return f.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            if (obj is float f)
+                return f.ToString(
+                    System.Globalization.CultureInfo.InvariantCulture);
             return $"\"{EscapeJson(obj?.ToString() ?? "")}\"";
         }
 
         private static string EscapeJson(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.Replace("\\", "\\\\").Replace("\"", "\\\"")
-                    .Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
+            return s.Replace("\\", "\\\\")
+                    .Replace("\"", "\\\"")
+                    .Replace("\n", "\\n")
+                    .Replace("\r", "\\r")
+                    .Replace("\t", "\\t");
         }
 
         // ── Public helpers ─────────────────────────────────────────────
 
-        public static void EnqueueCommand(string method, Dictionary<string, string> args)
+        public static void EnqueueCommand(
+            string method, Dictionary<string, string> args)
         {
             var sb = new StringBuilder();
             sb.Append("{\"id\":\"editor_btn\",\"method\":\"");
@@ -532,7 +747,9 @@ namespace Yueyn.Editor.UnityMcp
                 foreach (var kvp in args)
                 {
                     if (!first) sb.Append(",");
-                    sb.Append($"\"{EscapeJson(kvp.Key)}\":\"{EscapeJson(kvp.Value)}\"");
+                    sb.Append(
+                        $"\"{EscapeJson(kvp.Key)}\":"
+                        + $"\"{EscapeJson(kvp.Value)}\"");
                     first = false;
                 }
                 sb.Append("}");

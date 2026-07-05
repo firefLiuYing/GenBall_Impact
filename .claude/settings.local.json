@@ -103,7 +103,12 @@
       "Bash(dir /s /b 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\Map')",
       "Bash(dir /s /b 'D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Scripts\\\\GenBall\\\\Event')",
       "Bash(dir /s /b \"D:\\\\Apps\\\\Unity\\\\Unity Project\\\\GenBall_Impact\\\\Assets\\\\Editor\"\" 2>nul | findstr /i \"map event \")",
-      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh)"
+      "Bash(bash .claude/skills/tests-run/run_editmode_tests.sh)",
+      "Bash(where py *)",
+      "Bash(taskkill /PID 29300 /F)",
+      "Bash(taskkill /PID 12284 /F)",
+      "Bash(cmd.exe *)",
+      "Bash(powershell -Command \"Stop-Process -Id 29300,12284 -Force\" 2>&1)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -5,8 +5,9 @@ Usage:
     py compile_cli.py --no-wait    # trigger only, don't poll
     py compile_cli.py --timeout 60 # custom timeout
 
-Bypasses MCP entirely — connects directly to Unity's TCP server on port 9876.
-Reads Temp/UnityMcpCompileState.json directly for results across domain reloads.
+Connects directly to Unity's TCP server on port 9876.
+Reads Temp/UnityMcpCompileState.json directly for results across
+domain reloads (phase-based: refresh_pending → compiling → done | no_changes).
 Exit code 0 = success (0 errors), 1 = errors found, 2 = connection failed.
 """
 
@@ -21,8 +22,8 @@ from typing import Optional
 
 HOST = "localhost"
 PORT = 9876
-READ_TIMEOUT = 30.0  # generous timeout — Unity main thread may be busy
-RECONNECT_DELAY = 4.0  # wait after domain reload before reconnecting
+READ_TIMEOUT = 30.0
+RECONNECT_DELAY = 4.0
 
 # Paths relative to project root
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -30,7 +31,7 @@ STATE_FILE = PROJECT_ROOT / "Temp" / "UnityMcpCompileState.json"
 
 
 def read_state_file() -> Optional[dict]:
-    """Read the compile state file directly. Returns parsed dict or None."""
+    """Read the compile state file. Returns parsed dict or None."""
     try:
         if not STATE_FILE.exists():
             return None
@@ -40,13 +41,14 @@ def read_state_file() -> Optional[dict]:
         return None
 
 
-def send_recv(sock: socket.socket, method: str, params: Optional[dict] = None) -> dict:
+def send_recv(sock: socket.socket, method: str,
+              params: Optional[dict] = None) -> dict:
     """Send a JSON command and read one JSON response line.
 
     Raises:
         ConnectionError: socket died or returned garbage
         socket.timeout: no response within READ_TIMEOUT
-        json.JSONDecodeError: unparseable response (stale connection after reload)
+        json.JSONDecodeError: unparseable response
     """
     request = json.dumps({
         "id": "cli",
@@ -69,7 +71,6 @@ def send_recv(sock: socket.socket, method: str, params: Optional[dict] = None) -
             raise ConnectionError("Unity closed connection")
         line += chunk
 
-    # Strip BOM and whitespace; handle garbage from stale connections
     text = line.decode("utf-8-sig").strip()
     if not text:
         raise ConnectionError("Empty response")
@@ -77,7 +78,7 @@ def send_recv(sock: socket.socket, method: str, params: Optional[dict] = None) -
 
 
 def connect(quiet: bool = False) -> socket.socket:
-    """Connect to Unity's TCP server with retries."""
+    """Connect to Unity's TCP server with exponential backoff."""
     for attempt in range(10):
         try:
             sock = socket.create_connection((HOST, PORT), timeout=3.0)
@@ -85,49 +86,52 @@ def connect(quiet: bool = False) -> socket.socket:
                 print(f"  Connected to Unity.")
             return sock
         except (ConnectionRefusedError, OSError, socket.timeout):
-            delay = 1.0 * (attempt + 1)
+            delay = min(1.0 * (2 ** attempt), 30.0)
             if not quiet:
-                print(f"  Connection attempt {attempt + 1}/10, retry in {delay:.0f}s...")
+                print(f"  Connection attempt {attempt + 1}/10, "
+                      f"retry in {delay:.0f}s...")
             time.sleep(delay)
     print("ERROR: Could not connect to Unity Editor.")
     sys.exit(2)
 
 
-def safe_send_recv(sock: socket.socket, method: str, params: Optional[dict] = None):
-    """send_recv with reconnection on failure. Returns (sock, response).
+def safe_send_recv(sock: socket.socket, method: str,
+                   params: Optional[dict] = None):
+    """send_recv with reconnection on failure.
 
-    Before reconnecting, checks the state file — if compilation finished during
-    the disconnection, returns the file-based result directly.
+    Returns (sock, response). If compilation finished during disconnect,
+    returns (None, state_file_result) instead.
     """
     try:
         return sock, send_recv(sock, method, params)
     except (ConnectionError, socket.timeout, json.JSONDecodeError) as e:
         print(f"  (connection lost: {e})")
 
-        # Check state file before reconnecting — compilation may have finished
+        # Check state file — compilation may have finished during disconnect
         state = read_state_file()
-        if state and state.get("state") == "done":
-            print("  (state file reports compile done)")
-            return None, {"result": build_status_from_file(state)}
+        if state and state.get("phase") in ("done", "no_changes"):
+            print("  (state file has terminal result)")
+            return None, {"result": build_result_from_state(state)}
 
         try:
             sock.close()
         except Exception:
             pass
-        print(f"  reconnecting (waiting {RECONNECT_DELAY}s for Unity to restart)...")
+        print(f"  reconnecting (waiting {RECONNECT_DELAY}s)...")
         time.sleep(RECONNECT_DELAY)
         new_sock = connect(quiet=True)
         return new_sock, send_recv(new_sock, method, params)
 
 
-def build_status_from_file(state: dict) -> dict:
-    """Convert a state file dict to a compile_status response dict."""
+def build_result_from_state(state: dict) -> dict:
+    """Convert a state file dict to a compile_status-like response."""
     errors = state.get("errors", [])
     warnings = state.get("warnings", [])
+    is_no_changes = state.get("phase") == "no_changes"
     return {
         "isCompiling": False,
-        "compileRequested": True,
         "compileFinished": True,
+        "noChanges": is_no_changes,
         "errorCount": len(errors),
         "warningCount": len(warnings),
         "errors": errors,
@@ -140,11 +144,12 @@ def cleanup_state(sock: socket.socket) -> None:
     try:
         send_recv(sock, "cleanup_compile_state")
     except Exception:
-        pass  # best-effort
+        pass
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Trigger Unity compilation")
+    parser = argparse.ArgumentParser(
+        description="Trigger Unity compilation")
     parser.add_argument("--no-wait", action="store_true",
                         help="Trigger only, don't wait for result")
     parser.add_argument("--timeout", type=float, default=120.0,
@@ -164,6 +169,7 @@ def main():
         status = result.get("status", "")
         print(f"[compile] {status}")
 
+        # ── Handle already_compiling ──
         if status == "already_compiling":
             print("Unity already compiling, waiting for it to finish...")
             elapsed = 0.0
@@ -171,74 +177,81 @@ def main():
                 time.sleep(2.0)
                 elapsed += 2.0
 
-                # Check state file first
                 state = read_state_file()
-                if state and state.get("state") == "done":
-                    cs = build_status_from_file(state)
-                    if not cs.get("isCompiling") and cs.get("compileFinished"):
-                        sock, resp = safe_send_recv(sock, "compile")
-                        result = resp.get("result", {})
-                        if result.get("status") == "compilation_started":
-                            break
-                        continue
-
-                sock, resp = safe_send_recv(sock, "compile_status")
-                cs = resp.get("result", {})
-                if not cs.get("isCompiling"):
+                if state and state.get("phase") in ("done", "no_changes"):
                     # Previous compile done, now trigger ours
                     sock, resp = safe_send_recv(sock, "compile")
                     result = resp.get("result", {})
                     if result.get("status") == "compilation_started":
                         break
+                    continue
+
                 print(f"  waiting... ({elapsed:.0f}s)")
             else:
-                print("ERROR: Timed out waiting for in-progress compilation")
+                print("ERROR: Timed out waiting for "
+                      "in-progress compilation")
                 sys.exit(2)
 
-        if status == "compilation_started" or result.get("status") == "compilation_started":
+        # ── Wait for our compilation ──
+        if (status == "compilation_started"
+                or result.get("status") == "compilation_started"):
             if args.no_wait:
                 print("Compilation triggered, exiting (--no-wait).")
                 sys.exit(0)
 
-            # 2. Poll until done
+            # 2. Poll state file until terminal phase
             time.sleep(1.0)
             elapsed = 1.0
             while elapsed < args.timeout:
-                # Check state file first — may have results even if TCP is down
                 state = read_state_file()
-                if state and state.get("state") == "done":
-                    cs = build_status_from_file(state)
-                    if not cs.get("isCompiling") and cs.get("compileFinished"):
-                        break  # got results from file
+                if state:
+                    phase = state.get("phase", "")
+                    if phase == "done":
+                        break  # got results
+                    elif phase == "no_changes":
+                        print("\nNo script changes detected — "
+                              "compilation skipped.\n")
+                        sys.exit(0)
+                    errors = len(state.get("errors", []))
+                    warnings = len(state.get("warnings", []))
+                    print(f"  Compiling... errors={errors} "
+                          f"warnings={warnings} "
+                          f"phase={phase} ({elapsed:.0f}s)")
 
-                sock, resp = safe_send_recv(sock, "compile_status")
-                cs = resp.get("result", {})
-
-                if not cs.get("isCompiling") and cs.get("compileFinished"):
-                    break  # got results from TCP
-
-                print(f"  Compiling... errors={cs.get('errorCount',0)} warnings={cs.get('warningCount',0)} ({elapsed:.0f}s)")
                 time.sleep(2.0)
                 elapsed += 2.0
             else:
-                # Final check of state file on timeout
+                # Final check on timeout
                 state = read_state_file()
-                if state and state.get("state") == "done":
-                    cs = build_status_from_file(state)
-                else:
-                    print("\nERROR: Compilation timed out")
+                if state and state.get("phase") != "done":
+                    print(f"\nERROR: Compilation timed out "
+                          f"(phase={state.get('phase', '?')})")
+                    sys.exit(2)
+                elif not state:
+                    print("\nERROR: Compilation timed out "
+                          "(no state file)")
                     sys.exit(2)
 
-            error_count = cs.get("errorCount", 0)
-            warning_count = cs.get("warningCount", 0)
-            errors = cs.get("errors", [])
-            warnings = cs.get("warnings", [])
+            # 3. Collect final results from state file
+            state = read_state_file()
+            if state is None:
+                print("\nWARNING: No state file at completion")
+                sys.exit(0)
 
-            print(f"\nCompilation complete -- {error_count} errors, {warning_count} warnings\n")
+            errors = state.get("errors", [])
+            warnings = state.get("warnings", [])
+            error_count = len(errors)
+            warning_count = len(warnings)
+
+            print(f"\nCompilation complete -- {error_count} errors, "
+                  f"{warning_count} warnings\n")
             for e in errors:
-                print(f"  {e.get('file','')}({e.get('line','')},{e.get('column','')}): {e.get('message','')}")
+                print(f"  {e.get('file', '')}"
+                      f"({e.get('line', '')},"
+                      f"{e.get('column', '')}): "
+                      f"{e.get('message', '')}")
 
-            # Clean up state file on Unity side
+            # Clean up
             cleanup_state(sock)
 
             if error_count > 0:
@@ -246,10 +259,12 @@ def main():
             else:
                 print("OK")
                 sys.exit(0)
+
         elif status not in ("already_compiling", "compilation_started"):
             print(f"Unexpected status: {status}")
             print(json.dumps(resp, indent=2))
             sys.exit(2)
+
     finally:
         try:
             sock.close()
