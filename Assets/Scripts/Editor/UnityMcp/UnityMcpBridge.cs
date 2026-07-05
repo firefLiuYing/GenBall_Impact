@@ -39,6 +39,44 @@ namespace Yueyn.Editor.UnityMcp
 
         private static bool _compileEventsSubscribed;
 
+        // ── File-IPC compile trigger ─────────────────────────────────
+        // Sub-agents that can't use MCP tools trigger compiles via file
+        // IPC (devtool.sh writes Temp/.devtool_compile.trigger).
+
+        private static readonly string FileCompileTriggerPath =
+            Path.Combine(Path.GetDirectoryName(Application.dataPath),
+                "Temp", ".devtool_compile.trigger");
+        private static readonly string FileCompileDonePath =
+            Path.Combine(Path.GetDirectoryName(Application.dataPath),
+                "Temp", ".devtool_compile.done");
+        private static readonly string FileCompileResultPath =
+            Path.Combine(Path.GetDirectoryName(Application.dataPath),
+                "Temp", ".devtool_compile_result.json");
+
+        private static bool _fileCompileTriggered;
+        private static int _fileCompileFrameCount;
+
+        /// <summary>
+        /// One-shot: auto-import any .cs files that lack a .meta file.
+        /// New files created outside Unity (bash, Write tool) are
+        /// invisible until AssetDatabase.ImportAsset is called.
+        /// </summary>
+        private static bool _autoImportDone;
+
+        // ── File-IPC import trigger ──────────────────────────────────
+        // New .cs files created outside Unity (bash, Write tool) are
+        // invisible until AssetDatabase.ImportAsset is called.  The
+        // MCP import_asset command can do this, but sub-agents need
+        // a file-IPC equivalent.  devtool.sh writes a trigger that
+        // lists paths to import.
+        //
+        // Format (one path per line):
+        //   Assets/Scripts/.../Foo.cs
+
+        private static readonly string FileImportTriggerPath =
+            Path.Combine(Path.GetDirectoryName(Application.dataPath),
+                "Temp", ".devtool_import.trigger");
+
         static UnityMcpBridge()
         {
             EditorApplication.update += OnEditorUpdate;
@@ -354,6 +392,17 @@ namespace Yueyn.Editor.UnityMcp
 
             UnityCommandHandler.CheckCompileCompletion();
 
+            // ── Auto-sync orphan .cs files ────────────────────────
+            // Runs once per domain reload, but can also be called
+            // eagerly from StartCompile() before compilation begins.
+            AutoImportOrphanScriptsOnce();
+
+            // ── File-IPC import trigger ──────────────────────────────
+            CheckFileImportTrigger();
+
+            // ── File-IPC compile trigger (devtool.sh) ────────────────
+            CheckFileCompileTrigger();
+
             while (IncomingMessages.TryDequeue(out var json))
             {
                 ProcessCommand(json);
@@ -399,13 +448,19 @@ namespace Yueyn.Editor.UnityMcp
 
                 if (method == "compile")
                 {
-                    // Compile triggers domain reload via
-                    // AssetDatabase.Refresh. Use synchronous send on the
-                    // main thread so the response is guaranteed to reach
-                    // the client before the reload kills the background
+                    // Compile may trigger a domain reload (when there are
+                    // script changes). Use synchronous send on the main
+                    // thread so the response is guaranteed to reach the
+                    // client before the reload kills the background
                     // SendLoop thread.
                     SendResponseSync(responseJson);
-                    UnityCommandHandler.TriggerCompileRefresh();
+
+                    // Full rebuild: deferred AssetDatabase.Refresh
+                    // (must happen AFTER response is sent).
+                    if (UnityCommandHandler.HasPendingFullRebuild)
+                    {
+                        UnityCommandHandler.TriggerFullRebuild();
+                    }
                 }
                 else
                 {
@@ -756,6 +811,226 @@ namespace Yueyn.Editor.UnityMcp
             }
             sb.Append("}");
             IncomingMessages.Enqueue(sb.ToString());
+        }
+
+        // ── File-IPC compile trigger (devtool.sh) ──────────────────────
+
+        private static void AutoImportOrphanScriptsOnce()
+        {
+            if (_autoImportDone) return;
+            _autoImportDone = true;
+            SyncOrphanScripts();
+        }
+
+        /// <summary>
+        /// Eagerly sync orphan scripts before a compilation starts.
+        /// Called by UnityCommandHandler.StartCompile() so that
+        /// newly-deleted files are cleaned up BEFORE the compiler runs.
+        /// </summary>
+        public static void SyncOrphanScriptsBeforeCompile()
+        {
+            _autoImportDone = true; // prevent double-scan in same domain
+            SyncOrphanScripts();
+        }
+
+        private static void SyncOrphanScripts()
+        {
+            try
+            {
+                var scriptsDir = Path.Combine(
+                    Path.GetDirectoryName(Application.dataPath),
+                    "Assets", "Scripts");
+                if (!Directory.Exists(scriptsDir)) return;
+
+                int imported = 0;
+                int cleaned = 0;
+
+                // ── Pass 1: import .cs files missing .meta ─────────
+                var csFiles = Directory.GetFiles(
+                    scriptsDir, "*.cs", SearchOption.AllDirectories);
+                foreach (var csPath in csFiles)
+                {
+                    if (File.Exists(csPath + ".meta")) continue;
+
+                    var relPath = "Assets/Scripts"
+                        + csPath.Substring(scriptsDir.Length)
+                            .Replace('\\', '/');
+                    AssetDatabase.ImportAsset(
+                        relPath, ImportAssetOptions.ForceUpdate);
+                    imported++;
+                }
+
+                // ── Pass 2: clean .meta files whose .cs is gone ──
+                var metaFiles = Directory.GetFiles(
+                    scriptsDir, "*.cs.meta", SearchOption.AllDirectories);
+                bool needRefresh = false;
+                foreach (var metaPath in metaFiles)
+                {
+                    // Strip .meta suffix to get .cs path.
+                    var csPath = metaPath.Substring(
+                        0, metaPath.Length - 5);
+                    if (File.Exists(csPath)) continue;
+
+                    // DeleteAsset on a missing .cs file is unreliable.
+                    // Delete the .meta directly and trigger a refresh.
+                    try { File.Delete(metaPath); }
+                    catch { continue; }
+                    needRefresh = true;
+                    cleaned++;
+                }
+                if (needRefresh)
+                {
+                    AssetDatabase.Refresh();
+                }
+
+                if (imported + cleaned > 0)
+                {
+                    Debug.Log(
+                        $"[UnityMcp] Auto-sync scripts: "
+                        + $"imported {imported}, cleaned {cleaned}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning(
+                    "[UnityMcp] Auto-sync scripts failed: "
+                    + ex.Message);
+            }
+        }
+
+        private static void CheckFileImportTrigger()
+        {
+            if (!File.Exists(FileImportTriggerPath)) return;
+
+            try
+            {
+                var lines = File.ReadAllLines(FileImportTriggerPath);
+                foreach (var line in lines)
+                {
+                    var path = line.Trim();
+                    if (string.IsNullOrEmpty(path)) continue;
+                    if (!path.StartsWith("Assets/")) continue;
+
+                    AssetDatabase.ImportAsset(
+                        path, ImportAssetOptions.ForceUpdate);
+#if UNITY_MCP_VERBOSE
+                    Debug.Log("[UnityMcp] File-IPC import: " + path);
+#endif
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning(
+                    "[UnityMcp] File-IPC import failed: " + ex.Message);
+            }
+            finally
+            {
+                try { File.Delete(FileImportTriggerPath); }
+                catch { /* best-effort */ }
+            }
+        }
+
+        private static void CheckFileCompileTrigger()
+        {
+            if (!_fileCompileTriggered)
+            {
+                // ── New trigger ──────────────────────────────────
+                if (File.Exists(FileCompileTriggerPath))
+                {
+                    bool fullRebuild = false;
+                    try
+                    {
+                        var json = File.ReadAllText(
+                            FileCompileTriggerPath);
+                        var opts =
+                            JsonUtility.FromJson<DevToolCompileOptions>(
+                                json);
+                        fullRebuild = opts != null && opts.fullRebuild;
+                    }
+                    catch { /* use defaults */ }
+
+                    if (!UnityCommandHandler.StartCompile(fullRebuild))
+                        return;
+
+                    _fileCompileTriggered = true;
+                    _fileCompileFrameCount = 0;
+
+                    try { File.Delete(FileCompileTriggerPath); }
+                    catch { /* best-effort */ }
+
+                    if (fullRebuild
+                        && UnityCommandHandler.HasPendingFullRebuild)
+                    {
+                        UnityCommandHandler.TriggerFullRebuild();
+                    }
+
+                    return;
+                }
+
+                // ── Recovery: domain reload resets
+                //     _fileCompileTriggered, but the state file
+                //     may hold a terminal result from a run that
+                //     was triggered before the reload.  Write the
+                //     result so the bash client unblocks.
+                if (!File.Exists(FileCompileDonePath))
+                {
+                    var recovered =
+                        UnityCommandHandler.GetCompileState();
+                    if (recovered != null
+                        && (recovered.phase == "done"
+                            || recovered.phase == "no_changes"))
+                    {
+                        WriteFileCompileResult(recovered);
+                    }
+                }
+            }
+            else
+            {
+                _fileCompileFrameCount++;
+                var state = UnityCommandHandler.GetCompileState();
+                if (state == null) return;
+
+                if (state.phase == "done"
+                    || state.phase == "no_changes")
+                {
+                    WriteFileCompileResult(state);
+                    _fileCompileTriggered = false;
+                }
+            }
+        }
+
+        private static void WriteFileCompileResult(CompileStateData state)
+        {
+            bool noChanges = state.phase == "no_changes";
+            var errors = state.errors
+                ?? new List<CompileMsgEntry>();
+            var warnings = state.warnings
+                ?? new List<CompileMsgEntry>();
+
+            var result = new CompileResultData
+            {
+                status = noChanges
+                    ? "no_changes" : "compilation_complete",
+                errorCount = noChanges ? 0 : errors.Count,
+                warningCount = noChanges ? 0 : warnings.Count,
+                errors = noChanges
+                    ? new List<CompileMsgEntry>() : errors,
+                warnings = noChanges
+                    ? new List<CompileMsgEntry>() : warnings,
+            };
+
+            try
+            {
+                File.WriteAllText(FileCompileResultPath,
+                    JsonUtility.ToJson(result, true));
+                File.WriteAllText(FileCompileDonePath, "");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning(
+                    "[UnityMcp] File-compile result write failed: "
+                    + ex.Message);
+            }
         }
 
         // ── Shutdown ──────────────────────────────────────────────────

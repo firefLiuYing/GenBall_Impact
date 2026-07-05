@@ -10,13 +10,25 @@ namespace GenBall.Framework.Editor
     [InitializeOnLoad]
     public static class TestsAutoRunner
     {
+        // ── Old trigger path (run_editmode_tests.sh, backward compat) ──
         private static readonly string TriggerFile = "Temp/.run_tests.trigger";
         private static readonly string DoneFile = "Temp/.run_tests.done";
         private static readonly string ResultsFile = "Temp/TestResults.txt";
 
+        // ── New devtool trigger path (devtool.sh) ─────────────────────
+        private static readonly string DevToolTriggerFile =
+            "Temp/.devtool_test.trigger";
+        private static readonly string DevToolDoneFile =
+            "Temp/.devtool_test.done";
+        private static readonly string DevToolResultsFile =
+            "Temp/.devtool_test_result.json";
+
         private static TestRunnerApi s_Api;
         private static bool s_IsRunning;
         private static TestRunRequest s_CurrentRequest;
+
+        /// <summary>Which trigger source is the current run from?</summary>
+        private static bool s_DevToolMode;
 
         static TestsAutoRunner()
         {
@@ -26,13 +38,30 @@ namespace GenBall.Framework.Editor
         private static void OnUpdate()
         {
             if (s_IsRunning) return;
-            if (!File.Exists(TriggerFile)) return;
+
+            string triggerPath = null;
+            bool devToolMode = false;
+
+            // Check devtool trigger first, then legacy trigger.
+            if (File.Exists(DevToolTriggerFile))
+            {
+                triggerPath = DevToolTriggerFile;
+                devToolMode = true;
+            }
+            else if (File.Exists(TriggerFile))
+            {
+                triggerPath = TriggerFile;
+                devToolMode = false;
+            }
+
+            if (triggerPath == null) return;
 
             try
             {
-                var json = File.ReadAllText(TriggerFile);
+                var json = File.ReadAllText(triggerPath);
                 s_CurrentRequest = JsonUtility.FromJson<TestRunRequest>(json);
                 s_IsRunning = true;
+                s_DevToolMode = devToolMode;
 
                 if (s_Api == null)
                 {
@@ -48,16 +77,29 @@ namespace GenBall.Framework.Editor
 
                 if (!string.IsNullOrEmpty(s_CurrentRequest.testAssembly))
                 {
-                    filter.assemblyNames = new[] { s_CurrentRequest.testAssembly };
+                    filter.assemblyNames =
+                        new[] { s_CurrentRequest.testAssembly };
                 }
 
-                if (!string.IsNullOrEmpty(s_CurrentRequest.testClass))
+                // groupNames uses FullNameFilter { IsRegex = true }.
+                // Plain class names like "SimpleFsmTests" are valid
+                // regex patterns (matching any test whose full name
+                // contains that class name), but NUnit may anchor them.
+                // Wrap in .* to guarantee substring match.
+                if (!string.IsNullOrEmpty(s_CurrentRequest.testMethod))
                 {
-                    filter.groupNames = new[] { s_CurrentRequest.testClass };
+                    filter.testNames =
+                        new[] { s_CurrentRequest.testMethod };
+                }
+                else if (!string.IsNullOrEmpty(s_CurrentRequest.testClass))
+                {
+                    filter.groupNames =
+                        new[] { ".*" + s_CurrentRequest.testClass + ".*" };
                 }
                 else if (!string.IsNullOrEmpty(s_CurrentRequest.testNamespace))
                 {
-                    filter.groupNames = new[] { s_CurrentRequest.testNamespace };
+                    filter.groupNames =
+                        new[] { ".*" + s_CurrentRequest.testNamespace + ".*" };
                 }
 
                 var callbacks = new TestCallbacks(s_CurrentRequest);
@@ -75,7 +117,11 @@ namespace GenBall.Framework.Editor
         {
             s_IsRunning = false;
             s_CurrentRequest = null;
-            try { File.Delete(TriggerFile); } catch { }
+            try
+            {
+                File.Delete(s_DevToolMode ? DevToolTriggerFile : TriggerFile);
+            }
+            catch { }
         }
 
         private static void WriteError(string message)
@@ -84,10 +130,21 @@ namespace GenBall.Framework.Editor
             {
                 var result = new TestResultCollection
                 {
-                    summary = new TestSummary { status = "Error", totalTests = 0, passedTests = 0, failedTests = 0, skippedTests = 0, error = message }
+                    summary = new TestSummary
+                    {
+                        status = "Error",
+                        totalTests = 0,
+                        passedTests = 0,
+                        failedTests = 0,
+                        skippedTests = 0,
+                        error = message
+                    }
                 };
-                File.WriteAllText(ResultsFile, JsonUtility.ToJson(result, true));
-                File.WriteAllText(DoneFile, "");
+                File.WriteAllText(
+                    s_DevToolMode ? DevToolResultsFile : ResultsFile,
+                    JsonUtility.ToJson(result, true));
+                File.WriteAllText(
+                    s_DevToolMode ? DevToolDoneFile : DoneFile, "");
             }
             catch { }
         }
@@ -126,8 +183,11 @@ namespace GenBall.Framework.Editor
 
                 try
                 {
-                    File.WriteAllText(ResultsFile, JsonUtility.ToJson(collection, true));
-                    File.WriteAllText(DoneFile, "");
+                    File.WriteAllText(
+                        s_DevToolMode ? DevToolResultsFile : ResultsFile,
+                        JsonUtility.ToJson(collection, true));
+                    File.WriteAllText(
+                        s_DevToolMode ? DevToolDoneFile : DoneFile, "");
                 }
                 catch { }
                 finally

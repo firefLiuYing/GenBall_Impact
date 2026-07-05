@@ -7,7 +7,7 @@ Usage:
 
 Connects directly to Unity's TCP server on port 9876.
 Reads Temp/UnityMcpCompileState.json directly for results across
-domain reloads (phase-based: refresh_pending → compiling → done | no_changes).
+domain reloads (phase-based: compiling → done | no_changes).
 Exit code 0 = success (0 errors), 1 = errors found, 2 = connection failed.
 """
 
@@ -154,12 +154,15 @@ def main():
                         help="Trigger only, don't wait for result")
     parser.add_argument("--timeout", type=float, default=120.0,
                         help="Max wait time in seconds (default: 120)")
+    parser.add_argument("--full", action="store_true",
+                        help="Force full rebuild of all assemblies")
     args = parser.parse_args()
 
     sock = connect()
     try:
         # 1. Trigger compilation
-        resp = send_recv(sock, "compile")
+        compile_params = {"fullRebuild": "true" if args.full else "false"}
+        resp = send_recv(sock, "compile", compile_params)
         result = resp.get("result", {})
 
         if "error" in resp:
@@ -180,7 +183,8 @@ def main():
                 state = read_state_file()
                 if state and state.get("phase") in ("done", "no_changes"):
                     # Previous compile done, now trigger ours
-                    sock, resp = safe_send_recv(sock, "compile")
+                    sock, resp = safe_send_recv(
+                        sock, "compile", compile_params)
                     result = resp.get("result", {})
                     if result.get("status") == "compilation_started":
                         break

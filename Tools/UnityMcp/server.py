@@ -124,17 +124,32 @@ async def _tool_ping(bridge: UnityBridge, _arguments: dict) -> dict:
     (
         "Trigger script compilation in Unity and wait for the result. "
         "Returns compilation status including all errors and warnings "
-        "(file, line, column, message). May take up to 120s."
+        "(file, line, column, message). May take up to 120s. "
+        "Set fullRebuild=true to force a full recompilation of all "
+        "assemblies (default: false = incremental)."
     ),
-    {"type": "object", "properties": {}, "required": []},
+    {
+        "type": "object",
+        "properties": {
+            "fullRebuild": {
+                "type": "boolean",
+                "description": (
+                    "If true, force a full recompilation of all assemblies "
+                    "(touches a sentinel + AssetDatabase.Refresh ForceUpdate). "
+                    "Default false uses incremental compilation which is "
+                    "faster and avoids unnecessary domain reloads."
+                ),
+            }
+        },
+        "required": [],
+    },
 )
 async def _tool_compile(bridge: UnityBridge, _arguments: dict) -> dict:
     """Trigger Unity script compilation and wait for result.
 
     Uses ``Temp/UnityMcpCompileState.json`` as the single source of
     truth.  State file survives domain reloads when TCP is
-    disconnected.  Phases: ``refresh_pending → compiling → done |
-    no_changes``.
+    disconnected.  Phases: ``compiling → done | no_changes``.
 
     The initial ``compile`` command is fire-and-forget — we don't wait
     for its TCP response because the domain reload may kill the
@@ -143,16 +158,21 @@ async def _tool_compile(bridge: UnityBridge, _arguments: dict) -> dict:
     """
     COMPILE_TIMEOUT = 120.0
     POLL_INTERVAL = 2.0
+    full_rebuild = bool(arguments.get("fullRebuild", False))
 
     bridge.pause_heartbeat()
 
     try:
+        # Build compile params (fullRebuild flag).
+        compile_params = {"fullRebuild": "true" if full_rebuild else "false"}
+
         # 1. Trigger compilation (fire-and-forget with short timeout).
         triggered = False
         try:
             if not bridge.connected:
                 await bridge.connect()
-            response = await bridge.send_command("compile")
+            response = await bridge.send_command(
+                "compile", compile_params)
             result = response.get("result", {})
             status = result.get("status", "")
             if status in ("compilation_started", "already_compiling"):
@@ -169,7 +189,7 @@ async def _tool_compile(bridge: UnityBridge, _arguments: dict) -> dict:
         if not triggered:
             state = _read_compile_state()
             if state and state.get("phase") in (
-                "refresh_pending", "compiling", "done", "no_changes"):
+                "compiling", "done", "no_changes"):
                 logger.debug(
                     "State file confirms trigger: phase=%s", state.get("phase"))
                 triggered = True
@@ -179,7 +199,8 @@ async def _tool_compile(bridge: UnityBridge, _arguments: dict) -> dict:
             try:
                 if not bridge.connected:
                     await bridge.connect()
-                response = await bridge.send_command("compile")
+                response = await bridge.send_command(
+                    "compile", compile_params)
                 result = response.get("result", {})
                 if result.get("status") in (
                     "compilation_started", "already_compiling"):
@@ -279,6 +300,48 @@ async def _tool_compile(bridge: UnityBridge, _arguments: dict) -> dict:
         return {"error": str(e)}
     finally:
         bridge.resume_heartbeat()
+
+
+@ToolRegistry.register(
+    "unity_import_asset",
+    "Explicitly import a single asset file. Use this after creating new "
+    ".cs files to force Unity to detect and compile them.",
+    {
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": (
+                    "Project-relative path to the asset, "
+                    "e.g. 'Assets/Scripts/Yueyn/Fsm/Editor/SimpleFsmTests.cs'"
+                ),
+            }
+        },
+        "required": ["path"],
+    },
+)
+async def _tool_import_asset(bridge: UnityBridge, arguments: dict) -> dict:
+    """Explicitly import an asset in Unity."""
+    if not bridge.connected and not await bridge.connect():
+        return {"error": "Unity Editor is not connected"}
+
+    asset_path = arguments.get("path", "")
+
+    try:
+        response = await bridge.send_command("import_asset", {
+            "path": asset_path,
+        })
+        if "error" in response:
+            return {"error": response["error"]}
+        result = response.get("result", {})
+        return {
+            "status": result.get("status", "unknown"),
+            "path": result.get("path", asset_path),
+        }
+    except RuntimeError as e:
+        return {"error": str(e)}
+    except asyncio.TimeoutError:
+        return {"error": "Unity did not respond within timeout"}
 
 
 @ToolRegistry.register(

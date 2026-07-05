@@ -10,17 +10,24 @@ namespace Yueyn.Editor.UnityMcp
 {
     /// <summary>
     /// Compile state machine (file-based, survives domain reload):
-    ///   (no file) ──Compile()──→ "refresh_pending"
-    ///                                   │
-    ///                         TriggerCompileRefresh()
-    ///                                   │
-    ///                                   ↓
-    ///                              "compiling"
-    ///                                   │
-    ///                    ┌──────────────┴──────────────┐
-    ///                    ↓                             ↓
-    ///                 "done"                    "no_changes"
-    ///            (errors collected)           (5s, no script delta)
+    ///
+    ///   <b>Incremental (default)</b> — fast, no unnecessary reload:
+    ///   Compile() ──RequestScriptCompilation()──→ "compiling"
+    ///                                                   │
+    ///                    ┌──────────────────────────────┴──────────────┐
+    ///                    ↓                                              ↓
+    ///              Unity starts compiling                      Unity skips (no delta)
+    ///                    │                                              │
+    ///                    ↓                                              ↓
+    ///                 "done"                                     "no_changes"
+    ///
+    ///   <b>Full rebuild (fullRebuild: true)</b> — comprehensive:
+    ///   Compile() ──touch sentinel──→ "compiling"
+    ///                    │
+    ///   TriggerFullRebuild() ──AssetDatabase.Refresh(ForceUpdate)──→
+    ///                    │
+    ///                    ↓
+    ///                 "done"  (all assemblies recompiled, all errors collected)
     ///
     /// State file: Temp/UnityMcpCompileState.json
     /// Read by Python side across domain reloads.
@@ -30,16 +37,27 @@ namespace Yueyn.Editor.UnityMcp
         // ── In-memory tracking (optimization; state file is authority) ──
         private static bool _compileInProgress;
         private static double _compileStartTime;
+        private static bool _compilationWasRunning;
+        private static bool _recoveredFromReload;
+        private static bool _pendingFullRebuild;
 
         // ── State file phases ─────────────────────────────────────────
-        private const string PhaseRefreshPending = "refresh_pending";
         private const string PhaseCompiling = "compiling";
         private const string PhaseDone = "done";
         private const string PhaseNoChanges = "no_changes";
 
-        // ── Sentinel file ─────────────────────────────────────────────
+        // ── Grace period before declaring "no_changes" ────────────────
+        private const double NoChangesGracePeriod = 2.0;
+
+        // ── Sentinel for full rebuild ─────────────────────────────────
         private const string SentinelPath =
             "Assets/Scripts/Editor/UnityMcp/_CompileSentinel.cs";
+
+        /// <summary>
+        /// True when a full rebuild is pending — UnityMcpBridge calls
+        /// TriggerFullRebuild() after sending the TCP response.
+        /// </summary>
+        public static bool HasPendingFullRebuild => _pendingFullRebuild;
 
         private static string StateFilePath =>
             Path.Combine(Path.GetDirectoryName(Application.dataPath),
@@ -55,6 +73,10 @@ namespace Yueyn.Editor.UnityMcp
             CommandHandlerRegistry.Register("compile_status", CompileStatus);
             CommandHandlerRegistry.Register("cleanup_compile_state",
                 CleanupCompileState);
+            CommandHandlerRegistry.Register("refresh_assets",
+                RefreshAssets);
+            CommandHandlerRegistry.Register("import_asset",
+                ImportAsset);
         }
 
         /// <summary>Public entry point for UnityMcpBridge.</summary>
@@ -79,12 +101,79 @@ namespace Yueyn.Editor.UnityMcp
         }
 
         // ═══════════════════════════════════════════════════════════════
-        //  compile  (step 1: arm the trigger)
+        //  compile
         // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Start compilation. Returns false if a compilation is already
+        /// in progress (caller should wait/retry).
+        ///
+        /// Called from both the MCP compile handler and the file-IPC
+        /// DevToolFileTrigger.
+        /// </summary>
+        public static bool StartCompile(bool fullRebuild)
+        {
+            if (EditorApplication.isCompiling)
+                return false;
+
+            // Clean up orphan scripts BEFORE compilation starts.
+            // Files deleted outside Unity leave stale .meta and .csproj
+            // references that cause CS2001 errors if not cleaned first.
+            UnityMcpBridge.SyncOrphanScriptsBeforeCompile();
+
+            // Wipe any stale state from a previous run.
+            DeleteStateFile();
+
+            _compileInProgress = true;
+            _compileStartTime = EditorApplication.timeSinceStartup;
+            _compilationWasRunning = false;
+            _recoveredFromReload = false;
+
+            WriteStateFile(new CompileStateData
+            {
+                phase = PhaseCompiling,
+                startTime = _compileStartTime,
+                fullRebuild = fullRebuild,
+                errors = new List<CompileMsgEntry>(),
+                warnings = new List<CompileMsgEntry>(),
+            });
+
+            if (fullRebuild)
+            {
+                // Full rebuild: touch sentinel to guarantee Unity sees a
+                // script delta. AssetDatabase.Refresh is deferred — the
+                // MCP path triggers it via TriggerFullRebuild() after the
+                // TCP response; the file-IPC path triggers it inline
+                // (no TCP response to race with).
+                TouchSentinel();
+                _pendingFullRebuild = true;
+            }
+            else
+            {
+                // Incremental: let Unity decide whether scripts changed.
+                // No domain reload if nothing changed.
+                CompilationPipeline.RequestScriptCompilation();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Public read access to the compile state file. Returns null if
+        /// the file doesn't exist or can't be parsed.
+        /// </summary>
+        public static CompileStateData GetCompileState()
+        {
+            return ReadStateFile();
+        }
 
         private static CmdResult Compile(Dictionary<string, string> args)
         {
-            if (EditorApplication.isCompiling)
+            // Parse fullRebuild flag (default: false = incremental).
+            args.TryGetValue("fullRebuild", out var fullRebuildStr);
+            bool fullRebuild = fullRebuildStr == "true";
+
+            if (!StartCompile(fullRebuild))
             {
                 return CmdResult.Ok(new Dictionary<string, object>
                 {
@@ -93,53 +182,53 @@ namespace Yueyn.Editor.UnityMcp
                 });
             }
 
-            // Touch sentinel so Unity always sees a script delta.
-            TouchSentinel();
-
-            // Wipe any stale state from a previous run.
-            DeleteStateFile();
-
-            _compileInProgress = true;
-            _compileStartTime = EditorApplication.timeSinceStartup;
-
-            WriteStateFile(new CompileStateData
-            {
-                phase = PhaseRefreshPending,
-                startTime = _compileStartTime,
-                sentinelTime = DateTime.Now.ToString("O"),
-                errors = new List<CompileMsgEntry>(),
-                warnings = new List<CompileMsgEntry>(),
-            });
-
             return CmdResult.Ok(new Dictionary<string, object>
             {
                 ["status"] = "compilation_started",
-                ["message"] = "Sentinel touched. Refresh pending.",
+                ["message"] = fullRebuild
+                    ? "Full rebuild triggered (sentinel touch + ForceUpdate)."
+                    : "Incremental compilation requested.",
             });
         }
 
         /// <summary>
-        /// Called AFTER the TCP response for "compile" has been sent.
-        /// Reads the state file (not in-memory flags) so it survives
-        /// any domain reload that happened between Compile() and now.
+        /// Called by UnityMcpBridge after the compile TCP response has
+        /// been sent. Executes the deferred AssetDatabase.Refresh for
+        /// full rebuilds. Must run on the main thread.
         /// </summary>
-        public static void TriggerCompileRefresh()
+        public static void TriggerFullRebuild()
         {
-            var state = ReadStateFile();
-            if (state == null || state.phase != PhaseRefreshPending)
-                return;
-
-            if (EditorApplication.isCompiling)
-                return; // already started by some other trigger
-
-            state.phase = PhaseCompiling;
-            WriteStateFile(state);
-
+            if (!_pendingFullRebuild) return;
+            _pendingFullRebuild = false;
 #if UNITY_MCP_VERBOSE
-            Debug.Log(
-                "[UnityMcp] Triggering AssetDatabase.Refresh (ForceUpdate)");
+            Debug.Log("[UnityMcp] Triggering full rebuild "
+                      + "(AssetDatabase.Refresh ForceUpdate)");
 #endif
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  Helpers (continued)
+        // ═══════════════════════════════════════════════════════════════
+
+        private static void TouchSentinel()
+        {
+            try
+            {
+                var path = Path.Combine(
+                    Path.GetDirectoryName(Application.dataPath),
+                    SentinelPath);
+                var dir = Path.GetDirectoryName(path);
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                File.WriteAllText(path,
+                    $"// Compile sentinel — touched {DateTime.Now:O}\n"
+                    + "// DO NOT EDIT.\n");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning(
+                    $"[UnityMcp] Failed to touch sentinel: {ex.Message}");
+            }
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -183,6 +272,40 @@ namespace Yueyn.Editor.UnityMcp
             return CmdResult.Ok(new Dictionary<string, object>
             {
                 ["status"] = "cleaned",
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  refresh_assets
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult RefreshAssets(
+            Dictionary<string, string> args)
+        {
+            AssetDatabase.Refresh();
+            return CmdResult.Ok(new Dictionary<string, object>
+            {
+                ["status"] = "refreshed",
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  import_asset — explicitly import a single asset
+        // ═══════════════════════════════════════════════════════════════
+
+        private static CmdResult ImportAsset(
+            Dictionary<string, string> args)
+        {
+            args.TryGetValue("path", out var assetPath);
+            if (string.IsNullOrEmpty(assetPath))
+                return CmdResult.Err("Missing parameter: path");
+
+            AssetDatabase.ImportAsset(assetPath,
+                ImportAssetOptions.ForceUpdate);
+            return CmdResult.Ok(new Dictionary<string, object>
+            {
+                ["status"] = "imported",
+                ["path"] = assetPath,
             });
         }
 
@@ -231,8 +354,13 @@ namespace Yueyn.Editor.UnityMcp
         /// Polled every Editor update. Detects when compilation finishes
         /// and transitions the state file to its terminal phase.
         ///
-        /// Must handle domain reload: after reload _compileInProgress is
-        /// false, but the state file still holds the real phase.
+        /// Handles three scenarios:
+        /// 1. <b>Normal compilation</b>: isCompiling flips true→false
+        ///    within the same domain → "done".
+        /// 2. <b>Domain reload</b>: the reload itself is evidence that
+        ///    compilation happened → "done".
+        /// 3. <b>No script changes</b>: RequestScriptCompilation returns
+        ///    without starting → after grace period → "no_changes".
         /// </summary>
         public static void CheckCompileCompletion()
         {
@@ -240,12 +368,16 @@ namespace Yueyn.Editor.UnityMcp
             if (!_compileInProgress)
             {
                 var recovered = ReadStateFile();
-                if (recovered != null &&
-                    (recovered.phase == PhaseRefreshPending ||
-                     recovered.phase == PhaseCompiling))
+                if (recovered != null && recovered.phase == PhaseCompiling)
                 {
                     _compileInProgress = true;
                     _compileStartTime = recovered.startTime;
+                    _compilationWasRunning = false;
+                    _recoveredFromReload = true;
+#if UNITY_MCP_VERBOSE
+                    Debug.Log("[UnityMcp] Recovered compile state after "
+                              + "domain reload.");
+#endif
                 }
                 else
                 {
@@ -253,53 +385,62 @@ namespace Yueyn.Editor.UnityMcp
                 }
             }
 
-            // Still compiling — wait.
+            // Track whether Unity actually started compiling.
             if (EditorApplication.isCompiling)
+            {
+                _compilationWasRunning = true;
                 return;
+            }
 
-            double elapsed =
-                EditorApplication.timeSinceStartup - _compileStartTime;
+            // ── Not compiling — decide terminal phase ──
 
             var state = ReadStateFile();
             if (state == null) return;
 
-            switch (state.phase)
+            if (state.phase != PhaseCompiling) return; // already terminal
+
+            if (_recoveredFromReload)
             {
-                case PhaseRefreshPending:
-                    // TriggerCompileRefresh should have moved us to
-                    // "compiling" by now. If > 5 s and still pending,
-                    // the sentinel touch wasn't enough — no script delta.
-                    if (elapsed > 5.0)
-                    {
-                        state.phase = PhaseNoChanges;
-                        WriteStateFile(state);
-                        _compileInProgress = false;
+                // We just recovered from a domain reload → compilation
+                // must have happened (the reload proves it).
+                state.phase = PhaseDone;
+                _recoveredFromReload = false;
 #if UNITY_MCP_VERBOSE
-                        Debug.Log(
-                            "[UnityMcp] No script changes detected "
-                            + "— compile skipped.");
+                Debug.Log(
+                    $"[UnityMcp] Compile done (post-reload). "
+                    + $"Errors={state.errors.Count} "
+                    + $"Warnings={state.warnings.Count}");
 #endif
-                    }
-                    break;
-
-                case PhaseCompiling:
-                    // Compilation just finished (isCompiling → false).
-                    state.phase = PhaseDone;
-                    WriteStateFile(state);
-                    _compileInProgress = false;
-#if UNITY_MCP_VERBOSE
-                    Debug.Log(
-                        $"[UnityMcp] Compile done. "
-                        + $"Errors={state.errors.Count} "
-                        + $"Warnings={state.warnings.Count}");
-#endif
-                    break;
-
-                case PhaseDone:
-                case PhaseNoChanges:
-                    // Already terminal — client hasn't cleaned up yet.
-                    break;
             }
+            else if (_compilationWasRunning)
+            {
+                // Compilation ran and finished within this domain.
+                state.phase = PhaseDone;
+#if UNITY_MCP_VERBOSE
+                Debug.Log(
+                    $"[UnityMcp] Compile done. "
+                    + $"Errors={state.errors.Count} "
+                    + $"Warnings={state.warnings.Count}");
+#endif
+            }
+            else
+            {
+                // Compilation never started. Wait a grace period to
+                // be sure Unity isn't just about to start.
+                double elapsed = EditorApplication.timeSinceStartup
+                    - _compileStartTime;
+                if (elapsed < NoChangesGracePeriod)
+                    return;
+
+                state.phase = PhaseNoChanges;
+#if UNITY_MCP_VERBOSE
+                Debug.Log("[UnityMcp] No script changes detected "
+                          + "— compile skipped.");
+#endif
+            }
+
+            WriteStateFile(state);
+            _compileInProgress = false;
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -410,26 +551,6 @@ namespace Yueyn.Editor.UnityMcp
             });
         }
 
-        private static void TouchSentinel()
-        {
-            try
-            {
-                var path = Path.Combine(
-                    Path.GetDirectoryName(Application.dataPath),
-                    SentinelPath);
-                var dir = Path.GetDirectoryName(path);
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                File.WriteAllText(path,
-                    $"// Compile sentinel — touched {DateTime.Now:O}\n"
-                    + "// DO NOT EDIT.\n");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning(
-                    $"[UnityMcp] Failed to touch sentinel: {ex.Message}");
-            }
-        }
-
         private static Dictionary<string, object> BuildTree(Transform t)
         {
             var node = new Dictionary<string, object>
@@ -477,8 +598,10 @@ namespace Yueyn.Editor.UnityMcp
     /// Registry for MCP command handlers.
     ///
     /// Adding a new command only requires:
-    /// 1. A handler method matching <c>Func&lt;Dictionary&lt;string,string&gt;, CmdResult&gt;</c>
-    /// 2. One <c>CommandHandlerRegistry.Register("name", handler)</c> call
+    /// 1. A handler method matching
+    ///    <c>Func&lt;Dictionary&lt;string,string&gt;, CmdResult&gt;</c>
+    /// 2. One <c>CommandHandlerRegistry.Register("name", handler)</c>
+    ///    call
     ///
     /// No changes to dispatch logic needed.
     /// </summary>
@@ -515,12 +638,39 @@ namespace Yueyn.Editor.UnityMcp
     //  Data types
     // ═══════════════════════════════════════════════════════════════════
 
+    // ═══════════════════════════════════════════════════════════════════
+    //  File-IPC DTOs (shared by DevToolFileTrigger logic in
+    //  UnityMcpBridge)
+    // ═══════════════════════════════════════════════════════════════════
+
+    [Serializable]
+    public class DevToolCompileOptions
+    {
+        public bool fullRebuild;
+    }
+
+    /// <summary>
+    /// Result written to <c>Temp/.devtool_compile_result.json</c>.
+    /// Same format as the MCP unity_compile tool output.
+    /// </summary>
+    [Serializable]
+    public class CompileResultData
+    {
+        public string status;
+        public int errorCount;
+        public int warningCount;
+        public List<CompileMsgEntry> errors;
+        public List<CompileMsgEntry> warnings;
+    }
+
     [Serializable]
     public class CompileStateData
     {
+        /// <summary>compiling | done | no_changes</summary>
         public string phase;
         public double startTime;
-        public string sentinelTime;
+        /// <summary>Whether this is a full rebuild (vs incremental).</summary>
+        public bool fullRebuild;
         public List<CompileMsgEntry> errors;
         public List<CompileMsgEntry> warnings;
     }
@@ -536,8 +686,9 @@ namespace Yueyn.Editor.UnityMcp
 
     /// <summary>
     /// JSON-RPC request envelope. Only extracts id and method;
-    /// params are parsed separately via <c>ExtractParamsJson</c>
-    /// so each handler can use its own strongly-typed DTO.
+    /// params are parsed separately via
+    /// <c>UnityMcpBridge.ExtractParamsDict</c> so each handler can
+    /// use its own strongly-typed DTO.
     /// </summary>
     [Serializable]
     public class JsonRpcEnvelope

@@ -46,7 +46,9 @@ Module-specific rules auto-loaded when working in those directories:
 
 <!-- AI_MAINTAINED_START -->
 - **Self-constraint**: When asked to update this file, never add code examples, class lists, or tables >5 lines. Expand `.claude/docs/` instead and add only a one-line index link here.
-- **Current focus**: 开发工具修复 Phase 1D 完成 — MCP 编译状态机重构（状态文件唯一真相源，phase: refresh_pending→compiling→done/no_changes）。Phase 1A/B 待推进，Phase 2-4 待细化。计划见 `.claude/temp/devtools-fix-plan.md`。
-- **Compilation**: Use `mcp__unity__unity_compile` (NOT `compile_cli.py` — conflicts on TCP port 9876). Returns `compilation_complete`/`no_changes` with errors/warnings. State file at `Temp/UnityMcpCompileState.json`.
-- **Testing**: Use `bash run_editmode_tests.sh` (file IPC, Unity's `TestsAutoRunner` picks up trigger). Test files in `Editor/` folder (no asmdef).
+- **Current focus**: 开发工具 Phase 3 完成 — 双通道（MCP + 文件 IPC）编译/测试工具链；自动双向 .meta 同步；子 Agent 独立闭环。计划见 `.claude/temp/devtools-fix-plan.md`。Phase 4（UI 自动化）待推进。
+- **Compilation**: MCP 用 `mcp__unity__unity_compile`（支持 fullRebuild）。子 Agent 用 `bash devtool.sh compile [--full]`（文件 IPC，不需要 MCP）。`compile_cli.py` 冲突于端口 9876，不要用。状态文件: `Temp/UnityMcpCompileState.json`。
+- **Testing**: MCP 暂未支持 test（TODO）。子 Agent 用 `bash devtool.sh test [--class X] [--method X]`。旧脚本 `bash run_editmode_tests.sh` 仍可用（向后兼容）。
+- **PM 工作流**: 当用户提出功能需求或代码改动时，用 `/implement` Skill（`.claude/skills/implement/SKILL.md`）走标准流程：讨论→Test Spec+Impl Spec→用户确认→派 implementer 子 Agent→汇报结果。框架设计和架构决策保留在主会话。若改动极小（单行修复）可跳过。
+- **New .cs files**: `SyncOrphanScripts()` 在每次编译前自动导入/清理 .meta，无需手动处理。如果用 `File.WriteAllText` 写入后立即读回触发 Unity 文件监听，可加快导入速度。
 <!-- AI_MAINTAINED_END -->

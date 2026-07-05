@@ -108,7 +108,8 @@
       "Bash(taskkill /PID 29300 /F)",
       "Bash(taskkill /PID 12284 /F)",
       "Bash(cmd.exe *)",
-      "Bash(powershell -Command \"Stop-Process -Id 29300,12284 -Force\" 2>&1)"
+      "Bash(powershell -Command \"Stop-Process -Id 29300,12284 -Force\" 2>&1)",
+      "WebSearch"
     ]
   },
   "enableAllProjectMcpServers": true,
