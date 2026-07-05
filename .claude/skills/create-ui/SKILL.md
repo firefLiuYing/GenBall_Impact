@@ -61,7 +61,13 @@ Do NOT proceed to Step 1 until these are answered.
 4. 双击打开 prefab，添加 Canvas（如无）
 5. 按需求创建子控件（Panel、Button、Text、Image...）
 6. **按前缀命名**每个控件（参考 Phase 0 的前缀表）
-7. 调整布局、锚点、字体、颜色
+7. 调整布局、锚点、字体、颜色（参考 `.claude/docs/ui-layout-guide.md`）
+   - 字体: Hero=48, Title=36, Body=28, Button=22, Info=16, Caption=12
+   - 颜色: Canvas #12121f, Panel #1a1a2e, 文字 #e2e2e2, 辅助 #9999aa
+   - 按钮: 200×56（主要）/ 160×44（紧凑）
+   - 间距: 4px 网格, 标准 padding=16px
+   - 锚点: HUD 左上(0,1) / 右上(1,1), Popup 居中(0.5,0.5), 遮罩全屏拉伸
+   - CanvasScaler: 1920×1080, MatchWidthOrHeight, Match=0.5
 
 ### Part 额外注意
 
@@ -202,12 +208,16 @@ private bool _isViewReady;
 protected override void OnFormCreated()
 {
     base.OnFormCreated();
+    View = BoundForm.GetComponentInChildren<ShopFormView>();
+
+    // Initialize display data
+    _viewData.Title = "Shop";
+    View?.SetViewData(_viewData);
 }
 
 protected override void OnFormBound(UIFormScript form)
 {
     base.OnFormBound(form);
-    View = form.GetComponentInChildren<ShopFormView>();
 
     // Subscribe to UI events (View button clicks)
     UIManager.Instance.UIEventRouter.Subscribe((int)UIEventKey.ShopForm_Confirm, OnConfirm);
@@ -216,9 +226,6 @@ protected override void OnFormBound(UIFormScript form)
     // Subscribe to global events (data changes from other systems)
     CEventRouter.Instance.Subscribe<int>((int)GlobalEventId.GoldChanged, OnGoldChanged);
 
-    // Initialize display
-    _viewData.Title = "Shop";
-    RefreshAll();
     _isViewReady = true;
 }
 
@@ -232,6 +239,15 @@ protected override void OnFormUnbound(UIFormScript form)
 
     View = null;
     base.OnFormUnbound(form);
+}
+
+protected override void OnFormDestroying()
+{
+    // 兜底取消（防止异常路径 OnFormUnbound 未调用）
+    UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.ShopForm_Confirm, OnConfirm);
+    UIManager.Instance.UIEventRouter.Unsubscribe((int)UIEventKey.ShopForm_CloseRequest, OnCloseRequest);
+    CEventRouter.Instance.Unsubscribe<int>((int)GlobalEventId.GoldChanged, OnGoldChanged);
+    base.OnFormDestroying();
 }
 
 public static ShopFormLogic Open()
@@ -273,22 +289,24 @@ Part Logic inherits `BusinessPartLogic<TView>`. Key differences:
 // (PrefabPath, View property — generated, do NOT edit)
 // ### GENERATED_BINDINGS_END ###
 
+private readonly HpBarPartViewData _viewData = new();
+
 protected override void OnPartCreated()
 {
     base.OnPartCreated();
+    // Initialize display data
+    BoundView?.SetViewData(_viewData);
 }
 
 protected override void OnViewBound(PartViewBase view)
 {
     base.OnViewBound(view);
-    View = view.GetComponent<HpBarPartView>();
-    // Subscribe events, initialize display
+    // Subscribe to events here
 }
 
 protected override void OnViewUnbound(PartViewBase view)
 {
-    // Unsubscribe events
-    View = null;
+    // Unsubscribe events here
     base.OnViewUnbound(view);
 }
 
@@ -342,6 +360,8 @@ If the user asks for help debugging, re-read the generated files first to avoid 
 ## 参考
 
 - `.claude/docs/ui-architecture.md` — 完整架构文档
+- `.claude/docs/ui-ai-guide.md` — 设计决策指南（Form/Part 选择、ViewData 策略、事件绑定、刷新策略、代码模板、参考实现排名）
+- `.claude/docs/ui-layout-guide.md` — 布局白皮书（字体层级、颜色规范、间距体系、锚点规则、层级模板）
 - `Assets/Scripts/GenBall/UI/MainHudForm/` — Form 参考实现
 - `Assets/Scripts/GenBall/UI/StartForm/` — Popup Form 参考
 - `Assets/Scripts/GenBall/UI/UIEventKey.cs` — UI 事件定义

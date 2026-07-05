@@ -13,6 +13,22 @@ Logic 之间支持**层级管理**：高层 Logic 可以创建和管理低层 Lo
 
 > 注意：`GenBall.UI` 命名空间下的 `FormBase`/`VmBase`/`ItemBase` 是旧框架，已废弃不用，后续重写。
 
+## AI 设计指南
+
+在创建或修改 UI 时，请参考：
+
+- **`.claude/docs/ui-ai-guide.md`** — 完整设计决策指南（Form/Part 选择、ViewData 模式、事件绑定策略、刷新策略、代码模板、参考实现排名）
+- **`.claude/docs/ui-layout-guide.md`** — 布局白皮书（字体层级、颜色规范、间距体系、锚点规则、层级模板、MCP 工具使用指南）
+
+关键约定：
+- 始终使用 **Logic 驱动渲染**，View 只负责渲染和收集输入
+- 大部分场景使用统一 `_viewData` 实例，避免每次 new
+- UI 内部通信（按钮点击）用 **UIEventRouter**；跨系统通信用 **CEventRouter**
+- C# `event Action<T>` 不规范，新代码避免使用
+- 频繁更新（HP、弹药）使用 View 直接方法调用
+- View 引用在 **OnFormCreated** 中获取；事件在 **OnFormBound** 中订阅
+- **OnFormDestroying** 中兜底取消订阅（双重保险）
+
 ## 类层次
 
 ```
@@ -60,18 +76,26 @@ Dynamic Part 需要通过 `AddPartLogic()`/`RemovePartLogic()` 注册到父 Logi
 
 | 方向 | 方式 | 说明 |
 |------|------|------|
-| View → Logic | `UIManager.Instance.UIEventRouter.FireNow(UIEventKey)` | 按钮点击等用户交互 |
-| View → Logic | 直接 C# `event Action<T>` | View 暴露事件，Logic 在 OnFormBound 订阅 |
+| View → Logic | `UIManager.Instance.UIEventRouter.FireNow(UIEventKey)` | UI 内部通信标准（按钮点击等用户交互） |
 | Logic → View | `View.SetViewData(data)` → `RefreshView()` | 全量刷新（主要模式） |
 | Logic → View | 直接调用 View 特定方法 | 频繁增量更新 |
-| Logic ↔ 全局 | `CEventRouter.Instance.Subscribe<T>(eventId)` | 监听/触发游戏事件 |
+| Logic ↔ 全局 | `CEventRouter.Instance.Subscribe<T>(eventId)` | 跨系统通信标准（监听/触发游戏事件） |
 
-所有订阅在 `OnFormBound`/`OnViewBound` 中建立，在 `OnFormUnbound`/`OnViewUnbound` 中取消。
+> C# `event Action<T>` 在 SaveSlotForm/AbilityWheelForm 中存在，但属于不规范用法。新代码统一使用 UIEventRouter 或 CEventRouter。
+
+### 订阅生命周期（标准模式）
+
+```
+OnFormCreated  → 获取 View 引用 + 初始化数据 + 首次刷新
+OnFormBound    → 订阅所有事件（UIEventRouter + CEventRouter）
+OnFormUnbound  → 取消所有事件 + View = null
+OnFormDestroying → 兜底取消订阅（双重保险）
+```
 
 ## UiViewBinding 代码生成
 
 1. 在 prefab 根节点挂 `UiViewBinding` 组件
-2. 设置 ViewType（Form/Part）、FormType（Persistent/Popup）
+2. 设置 ViewType（Form/Part）、FormType（Persistent/Popup/Transition/WorldSpace）
 3. Inspector 中 Scan → Generate
 4. 生成代码写入 `// ### GENERATED_BINDINGS_START/END ###` 标记之间
 5. 标记外的代码不会被覆盖
