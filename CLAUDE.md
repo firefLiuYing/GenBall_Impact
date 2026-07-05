@@ -49,6 +49,6 @@ Module-specific rules auto-loaded when working in those directories:
 - **Current focus**: 开发工具 Phase 3 完成 — 双通道（MCP + 文件 IPC）编译/测试工具链；自动双向 .meta 同步；子 Agent 独立闭环。计划见 `.claude/temp/devtools-fix-plan.md`。Phase 4（UI 自动化）待推进。
 - **Compilation**: MCP 用 `mcp__unity__unity_compile`（支持 fullRebuild）。子 Agent 用 `bash devtool.sh compile [--full]`（文件 IPC，不需要 MCP）。`compile_cli.py` 冲突于端口 9876，不要用。状态文件: `Temp/UnityMcpCompileState.json`。
 - **Testing**: MCP 暂未支持 test（TODO）。子 Agent 用 `bash devtool.sh test [--class X] [--method X]`。旧脚本 `bash run_editmode_tests.sh` 仍可用（向后兼容）。
-- **PM 工作流**: 当用户提出功能需求或代码改动时，用 `/implement` Skill（`.claude/skills/implement/SKILL.md`）走标准流程：讨论→Test Spec+Impl Spec→用户确认→派 implementer 子 Agent→汇报结果。框架设计和架构决策保留在主会话。若改动极小（单行修复）可跳过。
+- **PM 工作流**: 当用户提出功能需求或代码改动时，用 `/implement` Skill（`.claude/skills/implement/SKILL.md`）走标准流程：需求探索→需求文档(.req.md)→用户确认→系统设计(.design.md)→用户确认→Test Spec+Impl Spec→用户确认→派 implementer 子 Agent→汇报结果。框架设计和架构决策保留在主会话。若改动极小（单行修复）可跳过。
 - **New .cs files**: `SyncOrphanScripts()` 在每次编译前自动导入/清理 .meta，无需手动处理。如果用 `File.WriteAllText` 写入后立即读回触发 Unity 文件监听，可加快导入速度。
 <!-- AI_MAINTAINED_END -->
