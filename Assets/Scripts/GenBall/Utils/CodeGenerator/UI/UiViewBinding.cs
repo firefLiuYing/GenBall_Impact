@@ -59,7 +59,7 @@ namespace GenBall.Utils.CodeGenerator.UI
             => GetBinding(propertyName) as T;
 
         public enum ViewType { Form, Part }
-        public enum FormTypeEnum { Persistent, Popup, Transition }
+        public enum FormTypeEnum { Persistent, Popup, Transition, WorldSpace }
 
         public enum GenerateTarget { Both, ViewOnly, LogicOnly }
 

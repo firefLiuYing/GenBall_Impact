@@ -90,11 +90,10 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             }
             else
             {
-                // Part logic
+                // Part logic: PrefabPath is for dynamic instantiation (static Parts ignore it).
+                // BoundView is inherited from BusinessPartLogic<TView> — no separate View property needed.
                 sb.AppendLine($"        public override string PrefabPath =>");
                 sb.AppendLine($"            \"{prefabPath}\";");
-                sb.AppendLine();
-                sb.AppendLine($"        public {formName}View View {{ get; private set; }}");
             }
 
             return sb.ToString();
@@ -214,12 +213,11 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
                 sb.AppendLine("        protected override void OnViewBound(PartViewBase view)");
                 sb.AppendLine("        {");
                 sb.AppendLine("            base.OnViewBound(view);");
-                sb.AppendLine($"            View = view.GetComponent<{formName}View>();");
+                sb.AppendLine("            // Use BoundView (typed via generic) to access the PartView");
                 sb.AppendLine("        }");
                 sb.AppendLine();
                 sb.AppendLine("        protected override void OnViewUnbound(PartViewBase view)");
                 sb.AppendLine("        {");
-                sb.AppendLine("            View = null;");
                 sb.AppendLine("            base.OnViewUnbound(view);");
                 sb.AppendLine("        }");
                 sb.AppendLine();
@@ -382,17 +380,23 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
         // ── Prefab component auto-fix ──
 
         /// <summary>
-        /// Ensure the prefab root has UIFormScript and UiViewBinding components.
+        /// Ensure the prefab root has the required components.
+        /// Forms get UIFormScript + UiViewBinding; Parts only get UiViewBinding.
         /// </summary>
-        public static void EnsurePrefabComponents(GameObject prefabRoot, string formTypeStr)
+        public static void EnsurePrefabComponents(GameObject prefabRoot, string formTypeStr,
+            UiViewBinding.ViewType viewType = UiViewBinding.ViewType.Form)
         {
             bool modified = false;
 
-            if (prefabRoot.GetComponent<Yueyn.UI.UIFormScript>() == null)
+            // UIFormScript is only needed for Forms; Parts are managed by their parent Form
+            if (viewType != UiViewBinding.ViewType.Part)
             {
-                prefabRoot.AddComponent<Yueyn.UI.UIFormScript>();
-                modified = true;
-                Debug.Log($"[UiCodeGenerator] Added UIFormScript to prefab root.");
+                if (prefabRoot.GetComponent<Yueyn.UI.UIFormScript>() == null)
+                {
+                    prefabRoot.AddComponent<Yueyn.UI.UIFormScript>();
+                    modified = true;
+                    Debug.Log($"[UiCodeGenerator] Added UIFormScript to prefab root.");
+                }
             }
 
             var binding = prefabRoot.GetComponent<GenBall.Utils.CodeGenerator.UI.UiViewBinding>();

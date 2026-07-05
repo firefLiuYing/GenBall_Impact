@@ -446,8 +446,8 @@ namespace GenBall.Utils.CodeGenerator.UI.Editor
             {
                 ActiveEditorTracker.sharedTracker.ForceRebuild();
 
-                // 1. Auto-fix prefab components
-                UiBindingCodeGenerator.EnsurePrefabComponents(binding.gameObject, formType);
+                // 1. Auto-fix prefab components (Forms get UIFormScript; Parts skip it)
+                UiBindingCodeGenerator.EnsurePrefabComponents(binding.gameObject, formType, viewType);
 
                 // Select base classes based on view type
                 string viewBase, logicBase;

@@ -18,6 +18,12 @@ namespace Yueyn.UI
         /// <summary>
         /// 过场UI，独占显示，阻塞其他UI（如加载界面、启动画面等）
         /// </summary>
-        Transition
+        Transition,
+
+        /// <summary>
+        /// 世界空间UI，3D定位在场景中（如存档点全息界面）
+        /// Canvas.renderMode = WorldSpace，不使用 UICamera
+        /// </summary>
+        WorldSpace
     }
 }

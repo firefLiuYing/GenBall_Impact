@@ -31,6 +31,7 @@ namespace Yueyn.UI
         private Transform _persistentRoot;
         private Transform _popupRoot;
         private Transform _transitionRoot;
+        private Transform _worldUIRoot;
         // private Canvas _uiCanvas;
         private Camera _uiCamera;
         public EventDispatcher UIEventRouter { get; private set; }
@@ -58,6 +59,7 @@ namespace Yueyn.UI
             _formsByType[UIFormType.Persistent] = new List<UIFormScript>();
             _formsByType[UIFormType.Popup] = new List<UIFormScript>();
             _formsByType[UIFormType.Transition] = new List<UIFormScript>();
+            _formsByType[UIFormType.WorldSpace] = new List<UIFormScript>();
 
             Debug.Log("[UIManager] Initialized");
         }
@@ -105,7 +107,7 @@ namespace Yueyn.UI
 
             // 分配ID并初始化
             var formId = _nextFormId++;
-            formScript.SetFormInfo(formId, prefabPath);
+            formScript.SetFormInfo(formId, prefabPath, formType);
             formScript.InternalInit(param);
 
             // 注册
@@ -194,7 +196,7 @@ namespace Yueyn.UI
 
             // 分配ID并初始化
             var formId = _nextFormId++;
-            formScript.SetFormInfo(formId, prefabPath);
+            formScript.SetFormInfo(formId, prefabPath, formType);
             formScript.InternalInit(param);
 
             // 注册
@@ -356,6 +358,10 @@ namespace Yueyn.UI
             _popupRoot = CreateLayerRoot("Popup");
             _transitionRoot = CreateLayerRoot("Transition");
 
+            // WorldSpace root: lives in scene (not under UIRoot), no RectTransform needed
+            var worldRoot = new GameObject("WorldUIRoot");
+            _worldUIRoot = worldRoot.transform;
+
             Debug.Log("[UIManager] UI Root created");
         }
 
@@ -421,6 +427,7 @@ namespace Yueyn.UI
                 UIFormType.Persistent => _persistentRoot,
                 UIFormType.Popup => _popupRoot,
                 UIFormType.Transition => _transitionRoot,
+                UIFormType.WorldSpace => _worldUIRoot,
                 _ => _popupRoot
             };
         }

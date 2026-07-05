@@ -65,6 +65,11 @@ namespace Yueyn.UI
         /// </summary>
         public object Param { get; private set; }
 
+        /// <summary>
+        /// UI Form 类型（由 UIManager 在 SetFormInfo 时设置）
+        /// </summary>
+        public UIFormType FormType { get; private set; }
+
         // ===== 状态标志 =====
 
         /// <summary>
@@ -106,12 +111,13 @@ namespace Yueyn.UI
         // ===== 内部方法（由UIManager调用） =====
 
         /// <summary>
-        /// 设置页面ID和路径（由UIManager调用）
+        /// 设置页面ID、路径和类型（由UIManager调用）
         /// </summary>
-        internal void SetFormInfo(int id, string prefabPath)
+        internal void SetFormInfo(int id, string prefabPath, UIFormType formType)
         {
             FormId = id;
             PrefabPath = prefabPath;
+            FormType = formType;
         }
 
         /// <summary>
@@ -224,7 +230,11 @@ namespace Yueyn.UI
         private void InitializeCanvas()
         {
             // 1. 设置 UI Layer（必须在 Canvas 配置之前，Camera culling 依赖此 layer）
-            SetUILayerRecursively();
+            // WorldSpace 表单不设置 UI layer，保持在场景所在 layer
+            if (FormType != UIFormType.WorldSpace)
+            {
+                SetUILayerRecursively();
+            }
 
             // 2. 确保 Canvas 组件存在且参数正确
             Canvas = GetComponent<Canvas>();
@@ -232,30 +242,48 @@ namespace Yueyn.UI
             {
                 Canvas = gameObject.AddComponent<Canvas>();
             }
-            Canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            Canvas.worldCamera = UIManager.Instance.UICamera;
-            Canvas.planeDistance = 100f;
 
-            // 3. 确保 CanvasScaler 存在且参数正确
-            _canvasScaler = GetComponent<CanvasScaler>();
-            if (_canvasScaler == null)
+            if (FormType == UIFormType.WorldSpace)
             {
-                _canvasScaler = gameObject.AddComponent<CanvasScaler>();
+                Canvas.renderMode = RenderMode.WorldSpace;
+                // WorldSpace Canvas: size controlled by RectTransform, no camera needed
             }
-            _canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            _canvasScaler.referenceResolution = new Vector2(1920, 1080);
-            _canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            _canvasScaler.matchWidthOrHeight = 0.5f;
-
-            // 4. 确保 GraphicRaycaster 存在
-            _raycaster = GetComponent<GraphicRaycaster>();
-            if (_raycaster == null)
+            else
             {
-                _raycaster = gameObject.AddComponent<GraphicRaycaster>();
+                Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                Canvas.worldCamera = UIManager.Instance.UICamera;
+                Canvas.planeDistance = 100f;
             }
 
-            // 5. 启用排序覆盖，由 UIManager 统一管理 Popup 层的渲染顺序
-            Canvas.overrideSorting = true;
+            // 3. CanvasScaler — only for ScreenSpace forms
+            if (FormType != UIFormType.WorldSpace)
+            {
+                _canvasScaler = GetComponent<CanvasScaler>();
+                if (_canvasScaler == null)
+                {
+                    _canvasScaler = gameObject.AddComponent<CanvasScaler>();
+                }
+                _canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                _canvasScaler.referenceResolution = new Vector2(1920, 1080);
+                _canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+                _canvasScaler.matchWidthOrHeight = 0.5f;
+            }
+
+            // 4. GraphicRaycaster — only for ScreenSpace forms (WorldSpace uses PhysicsRaycaster)
+            if (FormType != UIFormType.WorldSpace)
+            {
+                _raycaster = GetComponent<GraphicRaycaster>();
+                if (_raycaster == null)
+                {
+                    _raycaster = gameObject.AddComponent<GraphicRaycaster>();
+                }
+            }
+
+            // 5. Sorting override — only for ScreenSpace Popup forms
+            if (FormType != UIFormType.WorldSpace)
+            {
+                Canvas.overrideSorting = true;
+            }
 
             // 6. 确保 CanvasGroup 存在（用于渐显渐隐），初始化参数
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -267,8 +295,11 @@ namespace Yueyn.UI
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
 
-            // 6. 启动分辨率监听
-            _resolutionMonitor = StartCoroutine(MonitorResolution());
+            // 7. 启动分辨率监听（WorldSpace 不需要）
+            if (FormType != UIFormType.WorldSpace)
+            {
+                _resolutionMonitor = StartCoroutine(MonitorResolution());
+            }
         }
 
         /// <summary>
