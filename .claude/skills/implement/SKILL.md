@@ -18,6 +18,8 @@ single test case. **This is the most important step. Do not rush it.**
 
 Read relevant code, docs, and similar implementations to build context:
 
+- **CodeGraph first**: 本项目已索引（`.codegraph/`）。用 `codegraph_explore` MCP 工具
+  探索代码，一次调用返回源码+调用路径+影响范围。不要手写 grep/Read 循环。
 - Relevant module CLAUDE.md files
 - At least one similar existing feature (as implementation reference)
 - Affected interfaces, systems, and registration points

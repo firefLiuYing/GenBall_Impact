@@ -45,6 +45,7 @@ Module-specific rules auto-loaded when working in those directories:
 <!-- HUMAN_MAINTAINED_END -->
 
 <!-- AI_MAINTAINED_START -->
+- **CodeGraph**: 项目已索引（`.codegraph/`，578 文件）。探索/理解代码时优先用 `codegraph_explore`（MCP 或 shell `codegraph explore`），不要手写 grep/Read 循环。一次调用返回源码+调用路径+影响范围。
 - **Self-constraint**: When asked to update this file, never add code examples, class lists, or tables >5 lines. Expand `.claude/docs/` instead and add only a one-line index link here.
 - **Current focus**: 开发工具 Phase 4 Iteration 1 完成 — 8 个 MCP UI 工具（create/add/delete/remove prefab+GameObject+component+property+code gen）；Form/Part 双模式；TCP warmup fix；`/create-ui` Step 1-2 全自动化。计划见 `.claude/temp/devtools-fix-plan.md`。
 - **Compilation**: MCP 用 `mcp__unity__unity_compile`（支持 fullRebuild）。子 Agent 用 `bash devtool.sh compile [--full]`（文件 IPC，不需要 MCP）。`compile_cli.py` 冲突于端口 9876，不要用。状态文件: `Temp/UnityMcpCompileState.json`。

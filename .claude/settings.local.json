@@ -109,7 +109,9 @@
       "Bash(taskkill /PID 12284 /F)",
       "Bash(cmd.exe *)",
       "Bash(powershell -Command \"Stop-Process -Id 29300,12284 -Force\" 2>&1)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:cloud.tencent.com.cn)",
+      "WebFetch(domain:github.com)"
     ]
   },
   "enableAllProjectMcpServers": true,
