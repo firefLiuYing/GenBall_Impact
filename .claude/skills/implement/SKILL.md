@@ -242,3 +242,10 @@ Each feature produces four files under `.claude/test-specs/`:
 When all steps are complete, `<slug>.md` status becomes `implemented`.
 These files persist across sessions — if a prior session stopped mid-way,
 resume from the earliest incomplete step.
+
+### Git & Cleanup
+
+- **`.claude/test-specs/` is gitignored** — workflow documents are NOT committed to the repo.
+- **Test `.cs` files** (under `Assets/Scripts/.../Editor/`) ARE committed — they're project code.
+- **Cleanup**: After a feature is fully implemented and stable (tests passing for >1 week), the PM should delete the 4 workflow docs (`<slug>.req.md`, `<slug>.design.md`, `<slug>.md`, `<slug>.impl.md`). They've served their purpose. Only keep docs for features still in progress.
+- **Orphan test files**: If a production class is deleted/refactored, its corresponding `Editor/*Tests.cs` should be deleted at the same time. Don't leave dead tests behind.

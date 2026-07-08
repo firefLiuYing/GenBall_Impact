@@ -1,7 +1,7 @@
 # 长期执行计划
 
 > **用途**：跨会话持久化计划。每完成一个任务更新状态。新会话启动时先读此文档。
-> **最后更新**：2026-06-28
+> **最后更新**：2026-07-08
 > **当前阶段**：Phase D-3 存档系统 & 死亡复活闭环（核心循环打通）
 > **需求清单**：`.claude/docs/requirements-checklist.md`（会议后用策划回答填入）
 
@@ -200,11 +200,15 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 - [x] D-3d4：`SavePoint.Interact()` 内根据 `IsUnlocked` 分支 `Unlock()` / `OpenBonfireUI()`
 - [x] D-3d5：`SpawnBonfires()` 启动时读取 ISceneStateSystem 检查已有解锁状态，传入 `SetConfig()`
 
-#### D-3e：存档点全息界面（含 UI 框架 World Space Canvas 支持）
+#### D-3e：存档点全息界面（含 UI 框架 World Space Canvas 支持）🔄 就绪
+
+**之前阻塞原因**：需要先设计通用 TabGroup 滚动组件（类似 EnhancedScroller）。现已通过 CellViewList 通用列表组件解决 —— BonfireForm 设计决策 #1 已明确"先用简单按钮布局，后续重构接入"，不需要 TabGroup。
+
+**CellViewList 通用列表组件** ✅（2026-07-08）：14 个文件（2 接口 + 3 核心 + 6 Logic/View/ViewData + 2 prefab + 3 测试），14/14 测试通过。位于 `Assets/Scripts/Yueyn/UI/CellViewList/`。详见 `.claude/test-specs/yueyn-list-view-part.md`。
 
 **目标**：世界空间 3D UI，已解锁存档点交互后弹出。需要先改造 UI 框架层支持 World Space Canvas。
 
-##### D-3e-1：UI 框架层改造（Assets/Scripts/Yueyn/UI/）
+##### D-3e-1：UI 框架层改造（Assets/Scripts/Yueyn/UI/）✅（2026-07-06 确认：代码已全部完成）
 
 **关键文件**：
 - `UIFormScript.cs` — `InitializeCanvas()` 第 224-272 行硬编码 ScreenSpaceCamera，是唯一最关键改动点
@@ -215,12 +219,12 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 
 **具体改动**：
 
-- [ ] D-3e1a：`UIFormType` 枚举 — 新增 `WorldSpace` 类型
-- [ ] D-3e1b：`UIFormScript.InitializeCanvas()` — 检查 FormType，WorldSpace 分支：`RenderMode.WorldSpace`、跳过 `CanvasScaler`、不强制 `overrideSorting`
-- [ ] D-3e1c：`UIManager.OpenForm()` — WorldSpace 表单：不挂到 Persistent/Popup/Transition RectTransform 下，放到 WorldUIRoot（场景中独立节点）；跳过 `SetUILayerRecursively`（用场景层而非 UI 层）
-- [ ] D-3e1d：`BusinessFormLogic` — 新增 `IsWorldSpace` 虚属性（默认 false），`OnCreateInternal()` 中传入 FormType 到 OpenForm
-- [ ] D-3e1e：`UiViewBinding` + 代码生成器 — `FormTypeEnum` 加 `WorldSpace`；`EnsurePrefabComponents()` 对 WorldSpace 表单跳过 CanvasScaler 添加
-- [ ] D-3e1f：编译验证 + 现有屏幕空间 UI 回归（确保 StartForm/LoadingForm/MainHud 不受影响）
+- [x] D-3e1a：`UIFormType` 枚举 — 新增 `WorldSpace` 类型
+- [x] D-3e1b：`UIFormScript.InitializeCanvas()` — 检查 FormType，WorldSpace 分支：`RenderMode.WorldSpace`、跳过 `CanvasScaler`、不强制 `overrideSorting`
+- [x] D-3e1c：`UIManager.OpenForm()` — WorldSpace 表单：不挂到 Persistent/Popup/Transition RectTransform 下，放到 WorldUIRoot（场景中独立节点）；跳过 `SetUILayerRecursively`（用场景层而非 UI 层）
+- [x] D-3e1d：`BusinessFormLogic` — 新增 `FormType` 虚属性（默认 Popup），`OnCreateInternal()` 中传入 FormType 到 OpenForm
+- [x] D-3e1e：`UiViewBinding` + 代码生成器 — `FormTypeEnum` 加 `WorldSpace`；`EnsurePrefabComponents()` 对 WorldSpace 表单跳过 CanvasScaler 添加
+- [x] D-3e1f：编译验证 + 现有屏幕空间 UI 回归（确保 StartForm/LoadingForm/MainHud 不受影响）
 
 ##### D-3e-2：BonfireForm 实现（Assets/Scripts/GenBall/UI/BonfireForm/）
 
@@ -231,7 +235,7 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 - [ ] D-3e2f：关闭交互 — 远离存档点自动关闭 / 按 ESC 关闭
 - [ ] D-3e2g：`IInteractSystem` 集成 — 超出交互范围自动关闭菜单
 
-> 依赖：D-3d（存档点状态）、D-3e-1（UI 框架层改造）、现有 UI 框架
+> 依赖：D-3d（存档点状态 ✅）、D-3e-1（UI 框架层改造 ✅）、CellViewList 通用列表组件 ✅
 
 #### D-3f：IRespawnSystem 死亡复活
 
@@ -334,13 +338,15 @@ CommandDispatcherComponent、DecisionLayer (Player/Enemy)、EventDispatcherCompo
 | D-4: 关卡搭建 | ❌ |
 | D-5: 战斗反馈 | ❌ |
 | E: 清理旧代码 | ❌ |
+| — CellViewList 通用列表组件 | ✅ |
 
 ### 依赖关系
 
 ```
 D-3 内部依赖：
   D-3b (增量保存) ←─ D-3d (存档点解锁, 增量)
-  D-3d (存档点状态) ←─ D-3e (全息界面)
+  D-3d (存档点状态) ✅ ←─ D-3e (全息界面) 🔄 就绪
+  CellViewList 通用列表组件 ✅ ──→ D-3e (提供列表能力，备用于子系统入口)
   D-3b (增量保存) ←─ D-3h (全量存档集成)
   D-3f (复活系统) ←─ D-3g (战斗状态重置)
   D-3f (复活系统) ←─ D-3i (死亡 UI)

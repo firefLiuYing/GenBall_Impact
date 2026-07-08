@@ -311,7 +311,11 @@ namespace Yueyn.Editor.UnityMcp
         {
             try
             {
-                using (var stream = client.GetStream())
+                // Get the stream once — do NOT dispose it here. The
+                // stream owns the underlying Socket; disposing it would
+                // race with _client.Dispose() in AcceptLoop and with
+                // SendLoop's writer.
+                var stream = client.GetStream();
                 using (var reader = new StreamReader(
                     stream, Encoding.UTF8, false, MaxMessageSize))
                 {
@@ -344,7 +348,9 @@ namespace Yueyn.Editor.UnityMcp
         {
             try
             {
-                using (var stream = client.GetStream())
+                // Get the stream once — do NOT dispose it here (same
+                // reason as ReceiveLoop).
+                var stream = client.GetStream();
                 using (var writer = new StreamWriter(
                     stream, Encoding.UTF8, MaxMessageSize)
                     { AutoFlush = false })

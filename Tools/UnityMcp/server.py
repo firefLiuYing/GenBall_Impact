@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import atexit
+import ctypes
 import json
 import logging
 import os
+import signal
 import sys
 from typing import Any, Dict, List, Optional
 
@@ -16,6 +19,114 @@ logger.setLevel(logging.DEBUG)
 _handler = logging.StreamHandler(sys.stderr)
 _handler.setFormatter(logging.Formatter("[%(name)s] %(levelname)s: %(message)s"))
 logger.addHandler(_handler)
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Singleton lock — prevents duplicate MCP server processes
+# ═══════════════════════════════════════════════════════════════════════
+
+def _get_project_root() -> str:
+    """Project root is 2 levels up from Tools/UnityMcp/."""
+    return os.path.normpath(
+        os.path.join(os.path.dirname(__file__), "..", ".."))
+
+
+def _get_pid_path() -> str:
+    """Path to the singleton PID file in Temp/."""
+    temp_dir = os.path.join(_get_project_root(), "Temp")
+    os.makedirs(temp_dir, exist_ok=True)
+    return os.path.join(temp_dir, ".unity_mcp.pid")
+
+
+def _is_process_running(pid: int) -> bool:
+    """Check whether a Windows process with the given PID is still alive."""
+    PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+    try:
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.OpenProcess(
+            PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
+        if handle == 0:
+            return False
+        kernel32.CloseHandle(handle)
+        return True
+    except OSError:
+        return False
+
+
+def _kill_process(pid: int) -> bool:
+    """Terminate a Windows process by PID. Returns True on success."""
+    PROCESS_TERMINATE = 0x0001
+    try:
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.OpenProcess(PROCESS_TERMINATE, False, pid)
+        if handle == 0:
+            return False
+        result = kernel32.TerminateProcess(handle, 1)
+        kernel32.CloseHandle(handle)
+        return result != 0
+    except OSError:
+        return False
+
+
+def _acquire_singleton() -> None:
+    """Ensure only one MCP server instance runs.
+
+    Reads ``Temp/.unity_mcp.pid``. If the old process is still alive
+    (e.g. orphaned after a Claude Code crash), terminates it so the
+    port-9876 TCP connection and stdin are not contested.
+    """
+    pid_path = _get_pid_path()
+    current_pid = os.getpid()
+
+    if os.path.exists(pid_path):
+        try:
+            with open(pid_path, "r", encoding="ascii") as f:
+                old_pid = int(f.read().strip())
+        except (ValueError, OSError):
+            old_pid = None
+
+        if old_pid and old_pid != current_pid and _is_process_running(old_pid):
+            logger.warning(
+                "Found stale MCP server (PID %d), terminating...", old_pid)
+            if _kill_process(old_pid):
+                logger.info("Terminated stale PID %d", old_pid)
+            else:
+                logger.warning(
+                    "Failed to terminate PID %d — continuing anyway", old_pid)
+
+    # Write our PID.
+    with open(pid_path, "w", encoding="ascii") as f:
+        f.write(str(current_pid))
+    logger.debug("PID file written (%d)", current_pid)
+
+
+def _release_singleton() -> None:
+    """Remove the PID file on clean shutdown."""
+    pid_path = _get_pid_path()
+    try:
+        if os.path.exists(pid_path):
+            os.remove(pid_path)
+            logger.debug("PID file removed")
+    except OSError:
+        pass
+
+
+def _setup_singleton() -> None:
+    """Acquire singleton and register cleanup hooks."""
+    _acquire_singleton()
+    atexit.register(_release_singleton)
+
+    # Clean up on SIGTERM / SIGINT (Ctrl+C) — best-effort on Windows.
+    def _handler(signum, frame):
+        _release_singleton()
+        sys.exit(0)
+
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        try:
+            signal.signal(sig, _handler)
+        except (ValueError, OSError):
+            pass  # signal not available (e.g. inside a thread)
+
 
 # ─── MCP Constants ────────────────────────────────────────────────────
 PROTOCOL_VERSION = "2024-11-05"
@@ -942,9 +1053,7 @@ async def _tool_generate_ui_code(bridge: UnityBridge, arguments: dict) -> dict:
 def _read_compile_state() -> Optional[Dict]:
     """Read Unity compile state file from the project Temp folder."""
     try:
-        # Project root is 2 levels up from Tools/UnityMcp/server.py
-        project_root = os.path.normpath(
-            os.path.join(os.path.dirname(__file__), "..", ".."))
+        project_root = _get_project_root()
         state_path = os.path.join(
             project_root, "Temp", "UnityMcpCompileState.json")
         if not os.path.exists(state_path):
@@ -1104,10 +1213,14 @@ class McpServer:
 
 async def main() -> None:
     """Entry point. Reads UNITY_MCP_PORT env var for port override."""
+    _setup_singleton()
     port = int(os.environ.get("UNITY_MCP_PORT", "9876"))
     bridge = UnityBridge(port=port)
     server = McpServer(bridge)
-    await server.run()
+    try:
+        await server.run()
+    finally:
+        _release_singleton()
 
 
 if __name__ == "__main__":

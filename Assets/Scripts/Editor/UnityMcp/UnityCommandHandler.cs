@@ -735,6 +735,16 @@ namespace Yueyn.Editor.UnityMcp
         //  add_component — add a component by type name
         // ═══════════════════════════════════════════════════════════════
 
+        /// <summary>
+        /// Resolve a path to a Transform. Empty string or "." returns the root.
+        /// </summary>
+        private static Transform ResolveTarget(Transform root, string path)
+        {
+            if (string.IsNullOrEmpty(path) || path == ".")
+                return root;
+            return root.Find(path);
+        }
+
         private static CmdResult AddComponent(
             Dictionary<string, string> args)
         {
@@ -743,7 +753,7 @@ namespace Yueyn.Editor.UnityMcp
                 return CmdResult.Err("Missing parameter: prefabPath");
 
             args.TryGetValue("path", out var childPath);
-            if (string.IsNullOrEmpty(childPath))
+            if (childPath == null)
                 return CmdResult.Err("Missing parameter: path");
 
             args.TryGetValue("componentType", out var compTypeName);
@@ -761,7 +771,7 @@ namespace Yueyn.Editor.UnityMcp
                 var contents =
                     PrefabUtility.LoadPrefabContents(prefabPath);
 
-                var target = contents.transform.Find(childPath);
+                var target = ResolveTarget(contents.transform, childPath);
                 if (target == null)
                 {
                     PrefabUtility.UnloadPrefabContents(contents);
@@ -813,7 +823,7 @@ namespace Yueyn.Editor.UnityMcp
                 return CmdResult.Err("Missing parameter: prefabPath");
 
             args.TryGetValue("path", out var childPath);
-            if (string.IsNullOrEmpty(childPath))
+            if (childPath == null)
                 return CmdResult.Err("Missing parameter: path");
 
             args.TryGetValue("componentType", out var compTypeName);
@@ -831,7 +841,7 @@ namespace Yueyn.Editor.UnityMcp
                 var contents =
                     PrefabUtility.LoadPrefabContents(prefabPath);
 
-                var target = contents.transform.Find(childPath);
+                var target = ResolveTarget(contents.transform, childPath);
                 if (target == null)
                 {
                     PrefabUtility.UnloadPrefabContents(contents);
@@ -904,7 +914,7 @@ namespace Yueyn.Editor.UnityMcp
                 return CmdResult.Err("Missing parameter: prefabPath");
 
             args.TryGetValue("path", out var childPath);
-            if (string.IsNullOrEmpty(childPath))
+            if (childPath == null)
                 return CmdResult.Err("Missing parameter: path");
 
             args.TryGetValue("componentType", out var compTypeName);
@@ -928,7 +938,7 @@ namespace Yueyn.Editor.UnityMcp
                 var contents =
                     PrefabUtility.LoadPrefabContents(prefabPath);
 
-                var target = contents.transform.Find(childPath);
+                var target = ResolveTarget(contents.transform, childPath);
                 if (target == null)
                 {
                     PrefabUtility.UnloadPrefabContents(contents);
