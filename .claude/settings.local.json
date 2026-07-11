@@ -175,7 +175,10 @@
       "Bash(bash devtool.sh *)",
       "Bash(bash run_editmode_tests.sh *)",
       "Bash(mkdir -p *)",
-      "mcp__codegraph__codegraph_explore"
+      "mcp__codegraph__codegraph_explore",
+      "Bash(codegraph status *)",
+      "Bash(sqlite3 .codegraph/codegraph.db \"SELECT path FROM files LIMIT 20;\")",
+      "Bash(sqlite3 *)"
     ]
   },
   "enableAllProjectMcpServers": true,
